@@ -104,9 +104,10 @@ This endpoint requires a JSON object containing a Credential.
             Authorization: Token token=YOUR API_KEY
     
     + Attributes
+        + id (string, optional) - The unique ID of the credential. If you supply your own internal ID we'll use this as a reference for the Credential. If not we'll assign an ID.
         + recipient.name (string, required) - The name of the recipient the credential is issued to.
         + recipient.email (string, required) - The recipient's email address.
-        + recipient.uid (string, optional) - The recipient's user ID (UID) as defined by your organization. This alllows you to easily map your recipients to their Credentials regardless of changes to their email address.
+        + recipient.id (string, optional) - The recipient's user ID as defined by your organization. This alllows you to easily map your recipients to their Credentials regardless of changes to their email address.
         + group_name (string, required) -  Group name to which credential should belong to.
         + name (string, optional) - The Credential/course name displayed to recipients. This is required if the Group the Credential belongs to doesn't have a Course Name set.
         + description (string, optional) - The credential/course description displayed to recipients. This is required if the Group the Credential belongs to doesn't have a Course Description set.
@@ -115,7 +116,7 @@ This endpoint requires a JSON object containing a Credential.
         + expired_on (string, optional) - Date you would like the credential to expire on, null by default.
         + complete (boolean, optional) - Whether the achievement is complete or still in progress, true by default.
         + private (boolean, optional) - Whether to make credential private, will require a secret key to open it. If set to true, by default false.
-        + globally_unique_id (string, optional) - The credential ID as defined by your organization. This alllows you to easily map your certificates or badges to an internal ID so that you can reference the credential using this ID later.
+        + approve (boolean, optional) - Whether to publish credential at the time of creation. By default this is true but settings at dashboard for sandbox_mode take precendence.
         + allow_supplemental_evidence (boolean, optional) - Whether to allow recipients to add their own supplemental evidence to the Credential, true by default.
         + allow_supplemental_references (boolean, optional) - Whether to allow recipients to add their own supplemental references to the credential, true by default.
         + evidence_items (array, optional) - Evidence to add to this credential, that provide more information about how the recipient met the achievement. See http://docs.accrediblecredentialapi.apiary.io/#reference/evidence-items/evidence-item/create-a-new-evidence-item for fields. Typically this would include work samples for a course.
@@ -171,7 +172,7 @@ This endpoint requires a JSON object containing a Credential.
                 "recipient": {
                     "name": "John Doe",
                     "email": "person@@example.com",
-                    "uid": null
+                    "id": null
                 },
             "issuer": {
                 "name": "Course Provider",
@@ -182,7 +183,6 @@ This endpoint requires a JSON object containing a Credential.
             "description": "A detailed description of what the credential is for",
             "issued_on": "2014-06-14",
             "group_name": "course1234",
-            "globally_unique_id": null,
             "url": "https://www.credential.net/10000005",
             "grade": null,
             "complete": true,
@@ -243,75 +243,74 @@ Create bulk Credentials using this action. It requires a JSON object containing 
     
     + Body
     
-        {
-            "credentials": [
-                { 
-                    "recipient": 
+            {
+                "credentials": [
                     { 
-                        "name": "John Doe", "email": "student@example.com" }, "group_id": "22625"
-                    },
-                { 
-                    "recipient": 
+                        "recipient": 
+                        { 
+                            "name": "John Doe", "email": "student@example.com" }, "group_id": "22625"
+                        },
                     { 
-                    "name": "John Doe", "email": "student@example.com" }, "group_id": "62430" 
-                    }
-            ]
-        }
+                        "recipient": 
+                        { 
+                        "name": "John Doe", "email": "student@example.com" }, "group_id": "62430" 
+                        }
+                ]
+            }
             
 
 + Response 200 (application/json)
 
-    [
-        {
-            "credential": {
-                "id": 1234,
-                "recipient": {
-                    "name": "John Doe",
-                    "email": "person2@example.com",
-                    "uid": null
+        [
+            {
+                "credential": {
+                    "id": 1234,
+                    "recipient": {
+                        "name": "John Doe",
+                        "email": "person2@example.com",
+                        "id": null
+                    },
+                "issuer": {
+                    "name": "Course Provider",
+                    "url": "http://www.awesomelearningexample.com",
+                    "description": "Technical courses at an introductory level..."
                 },
-            "issuer": {
-                "name": "Course Provider",
-                "url": "http://www.awesomelearningexample.com",
-                "description": "Technical courses at an introductory level..."
+                "name": "Credential Name",
+                "description": "A detailed description of what the credential is for",
+                "issued_on": "2014-06-14",
+                "group_name": "Test Group",
+                "url": "https://www.credential.net/10000005",
+                "grade": null,
+                "complete": true,
+                
+                "expired_on": null,
+                "custom_attibutes": null,
+                "course_link": null
             },
-            "name": "Credential Name",
-            "description": "A detailed description of what the credential is for",
-            "issued_on": "2014-06-14",
-            "group_name": "Test Group",
-            "url": "https://www.credential.net/10000005",
-            "globally_unique_id": null,
-            "grade": null,
-            "complete": true,
-            
-            "expired_on": null,
-            "custom_attibutes": null,
-            "course_link": null
-        },
-        {
-            "credential": {
-                "id": 1234,
-                "recipient": {
-                    "name": "John Doe",
-                    "email": "person2@example.com",
-                    "uid": null
+            {
+                "credential": {
+                    "id": 1234,
+                    "recipient": {
+                        "name": "John Doe",
+                        "email": "person2@example.com",
+                        "id": null
+                    },
+                "issuer": {
+                    "name": "Course Provider",
+                    "url": "http://www.awesomelearningexample.com",
+                    "description": "Technical courses at an introductory level..."
                 },
-            "issuer": {
-                "name": "Course Provider",
-                "url": "http://www.awesomelearningexample.com",
-                "description": "Technical courses at an introductory level..."
-            },
-            "name": "Credential Name",
-            "description": "A detailed description of what the credential is for",
-            "issued_on": "2014-06-14",
-            "group_name": "Test Group",
-            "grade": null,
-            "complete": true,
-            "expired_on": null,
-            "custom_attibutes": null,
-            "course_link": null
-        }
-    ]
+                "name": "Credential Name",
+                "description": "A detailed description of what the credential is for",
+                "issued_on": "2014-06-14",
+                "group_name": "Test Group",
+                "grade": null,
+                "complete": true,
+                "expired_on": null,
+                "custom_attibutes": null,
+                "course_link": null
+            }
+        ]
         
     
 ## Credential [/v1/credentials/{id}]
@@ -319,7 +318,7 @@ Create bulk Credentials using this action. It requires a JSON object containing 
 ### View a Credential [GET]
 
 + Parameters
-    + id (number) - ID of the Credential in the form of an integer for the particular Credential requested.
+    + id (string) - ID of the Credential in the form of an integer or string for the particular Credential requested.
 
 + Response 200 (application/json)
 
@@ -384,8 +383,7 @@ Create bulk Credentials using this action. It requires a JSON object containing 
 ### Update a Credential [PUT]
 
 + Parameters
-    + id (number) - ID or globally_unique_id of the credential for the particular Credential requested.
-
+    + id (string, optional) - The unique ID of the credential. If you supply your own internal ID we'll use this as a reference for the Credential. If not we'll assign an ID.
 
 + Request (application/json)
 
@@ -393,9 +391,10 @@ Create bulk Credentials using this action. It requires a JSON object containing 
 
             Authorization: Token token=YOUR API _KEY
     + Attributes
+        + id (string, optional) - The unique ID of the credential. If you supply your own internal ID we'll use this as a reference for the Credential. If not we'll assign an ID.
         + recipient.name (string, required) - The name of the recipient the credential is issued to.
         + recipient.email (string, required) - The recipient's email address.
-        + recipient.uid (string, optional) - The recipient's user ID (UID) as defined by your organization. This alllows you to easily map your recipients to their Credentials regardless of changes to their email address.
+        + recipient.id (string, optional) - The recipient's user ID as defined by your organization. This alllows you to easily map your recipients to their Credentials regardless of changes to their email address.
         + group_name (string, required) -  Group name to which credential should belong to.
         + name (string, optional) - The Credential/course name displayed to recipients. This is required if the Group the Credential belongs to doesn't have a Course Name set.
         + description (string, optional) - The credential/course description displayed to recipients. This is required if the Group the Credential belongs to doesn't have a Course Description set.
@@ -403,7 +402,6 @@ Create bulk Credentials using this action. It requires a JSON object containing 
         + issued_on (string, optional) - Date of issue, the default is when the credential is created. 
         + expired_on (string, optional) - Date you would like the credential to expire on, null by default.
         + complete (boolean, optional) - Whether the achievement is complete or still in progress, true by default.
-        + globally_unique_id (string, optional) - You may set an indentifier that's applied to each Credential. It has to be unique for every credential created within your account. It may be used for viewing, updating and locating a Credential based on your own data.
         + allow_supplemental_evidence (boolean, optional) - Whether to allow recipients to add their own supplemental evidence to the Credential, true by default.
         + allow_supplemental_references (boolean, optional) - Whether to allow recipients to add their own supplemental references to the credential, true by default.
         + evidence_items (array, optional) - Evidence to add to this credential, that provide more information about how the recipient met the achievement. See http://docs.accrediblecredentialapi.apiary.io/#reference/evidence-items/evidence-item/create-a-new-evidence-item for fields. Typically this would include work samples for a course.
@@ -425,7 +423,7 @@ Create bulk Credentials using this action. It requires a JSON object containing 
                 "recipient": {
                     "name": "John Doe",
                     "email": "person2@example.com",
-                    "uid": null
+                    "id": null
                 },
             "issuer": {
                 "name": "Course Provider",
@@ -437,7 +435,6 @@ Create bulk Credentials using this action. It requires a JSON object containing 
             "issued_on": "2014-06-14",
             "group_name": "course1234",
             "url": "https://www.credential.net/10000005",
-            "globally_unique_id": null,
             "grade": null,
             "complete": true,
             "expired_on": null,
@@ -483,7 +480,7 @@ Create bulk Credentials using this action. It requires a JSON object containing 
 ### Delete a Credential [DELETE]
 
 + Parameters
-    + id (number) - ID or globally_unique_id of the credential for the particular Credential requested.
+    + id (string) - ID of the credential for the particular Credential requested.
 
 + Request (application/json)
 
@@ -516,15 +513,14 @@ Create bulk Credentials using this action. It requires a JSON object containing 
             }
         }
 
-## All Credentials [/v1/all_credentials{?group_id}{?email}{?page_size}{?page}]
+## All Credentials [/v1/all_credentials{?group_id}{?email}{?page_size}{?page}{?recipient_id}]
 
 ### View many Credentials [GET]
 
 + Parameters
     + group_id (string, optional) - Limit the returned Credentials to a specific group ID.
     + email (string, optional) - Limit the returned Credentials to a specific recipient's email address.
-    + globally_unique_id (string, optional) - Limit the returned Credential to a specific custom identifier you set whilst creating a Credential.
-    + recipient_uid (string, optional) - Limit the returned Credentials to a specific recipient user identifier (UID) you set whilst creating Credentials.
+    + recipient_id (string, optional) - Limit the returned Credentials to a specific recipient user identifier (ID) you set whilst creating Credentials.
     + page_size(number, optional) - The pagination response size, default of 50.
     + page(number,optional) - The pagination page.
 
@@ -556,7 +552,7 @@ Create bulk Credentials using this action. It requires a JSON object containing 
                 "recipient": {
                     "name": "John Doe",
                     "email": "person2@example.com",
-                    "uid": null
+                    "id": null
                 },
                 "issuer": {
                     "name": "Example Provider",
@@ -582,7 +578,7 @@ Create bulk Credentials using this action. It requires a JSON object containing 
                 "recipient": {
                     "name": "John Doe",
                     "email": "person2@example.com",
-                    "uid": null
+                    "id": null
                 },
                 "issuer": {
                     "name": "Example Provider",
@@ -619,9 +615,9 @@ This endpoint takes credential_ids and generate pdfs. The endpoint returns zip f
     
     + Body
     
-        {
-          "credential_ids": ["10000005", "10272642", "10299775"], "combine_pdf": true
-        }
+            {
+                "credential_ids": ["10000005", "10272642", "10299775"], "combine_pdf": true
+            }
 
 + Response 200 (application/json)
 
@@ -630,18 +626,18 @@ This endpoint takes credential_ids and generate pdfs. The endpoint returns zip f
         }
 
 
-## Credential Redirect [/v1/issuer/credential_redirect{?issuer_id}{?globally_unique_id}]
+## Credential Redirect [/v1/issuer/credential_redirect{?issuer_id}{?id}]
 
-###Redirect to the Credential[GET]
+###Redirect to the Credential [GET]
 
-This endpoint redirects to a particular Credential. You can use any custom attribute and supply the value of that attribute for the particular Credential you'd like to redirect to.
+This endpoint redirects to a particular Credential. You can supply your internal credential id of you'd like to redirect to. To make this work, you need to use your internal unique id while creating credential.
 
 + Request (application/json)
 
     
     + Attributes
         + issuer_id (number, required) - ID of your issuer account. Ask us to get this or use the endpont view-issuer-details.
-        + globally_unique_id (string, required) - Provide the unique Credential Identifier you set whilst creating or updating a Credential.
+        + id (string, required) - Provide the unique Credential Identifier you set whilst creating or updating a Credential.
     
 
 + Redirect 302
@@ -938,7 +934,7 @@ Resources realted to EvidenceItems. EvidenceItems provide more information about
 You create EvidenceItems using this action. It takes a JSON object containing an Evidence Item.
 
 + Parameters
-    + credential_id (number) - Global ID of the credential in the form of an integer for the particular Credential requested.
+    + credential_id (string) - Global ID of the credential in the form of an integer or string for the particular Credential requested.
 
 
 + Request (application/json)
@@ -988,7 +984,7 @@ You create EvidenceItems using this action. It takes a JSON object containing an
 ### View a Evidence Item [GET]
 
 + Parameters
-    + credential_id (number) - ID of the Credential in the form of an integer for the particular Credential requested.
+    + credential_id (string) - ID of the Credential in the form of an integer or string for the particular Credential requested.
     + evidence_item_id (number) - ID of the EvidenceItem in the form of an integer.
     
 + Response 200 (application/json)
@@ -1010,7 +1006,7 @@ You create EvidenceItems using this action. It takes a JSON object containing an
 ### Update a Evidence Item [PUT]
 
 + Parameters
-    + credential_id (number) - ID of the Credential in the form of an integer for the particular Credential requested.
+    + credential_id (string) - ID of the Credential in the form of a string or integer for the particular Credential requested.
     + evidence_item_id (number) - ID of the Evidence Item in the form of an integer.
     
 + Request (application/json)
@@ -1058,7 +1054,7 @@ You create EvidenceItems using this action. It takes a JSON object containing an
 ### DELETE a Evidence Item [DELETE]
 
 + Parameters
-    + credential_id (number) - ID of the Credential in the form of an integer for the particular Credential requested.
+    + credential_id (string) - ID of the Credential in the form of a string or integer for the particular Credential requested.
     + evidence_item_id (number) - ID of the EvidenceItem in the form of an integer.
 
 
@@ -1088,7 +1084,7 @@ Resources realted to References. References provide more information about how t
 You may create a Reference using this action. It takes a JSON object containing a Reference.
 
 + Parameters
-    + credential_id (number) - ID of the Credential in the form of an integer for the particular Credential requested.
+    + credential_id (string) - ID of the Credential in the form of a string integer for the particular Credential requested.
  
 + Request (application/json)
 
@@ -1143,7 +1139,7 @@ You may create a Reference using this action. It takes a JSON object containing 
 ### View a Reference [GET]
 
 + Parameters
-    + credential_id (number) - ID of the Credential in the form of an integer for the particular Credential requested.
+    + credential_id (string) - ID of the Credential in the form of a string or integer for the particular Credential requested.
     + reference_id (number) - ID of the Reference in the form of an integer.
  
 + Response 200 (application/json)
@@ -1165,7 +1161,7 @@ You may create a Reference using this action. It takes a JSON object containing 
 ### Update a Reference [PUT]
 
 + Parameters
-    + credential_id (number) - ID of the Credential in the form of an integer for the particular Credential requested.
+    + credential_id (string) - ID of the Credential in the form of a string or integer for the particular Credential requested.
     + reference_id (number) - ID of the Reference in the form of an integer.
 
   
@@ -1211,7 +1207,7 @@ You may create a Reference using this action. It takes a JSON object containing 
 ### DELETE a Reference [DELETE]
 
 + Parameters
-    + credential_id (number) - ID of the Credential in the form of an integer for the particular Credential requested.
+    + credential_id (string) - ID of the Credential in the form of a string or integer for the particular Credential requested.
     + reference_id (number) - ID of the Reference in the form of an integer.
 
 
