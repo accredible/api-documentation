@@ -4,7 +4,7 @@ HOST: https://api.accredible.com/
 # Accredible Credential API
 The [Accredible](https://www.accredible.com/) Credential API allows you to create and interact with digital certificates called [Accredible Certificates](https://www.accredible.com/10000005). 
 
-There are 3 main objects in Accredible:
+There are 3 main objects in Accredible: Credential, Group and Design.
 
 # Credentials
 [Credentials](http://docs.accrediblecredentialapi.apiary.io/#reference/credentials) are the core object in the API. They collect all of the data related to a course, training acitivity or achievment and the recipient/participant information. 
@@ -24,6 +24,11 @@ For example if we have three courses: Intro to Basic Programming, Intro to Advan
 # Issuers
 [Issuers](http://docs.accrediblecredentialapi.apiary.io/#reference/issuer) provide organization details.
 
+# Single sign-on options on Accredible
+[Single sign-on](http://docs.accrediblecredentialapi.apiary.io/#reference/sso) in addition to the student authentication provided by Accredible, you can also use single sign-on to authenticate your student into Accredible and they can directly sign-in.
+
+# API Key
+[API Key](http://docs.accrediblecredentialapi.apiary.io/#reference/api-key/updating-key) is the authentication key for making Request. The endpoints include features like updating key.
 
 #Group Quick Start
 In this quick start tutorial, we assume you have already created your first group. If you haven't then go to [create a group in the dashboard](https://www.accredible.com/issuer/dashboard/group/new/settings) or use [this API request](http://docs.acms.apiary.io/#reference/groups/groups/create-a-group). 
@@ -1212,6 +1217,7 @@ You may create a Reference using this action. It takes a JSON object containing 
     + Headers
 
             Authorization: Token token=YOUR API _KEY
+    
             
 + Response 200 (application/json)
 
@@ -1257,4 +1263,64 @@ Your Accredible account is represented as an Issuer within the API.
                         "linkedin_company_id": null,
                         "linkedin_school_id": null
                     }
+        }
+
+# Group SSO 
+
+Accredible offers single sign-on solutions for recipients and issuers. Email support@accredible.com for a full list of options and to receive development assistance.
+
+## Recipient SSO Link [/v1/sso/generate_link]
+The easiest way to provide single sign-on for your recipients is to generate a link at render time. We recommend:<br>
+a) Add a button on your platform for recipients to go to their credential(s).<br>
+b) When the user clicks the button, make request to the below endpoint to generate a link.<br>
+c) Redirect the user to the link provided in the response.<br>
+
+
+### Generating Link [POST]
+This endpoint generates a single sign on link that authorizes the recipient on their credential.
+
+The code expires after used once.
+
++ Request (application/json)
+
+    + Headers
+
+            Authorization: Token token=YOUR API _KEY
+    
+    + Attributes
+        + credential_id (string, optional) - The unique ID of the credential. If you supply your own internal ID as a license_id, you should use that. 
+        + recipient_id (string, optional) - The recipient's user ID as defined by your organization. If more than one credential exists for your organization for this student, we give the link to their last (most recent) credential.
+        + recipient_email (string, optional) - The recipient's email address. If more than one credential exists in your organization for this student, we give a link to their last (most recent) credential.
+        + wallet_view (boolean, optional) - If multiple credentials belonging to the recipient requested for this organization and the wallet view flag is set true, we provide a link to the recipients credential wallet.
+        + group_id (string, optional) - The group that a credential belongs to. If more than one credential exists for your group for this student, we give the link to their last (most recent) credential.
+        + redirect_to (string, optional) - If the code is wrong, we will redirect student back to this link by default we use your registered url.
+
+
++ Response 200 (application/json)
+
+        {
+            "link": "http://www.credential.net/10000005/sso?code=1330"
+        }
+
+# Group API Key
+For API Key token
+
+## API Key Update [/v1/api/generate_token]
+The endpoint allow you to update your API Key and at the same time use the old key for 12 hours so you can update key on server.
+
+### Updating Key [POST]
++ Request (application/json)
+
+    + Headers
+
+            Authorization: Token token=YOUR API _KEY
+    
+    + Attributes
+        + expire_now (boolean, optional) - For expiring old key now only, by default it get expired after 12 hours
+        
+
++ Response 200 (application/json)
+
+        {
+           "api_key": "6c789a500a7ef1d494bc1e39d36a050d"
         }
