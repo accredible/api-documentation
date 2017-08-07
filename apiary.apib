@@ -27,9 +27,6 @@ For example if we have three courses: Intro to Basic Programming, Intro to Advan
 # Single sign-on options on Accredible
 [Single sign-on](http://docs.accrediblecredentialapi.apiary.io/#reference/sso) in addition to the student authentication provided by Accredible, you can also use single sign-on to authenticate your student into Accredible and they can directly sign-in.
 
-# API Key
-[API Key](http://docs.accrediblecredentialapi.apiary.io/#reference/api-key/updating-key) is the authentication key for making Request. The endpoints include features like updating key.
-
 #Group Quick Start
 In this quick start tutorial, we assume you have already created your first group. If you haven't then go to [create a group in the dashboard](https://www.accredible.com/issuer/dashboard/group/new/settings) or use [this API request](http://docs.acms.apiary.io/#reference/groups/groups/create-a-group). 
 
@@ -526,6 +523,7 @@ Create bulk Credentials using this action. It requires a JSON object containing 
     + group_id (string, optional) - Limit the returned Credentials to a specific group ID.
     + email (string, optional) - Limit the returned Credentials to a specific recipient's email address.
     + recipient_id (string, optional) - Limit the returned Credentials to a specific recipient user identifier (ID) you set whilst creating Credentials.
+    + license_id (string, optional) - Limit the returned Credential to a specific credential id you set whilst creating credential.
     + page_size(number, optional) - The pagination response size, default of 50.
     + page(number,optional) - The pagination page.
 
@@ -1303,10 +1301,12 @@ The code expires after used once.
         }
 
 # Group API Key
-For API Key token
+Most API requests require you to include the API key assigned to your account. We provide the ability to update your API key so you can rotate your key on a regular basis.
 
 ## API Key Update [/v1/api/generate_token]
-The endpoint allow you to update your API Key and at the same time use the old key for 12 hours so you can update key on server.
+This endpoint allows you to update your API Key. It allows you to use your old API key for 12 hours following the update so that you can make updates to your records asynchronously. 
+
+The returned value is the new API key you've been assigned. You can always view this in your account settings: https://dashboard.accredible.com/issuer/dashboard/settings/account
 
 ### Updating Key [POST]
 + Request (application/json)
@@ -1316,7 +1316,7 @@ The endpoint allow you to update your API Key and at the same time use the old k
             Authorization: Token token=YOUR API _KEY
     
     + Attributes
-        + expire_now (boolean, optional) - For expiring old key now only, by default it get expired after 12 hours
+        + expire_now (boolean, optional) - Set this to true if you'd like to immediately invalidate your current API key. Setting this to false or omitting will ensure your current API key remains active for 12 hours following this request.
         
 
 + Response 200 (application/json)
