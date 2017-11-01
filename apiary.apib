@@ -27,6 +27,8 @@ For example if we have three courses: Intro to Basic Programming, Intro to Advan
 # Single sign-on options on Accredible
 [Single sign-on](http://docs.accrediblecredentialapi.apiary.io/#reference/sso) in addition to the student authentication provided by Accredible, you can also use single sign-on to authenticate your student into Accredible and they can directly sign-in.
 
+SSO is also available via our Integrations and via SAML 2.0.
+
 #Group Quick Start
 In this quick start tutorial, we assume you have already created your first group. If you haven't then go to [create a group in the dashboard](https://www.accredible.com/issuer/dashboard/group/new/settings) or use [this API request](http://docs.acms.apiary.io/#reference/groups/groups/create-a-group). 
 
@@ -625,6 +627,27 @@ This endpoint takes credential_ids and generate pdfs. The endpoint returns zip f
         }
 
 
+## Generate PDF for single credential [/v1/credentials/generate_single_pdf/{id}]
+### Generate PDF for a single credential [POST]
+
+This endpoint takes id of published credential and generate pdf. The endpoint returns link to PDF requested.
+
++ Parameters
+    + id (string) - ID of the Credential in the form of an integer or string for the particular Credential requested.
+
++ Request (application/json)
+
+    + Headers
+
+            Authorization: Token token=YOUR API_KEY
+
++ Response 200 (application/json)
+
+        {
+          "file": "https://s3.amazonaws.com/staging-pdf-certificate/10531400.pdf"
+        }
+
+
 ## Credential Redirect [/v1/issuer/credential_redirect{?issuer_id}{?id}]
 
 ###Redirect to the Credential [GET]
@@ -641,6 +664,87 @@ This endpoint redirects to a particular Credential. You can supply your internal
 
 + Redirect 302
 
+
+
+## BlockChain Credential [/v1/credentials/blockchain_data/{encoded_id}]
+
+###Verify BlockChain Credential [GET]
+
+This endpoint gives data for a blockchain recorded credential. It will help you verify authenticity of the credential on blockchain.
+
++ Parameters
+    + encoded_id(string) - Encoded id of the credentials. unique id in the credentials url.
+
+
++ Request (application/json)
+
+    + Attributes
+        + key (string, optional) - If private credentials provide a key
+    
+
++ Response 200 (application/json)
+
+        {
+          "data": {
+          "credential_json_data": {
+          "certificate": {
+          "name": "Example Certificate Title",
+          "issuer": {
+          "name": "Example Organization",
+          "url": "http://www.accredible.com",
+          "id": "https://api.accredible.com/v1/obi/issuer_badge_classes/qOeq",
+          "type": "Issuer",
+          "email": "issuer+4897@accredible.com"
+          },
+          "type": "Certificate",
+          "id": "https://www.credential.net/10000005",
+          "description": "This is an example description - you can write anything you want here. We recommend describing the achievement."
+          },
+          "verify": {
+          "signer": "abc",
+          "attribute-signed": "uid",
+          "type": "ECDSA(secp256k1)"
+          },
+          "assertion": {
+          "issuedOn": "2014-08-14",
+          "type": "Assertion",
+          "uid": "10000005-0000-0000-0000-000000000000",
+          "id": "https://api.accredible.com/v1/obi/badge_assertions/akobz1"
+          },
+          "type": "CertificateDocument",
+          "@context": "https://w3id.org/blockcerts/v1",
+          "recipient": {
+          "familyName": "Jordan Smith",
+          "hashed": true,
+          "type": "email",
+          "identity": "bUt3VFpyekE5Wmxxa0FRdExUZ3k5WkdVanRWU3JPNmxDVjdVZ2xkckJnVW9MVm5rYmtLSDZ6M3IvS2tMWnA5MS0tN0RwVVdIb1RJUzIyTnBjS20wcVpUdz09--d964109d91c7890715008e1749e0ee990c7ce9cb"
+          }
+          },
+          "receipt": {
+          "@context": "https://w3id.org/chainpoint/v2",
+          "type": "ChainpointSHA256v2",
+          "targetHash": "726245b5a11b7f94b756ee746f3b3ce18efdc492c615c32678dae1ca76a8667a",
+          "merkleRoot": "e9aaf5d6e0021deb260608991fbb45d1c3ccb4553ea710635975834909bd8314",
+          "proof": [
+          {
+          "left": "ab4f843e61e1261e832e97807f37d51d851f8aaac3f44216914f67b7588634ad"
+          },
+          {
+          "left": "91ad43d509dabfc0a6d23167a10707a63e8ab7f9fa949d6c0aca763c64fefdb6"
+          },
+          {
+          "right": "9047877604cecc72d9bc614375b14ff0ce02b231d51a53fe33ce24e39cf3e6c4"
+          }
+          ],
+          "anchors": [
+          {
+          "type": "BTCOpReturn",
+          "sourceId": "707f86dc790338c5bddb19188c1c3f46f95a346a7693cc8c772b5e9252099c54"
+          }
+          ]
+          }
+          }
+          }
        
 
 
@@ -1265,7 +1369,7 @@ Your Accredible account is represented as an Issuer within the API.
 
 # Group SSO 
 
-Accredible offers single sign-on solutions for recipients and issuers. Email support@accredible.com for a full list of options and to receive development assistance.
+Accredible offers single sign-on solutions for recipients and issuers. Email support@accredible.com for a full list of options and to receive development assistance. SSO is also available via our Integrations and via SAML 2.0.
 
 ## Recipient SSO Link [/v1/sso/generate_link]
 The easiest way to provide single sign-on for your recipients is to generate a link at render time. We recommend:<br>
