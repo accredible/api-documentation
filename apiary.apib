@@ -4,7 +4,9 @@ HOST: https://api.accredible.com/
 # Accredible Credential API
 The [Accredible](https://www.accredible.com/) Credential API allows you to create and interact with digital certificates called [Accredible Certificates](https://www.accredible.com/10000005). 
 
-There are 3 main objects in Accredible: Credential, Group and Design.
+There are 3 main objects in Accredible: Credentials, Groups and Designs.
+
+[![API Overview Video](https://img.youtube.com/vi/R7euTeMGaQg/0.jpg)](https://www.youtube.com/watch?v=R7euTeMGaQg)
 
 # Credentials
 [Credentials](http://docs.accrediblecredentialapi.apiary.io/#reference/credentials) are the core object in the API. They collect all of the data related to a course, training acitivity or achievment and the recipient/participant information. 
@@ -49,7 +51,7 @@ Create a Credential using this action. It requires a JSON object containing a Cr
     + Attributes
         + recipient.name (string, required) - The name of the recipient the credential is issued to.
         + recipient.email (string, required) - The recipient's email address.
-        + group_name (string, required) -  Group name to which the credential should belong.
+        + group_id (number, required) -  Group Id to which the credential should belong. Legacy field. Group name may be used in place of a Group ID.
     
     + Body
     
@@ -59,7 +61,7 @@ Create a Credential using this action. It requires a JSON object containing a Cr
                         "name": "John Doe",
                         "email": "person@example.com"
                     },
-                    "group_name": "Test Group"
+                    "group_id": 34
                 }
             }
             
@@ -81,6 +83,7 @@ Create a Credential using this action. It requires a JSON object containing a Cr
             "description": "A detailed description of what the credential is for",
             "issued_on": "2014-06-14",
             "group_name": "Test Group",
+            "group_id": 34,
             "grade": null,
             "complete": true,
             "expired_on": null,
@@ -112,7 +115,7 @@ This endpoint requires a JSON object containing a Credential.
         + recipient.name (string, required) - The name of the recipient the credential is issued to.
         + recipient.email (string, required) - The recipient's email address.
         + recipient.id (string, optional) - The recipient's user ID as defined by your organization. This alllows you to easily map your recipients to their Credentials regardless of changes to their email address.
-        + group_name (string, required) -  Group name to which credential should belong to.
+        + group_id (number, required) -  Group Id to which the credential should belong. Legacy field. Group name may be used in place of a Group ID.
         + name (string, optional) - The Credential/course name displayed to recipients. This is required if the Group the Credential belongs to doesn't have a Course Name set.
         + description (string, optional) - The credential/course description displayed to recipients. This is required if the Group the Credential belongs to doesn't have a Course Description set.
         + custom_attributes (object, optional) - Custom variables to display on the Credential. These should be added to the design using the visual editor. Data should be formatted as a JSON hash where keys are the custom attribute names and the values are the values to be displayed on the Credential.
@@ -138,6 +141,7 @@ This endpoint requires a JSON object containing a Credential.
                     },
                 "name": "Credential Name",
                 "group_name": "course1234",
+                "group_id": 23,
                 "description": null,
                 "issued_on": "2014-06-14",
                 "evidence_items": [
