@@ -751,6 +751,42 @@ This endpoint gives data for a blockchain recorded credential. It will help you 
           }
        
 
+## Credential Analytics [/v1/credentials/analytics/{ticid}]
+
+### View Credential Analytics [POST]
+
++ Parameters
+    + id(string) - Id of the credential. unique id of the credential.
+
++ Request (application/json)
+
+    + Headers
+
+            Authorization: Token token=YOUR API_KEY
+
++ Response 200 (application/json)
+
+        {
+           "analytics": [
+           {
+                "credential_id": 10533900,
+                "event": "privacy_updated",
+                "created_at": "2018-02-13T07:00:00.000Z"
+            },
+            {
+                "credential_id": 10533900,
+                "event": "recipient_view_certificate",
+                "created_at": "2018-02-13T07:00:00.000Z"
+            },
+            {
+                "credential_id": 10533900,
+                "event": "credential_user_verified",
+                "created_at": "2018-02-13T07:00:00.000Z"
+            }
+        ]
+    }
+
+
 
 # Group Groups
 Groups are similar to a course or a folder of Credentials. They contain information about the achievement and have multiple Credentials attached to them.
