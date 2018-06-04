@@ -348,6 +348,7 @@ Create bulk Credentials using this action. It requires a JSON object containing 
             "grade": null,
             "complete": true,
             "expired_on": null,
+            "private": false,
             "custom_attibutes": {
                     "custom_variables": "some value",
                     "dob": "29 jan 1970"
@@ -403,7 +404,7 @@ Create bulk Credentials using this action. It requires a JSON object containing 
         + recipient.name (string, required) - The name of the recipient the credential is issued to.
         + recipient.email (string, required) - The recipient's email address.
         + recipient.id (string, optional) - The recipient's user ID as defined by your organization. This alllows you to easily map your recipients to their Credentials regardless of changes to their email address.
-        + group_name (string, required) -  Group name to which credential should belong to.
+        + group_id (number, required) -  Group Id to which the credential should belong. Legacy field. Group name may be used in place of a Group ID.
         + name (string, optional) - The Credential/course name displayed to recipients. This is required if the Group the Credential belongs to doesn't have a Course Name set.
         + description (string, optional) - The credential/course description displayed to recipients. This is required if the Group the Credential belongs to doesn't have a Course Description set.
         + custom_attributes (object, optional) - Custom variables to display on the Credential. These should be added to the design using the visual editor. Data should be formatted as a JSON hash where keys are the custom attribute names and the values are the values to be displayed on the Credential.
@@ -530,6 +531,8 @@ Create bulk Credentials using this action. It requires a JSON object containing 
     + email (string, optional) - Limit the returned Credentials to a specific recipient's email address.
     + recipient_id (string, optional) - Limit the returned Credentials to a specific recipient user identifier (ID) you set whilst creating Credentials.
     + license_id (string, optional) - Limit the returned Credential to a specific credential id you set whilst creating credential.
+    + start_date (string, optional) - Date after which credentials issued should be return. Format: DD/MM/YYY
+    + end_date (string, optional) - Date before which credetials issued should be return. Format: DD/MM/YYYY
     + page_size(number, optional) - The pagination response size, default of 50.
     + page(number,optional) - The pagination page.
 
@@ -556,6 +559,7 @@ Create bulk Credentials using this action. It requires a JSON object containing 
                 "custom_attributes": null,
                 "expired_on": null,
                 "group_name": "test",
+                "private": false,
                 "recipient": {
                     "name": "John Doe",
                     "email": "person2@example.com",
@@ -580,6 +584,7 @@ Create bulk Credentials using this action. It requires a JSON object containing 
                 "custom_attributes": null,
                 "expired_on": null,
                 "group_name": "test",
+                "private": false,
                 "recipient": {
                     "name": "John Doe",
                     "email": "person2@example.com",
