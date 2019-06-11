@@ -1537,6 +1537,49 @@ You may create a Reference using this action. It takes a JSON object containing 
             }
         }
 
+# Group Analytics
+
+Events relating to Credential activity such as views, shares and other engagements. A full list of events can be found here: https://help.accredible.com/hc/en-us/articles/360000266458. By default, the API returns the events for all Departments within your Organization.
+
+## Credential Analytics [/v1/analytics]
+Your Accredible account is represented as an Issuer within the API.
+
+### Index Analytics [GET]
+
++ Parameters
+    + start_date (date, optional) - Only return Credential analytic events recoreded after the given start date. Format: YYYY/MM/DD.
+    + end_date (date, optional) - Only return Credential analytic events recoreded before the given end date. Format: YYYY/MM/DD.
+    + group_id (integer, optional) - Only return Credential analytic events relating to Credentials within the given Group.
+    + department_id (integer, optional) - Only return Credential analytic events relating to Credentials within the given Department.
+
+
++ Request (application/json)
+
+    + Headers
+
+            Authorization: Token token=YOUR API _KEY
+
++ Response 200 (application/json)
+        {
+           "analytics": [
+                {
+                    "credential": { id: 10533900 },
+                    "event": "privacy_updated",
+                    "created_at": "2018-02-13T07:00:00.000Z"
+                },
+                {
+                    "credential": { id: 10533900 },
+                    "event": "recipient_view_certificate",
+                    "created_at": "2018-02-13T07:00:00.000Z"
+                },
+                {
+                    "credential": { id: 10533900 },
+                    "event": "credential_user_verified",
+                    "created_at": "2018-02-13T07:00:00.000Z"
+                }
+            ]
+        }
+
 # Group Issuers
 
 ## Issuers [/v1/issuer/details]
