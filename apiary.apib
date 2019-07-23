@@ -2,14 +2,14 @@ FORMAT: 1A
 HOST: https://api.accredible.com/
 
 # Accredible Credential API
-The [Accredible](https://www.accredible.com/) Credential API allows you to create and interact with badges and certificates called [Accredible Credentials](https://www.credential.net/10000005). 
+The [Accredible](https://www.accredible.com/) Credential API allows you to create and interact with badges and certificates called [Accredible Credentials](https://www.credential.net/10000005).
 
 There are 3 main objects in Accredible: Credentials, Groups and Designs.
 
 [![API Overview Video](https://img.youtube.com/vi/R7euTeMGaQg/0.jpg)](https://www.youtube.com/watch?v=R7euTeMGaQg)
 
 # Credentials
-[Credentials](http://docs.accrediblecredentialapi.apiary.io/#reference/credentials) are the core object in the API. They collect all of the data related to a course, training acitivity or achievment and the recipient/participant information. 
+[Credentials](http://docs.accrediblecredentialapi.apiary.io/#reference/credentials) are the core object in the API. They collect all of the data related to a course, training acitivity or achievment and the recipient/participant information.
 
 You should create a credential for each achievement completion that a recipient has. For example if John Doe finishes the Programming 101 course we should create one credential to represent that. If John Doe achieves something else then he would need a new credential.
 
@@ -35,7 +35,7 @@ SSO is also available via our Integrations and via SAML 2.0.
 We allow up to 100 requests every 10 seconds from a single IP address. If you attempt to make requests more quickly then this you may receive a `429 Too Many Requests` response from an endpoint.
 
 #Group Quick Start
-In this quick start tutorial, we assume you have already created your first group. If you haven't then go to [create a group in the dashboard](https://dashboard.accredible.com/issuer/dashboard/group/new?edit=information-and-appearance) or use [this API request](https://accrediblecredentialapi.docs.apiary.io/reference/groups/groups/create-a-group). 
+In this quick start tutorial, we assume you have already created your first group. If you haven't then go to [create a group in the dashboard](https://dashboard.accredible.com/issuer/dashboard/group/new?edit=information-and-appearance) or use [this API request](https://accrediblecredentialapi.docs.apiary.io/reference/groups/groups/create-a-group).
 
 To get you up and running the example below shows you how to create a basic Credential.
 
@@ -50,14 +50,14 @@ Create a Credential using this action. It requires a JSON object containing a Cr
     + Headers
 
             Authorization: Token token=YOUR API_KEY
-    
+
     + Attributes
         + recipient.name (string, required) - The name of the recipient the credential is issued to.
         + recipient.email (string, required) - The recipient's email address.
         + group_id (number, required) -  Group Id to which the credential should belong. Legacy field. Group name may be used in place of a Group ID.
-    
+
     + Body
-    
+
             {
                 "credential": {
                     "recipient": {
@@ -67,7 +67,7 @@ Create a Credential using this action. It requires a JSON object containing a Cr
                     "group_id": 34
                 }
             }
-            
+
 
 + Response 200 (application/json)
 
@@ -108,17 +108,17 @@ Create a Credential using this action. It requires a JSON object containing a Cr
         }
 
 # Group Credentials
-Credentials are the core object in Accredible. They collect all of the data related to a course/training/achievment and a recipient. 
+Credentials are the core object in Accredible. They collect all of the data related to a course/training/achievment and a recipient.
 
 You should create a credential for each achievement completion that a recipient has. For example if John Doe finishes the Programming 101 course we should create one credential to represent that. If John Doe achieves something else then he would need a new credential.
 
-By default a Group doesn't allow duplicate credentials to be issued to the same recipient. You can update this setting if you would like to do so: https://help.accredible.com/hc/en-us/articles/360000312538
+By default a Group doesn't allow duplicate credentials to be issued to the same recipient. You can update this setting if you would like to do so: https://help.accredible.com/credential-analytic-events
 
 ## Credentials [/v1/credentials]
 
 #### Create a New Credential [POST]
 
-You create a Credential with optional EvidenceItems and References using this action. Please make sure that you've created a group on your dashboard before creating a Credential. If you haven't then [create a group in the dashboard](https://dashboard.accredible.com/issuer/dashboard/group/new?edit=information-and-appearance) or use [this API request](https://accrediblecredentialapi.docs.apiary.io/reference/groups/groups/create-a-group). 
+You create a Credential with optional EvidenceItems and References using this action. Please make sure that you've created a group on your dashboard before creating a Credential. If you haven't then [create a group in the dashboard](https://dashboard.accredible.com/issuer/dashboard/group/new?edit=information-and-appearance) or use [this API request](https://accrediblecredentialapi.docs.apiary.io/reference/groups/groups/create-a-group).
 
 This endpoint requires a JSON object containing a Credential.
 
@@ -127,7 +127,7 @@ This endpoint requires a JSON object containing a Credential.
     + Headers
 
             Authorization: Token token=YOUR API_KEY
-    
+
     + Attributes
         + id (string, optional) - The unique ID of the credential. If you supply your own internal ID we'll use this as a reference for the Credential. If not we'll assign an ID.
         + recipient.name (string, required) - The name of the recipient the credential is issued to.
@@ -137,7 +137,7 @@ This endpoint requires a JSON object containing a Credential.
         + name (string, optional) - The Credential/course name displayed to recipients. This is required if the Group the Credential belongs to doesn't have a Course Name set.
         + description (string, optional) - The credential/course description displayed to recipients. This is required if the Group the Credential belongs to doesn't have a Course Description set.
         + custom_attributes (object, optional) - Custom variables to display on the Credential. These should be added to the design using the visual editor. Data should be formatted as a JSON hash where keys are the custom attribute names and the values are the values to be displayed on the Credential.
-        + issued_on (string, optional) - Date of issue, the default is when the credential is created. 
+        + issued_on (string, optional) - Date of issue, the default is when the credential is created.
         + expired_on (string, optional) - Date you would like the credential to expire on, null by default.
         + complete (boolean, optional) - Whether the achievement is complete or still in progress, true by default.
         + private (boolean, optional) - Whether to make credential private, will require a secret key to open it. If set to true, by default false.
@@ -146,11 +146,11 @@ This endpoint requires a JSON object containing a Credential.
         + allow_supplemental_references (boolean, optional) - Whether to allow recipients to add their own supplemental references to the credential, true by default.
         + evidence_items (array, optional) - Evidence to add to this credential, that provide more information about how the recipient met the achievement. See http://docs.accrediblecredentialapi.apiary.io/#reference/evidence-items/evidence-item/create-a-new-evidence-item for fields. Typically this would include work samples for a course.
         + references (array, optional) - References to add to this Credential, that provide more information about how the recipient met the achievement. see http://docs.accrediblecredentialapi.apiary.io/#reference/references/reference/create-a-new-reference for fields. Typically this would be a peer, teacher or manager giving their feedback.
-    
-    
-    
+
+
+
     + Body
-    
+
             {
                 "credential": {
                     "recipient": {
@@ -163,12 +163,12 @@ This endpoint requires a JSON object containing a Credential.
                     "description": null,
                     "issued_on": "2014-06-14",
                     "evidence_items": [
-                        { 
+                        {
                             "description": "Report card including all grades",
                             "url": "http://www.awesomelearningexample.com/johndoe/reportcard",
                             "category": "url"
                         },
-                        { 
+                        {
                             "description": "Final essay",
                             "file": "https://s3.amazonaws.com/accredible_api_evidence_items/files/12/original/open-uri20140316-15266-1m3by6h.jpeg",
                             "category": "file"
@@ -188,7 +188,7 @@ This endpoint requires a JSON object containing a Credential.
                     "custom_attributes": {"custom_variables": "some value", "dob": "29 jan 1970"}
                 }
             }
-            
+
 
 + Response 200 (application/json)
 
@@ -260,7 +260,7 @@ This endpoint requires a JSON object containing a Credential.
                             "url": null,
                             "avatar_image_url": "https://s3.amazonaws.com/staging_accredible_api_individuals/images/4/thumb/open-uri20140815-11960-1r0hppg?1408416647"
                         }
-                    }  
+                    }
                 ],
                 "recipient": {
                     "name": "Jordan Smith"
@@ -285,27 +285,27 @@ Create bulk Credentials using this action. It requires a JSON object containing 
     + Headers
 
             Authorization: Token token=YOUR API_KEY
-    
+
     + Attributes
         + credentials (array, required) - Array of the credentials payload all field applicable which is in create credential endpoint.
-    
+
     + Body
-    
+
             {
                 "credentials": [
-                    { 
-                        "recipient": 
-                        { 
+
+                        "recipient":
+                        {
                             "name": "John Doe", "email": "student@example.com" }, "group_id": "22625"
                         },
-                    { 
-                        "recipient": 
-                        { 
-                        "name": "John Doe", "email": "student@example.com" }, "group_id": "62430" 
+                    {
+                        "recipient":
+                        {
+                        "name": "John Doe", "email": "student@example.com" }, "group_id": "62430"
                         }
                 ]
             }
-            
+
 
 + Response 200 (application/json)
 
@@ -330,7 +330,7 @@ Create bulk Credentials using this action. It requires a JSON object containing 
                     "url": "https://www.credential.net/10000005",
                     "grade": null,
                     "complete": true,
-                    
+
                     "expired_on": null,
                     "custom_attibutes": null,
                     "course_link": null
@@ -360,8 +360,8 @@ Create bulk Credentials using this action. It requires a JSON object containing 
                 }
             }
         ]
-        
-    
+
+
 ## Credential [/v1/credentials/{id}]
 
 ### View a Credential [GET]
@@ -445,7 +445,7 @@ Create bulk Credentials using this action. It requires a JSON object containing 
                             "url": null,
                             "avatar_image_url": "https://s3.amazonaws.com/staging_accredible_api_individuals/images/4/thumb/open-uri20140815-11960-1r0hppg?1408416647"
                         }
-                    }  
+                    }
                 ],
                 "recipient": {
                     "name": "Jordan Smith"
@@ -479,22 +479,22 @@ Create bulk Credentials using this action. It requires a JSON object containing 
         + name (string, optional) - The Credential/course name displayed to recipients. This is required if the Group the Credential belongs to doesn't have a Course Name set.
         + description (string, optional) - The credential/course description displayed to recipients. This is required if the Group the Credential belongs to doesn't have a Course Description set.
         + custom_attributes (object, optional) - Custom variables to display on the Credential. These should be added to the design using the visual editor. Data should be formatted as a JSON hash where keys are the custom attribute names and the values are the values to be displayed on the Credential.
-        + issued_on (string, optional) - Date of issue, the default is when the credential is created. 
+        + issued_on (string, optional) - Date of issue, the default is when the credential is created.
         + expired_on (string, optional) - Date you would like the credential to expire on, null by default.
         + complete (boolean, optional) - Whether the achievement is complete or still in progress, true by default.
         + allow_supplemental_evidence (boolean, optional) - Whether to allow recipients to add their own supplemental evidence to the Credential, true by default.
         + allow_supplemental_references (boolean, optional) - Whether to allow recipients to add their own supplemental references to the credential, true by default.
         + evidence_items (array, optional) - Evidence to add to this credential, that provide more information about how the recipient met the achievement. See http://docs.accrediblecredentialapi.apiary.io/#reference/evidence-items/evidence-item/create-a-new-evidence-item for fields. Typically this would include work samples for a course.
         + references (array, optional) - References to add to this Credential, that provide more information about how the recipient met the achievement. see http://docs.accrediblecredentialapi.apiary.io/#reference/references/reference/create-a-new-reference for fields. Typically this would be a peer, teacher or manager giving their feedback.
-    
+
     + Body
-            
+
             {
               "credential": {
                 "approve": true
                 }
             }
-            
+
 + Response 200 (application/json)
 
         {
@@ -565,7 +565,7 @@ Create bulk Credentials using this action. It requires a JSON object containing 
                             "url": null,
                             "avatar_image_url": "https://s3.amazonaws.com/staging_accredible_api_individuals/images/4/thumb/open-uri20140815-11960-1r0hppg?1408416647"
                         }
-                    }  
+                    }
                 ],
                 "recipient": {
                     "name": "Jordan Smith"
@@ -589,7 +589,7 @@ Create bulk Credentials using this action. It requires a JSON object containing 
     + Headers
 
             Authorization: Token token=YOUR API _KEY
-            
+
 + Response 200 (application/json)
 
         {
@@ -660,7 +660,7 @@ Create bulk Credentials using this action. It requires a JSON object containing 
                             "url": null,
                             "avatar_image_url": "https://s3.amazonaws.com/staging_accredible_api_individuals/images/4/thumb/open-uri20140815-11960-1r0hppg?1408416647"
                         }
-                    }  
+                    }
                 ],
                 "recipient": {
                     "name": "Jordan Smith"
@@ -772,12 +772,12 @@ This endpoint takes credential_ids and generate pdfs. The endpoint returns zip f
     + Headers
 
             Authorization: Token token=YOUR API_KEY
-    
+
     + Attributes
         + credential_ids (array, required) - ID's of credentials for which PDF need to be generated.
 
     + Body
-    
+
             {
                 "credential_ids": ["10000005", "10272642", "10299775"]
             }
@@ -818,11 +818,11 @@ This endpoint redirects to a particular Credential. You can supply your internal
 
 + Request (application/json)
 
-    
+
     + Attributes
         + issuer_id (number, required) - ID of your issuer account. Ask us to get this or use the endpont view-issuer-details.
         + id (string, required) - Provide the unique Credential Identifier you set whilst creating or updating a Credential.
-    
+
 
 + Redirect 302
 
@@ -842,7 +842,7 @@ This endpoint gives data for a blockchain recorded credential. It will help you 
 
     + Attributes
         + key (string, optional) - If private credentials provide a key
-    
+
 
 + Response 200 (application/json)
 
@@ -907,11 +907,11 @@ This endpoint gives data for a blockchain recorded credential. It will help you 
           }
           }
           }
-       
+
 
 ## Credential Analytics [/v1/credentials/analytics/{id}]
 
-A full list of events can be found here: https://help.accredible.com/hc/en-us/articles/360000266458
+A full list of events can be found here: https://help.accredible.com/can-i-allow-duplicate-credentials-in-a-group
 
 ### View Credential Analytics [POST]
 
@@ -956,13 +956,13 @@ For example you should create a group for the Introduction to Programming course
 ## Groups [/v1/issuer/groups]
 
 ### Create a Group [POST]
-    
+
 + Request (application/json)
 
     + Headers
 
             Authorization: Token token=YOUR API_KEY
-    
+
     + Attributes
         + name (string,required) - Name of the group (for your reference and never shown to the recipient).
         + course_name (string,required) - Name of the course or achievement. This is visible to the recipient.
@@ -972,9 +972,9 @@ For example you should create a group for the Introduction to Programming course
         + attach_pdf (boolean, optional) - PDF of the Credential should be attached to email when recipient is informed. Default is false.
         + design_id (number,optional) - Design which the Group will use to display Credentials.
         + department_id (number,optional) - Department that the group belongs to. If not defined the group will be assigned to the organizations default department.
-    
+
     + Body
-    
+
             {
                 "group": {
                     "name": "new group",
@@ -987,8 +987,8 @@ For example you should create a group for the Introduction to Programming course
                     "department_id": 123
                 }
             }
-            
-            
+
+
 + Response 200 (application/json)
 
         {
@@ -1020,7 +1020,7 @@ For example you should create a group for the Introduction to Programming course
     + Headers
 
             Authorization: Token token=YOUR API _KEY
-            
+
 + Response 200 (application/json)
 
         {
@@ -1052,7 +1052,7 @@ For example you should create a group for the Introduction to Programming course
     + Headers
 
             Authorization: Token token=YOUR API _KEY
-    
+
     + Attributes
         + name (string,required) - Name of the group (for your reference and never shown to the recipient).
         + course_name (string,required) - Name of the course or achievement. This is visible to the recipient.
@@ -1061,16 +1061,16 @@ For example you should create a group for the Introduction to Programming course
         + langauge (string, optional) - Language for the group. Currently we support "en", "es" and "pt". Default language is en.
         + attach_pdf (boolean, optional) - PDF of the Credential should be attached to email when recipient is informed. Default is false.
         + design_id (number,optional) - Design which the Group will use to display Credentials.
-            
+
     + Body
-    
+
             {
                "group": {
                     "name": "updated new group",
                     "course_name": "updated course name"
                 }
             }
-            
+
 + Response 200 (application/json)
 
         {
@@ -1090,7 +1090,7 @@ For example you should create a group for the Introduction to Programming course
             "department_id": 123
             }
         }
-        
+
 ### Delete a Group [DELETE]
 
 + Parameters
@@ -1101,7 +1101,7 @@ For example you should create a group for the Introduction to Programming course
     + Headers
 
             Authorization: Token token=YOUR API _KEY
-            
+
 + Response 200 (application/json)
 
         {
@@ -1134,7 +1134,7 @@ For example you should create a group for the Introduction to Programming course
     + page(number,optional) - The pagination page.
 
 + Request (application/json)
-    
+
     + Headers
 
             Authorization: Token token=YOUR API _KEY
@@ -1184,7 +1184,7 @@ For example you should create a group for the Introduction to Programming course
         }
 
 
-# Group Designs 
+# Group Designs
 
 ## Designs [/v1/issuer/all_designs]
 Designs provide a visual specification for how a Credential should be rendered. Design can be used accross multiple Groups.
@@ -1254,7 +1254,7 @@ You create EvidenceItems using this action. It takes a JSON object containing an
     + Headers
 
             Authorization: Token token=YOUR API _KEY
-    
+
     + Attributes
         + description (string, required) - Title text for the evidence item. This is displayed on a Credential.
         + category (string, required) - Type of Evidence Item added, must be one of [file, url, video, grade, transcript]. The type dictates how the item is displayed on the certificate.
@@ -1265,12 +1265,12 @@ You create EvidenceItems using this action. It takes a JSON object containing an
         + position (number, optional) - The numeric position of the evidence item on the credential. 0 is displayed first in the list.
         + custom_insight (string, optional) - The insights which will appear below Evidence Item, if not given it will be generated automatically based on data.
 
-    
+
     + Body
-            
+
             {
                 "evidence_item": {
-                "description": "Example file", 
+                "description": "Example file",
                 "file": "https://s3.amazonaws.com/accredible_api_evidence_items/files/44/original/1410743692307_Hours_Tracking.pdf",
                 "category": "file"
                 }
@@ -1279,7 +1279,7 @@ You create EvidenceItems using this action. It takes a JSON object containing an
 + Response 200 (application/json)
 
          {
-            "evidence_item": { 
+            "evidence_item": {
             "id": 1234,
             "description": "updated description",
             "link_url": "https://s3.amazonaws.com/accredible_api_evidence_items/files/44/original/1410743692307_Hours_Tracking.pdf",
@@ -1298,11 +1298,11 @@ You create EvidenceItems using this action. It takes a JSON object containing an
 + Parameters
     + credential_id (string) - ID of the Credential in the form of an integer or string for the particular Credential requested.
     + evidence_item_id (number) - ID of the EvidenceItem in the form of an integer.
-    
+
 + Response 200 (application/json)
 
         {
-            "evidence_item": { 
+            "evidence_item": {
             "id": 1234,
             "description": "updated description",
             "link_url": "https://s3.amazonaws.com/accredible_api_evidence_items/files/44/original/1410743692307_Hours_Tracking.pdf",
@@ -1313,20 +1313,20 @@ You create EvidenceItems using this action. It takes a JSON object containing an
             "position": 1
             }
         }
- 
+
 
 ### Update a Evidence Item [PUT]
 
 + Parameters
     + credential_id (string) - ID of the Credential in the form of a string or integer for the particular Credential requested.
     + evidence_item_id (number) - ID of the Evidence Item in the form of an integer.
-    
+
 + Request (application/json)
 
     + Headers
 
             Authorization: Token token=YOUR API _KEY
-    
+
     + Attributes
         + description (string, required) - Title text for the evidence item. This is displayed on a Credential.
         + category (string, required) - Type of Evidence Item added, must be one of [file, url, video, grade, transcript]. The type dictates how the item is displayed on the Credential.
@@ -1337,19 +1337,19 @@ You create EvidenceItems using this action. It takes a JSON object containing an
         + position (number, optional) - The numeric position of the evidence item on the credential. 0 is displayed first in the list.
         + custom_insight (string, optional) - The insights which will appear below Evidence Item, if not given it will be generated automatically based on data.
 
-    
+
     + Body
-            
+
             {
                 "evidence_item": {
                     "description": "updated description"
                 }
             }
-            
+
 + Response 200 (application/json)
 
         {
-            "evidence_item": { 
+            "evidence_item": {
             "id": 1234,
             "description": "updated description",
             "link_url": "https://s3.amazonaws.com/accredible_api_evidence_items/files/44/original/1410743692307_Hours_Tracking.pdf",
@@ -1375,11 +1375,11 @@ You create EvidenceItems using this action. It takes a JSON object containing an
     + Headers
 
             Authorization: Token token=YOUR API _KEY
-            
+
 + Response 200 (application/json)
 
         {
-            "evidence_item": { 
+            "evidence_item": {
                 "id": 1234,
                 "description": "Report card including all grades"
             }
@@ -1397,25 +1397,25 @@ You may create a Reference using this action. It takes a JSON object containing 
 
 + Parameters
     + credential_id (string) - ID of the Credential in the form of a string integer for the particular Credential requested.
- 
+
 + Request (application/json)
 
     + Headers
 
             Authorization: Token token=YOUR API _KEY
-    
+
     + Attributes
         + description (string, required) - The reference comments / text.
-        + relationship (string, required) - Must be one of: “taught”, “managed”, “mentored”, “worked”, “studied”, “friends”, “stranger”, “professor”. 
+        + relationship (string, required) - Must be one of: “taught”, “managed”, “mentored”, “worked”, “studied”, “friends”, “stranger”, “professor”.
         + referee.name (string, optional) - Name of the person providing the reference.
         + referee.email (string, optional) - Email of the person providing the reference.
         + referee.avatar (string, optional) - URL of image of the person providing the reference.
         + referee.url (string, optional) - URL of a social profile such as LinkedIn that would allow a viewer to learn more about the referee.
         + position (number, optional) - The numeric position of the evidence item on the credential. 0 is displayed first in the list.
 
-    
+
     + Body
-    
+
             {
                 "reference": {
                     "description": "John worked hard on this course and provided exemplary understanding of the core concepts",
@@ -1453,7 +1453,7 @@ You may create a Reference using this action. It takes a JSON object containing 
 + Parameters
     + credential_id (string) - ID of the Credential in the form of a string or integer for the particular Credential requested.
     + reference_id (number) - ID of the Reference in the form of an integer.
- 
+
 + Response 200 (application/json)
 
         {
@@ -1476,28 +1476,27 @@ You may create a Reference using this action. It takes a JSON object containing 
     + credential_id (string) - ID of the Credential in the form of a string or integer for the particular Credential requested.
     + reference_id (number) - ID of the Reference in the form of an integer.
 
-  
 
 + Request (application/json)
 
     + Headers
 
             Authorization: Token token=YOUR API _KEY
-    
-    
+
+
     + Attributes
         + description (string, required) - The reference comments / text.
-        + relationship (string, required) - Must be one of: “taught”, “managed”, “mentored”, “worked”, “studied”, “friends”, “stranger”, “professor”. 
+        + relationship (string, required) - Must be one of: “taught”, “managed”, “mentored”, “worked”, “studied”, “friends”, “stranger”, “professor”.
         + position (number, optional) - The numeric position of the evidence item on the credential. 0 is displayed first in the list.
 
     + Body
-            
+
             {
                 "reference": {
                     "description": "my new reference text"
                 }
             }
-            
+
 + Response 200 (application/json)
 
         {
@@ -1528,8 +1527,8 @@ You may create a Reference using this action. It takes a JSON object containing 
     + Headers
 
             Authorization: Token token=YOUR API _KEY
-    
-            
+
+
 + Response 200 (application/json)
 
         {
@@ -1548,7 +1547,7 @@ You may create a Reference using this action. It takes a JSON object containing 
 
 # Group Analytics
 
-Events relating to Credential activity such as views, shares and other engagements. A full list of events can be found here: https://help.accredible.com/hc/en-us/articles/360000266458. By default, the API returns the events for all Departments within your Organization.
+Events relating to Credential activity such as views, shares and other engagements. A full list of events can be found here: https://help.accredible.com/can-i-allow-duplicate-credentials-in-a-group. By default, the API returns the events for all Departments within your Organization.
 
 ## Credential Analytics [/v1/analytics]
 Your Accredible account is represented as an Issuer within the API.
@@ -1619,7 +1618,7 @@ Your Accredible account is represented as an Issuer within the API.
                     }
         }
 
-# Group SSO 
+# Group SSO
 
 Accredible offers single sign-on solutions for recipients and issuers. Email support@accredible.com for a full list of options and to receive development assistance. SSO is also available via our Integrations and via SAML 2.0.
 
@@ -1640,9 +1639,9 @@ The code expires after used once.
     + Headers
 
             Authorization: Token token=YOUR API _KEY
-    
+
     + Attributes
-        + credential_id (string, optional) - The unique ID of the credential. If you supply your own internal ID as a license_id, you should use that. 
+        + credential_id (string, optional) - The unique ID of the credential. If you supply your own internal ID as a license_id, you should use that.
         + recipient_id (string, optional) - The recipient's user ID as defined by your organization. If more than one credential exists for your organization for this student, we give the link to their last (most recent) credential.
         + recipient_email (string, optional) - The recipient's email address. If more than one credential exists in your organization for this student, we give a link to their last (most recent) credential.
         + wallet_view (boolean, optional) - If multiple credentials belonging to the recipient requested for this organization and the wallet view flag is set true, we provide a link to the recipients credential wallet.
@@ -1660,7 +1659,7 @@ The code expires after used once.
 Most API requests require you to include the API key assigned to your account. We provide the ability to update your API key so you can rotate your key on a regular basis.
 
 ## API Key Update [/v1/api/generate_token]
-This endpoint allows you to update your API Key. It allows you to use your old API key for 12 hours following the update so that you can make updates to your records asynchronously. 
+This endpoint allows you to update your API Key. It allows you to use your old API key for 12 hours following the update so that you can make updates to your records asynchronously.
 
 The returned value is the new API key you've been assigned. You can always view this in your account settings: https://dashboard.accredible.com/issuer/dashboard/settings/api_integrations
 
@@ -1670,10 +1669,10 @@ The returned value is the new API key you've been assigned. You can always view 
     + Headers
 
             Authorization: Token token=YOUR API _KEY
-    
+
     + Attributes
         + expire_now (boolean, optional) - Set this to true if you'd like to immediately invalidate your current API key. Setting this to false or omitting will ensure your current API key remains active for 12 hours following this request.
-        
+
 
 + Response 200 (application/json)
 
