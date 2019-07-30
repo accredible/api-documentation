@@ -970,7 +970,9 @@ For example you should create a group for the Introduction to Programming course
         + course_link (string,optional) - Link to the web page with information related to this Credential. Typically this is a course information or event information page.
         + langauge (string, optional) - Language for the group. Currently we support "en", "es" and "pt". Default language is en.
         + attach_pdf (boolean, optional) - PDF of the Credential should be attached to email when recipient is informed. Default is false.
-        + design_id (number,optional) - Design which the Group will use to display Credentials.
+        + design_id (number,optional) - DEPRECATED. Certificate Design which the Group will use to display Credentials.
+        + certificate_design_id (number,optional) - Certificate Design which the Group will use to display Credentials.
+        + badge_design_id (number,optional) - Badge Design which the Group will use to display Credentials.
         + department_id (number,optional) - Department that the group belongs to. If not defined the group will be assigned to the organizations default department.
 
     + Body
@@ -984,6 +986,8 @@ For example you should create a group for the Introduction to Programming course
                     "language": "en",
                     "attach_pdf": true,
                     "design_id": null,
+                    "certificate_design_id": null,
+                    "badge_design_id": null,
                     "department_id": 123
                 }
             }
@@ -1005,6 +1009,8 @@ For example you should create a group for the Introduction to Programming course
             "updated_at": "2016-08-29T07:03:25.000Z",
             "created_at": "2016-08-29T06:14:18.000Z",
             "design_id": 23,
+            "certificate_design_id": null,
+            "badge_design_id": null,
             "department_id": 123
             }
         }
@@ -1037,6 +1043,8 @@ For example you should create a group for the Introduction to Programming course
             "updated_at": "2016-08-29T07:03:25.000Z",
             "created_at": "2016-08-29T06:14:18.000Z",
             "design_id": 23,
+            "certificate_design_id": null,
+            "badge_design_id": null,
             "department_id": 123
             }
         }
@@ -1060,7 +1068,10 @@ For example you should create a group for the Introduction to Programming course
         + course_link (string,optional) - Link to the web page with information related to this Credential. Typically this is a course information or event information page.
         + langauge (string, optional) - Language for the group. Currently we support "en", "es" and "pt". Default language is en.
         + attach_pdf (boolean, optional) - PDF of the Credential should be attached to email when recipient is informed. Default is false.
-        + design_id (number,optional) - Design which the Group will use to display Credentials.
+        + design_id (number,optional) - DEPRECATED. Certificate Design which the Group will use to display Credentials.
+        + certificate_design_id (number,optional) - Certificate Design which the Group will use to display Credentials.
+        + badge_design_id (number,optional) - Badge Design which the Group will use to display Credentials.
+        + department_id (number,optional) - Department that the group belongs to. If not defined the group will be assigned to the organizations default department.
 
     + Body
 
@@ -1087,6 +1098,8 @@ For example you should create a group for the Introduction to Programming course
             "updated_at": "2016-08-29T07:03:25.000Z",
             "created_at": "2016-08-29T06:14:18.000Z",
             "design_id": 23,
+            "certificate_design_id": null,
+            "badge_design_id": null,
             "department_id": 123
             }
         }
@@ -1118,6 +1131,8 @@ For example you should create a group for the Introduction to Programming course
             "updated_at": "2016-08-29T07:03:25.000Z",
             "created_at": "2016-08-29T06:14:18.000Z",
             "design_id": 23,
+            "certificate_design_id": null,
+            "badge_design_id": null,
             "department_id": 123
             }
         }
@@ -1156,6 +1171,8 @@ For example you should create a group for the Introduction to Programming course
                     "updated_at": "2016-08-29T07:03:25.000Z",
                     "created_at": "2016-08-29T06:14:18.000Z",
                     "design_id": 23,
+                    "certificate_design_id": 23,
+                    "badge_design_id": null,
                     "department_id": 123
                 },
                 {
@@ -1170,7 +1187,9 @@ For example you should create a group for the Introduction to Programming course
                     "design_name": "test",
                     "updated_at": "2016-08-29T07:03:25.000Z",
                     "created_at": "2016-08-29T06:14:18.000Z",
-                    "design_id": 23,
+                    "design_id": null,
+                    "certificate_design_id": null,
+                    "badge_design_id": 345,
                     "department_id": 123
                 }
             ],
