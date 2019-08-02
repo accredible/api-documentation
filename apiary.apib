@@ -34,6 +34,22 @@ SSO is also available via our Integrations and via SAML 2.0.
 # Rate Limiting
 We allow up to 100 requests every 10 seconds from a single IP address. If you attempt to make requests more quickly then this you may receive a `429 Too Many Requests` response from an endpoint.
 
+# Errors
+Accredible uses conventional HTTP response codes to indicate the success or failure of an API request. Codes in the 2xx range indicate success in general and codes in the 4xx range indicate an error that failed given the information provided (e.g., a required parameter was omitted, a permissions error, etc). Codes in the 5xx range indicate an error with Accredible.
+
+Summary of response codes:
+
+| Response Code | Description |
+| ------------- | ------------- |
+| 200 | The request was successful. |
+| 401 | Invalid API key. |
+| 403 | Permissions error. You do not have access to the requested resource. |
+| 404 | The request used a resource that could not be found. |
+| 429 | Too many requests. Please see the Rate Limiting section. |
+| 500 | Accredible Internal Error. |
+
+
+
 #Group Quick Start
 In this quick start tutorial, we assume you have already created your first group. If you haven't then go to [create a group in the dashboard](https://dashboard.accredible.com/issuer/dashboard/group/new?edit=information-and-appearance) or use [this API request](https://accrediblecredentialapi.docs.apiary.io/reference/groups/groups/create-a-group).
 
@@ -1223,32 +1239,46 @@ For example if we have three courses: Intro to Basic Programming, Intro to Advan
         {
             "designs": [
                         {
-                            "id": 56201,
-                            "name": "design 1",
-                            "updated_at": "2016-08-30T10:26:26.000Z",
-                            "created_at": "2016-07-18T23:34:01.000Z",
+                            id": 12472,
+                            "name": "new design",
+                            "kind": "certificate",
+                            "content": "31884284f406b9e481038c86ca81031031884284f406b9e481038c86ca810310",
+                            "background_bleeds": true,
+                            "orientation": "landscape",
+                            "size": "a4",
+                            "department_id": 123
+                            "updated_at": "2016-08-29T07:03:25.000Z",
+                            "created_at": "2016-08-29T06:14:18.000Z",
+                            "design_id": 23,
                             "groups": [
-                                        {
-                                            "id": 61267,
-                                            "name": "group 1",
-                                            "updated_at": "2016-08-30T10:26:25.000Z",
-                                            "credentials_count": 1
-                                        }
-                                    ]
+                                {
+                                    "id": 61267,
+                                    "name": "group 1",
+                                    "updated_at": "2016-08-30T10:26:25.000Z",
+                                    "credentials_count": 1
+                                }
+                            ]
                         },
                         {
-                            "id": 56231,
-                            "name": "design 2",
-                            "updated_at": "2016-08-30T10:26:26.000Z",
-                            "created_at": "2016-07-18T23:34:01.000Z",
+                            id": 124721,
+                            "name": "new design 2",
+                            "kind": "certificate",
+                            "content": "31824284f406b9e481038c86ca81031031884284f406b9e481038c86ca810310",
+                            "background_bleeds": true,
+                            "orientation": "landscape",
+                            "size": "a4",
+                            "department_id": 123
+                            "updated_at": "2016-08-29T07:03:25.000Z",
+                            "created_at": "2016-08-29T06:14:18.000Z",
+                            "design_id": 23,
                             "groups": [
-                                        {
-                                            "id": 61367,
-                                            "name": "group 2",
-                                            "updated_at": "2016-08-30T10:26:25.000Z",
-                                            "credentials_count": 1
-                                        }
-                                    ]
+                                {
+                                    "id": 61267,
+                                    "name": "group 2",
+                                    "updated_at": "2016-08-30T10:26:25.000Z",
+                                    "credentials_count": 0
+                                }
+                            ]
                         }
                     ]
         }
