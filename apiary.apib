@@ -1221,69 +1221,10 @@ For example you should create a group for the Introduction to Programming course
 
 # Group Designs
 
-## Designs [/v1/issuer/all_designs]
+## Designs [/v1/designs{?kind}]
 Designs provide a visual specification for how a Credential should be rendered. Design can be used accross multiple Groups.
 
 For example if we have three courses: Intro to Basic Programming, Intro to Advanced Programming and Intro to DevOps each of these may have the same design for their Credentials. When creating or updating their corresponding Groups you would attach the desired design accordingly.
-
-### View all Designs [GET]
-
-+ Request (application/json)
-
-    + Headers
-
-            Authorization: Token token=YOUR API _KEY
-
-+ Response 200 (application/json)
-
-        {
-            "designs": [
-                        {
-                            id": 12472,
-                            "name": "new design",
-                            "kind": "certificate",
-                            "content": "31884284f406b9e481038c86ca81031031884284f406b9e481038c86ca810310",
-                            "background_bleeds": true,
-                            "orientation": "landscape",
-                            "size": "a4",
-                            "department_id": 123
-                            "updated_at": "2016-08-29T07:03:25.000Z",
-                            "created_at": "2016-08-29T06:14:18.000Z",
-                            "design_id": 23,
-                            "groups": [
-                                {
-                                    "id": 61267,
-                                    "name": "group 1",
-                                    "updated_at": "2016-08-30T10:26:25.000Z",
-                                    "credentials_count": 1
-                                }
-                            ]
-                        },
-                        {
-                            id": 124721,
-                            "name": "new design 2",
-                            "kind": "certificate",
-                            "content": "31824284f406b9e481038c86ca81031031884284f406b9e481038c86ca810310",
-                            "background_bleeds": true,
-                            "orientation": "landscape",
-                            "size": "a4",
-                            "department_id": 123
-                            "updated_at": "2016-08-29T07:03:25.000Z",
-                            "created_at": "2016-08-29T06:14:18.000Z",
-                            "design_id": 23,
-                            "groups": [
-                                {
-                                    "id": 61267,
-                                    "name": "group 2",
-                                    "updated_at": "2016-08-30T10:26:25.000Z",
-                                    "credentials_count": 0
-                                }
-                            ]
-                        }
-                    ]
-        }
-
-## Designs [/v1/designs]
 
 ### Create a Design [POST]
 
@@ -1324,14 +1265,14 @@ For example if we have three courses: Intro to Basic Programming, Intro to Advan
                 "id": 12472,
                 "name": "new design",
                 "kind": "certificate",
-                "content": "31884284f406b9e481038c86ca81031031884284f406b9e481038c86ca810310",
+                "encoded_content": "31884284f406b9e481038c86ca81031031884284f406b9e481038c86ca810310",
                 "background_bleeds": true,
                 "orientation": "landscape",
                 "size": "a4",
                 "department_id": 123
                 "updated_at": "2016-08-29T07:03:25.000Z",
                 "created_at": "2016-08-29T06:14:18.000Z",
-                "design_id": 23,
+                "rasterized_content_url": "https://api.accredible.com/v1/example",
                 "groups": [
                     {
                         "id": 61267,
@@ -1341,6 +1282,68 @@ For example if we have three courses: Intro to Basic Programming, Intro to Advan
                     }
                 ]
             }
+        }
+
+### View all Designs [GET]
+
++ Parameters
+    + kind (string,optional) - Limit results to just "certificates" or "badges".
+
++ Request (application/json)
+
+    + Headers
+
+            Authorization: Token token=YOUR API _KEY
+
+    
+
++ Response 200 (application/json)
+
+        {
+            "designs": [
+                        {
+                            id": 12472,
+                            "name": "new design",
+                            "kind": "certificate",
+                            "encoded_content": "31884284f406b9e481038c86ca81031031884284f406b9e481038c86ca810310",
+                            "background_bleeds": true,
+                            "orientation": "landscape",
+                            "size": "a4",
+                            "department_id": 123
+                            "updated_at": "2016-08-29T07:03:25.000Z",
+                            "created_at": "2016-08-29T06:14:18.000Z",
+                            "rasterized_content_url": "https://api.accredible.com/v1/example",
+                            "groups": [
+                                {
+                                    "id": 61267,
+                                    "name": "group 1",
+                                    "updated_at": "2016-08-30T10:26:25.000Z",
+                                    "credentials_count": 1
+                                }
+                            ]
+                        },
+                        {
+                            id": 124721,
+                            "name": "new design 2",
+                            "kind": "certificate",
+                            "encoded_content": "31824284f406b9e481038c86ca81031031884284f406b9e481038c86ca810310",
+                            "background_bleeds": true,
+                            "orientation": "landscape",
+                            "size": "a4",
+                            "department_id": 123
+                            "updated_at": "2016-08-29T07:03:25.000Z",
+                            "created_at": "2016-08-29T06:14:18.000Z",
+                            "rasterized_content_url": "https://api.accredible.com/v1/example",
+                            "groups": [
+                                {
+                                    "id": 61267,
+                                    "name": "group 2",
+                                    "updated_at": "2016-08-30T10:26:25.000Z",
+                                    "credentials_count": 0
+                                }
+                            ]
+                        }
+                    ]
         }
 
 ## Design [/v1/designs/{design_id}]
@@ -1362,14 +1365,14 @@ For example if we have three courses: Intro to Basic Programming, Intro to Advan
                 "id": 12472,
                 "name": "new design",
                 "kind": "certificate",
-                "content": "31884284f406b9e481038c86ca81031031884284f406b9e481038c86ca810310",
+                "encoded_content": "31884284f406b9e481038c86ca81031031884284f406b9e481038c86ca810310",
                 "background_bleeds": true,
                 "orientation": "landscape",
                 "size": "a4",
                 "department_id": 123
                 "updated_at": "2016-08-29T07:03:25.000Z",
                 "created_at": "2016-08-29T06:14:18.000Z",
-                "design_id": 23,
+                "rasterized_content_url": "https://api.accredible.com/v1/example",
                 "groups": [
                     {
                         "id": 61267,
@@ -1400,7 +1403,6 @@ For example if we have three courses: Intro to Basic Programming, Intro to Advan
         + background_bleeds (boolean,optional) - Specifies if the design should allow print bleeding.
         + orientation (string,optional) - Must be "landscape" or "portrait" to specify a design's paper orientation.
         + size (string,optional) - Must be "us-letter" or "a4" to specify a design's paper size.
-        + department_id (number,optional) - Department that the Design belongs to. If not defined the Design will be assigned to the organizations default department.
 
     + Body
 
@@ -1417,14 +1419,14 @@ For example if we have three courses: Intro to Basic Programming, Intro to Advan
                 "id": 12472,
                 "name": "updated new design",
                 "kind": "certificate",
-                "content": "31884284f406b9e481038c86ca81031031884284f406b9e481038c86ca810310",
+                "encoded_content": "31884284f406b9e481038c86ca81031031884284f406b9e481038c86ca810310",
                 "background_bleeds": true,
                 "orientation": "landscape",
                 "size": "a4",
                 "department_id": 123
                 "updated_at": "2016-08-29T07:03:25.000Z",
                 "created_at": "2016-08-29T06:14:18.000Z",
-                "design_id": 23,
+                "rasterized_content_url": "https://api.accredible.com/v1/example",
                 "groups": [
                     {
                         "id": 61267,
@@ -1454,14 +1456,14 @@ For example if we have three courses: Intro to Basic Programming, Intro to Advan
                 "id": 12472,
                 "name": "updated new design",
                 "kind": "certificate",
-                "content": "31884284f406b9e481038c86ca81031031884284f406b9e481038c86ca810310",
+                "encoded_content": "31884284f406b9e481038c86ca81031031884284f406b9e481038c86ca810310",
                 "background_bleeds": true,
                 "orientation": "landscape",
                 "size": "a4",
                 "department_id": 123
                 "updated_at": "2016-08-29T07:03:25.000Z",
                 "created_at": "2016-08-29T06:14:18.000Z",
-                "design_id": 23,
+                "rasterized_content_url": "https://api.accredible.com/v1/example",
                 "groups": [
                     {
                         "id": 61267,
@@ -1504,14 +1506,14 @@ For example if we have three courses: Intro to Basic Programming, Intro to Advan
                 "id": 12472,
                 "name": "new design",
                 "kind": "certificate",
-                "content": "31884284f406b9e481038c86ca81031031884284f406b9e481038c86ca810310",
+                "encoded_content": "31884284f406b9e481038c86ca81031031884284f406b9e481038c86ca810310",
                 "background_bleeds": true,
                 "orientation": "landscape",
                 "size": "a4",
                 "department_id": 12345
                 "updated_at": "2016-08-29T07:03:25.000Z",
                 "created_at": "2016-08-29T06:14:18.000Z",
-                "design_id": 23,
+                "rasterized_content_url": "https://api.accredible.com/v1/example",
                 "groups": [
                     {
                         "id": 61267,
