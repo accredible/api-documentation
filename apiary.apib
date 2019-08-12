@@ -1237,7 +1237,7 @@ For example if we have three courses: Intro to Basic Programming, Intro to Advan
     + Attributes
         + name (string,required) - Name of the Design (for your reference and never shown to the recipient).
         + kind (string,required) - Must be "certificate" or "badge" to specify the Design type.
-        + content (string,required) - The encoded content of the design.
+        + encoded_content (string,required) - The encoded content of the design.
         + background_bleeds (boolean,optional) - Specifies if the design should allow print bleeding.
         + orientation (string,optional) - Must be "landscape" or "portrait" to specify a design's paper orientation.
         + size (string,optional) - Must be "us-letter" or "a4" to specify a design's paper size.
@@ -1249,7 +1249,7 @@ For example if we have three courses: Intro to Basic Programming, Intro to Advan
                 "design": {
                     "name": "new design",
                     "kind": "certificate",
-                    "content": "31884284f406b9e481038c86ca81031031884284f406b9e481038c86ca810310",
+                    "encoded_content": "31884284f406b9e481038c86ca81031031884284f406b9e481038c86ca810310",
                     "background_bleeds": true,
                     "orientation": "landscape",
                     "size": "a4",
@@ -1399,7 +1399,7 @@ For example if we have three courses: Intro to Basic Programming, Intro to Advan
     + Attributes
         + name (string,required) - Name of the Design (for your reference and never shown to the recipient).
         + kind (string,required) - Must be "certificate" or "badge" to specify the Design type.
-        + content (string,required) - The encoded content of the design.
+        + encoded_content (string,required) - The encoded content of the design.
         + background_bleeds (boolean,optional) - Specifies if the design should allow print bleeding.
         + orientation (string,optional) - Must be "landscape" or "portrait" to specify a design's paper orientation.
         + size (string,optional) - Must be "us-letter" or "a4" to specify a design's paper size.
