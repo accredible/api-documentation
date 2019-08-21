@@ -1535,6 +1535,39 @@ For example if we have three courses: Intro to Basic Programming, Intro to Advan
             }
         }
 
+## Design [/v1/designs/{design_id}/preview]
+
+### Preview a Design [POST]
++ Parameters
+    + design_id (number) - ID of the Design in the form of an integer for the particular Design requested.
+
++ Request (application/json)
+
+    + Headers
+
+            Authorization: Token token=YOUR API _KEY
+
+
+    + Body
+
+            {
+               "recipient.name": "example name",
+               "group.course_name": "My Example Course",
+               "custom.example": "Data for a custom attribute."
+            }
+
+    + Attributes
+        + recipient.name (string, optional) - Add any parameter that you wish to preview data for in your design.
+        + group.course_name (string, optional) - Add any parameter that you wish to preview data for in your design.
+        + custom.example (string, optional) - Add any parameter that you wish to preview data for in your design.
+
+
++ Response 200 (application/json)
+
+    + Body
+
+            { "link": "https://example.api.accredible.com/design/image?env=red&design=f1a53a79-baeb-43fb-a19e-045af89eb206&data=e30:7a2f83ba4880d6d73f0a9d826ed82661108d8c8825984f3a77812704911e2142" }
+
 
 # Group Evidence Items
 Resources realted to EvidenceItems. EvidenceItems provide more information about how the recipient met the achievement. Typically this would include work samples for a course.
