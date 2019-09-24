@@ -1569,7 +1569,7 @@ For example if we have three courses: Intro to Basic Programming, Intro to Advan
             { "link": "https://example.api.accredible.com/design/image?env=red&design=f1a53a79-baeb-43fb-a19e-045af89eb206&data=e30:7a2f83ba4880d6d73f0a9d826ed82661108d8c8825984f3a77812704911e2142" }
 
 
-## Designer [/v1/designers/badge/initialize]
+## Badge Designer [/v1/designers/badge/initialize]
 As an OEM provider or reseller of digital badges it's easy to embed our badge design tool within your own platform and give your users the ability to create and update badge designs.
 
 A full guide on using the embedded badge designer can be found at: https://help.accredible.com/embed-badge-designer 
@@ -1603,6 +1603,42 @@ A full guide on using the embedded badge designer can be found at: https://help.
                 "token": "abc123:xyz456", 
                 "design_id": 12345 
             }
+
+## Certificate Designer [/v1/designers/certificate/initialize]
+As an OEM provider or reseller of digital certificates it's easy to embed our certificate design tool within your own platform and give your users the ability to create and update certificate designs.
+
+A full guide on using the embedded certificate designer can be found at: https://help.accredible.com/embed-certificate-designer 
+
+
+### Initialize Embedded Certificate Designer [POST]   
+
++ Request (application/json)
+
+    + Headers
+
+            Authorization: Token token=YOUR API _KEY
+
+    + Body
+
+            {
+               "design_id": 12345,
+               "department_id": 123
+            }
+
+    + Attributes
+        + design_id (number,optional) - ID of the Design in the form of an integer for a Design to be edited. Omitting the ID will result in a newly created design.
+        + department_id (number,optional) - ID of the Department which the Design should belong to.
+
+
++ Response 200 (application/json)
+
+    + Body
+
+            { 
+                "token": "abc123:xyz456", 
+                "design_id": 12345 
+            }
+
 
 
 # Group Evidence Items
