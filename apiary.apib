@@ -739,7 +739,7 @@ Create bulk Credentials using this action. It requires a JSON object containing 
             }
         }
 
-## All Credentials (Deprecated) [/v1/all_credentials{?group_id}{?email}{?page_size}{?page}{?recipient_id}]
+## All Credentials DEPRECATED [/v1/all_credentials{?group_id}{?email}{?page_size}{?page}{?recipient_id}]
 
 ### View many Credentials [GET]
 
@@ -833,6 +833,8 @@ Create bulk Credentials using this action. It requires a JSON object containing 
             }
         }
 
+## Search Credentials [/v1/credentials/search]
+
 ### Search for Credentials [POST]
 
 + Parameters
@@ -855,6 +857,13 @@ Create bulk Credentials using this action. It requires a JSON object containing 
     + Headers
 
             Authorization: Token token=YOUR API_KEY
+
+
+    + Body
+
+            {
+              "meta_data": { "example": "value" }
+            }
 
 + Response 200 (application/json)
 
@@ -1325,7 +1334,7 @@ For example you should create a group for the Introduction to Programming course
         }
 
 
-## All Groups (Deprecated) [/v1/issuer/all_groups{?name}{?page_size}{?page}]
+## All Groups DEPRECATED [/v1/issuer/all_groups{?name}{?page_size}{?page}]
 
 ### View all Groups [GET]
 
@@ -1397,6 +1406,8 @@ For example you should create a group for the Introduction to Programming course
         }
 
 
+## Search Groups [/v1/issuer/groups/search]
+
 ### Search for Groups [POST]
 
 + Parameters
@@ -1410,6 +1421,12 @@ For example you should create a group for the Introduction to Programming course
     + Headers
 
             Authorization: Token token=YOUR API_KEY
+
+    + Body
+
+        {
+            meta_data: { "key": "value" }
+        }
 
 + Response 200 (application/json)
 
@@ -1846,7 +1863,7 @@ A full guide on using the embedded badge designer can be found at: https://help.
 # Group Departments
 Resources realted to Departments. If enabled for your account, Departments allow you to manage multiple independent organization groups. Each Department is entirely separate with it's own Designs, Groups, Branding, etc. You cannot share data between Departments excepting Billing and Administrators.
 
-## Departments [/v1/departments]
+## Search Departments [/v1/departments/search]
 
 ### Search for Departments [POST]
 
