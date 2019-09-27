@@ -840,8 +840,9 @@ Create bulk Credentials using this action. It requires a JSON object containing 
     + recipient.name (string, optional) - Limit the returned Credentials to a recipient's name
     + recipient.email (string, optional) - Limit the returned Credentials to a specific recipient's email address.
     + recipient.id (string, optional) - Limit the returned Credentials to a specific recipient user identifier (ID) you set whilst creating Credentials.
-    + recipient.meta_data (object, optional) - String key/values for client's own data
+    + recipient.meta_data (object, optional) - String key/values for client's own data on recipient
     + license_id (string, optional) - Limit the returned Credential to a specific credential id you set whilst creating credential.
+    + meta_data (object, optional) - String key/values for client's own data on credential
     + start_date (string, optional) - Date after which credentials issued should be return. Format: DD/MM/YYYY
     + end_date (string, optional) - Date before which credetials issued should be return. Format: DD/MM/YYYY
     + start_updated_date (string, optional) - Date after which credentials updated should be return. Format: DD/MM/YYYY
@@ -851,6 +852,81 @@ Create bulk Credentials using this action. It requires a JSON object containing 
 
 + Request (application/json)
 
+    + Headers
+
+            Authorization: Token token=YOUR API_KEY
+
++ Response 200 (application/json)
+
+        {
+            "credentials": [
+            {
+                "id": 10250009,
+                "name": "TestCourse",
+                "description": "Test Description",
+                "grade": null,
+                "complete": true,
+                "issued_on": "2015-07-03T07:10:04.000Z",
+                "allow_supplemental_references": null,
+                "allow_supplemental_evidence": null,
+                "course_link": "http://example.com",
+                "custom_attributes": null,
+                "expired_on": null,
+                "group_name": "test",
+                "private": false,
+                "recipient": {
+                    "name": "John Doe",
+                    "email": "person2@example.com",
+                    "id": 772,
+                    "meta_data": {
+                        "zip_code": "10459"
+                    }
+                },
+                "issuer": {
+                    "name": "Example Provider",
+                    "description": " Best place to manage online learning",
+                    "url": "http://www.accredible.com"
+                },
+                "meta_data": {
+                    "foo": "bar"
+                }
+            },
+            {
+                "id": 10250010,
+                "name": "TestCourse",
+                "description": "Test Description",
+                "grade": null,
+                "complete": true,
+                "issued_on": "2015-07-03T07:10:04.000Z",
+                "allow_supplemental_references": null,
+                "allow_supplemental_evidence": null,
+                "course_link": "http://example.com",
+                "custom_attributes": null,
+                "expired_on": null,
+                "group_name": "test",
+                "private": false,
+                "recipient": {
+                    "name": "John Doe",
+                    "email": "person2@example.com",
+                    "id": 883,
+                    "meta_data": null
+                },
+                "issuer": {
+                    "name": "Example Provider",
+                    "description": " Best place to manage online learning",
+                    "url": "http://www.accredible.com"
+                },
+                "meta_data": null
+            }
+        ],
+           "meta": {
+                "current_page": 1,
+                "next_page": 2,
+                "prev_page": null,
+                "total_pages": 795,
+                "total_count": 1590
+            }
+        }
 
 ## Generate PDFs [/v1/credentials/generate_pdf]
 
@@ -1263,6 +1339,76 @@ For example you should create a group for the Introduction to Programming course
     + Headers
 
             Authorization: Token token=YOUR API _KEY
+
++ Response 200 (application/json)
+
+        {
+            "groups": [
+                {
+                    "id": 12472,
+                    "name": "new group",
+                    "course_description": "Desscription of course",
+                    "course_name": "Intro to Programming",
+                    "learning_outcomes": null,
+                    "attach_pdf": true,
+                    "course_link": "http://www.example.com",
+                    "language": "en",
+                    "design_name": "test",
+                    "updated_at": "2016-08-29T07:03:25.000Z",
+                    "created_at": "2016-08-29T06:14:18.000Z",
+                    "design_id": 23,
+                    "blockchain": false,
+                    "certificate_design_id": 23,
+                    "badge_design_id": null,
+                    "department_id": 123,
+                    "meta_data": {
+                        "course_id": "TK764"
+                    }
+                },
+                {
+                    "id": 12473,
+                    "name": "new group",
+                    "course_description": "Desscription of course",
+                    "course_name": "Intro to Programming",
+                    "learning_outcomes": null,
+                    "attach_pdf": false,
+                    "course_link": "http://www.example.com",
+                    "language": "en",
+                    "design_name": "test",
+                    "updated_at": "2016-08-29T07:03:25.000Z",
+                    "created_at": "2016-08-29T06:14:18.000Z",
+                    "blockchain": true,
+                    "design_id": null,
+                    "certificate_design_id": null,
+                    "badge_design_id": 345,
+                    "department_id": 123,
+                    "meta_data": {
+                        "course_id": "TK765"
+                    }
+                }
+            ],
+            "meta": {
+                "current_page": 1,
+                "next_page": 2,
+                "prev_page": null,
+                "total_pages": 119,
+                "total_count": 238
+            }
+        }
+
+
+### Search for Groups [POST]
+
++ Parameters
+    + meta_data (object, optional) - String key/values for client's own data on group
+    + page_size(number, optional) - The pagination response size, default of 50.
+    + page(number,optional) - The pagination page.
+
++ Request (application/json)
+
+    + Headers
+
+            Authorization: Token token=YOUR API_KEY
 
 + Response 200 (application/json)
 
