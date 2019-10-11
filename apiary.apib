@@ -1507,6 +1507,7 @@ For example if we have three courses: Intro to Basic Programming, Intro to Advan
         + orientation (string,optional) - Must be "landscape" or "portrait" to specify a design's paper orientation.
         + size (string,optional) - Must be "us-letter" or "a4" to specify a design's paper size.
         + department_id (number,optional) - Department that the Design belongs to. If not defined the Design will be assigned to the organizations default department.
+        + meta_data (object, optional) - You can use this parameter to attach key-value strings to the object. Meta data is useful for storing additional, structured information on an object.
 
     + Body
 
@@ -1545,11 +1546,14 @@ For example if we have three courses: Intro to Basic Programming, Intro to Advan
                         "updated_at": "2016-08-30T10:26:25.000Z",
                         "credentials_count": 1
                     }
-                ]
+                ],
+                "meta_data": {
+                    "example": "value"
+                }
             }
         }
 
-### View all Designs [GET]
+### View all Designs DEPRECATED [GET]
 
 + Parameters
     + kind (string,optional) - Limit results to just "certificates" or "badges".
@@ -1586,7 +1590,10 @@ For example if we have three courses: Intro to Basic Programming, Intro to Advan
                                     "updated_at": "2016-08-30T10:26:25.000Z",
                                     "credentials_count": 1
                                 }
-                            ]
+                            ],
+                            "meta_data": {
+                                "example": "value"
+                            }
                         },
                         {
                             id": 124721,
@@ -1607,7 +1614,10 @@ For example if we have three courses: Intro to Basic Programming, Intro to Advan
                                     "updated_at": "2016-08-30T10:26:25.000Z",
                                     "credentials_count": 0
                                 }
-                            ]
+                            ],
+                            "meta_data": {
+                                "example2": "value_other"
+                            }
                         }
                     ]
         }
@@ -1646,7 +1656,10 @@ For example if we have three courses: Intro to Basic Programming, Intro to Advan
                         "updated_at": "2016-08-30T10:26:25.000Z",
                         "credentials_count": 1
                     }
-                ]
+                ],
+                "meta_data": {
+                    "example": "value"
+                }
             }
         }
 
@@ -1669,6 +1682,7 @@ For example if we have three courses: Intro to Basic Programming, Intro to Advan
         + background_bleeds (boolean,optional) - Specifies if the design should allow print bleeding.
         + orientation (string,optional) - Must be "landscape" or "portrait" to specify a design's paper orientation.
         + size (string,optional) - Must be "us-letter" or "a4" to specify a design's paper size.
+        + meta_data (object, optional) - You can use this parameter to attach key-value strings to the object. Meta data is useful for storing additional, structured information on an object.
 
     + Body
 
@@ -1700,7 +1714,10 @@ For example if we have three courses: Intro to Basic Programming, Intro to Advan
                         "updated_at": "2016-08-30T10:26:25.000Z",
                         "credentials_count": 1
                     }
-                ]
+                ],
+                "meta_data": {
+                    "example": "value"
+                }
             }
         }
 
@@ -1737,7 +1754,10 @@ For example if we have three courses: Intro to Basic Programming, Intro to Advan
                         "updated_at": "2016-08-30T10:26:25.000Z",
                         "credentials_count": 1
                     }
-                ]
+                ],
+                "meta_data": {
+                    "example": "value"
+                }
             }
         }
 
@@ -1787,7 +1807,65 @@ For example if we have three courses: Intro to Basic Programming, Intro to Advan
                         "updated_at": "2016-08-30T10:26:25.000Z",
                         "credentials_count": 1
                     }
-                ]
+                ],
+                "meta_data": {
+                    "example": "value"
+                }
+            }
+        }
+
+## Search Designs [/v1/designs/search]
+
+### Search for Designs [POST]
+
++ Parameters
+    + kind (string, optional) - Limit results to just "certificates" or "badges".
+    + department_id (string, optional) - Limit results to a particular Department.
+    + meta_data (object, optional) - String key/values you attached to the object.
+    + page_size(number, optional) - The pagination response size, default of 50.
+    + page(number,optional) - The pagination page.
+    
+
++ Request (application/json)
+
+    + Headers
+
+            Authorization: Token token=YOUR API_KEY
+
+
+    + Body
+
+            {
+              "kind": "certificate",
+              "meta_data": { "example": "value" }
+            }
+
++ Response 200 (application/json)
+
+        {
+            "design": {
+                "id": 12472,
+                "name": "new design",
+                "kind": "certificate",
+                "encoded_content": "31884284f406b9e481038c86ca81031031884284f406b9e481038c86ca810310",
+                "background_bleeds": true,
+                "orientation": "landscape",
+                "size": "a4",
+                "department_id": 12345
+                "updated_at": "2016-08-29T07:03:25.000Z",
+                "created_at": "2016-08-29T06:14:18.000Z",
+                "rasterized_content_url": "https://api.accredible.com/v1/example",
+                "groups": [
+                    {
+                        "id": 61267,
+                        "name": "group 1",
+                        "updated_at": "2016-08-30T10:26:25.000Z",
+                        "credentials_count": 1
+                    }
+                ],
+                "meta_data": {
+                    "example": "value"
+                }
             }
         }
 
