@@ -1990,11 +1990,17 @@ You may create a Department using this action. It takes a JSON object containing
     + Attributes
         + name (string, required) - A name for the Department. This may be displayed publicly on Credentials.
         + url (string, required) - URL for directing users to the website for the given Department. This may be used publicly.
+        + meta_data (object, optional) - You can use this parameter to attach key-value strings to the object. Meta data is useful for storing additional, structured information on an object.
+
     + Body
             {
                 "department": {
                     "name": "New Department",
-                    "url": "https://www.example.com"
+                    "url": "https://www.example.com",
+                    "meta_data": {
+                        "internal_id": "R12",
+                        "faculty": "physics"
+                    }
                 }
             }
 + Response 200 (application/json)
@@ -2003,7 +2009,11 @@ You may create a Department using this action. It takes a JSON object containing
                 "id": 1234,
                 "name": "New Department",
                 "url": "https://www.example.com",
-                "logo": "https://images.credential.net/example/department_logo.png"
+                "logo": "https://images.credential.net/example/department_logo.png",
+                "meta_data": {
+                    "internal_id": "R12",
+                    "faculty": "physics"
+                }
             }
         }
 ## Department [/v1/departments/{department_id}]
@@ -2016,7 +2026,11 @@ You may create a Department using this action. It takes a JSON object containing
                 "id": 1234,
                 "name": "New Department",
                 "url": "https://www.example.com",
-                "logo": "https://images.credential.net/example/department_logo.png"
+                "logo": "https://images.credential.net/example/department_logo.png",
+                "meta_data": {
+                    "internal_id": "R12",
+                    "faculty": "physics"
+                }
             }
         }
 ### Update a Department [PUT]
@@ -2028,11 +2042,16 @@ You may create a Department using this action. It takes a JSON object containing
     + Attributes
         + name (string, required) - A name for the Department. This may be displayed publicly on Credentials.
         + url (string, required) - URL for directing users to the website for the given Department. This may be used publicly.
+        + meta_data (object, optional) - You can use this parameter to attach key-value strings to the object. Meta data is useful for storing additional, structured information on an object.
     + Body
             {
                 "department": {
                     "name": "New Department",
-                    "url": "https://www.example.com"
+                    "url": "https://www.example.com",
+                    "meta_data": {
+                        "internal_id": "R12",
+                        "faculty": "physics"
+                    }
                 }
             }
 + Response 200 (application/json)
@@ -2041,7 +2060,11 @@ You may create a Department using this action. It takes a JSON object containing
                 "id": 1234,
                 "name": "New Department",
                 "url": "https://www.example.com",
-                "logo": "https://images.credential.net/example/department_logo.png"
+                "logo": "https://images.credential.net/example/department_logo.png",
+                "meta_data": {
+                    "internal_id": "R12",
+                    "faculty": "physics"
+                }
             }
         }
 ### Delete a Department [DELETE]
@@ -2056,7 +2079,11 @@ You may create a Department using this action. It takes a JSON object containing
                 "id": 1234,
                 "name": "New Department",
                 "url": "https://www.example.com",
-                "logo": "https://images.credential.net/example/department_logo.png"
+                "logo": "https://images.credential.net/example/department_logo.png",
+                "meta_data": {
+                    "internal_id": "R12",
+                    "faculty": "physics"
+                }
             }
         }
 
