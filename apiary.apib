@@ -24,7 +24,7 @@ For example you should create a group for the Introduction to Programming course
 For example if we have three courses: Intro to Basic Programming, Intro to Advanced Programming and Intro to DevOps each of these may have the same design for their Credentials. When creating or updating their corresponding Groups you would attach the desired design accordingly.
 
 # Departments
-[Departments](http://docs.accrediblecredentialapi.apiary.io/#reference/departments), if enabled for your account allow you to manage multiple, independent organization groups. Each Department is entirely separate with it's own Designs, Groups, Branding, etc. You cannot share data between Departments excepting Billing and Administrators. 
+[Departments](http://docs.accrediblecredentialapi.apiary.io/#reference/departments), if enabled for your account allow you to manage multiple, independent organization groups. Each Department is entirely separate with it's own Designs, Groups, Branding, etc. You cannot share data between Departments excepting Billing and Administrators.
 
 # Issuers
 [Issuers](http://docs.accrediblecredentialapi.apiary.io/#reference/issuer) provide organization details.
@@ -35,7 +35,23 @@ For example if we have three courses: Intro to Basic Programming, Intro to Advan
 SSO is also available via our Integrations and via SAML 2.0.
 
 # Rate Limiting
-We allow up to 100 requests every 10 seconds from a single IP address. If you attempt to make requests more quickly then this you may receive a `429 Too Many Requests` response from an endpoint.
+We allow up to 200 requests every 30 seconds from a single IP address. If you attempt to make requests more quickly then this you may receive a `429 Too Many Requests` response from an endpoint.
+
+# Errors
+Accredible uses conventional HTTP response codes to indicate the success or failure of an API request. Codes in the 2xx range indicate success in general and codes in the 4xx range indicate an error that failed given the information provided (e.g., a required parameter was omitted, a permissions error, etc). Codes in the 5xx range indicate an error with Accredible.
+
+Summary of response codes:
+
+| Response Code | Description |
+| ------------- | ------------- |
+| 200 | The request was successful. |
+| 401 | Invalid API key. |
+| 403 | Permissions error. You do not have access to the requested resource. |
+| 404 | The request used a resource that could not be found. |
+| 429 | Too many requests. Please see the Rate Limiting section. |
+| 500 | Accredible Internal Error. |
+
+
 
 #Group Quick Start
 In this quick start tutorial, we assume you have already created your first group. If you haven't then go to [create a group in the dashboard](https://dashboard.accredible.com/issuer/dashboard/group/new?edit=information-and-appearance) or use [this API request](https://accrediblecredentialapi.docs.apiary.io/reference/groups/groups/create-a-group).
@@ -71,14 +87,16 @@ Create a Credential using this action. It requires a JSON object containing a Cr
                 }
             }
 
-
 + Response 200 (application/json)
 
         {
             "credential": {
                 "id": 1234,
                 "recipient": {
-                    "name": "John Doe"
+                    "name": "John Doe",
+                    "email": "john@doe.com",
+                    "id"   : 817,
+                    "meta_data": null
                 },
                 "issuer": {
                     "name": "Course Provider",
@@ -106,7 +124,8 @@ Create a Credential using this action. It requires a JSON object containing a Cr
                     "image": {
                         "preview": "https://staging.accredible.com/v1/frontend/credential_badge_image/10000005"
                     }
-                }
+                },
+                "meta_data": null
             }
         }
 
@@ -136,12 +155,13 @@ This endpoint requires a JSON object containing a Credential.
         + recipient.name (string, required) - The name of the recipient the credential is issued to.
         + recipient.email (string, required) - The recipient's email address.
         + recipient.id (string, optional) - The recipient's user ID as defined by your organization. This alllows you to easily map your recipients to their Credentials regardless of changes to their email address.
+        + recipient.meta_data(object, optional) - You can use this parameter to attach key-value strings to the object. Meta data is useful for storing additional, structured information on an object.
         + group_id (number, required) -  Group Id to which the credential should belong. Legacy field. Group name may be used in place of a Group ID.
         + name (string, optional) - The Credential/course name displayed to recipients. This is required if the Group the Credential belongs to doesn't have a Course Name set.
         + description (string, optional) - The credential/course description displayed to recipients. This is required if the Group the Credential belongs to doesn't have a Course Description set.
         + custom_attributes (object, optional) - Custom variables to display on the Credential. These should be added to the design using the visual editor. Data should be formatted as a JSON hash where keys are the custom attribute names and the values are the values to be displayed on the Credential.
-        + issued_on (string, optional) - Date of issue, the default is when the credential is created.
-        + expired_on (string, optional) - Date you would like the credential to expire on, null by default.
+        + issued_on (string, optional) - Date of issue, the default is when the credential is created. Format: DD/MM/YYYY
+        + expired_on (string, optional) - Date you would like the credential to expire on, null by default. Format: DD/MM/YYYY
         + complete (boolean, optional) - Whether the achievement is complete or still in progress, true by default.
         + private (boolean, optional) - Whether to make credential private, will require a secret key to open it. If set to true, by default false.
         + approve (boolean, optional) - Whether to publish credential at the time of creation. By default this is true but settings at dashboard for sandbox_mode take precendence.
@@ -149,8 +169,7 @@ This endpoint requires a JSON object containing a Credential.
         + allow_supplemental_references (boolean, optional) - Whether to allow recipients to add their own supplemental references to the credential, true by default.
         + evidence_items (array, optional) - Evidence to add to this credential, that provide more information about how the recipient met the achievement. See http://docs.accrediblecredentialapi.apiary.io/#reference/evidence-items/evidence-item/create-a-new-evidence-item for fields. Typically this would include work samples for a course.
         + references (array, optional) - References to add to this Credential, that provide more information about how the recipient met the achievement. see http://docs.accrediblecredentialapi.apiary.io/#reference/references/reference/create-a-new-reference for fields. Typically this would be a peer, teacher or manager giving their feedback.
-
-
+        + meta_data (object, optional) - You can use this parameter to attach key-value strings to the object. Meta data is useful for storing additional, structured information on an object.
 
     + Body
 
@@ -158,7 +177,11 @@ This endpoint requires a JSON object containing a Credential.
                 "credential": {
                     "recipient": {
                         "name": "John Doe",
-                        "email": "person@example.com"
+                        "email": "person@example.com",
+                        "id": "PK-17993",
+                        "meta_data": {
+                            "credential_batch": "772"
+                        }
                     },
                     "name": "Credential Name",
                     "group_name": "course1234",
@@ -188,10 +211,15 @@ This endpoint requires a JSON object containing a Credential.
                             "relationship": "managed"
                         }
                     ],
-                    "custom_attributes": {"custom_variables": "some value", "dob": "29 jan 1970"}
+                    "custom_attributes": {
+                            "custom_variables": "some value",
+                            "dob": "29 jan 1970"
+                    },
+                    "meta_data": {
+                            "batch_id": "TK210"
+                    }
                 }
             }
-
 
 + Response 200 (application/json)
 
@@ -266,13 +294,21 @@ This endpoint requires a JSON object containing a Credential.
                     }
                 ],
                 "recipient": {
-                    "name": "Jordan Smith"
+                    "name": "Jordan Smith",
+                    "email": "jor@dan.org",
+                    "id": "ct992",
+                    "meta_data": {
+                        "bar": "foo"
+                    }
                 },
                 "issuer": {
                     "name": "Example Organization",
                     "description": null,
                     "url": "http://www.accredible.com",
                     "id": 4897
+                },
+                "meta_data": {
+                    "foo": "bar"
                 }
             }
         }
@@ -281,7 +317,7 @@ This endpoint requires a JSON object containing a Credential.
 
 ### Bulk Create credentials [POST]
 
-Create bulk Credentials using this action. It requires a JSON object containing a Credentials in an array.
+Create bulk Credentials using this action. It requires a JSON object containing credentials in an array.
 
 + Request (application/json)
 
@@ -309,7 +345,6 @@ Create bulk Credentials using this action. It requires a JSON object containing 
                 ]
             }
 
-
 + Response 200 (application/json)
 
         [
@@ -319,7 +354,8 @@ Create bulk Credentials using this action. It requires a JSON object containing 
                     "recipient": {
                         "name": "John Doe",
                         "email": "person2@example.com",
-                        "id": null
+                        "id": 232,
+                        "meta_data": null
                     },
                     "issuer": {
                         "name": "Course Provider",
@@ -336,7 +372,8 @@ Create bulk Credentials using this action. It requires a JSON object containing 
 
                     "expired_on": null,
                     "custom_attibutes": null,
-                    "course_link": null
+                    "course_link": null,
+                    "meta_data": null
                 },
             {
                 "credential": {
@@ -344,7 +381,10 @@ Create bulk Credentials using this action. It requires a JSON object containing 
                     "recipient": {
                         "name": "John Doe",
                         "email": "person2@example.com",
-                        "id": null
+                        "id": 2232,
+                        "meta_data": {
+                            "bar": "foo"
+                        }
                     },
                     "issuer": {
                     "name": "Course Provider",
@@ -359,7 +399,10 @@ Create bulk Credentials using this action. It requires a JSON object containing 
                     "complete": true,
                     "expired_on": null,
                     "custom_attibutes": null,
-                    "course_link": null
+                    "course_link": null,
+                    "meta_data": {
+                        "checked_by": "CP Leung"
+                    }
                 }
             }
         ]
@@ -451,14 +494,18 @@ Create bulk Credentials using this action. It requires a JSON object containing 
                     }
                 ],
                 "recipient": {
-                    "name": "Jordan Smith"
+                    "name": "Jordan Smith",
+                    "email": "jor@dan.org",
+                    "id": "dw373",
+                    "meta_data": null
                 },
                 "issuer": {
                     "name": "Example Organization",
                     "description": null,
                     "url": "http://www.accredible.com",
                     "id": 4897
-                }
+                },
+                "meta_data": null
             }
         }
 
@@ -472,23 +519,26 @@ Create bulk Credentials using this action. It requires a JSON object containing 
 
     + Headers
 
-            Authorization: Token token=YOUR API _KEY
+                Authorization: Token token=YOUR API _KEY
+
     + Attributes
         + id (string, optional) - The unique ID of the credential. If you supply your own internal ID we'll use this as a reference for the Credential. If not we'll assign an ID.
         + recipient.name (string, required) - The name of the recipient the credential is issued to.
         + recipient.email (string, required) - The recipient's email address.
         + recipient.id (string, optional) - The recipient's user ID as defined by your organization. This alllows you to easily map your recipients to their Credentials regardless of changes to their email address.
+        + recipient.meta_data (object, optional) - You can use this parameter to attach key-value strings to the object. Meta data is useful for storing additional, structured information on an object.
         + group_id (number, required) -  Group Id to which the credential should belong. Legacy field. Group name may be used in place of a Group ID.
         + name (string, optional) - The Credential/course name displayed to recipients. This is required if the Group the Credential belongs to doesn't have a Course Name set.
         + description (string, optional) - The credential/course description displayed to recipients. This is required if the Group the Credential belongs to doesn't have a Course Description set.
         + custom_attributes (object, optional) - Custom variables to display on the Credential. These should be added to the design using the visual editor. Data should be formatted as a JSON hash where keys are the custom attribute names and the values are the values to be displayed on the Credential.
-        + issued_on (string, optional) - Date of issue, the default is when the credential is created.
-        + expired_on (string, optional) - Date you would like the credential to expire on, null by default.
+        + issued_on (string, optional) - Date of issue, the default is when the credential is created. Format: DD/MM/YYYY
+        + expired_on (string, optional) - Date you would like the credential to expire on, null by default. Format: DD/MM/YYYY
         + complete (boolean, optional) - Whether the achievement is complete or still in progress, true by default.
         + allow_supplemental_evidence (boolean, optional) - Whether to allow recipients to add their own supplemental evidence to the Credential, true by default.
         + allow_supplemental_references (boolean, optional) - Whether to allow recipients to add their own supplemental references to the credential, true by default.
         + evidence_items (array, optional) - Evidence to add to this credential, that provide more information about how the recipient met the achievement. See http://docs.accrediblecredentialapi.apiary.io/#reference/evidence-items/evidence-item/create-a-new-evidence-item for fields. Typically this would include work samples for a course.
         + references (array, optional) - References to add to this Credential, that provide more information about how the recipient met the achievement. see http://docs.accrediblecredentialapi.apiary.io/#reference/references/reference/create-a-new-reference for fields. Typically this would be a peer, teacher or manager giving their feedback.
+        + meta_data (object, optional) - You can use this parameter to attach key-value strings to the object. Meta data is useful for storing additional, structured information on an object.
 
     + Body
 
@@ -571,13 +621,21 @@ Create bulk Credentials using this action. It requires a JSON object containing 
                     }
                 ],
                 "recipient": {
-                    "name": "Jordan Smith"
+                    "name": "Jordan Smith",
+                    "email": "jor@dan.org",
+                    "id": 236,
+                    "meta_data": {
+                        "zip_code": "35956"
+                    }
                 },
                 "issuer": {
                     "name": "Example Organization",
                     "description": null,
                     "url": "http://www.accredible.com",
                     "id": 4897
+                },
+                "meta_data": {
+                    "foo": "bar"
                 }
             }
         }
@@ -666,18 +724,22 @@ Create bulk Credentials using this action. It requires a JSON object containing 
                     }
                 ],
                 "recipient": {
-                    "name": "Jordan Smith"
+                    "name": "Jordan Smith",
+                    "email": "jor@dan.org",
+                    "id": "net772",
+                    "meta_data": null
                 },
                 "issuer": {
                     "name": "Example Organization",
                     "description": null,
                     "url": "http://www.accredible.com",
                     "id": 4897
-                }
+                },
+                "meta_data": null
             }
         }
 
-## All Credentials [/v1/all_credentials{?group_id}{?email}{?page_size}{?page}{?recipient_id}]
+## All Credentials DEPRECATED [/v1/all_credentials{?group_id}{?email}{?page_size}{?page}{?recipient_id}]
 
 ### View many Credentials [GET]
 
@@ -686,9 +748,9 @@ Create bulk Credentials using this action. It requires a JSON object containing 
     + email (string, optional) - Limit the returned Credentials to a specific recipient's email address.
     + recipient_id (string, optional) - Limit the returned Credentials to a specific recipient user identifier (ID) you set whilst creating Credentials.
     + license_id (string, optional) - Limit the returned Credential to a specific credential id you set whilst creating credential.
-    + start_date (string, optional) - Date after which credentials issued should be return. Format: DD/MM/YYY
+    + start_date (string, optional) - Date after which credentials issued should be return. Format: DD/MM/YYYY
     + end_date (string, optional) - Date before which credetials issued should be return. Format: DD/MM/YYYY
-    + start_updated_date (string, optional) - Date after which credentials updated should be return. Format: DD/MM/YYY
+    + start_updated_date (string, optional) - Date after which credentials updated should be return. Format: DD/MM/YYYY
     + end_updated_date (string, optional) - Date before which credetials updated should be return. Format: DD/MM/YYYY
     + page_size(number, optional) - The pagination response size, default of 50.
     + page(number,optional) - The pagination page.
@@ -720,12 +782,18 @@ Create bulk Credentials using this action. It requires a JSON object containing 
                 "recipient": {
                     "name": "John Doe",
                     "email": "person2@example.com",
-                    "id": null
+                    "id": 772,
+                    "meta_data": {
+                        "zip_code": "10459"
+                    }
                 },
                 "issuer": {
                     "name": "Example Provider",
                     "description": " Best place to manage online learning",
                     "url": "http://www.accredible.com"
+                },
+                "meta_data": {
+                    "foo": "bar"
                 }
             },
             {
@@ -745,13 +813,15 @@ Create bulk Credentials using this action. It requires a JSON object containing 
                 "recipient": {
                     "name": "John Doe",
                     "email": "person2@example.com",
-                    "id": null
+                    "id": 883,
+                    "meta_data": null
                 },
                 "issuer": {
                     "name": "Example Provider",
                     "description": " Best place to manage online learning",
                     "url": "http://www.accredible.com"
-                }
+                },
+                "meta_data": null
             }
         ],
            "meta": {
@@ -763,6 +833,109 @@ Create bulk Credentials using this action. It requires a JSON object containing 
             }
         }
 
+## Search Credentials [/v1/credentials/search]
+
+### Search for Credentials [POST]
+
++ Parameters
+    + group_id (string, optional) - Limit the returned Credentials to a specific group ID.
+    + recipient.name (string, optional) - Limit the returned Credentials to a recipient's name
+    + recipient.email (string, optional) - Limit the returned Credentials to a specific recipient's email address.
+    + recipient.id (string, optional) - Limit the returned Credentials to a specific recipient user identifier (ID) you set whilst creating Credentials.
+    + recipient.meta_data (object, optional) - String key/values for client's own data on recipient
+    + license_id (string, optional) - Limit the returned Credential to a specific credential id you set whilst creating credential.
+    + meta_data (object, optional) - String key/values for client's own data on credential
+    + start_date (string, optional) - Date after which credentials issued should be return. Format: DD/MM/YYYY
+    + end_date (string, optional) - Date before which credetials issued should be return. Format: DD/MM/YYYY
+    + start_updated_date (string, optional) - Date after which credentials updated should be return. Format: DD/MM/YYYY
+    + end_updated_date (string, optional) - Date before which credetials updated should be return. Format: DD/MM/YYYY
+    + page_size(number, optional) - The pagination response size, default of 50.
+    + page(number,optional) - The pagination page.
+
++ Request (application/json)
+
+    + Headers
+
+            Authorization: Token token=YOUR API_KEY
+
+
+    + Body
+
+            {
+              "meta_data": { "example": "value" }
+            }
+
++ Response 200 (application/json)
+
+        {
+            "credentials": [
+            {
+                "id": 10250009,
+                "name": "TestCourse",
+                "description": "Test Description",
+                "grade": null,
+                "complete": true,
+                "issued_on": "2015-07-03T07:10:04.000Z",
+                "allow_supplemental_references": null,
+                "allow_supplemental_evidence": null,
+                "course_link": "http://example.com",
+                "custom_attributes": null,
+                "expired_on": null,
+                "group_name": "test",
+                "private": false,
+                "recipient": {
+                    "name": "John Doe",
+                    "email": "person2@example.com",
+                    "id": 772,
+                    "meta_data": {
+                        "zip_code": "10459"
+                    }
+                },
+                "issuer": {
+                    "name": "Example Provider",
+                    "description": " Best place to manage online learning",
+                    "url": "http://www.accredible.com"
+                },
+                "meta_data": {
+                    "foo": "bar"
+                }
+            },
+            {
+                "id": 10250010,
+                "name": "TestCourse",
+                "description": "Test Description",
+                "grade": null,
+                "complete": true,
+                "issued_on": "2015-07-03T07:10:04.000Z",
+                "allow_supplemental_references": null,
+                "allow_supplemental_evidence": null,
+                "course_link": "http://example.com",
+                "custom_attributes": null,
+                "expired_on": null,
+                "group_name": "test",
+                "private": false,
+                "recipient": {
+                    "name": "John Doe",
+                    "email": "person2@example.com",
+                    "id": 883,
+                    "meta_data": null
+                },
+                "issuer": {
+                    "name": "Example Provider",
+                    "description": " Best place to manage online learning",
+                    "url": "http://www.accredible.com"
+                },
+                "meta_data": null
+            }
+        ],
+           "meta": {
+                "current_page": 1,
+                "next_page": 2,
+                "prev_page": null,
+                "total_pages": 795,
+                "total_count": 1590
+            }
+        }
 
 ## Generate PDFs [/v1/credentials/generate_pdf]
 
@@ -967,14 +1140,19 @@ For example you should create a group for the Introduction to Programming course
             Authorization: Token token=YOUR API_KEY
 
     + Attributes
-        + name (string,required) - Name of the group (for your reference and never shown to the recipient).
-        + course_name (string,required) - Name of the course or achievement. This is visible to the recipient.
-        + course_description (string,required) - Description of the course or achievement. This is visible to the recipient.
-        + course_link (string,optional) - Link to the web page with information related to this Credential. Typically this is a course information or event information page.
-        + langauge (string, optional) - Language for the group. Currently we support "en", "es" and "pt". Default language is en.
+        + name (string, required) - Name of the group (for your reference and never shown to the recipient).
+        + course_name (string, required) - Name of the course or achievement. This is visible to the recipient.
+        + course_description (string, required) - Description of the course or achievement. This is visible to the recipient.
+        + course_link (string, optional) - Link to the web page with information related to this Credential. Typically this is a course information or event information page.
+        + language (string, optional) - Language for the group. Currently we support "en", "es", "vi", "pt", "ja", "fr", "da", "nl", "fi", "no", "nb", "ro", "sv", "th", "tw", "zh", "tr", "ar", "he", "ms" and "de". Default language is en.
         + attach_pdf (boolean, optional) - PDF of the Credential should be attached to email when recipient is informed. Default is false.
-        + design_id (number,optional) - Design which the Group will use to display Credentials.
-        + department_id (number,optional) - Department that the group belongs to. If not defined the group will be assigned to the organizations default department.
+        + blockchain (boolean, optional) - Enable or disable recording of these Credentials on a Blockchain.
+        + design_id (number, optional) - DEPRECATED. Certificate Design which the Group will use to display Credentials.
+        + certificate_design_id (number, optional) - Certificate Design which the Group will use to display Credentials.
+        + badge_design_id (number, optional) - Badge Design which the Group will use to display Credentials.
+        + department_id (number, optional) - Department that the group belongs to. If not defined the group will be assigned to the organizations default department.
+        + meta_data (object, optional) - You can use this parameter to attach key-value strings to the object. Meta data is useful for storing additional, structured information on an object.
+        + learning_outcomes(array, optional) - Searchable keywords identifying skills credential-holders need to demonstrate (or have learned) in the process of earning this credential.
 
     + Body
 
@@ -987,7 +1165,14 @@ For example you should create a group for the Introduction to Programming course
                     "language": "en",
                     "attach_pdf": true,
                     "design_id": null,
-                    "department_id": 123
+                    "blockchain": false,
+                    "certificate_design_id": null,
+                    "badge_design_id": null,
+                    "department_id": 123,
+                    "meta_data": {
+                        "batch_id": "271"
+                    },
+                    "learning_outcomes": ["Reading Books", "Writing Essays"]
                 }
             }
 
@@ -995,20 +1180,27 @@ For example you should create a group for the Introduction to Programming course
 + Response 200 (application/json)
 
         {
-          "group": {
-            "id": 12472,
-            "name": "new group",
-            "course_description": "Desscription of course",
-            "course_name": "Intro to Programming",
-            "learning_outcomes": null,
-            "attach_pdf": true,
-            "course_link": "http://www.example.com",
-            "language": "en",
-            "design_name": "test",
-            "updated_at": "2016-08-29T07:03:25.000Z",
-            "created_at": "2016-08-29T06:14:18.000Z",
-            "design_id": 23,
-            "department_id": 123
+            "group": {
+                "id": 12472,
+                "name": "new group",
+                "course_description": "Desscription of course",
+                "course_name": "Intro to Programming",
+                "learning_outcomes": null,
+                "attach_pdf": true,
+                "course_link": "http://www.example.com",
+                "language": "en",
+                "design_name": "test",
+                "updated_at": "2016-08-29T07:03:25.000Z",
+                "created_at": "2016-08-29T06:14:18.000Z",
+                "design_id": 23,
+                "blockchain": false,
+                "certificate_design_id": null,
+                "badge_design_id": null,
+                "department_id": 123,
+                "meta_data": {
+                    "foo": "bar"
+                },
+                "learning_outcomes": ["Skill One", "Skill Two"]
             }
         }
 
@@ -1026,7 +1218,7 @@ For example you should create a group for the Introduction to Programming course
 
 + Response 200 (application/json)
 
-        {
+      {
           "group": {
             "id": 12472,
             "name": "new group",
@@ -1040,9 +1232,13 @@ For example you should create a group for the Introduction to Programming course
             "updated_at": "2016-08-29T07:03:25.000Z",
             "created_at": "2016-08-29T06:14:18.000Z",
             "design_id": 23,
-            "department_id": 123
-            }
-        }
+            "blockchain": false,
+            "certificate_design_id": null,
+            "badge_design_id": null,
+            "department_id": 123,
+            "meta_data": null
+          }
+      }
 
 
 ### Update a Group [PUT]
@@ -1061,9 +1257,15 @@ For example you should create a group for the Introduction to Programming course
         + course_name (string,required) - Name of the course or achievement. This is visible to the recipient.
         + course_description (string,required) - Description of the course or achievement. This is visible to the recipient.
         + course_link (string,optional) - Link to the web page with information related to this Credential. Typically this is a course information or event information page.
-        + langauge (string, optional) - Language for the group. Currently we support "en", "es" and "pt". Default language is en.
+        + langauge (string, optional) - Language for the group. Currently we support "en", "es", "vi", "pt", "ja", "fr", "da", "nl", "fi", "no", "nb", "ro", "sv", "th", "tw", "zh", "tr", "ar", "he", "ms" and "de". Default language is en.
         + attach_pdf (boolean, optional) - PDF of the Credential should be attached to email when recipient is informed. Default is false.
-        + design_id (number,optional) - Design which the Group will use to display Credentials.
+        + blockchain (boolean, optional) - Enable or disable recording of these Credentials on a Blockchain.
+        + design_id (number,optional) - DEPRECATED. Certificate Design which the Group will use to display Credentials.
+        + certificate_design_id (number,optional) - Certificate Design which the Group will use to display Credentials.
+        + badge_design_id (number,optional) - Badge Design which the Group will use to display Credentials.
+        + department_id (number,optional) - Department that the group belongs to. If not defined the group will be assigned to the organizations default department.
+        + meta_data (object, optional) - You can use this parameter to attach key-value strings to the object. Meta data is useful for storing additional, structured information on an object.
+        + learning_outcomes(array, optional) - Searchable keywords identifying skills credential-holders need to demonstrate (or have learned) in the process of earning this credential.
 
     + Body
 
@@ -1090,8 +1292,14 @@ For example you should create a group for the Introduction to Programming course
             "updated_at": "2016-08-29T07:03:25.000Z",
             "created_at": "2016-08-29T06:14:18.000Z",
             "design_id": 23,
-            "department_id": 123
+            "blockchain": false,
+            "certificate_design_id": null,
+            "badge_design_id": null,
+            "department_id": 123,
+            "meta_data": {
+                "foo": "bar"
             }
+          }
         }
 
 ### Delete a Group [DELETE]
@@ -1121,13 +1329,16 @@ For example you should create a group for the Introduction to Programming course
             "updated_at": "2016-08-29T07:03:25.000Z",
             "created_at": "2016-08-29T06:14:18.000Z",
             "design_id": 23,
-            "department_id": 123
+            "blockchain": false,
+            "certificate_design_id": null,
+            "badge_design_id": null,
+            "department_id": 123,
+            "meta_data": null
             }
         }
 
 
-## All Groups [/v1/issuer/all_groups{?name}{?page_size}{?page}]
-
+## All Groups DEPRECATED [/v1/issuer/all_groups{?name}{?page_size}{?page}]
 
 ### View all Groups [GET]
 
@@ -1159,7 +1370,13 @@ For example you should create a group for the Introduction to Programming course
                     "updated_at": "2016-08-29T07:03:25.000Z",
                     "created_at": "2016-08-29T06:14:18.000Z",
                     "design_id": 23,
-                    "department_id": 123
+                    "blockchain": false,
+                    "certificate_design_id": 23,
+                    "badge_design_id": null,
+                    "department_id": 123,
+                    "meta_data": {
+                        "course_id": "TK764"
+                    }
                 },
                 {
                     "id": 12473,
@@ -1173,8 +1390,14 @@ For example you should create a group for the Introduction to Programming course
                     "design_name": "test",
                     "updated_at": "2016-08-29T07:03:25.000Z",
                     "created_at": "2016-08-29T06:14:18.000Z",
-                    "design_id": 23,
-                    "department_id": 123
+                    "blockchain": true,
+                    "design_id": null,
+                    "certificate_design_id": null,
+                    "badge_design_id": 345,
+                    "department_id": 123,
+                    "meta_data": {
+                        "course_id": "TK765"
+                    }
                 }
             ],
             "meta": {
@@ -1187,88 +1410,594 @@ For example you should create a group for the Introduction to Programming course
         }
 
 
+## Search Groups [/v1/issuer/groups/search]
+
+### Search for Groups [POST]
+
++ Parameters
+    + name(string, optional) - Limit the list of Groups to those named with the given string.
+    + meta_data (object, optional) - String key/values for client's own data on group
+    + page_size(number, optional) - The pagination response size, default of 50.
+    + page(number,optional) - The pagination page.
+
++ Request (application/json)
+
+    + Headers
+
+            Authorization: Token token=YOUR API_KEY
+
+    + Body
+
+        {
+            meta_data: { "key": "value" }
+        }
+
++ Response 200 (application/json)
+
+        {
+            "groups": [
+                {
+                    "id": 12472,
+                    "name": "new group",
+                    "course_description": "Desscription of course",
+                    "course_name": "Intro to Programming",
+                    "learning_outcomes": null,
+                    "attach_pdf": true,
+                    "course_link": "http://www.example.com",
+                    "language": "en",
+                    "design_name": "test",
+                    "updated_at": "2016-08-29T07:03:25.000Z",
+                    "created_at": "2016-08-29T06:14:18.000Z",
+                    "design_id": 23,
+                    "blockchain": false,
+                    "certificate_design_id": 23,
+                    "badge_design_id": null,
+                    "department_id": 123,
+                    "meta_data": {
+                        "course_id": "TK764"
+                    }
+                },
+                {
+                    "id": 12473,
+                    "name": "new group",
+                    "course_description": "Desscription of course",
+                    "course_name": "Intro to Programming",
+                    "learning_outcomes": ["skill one", "skill two"],
+                    "attach_pdf": false,
+                    "course_link": "http://www.example.com",
+                    "language": "en",
+                    "design_name": "test",
+                    "updated_at": "2016-08-29T07:03:25.000Z",
+                    "created_at": "2016-08-29T06:14:18.000Z",
+                    "blockchain": true,
+                    "design_id": null,
+                    "certificate_design_id": null,
+                    "badge_design_id": 345,
+                    "department_id": 123,
+                    "meta_data": {
+                        "course_id": "TK765"
+                    }
+                }
+            ],
+            "meta": {
+                "current_page": 1,
+                "next_page": 2,
+                "prev_page": null,
+                "total_pages": 119,
+                "total_count": 238
+            }
+        }
+
 # Group Designs
 
-## Designs [/v1/issuer/all_designs]
+## Designs [/v1/designs{?kind}{?department_id}]
 Designs provide a visual specification for how a Credential should be rendered. Design can be used accross multiple Groups.
 
 For example if we have three courses: Intro to Basic Programming, Intro to Advanced Programming and Intro to DevOps each of these may have the same design for their Credentials. When creating or updating their corresponding Groups you would attach the desired design accordingly.
 
-### View all Designs [GET]
+### Create a Design [POST]
+
++ Request (application/json)
+
+    + Headers
+
+            Authorization: Token token=YOUR API_KEY
+
+    + Attributes
+        + name (string,required) - Name of the Design (for your reference and never shown to the recipient).
+        + kind (string,required) - Must be "certificate" or "badge" to specify the Design type.
+        + encoded_content (string,required) - The encoded content of the design.
+        + background_bleeds (boolean,optional) - Specifies if the design should allow print bleeding.
+        + orientation (string,optional) - Must be "landscape" or "portrait" to specify a design's paper orientation.
+        + size (string,optional) - Must be "us-letter" or "a4" to specify a design's paper size.
+        + department_id (number,optional) - Department that the Design belongs to. If not defined the Design will be assigned to the organizations default department.
+        + meta_data (object, optional) - You can use this parameter to attach key-value strings to the object. Meta data is useful for storing additional, structured information on an object.
+
+    + Body
+
+            {
+                "design": {
+                    "name": "new design",
+                    "kind": "certificate",
+                    "encoded_content": "31884284f406b9e481038c86ca81031031884284f406b9e481038c86ca810310",
+                    "background_bleeds": true,
+                    "orientation": "landscape",
+                    "size": "a4",
+                    "department_id": 123
+                }
+            }
+
+
++ Response 200 (application/json)
+
+        {
+            "design": {
+                "id": 12472,
+                "name": "new design",
+                "kind": "certificate",
+                "encoded_content": "31884284f406b9e481038c86ca81031031884284f406b9e481038c86ca810310",
+                "background_bleeds": true,
+                "orientation": "landscape",
+                "size": "a4",
+                "department_id": 123
+                "updated_at": "2016-08-29T07:03:25.000Z",
+                "created_at": "2016-08-29T06:14:18.000Z",
+                "rasterized_content_url": "https://api.accredible.com/v1/example",
+                "groups": [
+                    {
+                        "id": 61267,
+                        "name": "group 1",
+                        "updated_at": "2016-08-30T10:26:25.000Z",
+                        "credentials_count": 1
+                    }
+                ],
+                "meta_data": {
+                    "example": "value"
+                }
+            }
+        }
+
+### View all Designs DEPRECATED [GET]
+
++ Parameters
+    + kind (string,optional) - Limit results to just "certificates" or "badges".
+    + department_id (number,optional) - Limit results to a particular Department.
 
 + Request (application/json)
 
     + Headers
 
             Authorization: Token token=YOUR API _KEY
+
+
 
 + Response 200 (application/json)
 
         {
             "designs": [
                         {
-                            "id": 56201,
-                            "name": "design 1",
-                            "updated_at": "2016-08-30T10:26:26.000Z",
-                            "created_at": "2016-07-18T23:34:01.000Z",
+                            id": 12472,
+                            "name": "new design",
+                            "kind": "certificate",
+                            "encoded_content": "31884284f406b9e481038c86ca81031031884284f406b9e481038c86ca810310",
+                            "background_bleeds": true,
+                            "orientation": "landscape",
+                            "size": "a4",
+                            "department_id": 123
+                            "updated_at": "2016-08-29T07:03:25.000Z",
+                            "created_at": "2016-08-29T06:14:18.000Z",
+                            "rasterized_content_url": "https://api.accredible.com/v1/example",
                             "groups": [
-                                        {
-                                            "id": 61267,
-                                            "name": "group 1",
-                                            "updated_at": "2016-08-30T10:26:25.000Z",
-                                            "credentials_count": 1
-                                        }
-                                    ]
+                                {
+                                    "id": 61267,
+                                    "name": "group 1",
+                                    "updated_at": "2016-08-30T10:26:25.000Z",
+                                    "credentials_count": 1
+                                }
+                            ],
+                            "meta_data": {
+                                "example": "value"
+                            }
                         },
                         {
-                            "id": 56231,
-                            "name": "design 2",
-                            "updated_at": "2016-08-30T10:26:26.000Z",
-                            "created_at": "2016-07-18T23:34:01.000Z",
+                            id": 124721,
+                            "name": "new design 2",
+                            "kind": "certificate",
+                            "encoded_content": "31824284f406b9e481038c86ca81031031884284f406b9e481038c86ca810310",
+                            "background_bleeds": true,
+                            "orientation": "landscape",
+                            "size": "a4",
+                            "department_id": 123
+                            "updated_at": "2016-08-29T07:03:25.000Z",
+                            "created_at": "2016-08-29T06:14:18.000Z",
+                            "rasterized_content_url": "https://api.accredible.com/v1/example",
                             "groups": [
-                                        {
-                                            "id": 61367,
-                                            "name": "group 2",
-                                            "updated_at": "2016-08-30T10:26:25.000Z",
-                                            "credentials_count": 1
-                                        }
-                                    ]
+                                {
+                                    "id": 61267,
+                                    "name": "group 2",
+                                    "updated_at": "2016-08-30T10:26:25.000Z",
+                                    "credentials_count": 0
+                                }
+                            ],
+                            "meta_data": {
+                                "example2": "value_other"
+                            }
                         }
                     ]
         }
 
+## Design [/v1/designs/{design_id}]
+
+### View a Design [GET]
++ Parameters
+    + design_id (number) - ID of the Design in the form of an integer for the particular Design requested.
+
++ Request (application/json)
+
+    + Headers
+
+            Authorization: Token token=YOUR API _KEY
+
++ Response 200 (application/json)
+
+        {
+            "design": {
+                "id": 12472,
+                "name": "new design",
+                "kind": "certificate",
+                "encoded_content": "31884284f406b9e481038c86ca81031031884284f406b9e481038c86ca810310",
+                "background_bleeds": true,
+                "orientation": "landscape",
+                "size": "a4",
+                "department_id": 123
+                "updated_at": "2016-08-29T07:03:25.000Z",
+                "created_at": "2016-08-29T06:14:18.000Z",
+                "rasterized_content_url": "https://api.accredible.com/v1/example",
+                "groups": [
+                    {
+                        "id": 61267,
+                        "name": "group 1",
+                        "updated_at": "2016-08-30T10:26:25.000Z",
+                        "credentials_count": 1
+                    }
+                ],
+                "meta_data": {
+                    "example": "value"
+                }
+            }
+        }
+
+
+### Update a Design [PUT]
+
++ Parameters
+    + design_id (number) - ID of the Design in the form of an integer for the particular Design requested.
+
++ Request (application/json)
+
+    + Headers
+
+            Authorization: Token token=YOUR API _KEY
+
+    + Attributes
+        + name (string,required) - Name of the Design (for your reference and never shown to the recipient).
+        + kind (string,required) - Must be "certificate" or "badge" to specify the Design type.
+        + encoded_content (string,required) - The encoded content of the design.
+        + background_bleeds (boolean,optional) - Specifies if the design should allow print bleeding.
+        + orientation (string,optional) - Must be "landscape" or "portrait" to specify a design's paper orientation.
+        + size (string,optional) - Must be "us-letter" or "a4" to specify a design's paper size.
+        + meta_data (object, optional) - You can use this parameter to attach key-value strings to the object. Meta data is useful for storing additional, structured information on an object.
+
+    + Body
+
+            {
+               "design": {
+                    "name": "updated new design"
+                }
+            }
+
++ Response 200 (application/json)
+
+        {
+            "design": {
+                "id": 12472,
+                "name": "updated new design",
+                "kind": "certificate",
+                "encoded_content": "31884284f406b9e481038c86ca81031031884284f406b9e481038c86ca810310",
+                "background_bleeds": true,
+                "orientation": "landscape",
+                "size": "a4",
+                "department_id": 123
+                "updated_at": "2016-08-29T07:03:25.000Z",
+                "created_at": "2016-08-29T06:14:18.000Z",
+                "rasterized_content_url": "https://api.accredible.com/v1/example",
+                "groups": [
+                    {
+                        "id": 61267,
+                        "name": "group 1",
+                        "updated_at": "2016-08-30T10:26:25.000Z",
+                        "credentials_count": 1
+                    }
+                ],
+                "meta_data": {
+                    "example": "value"
+                }
+            }
+        }
+
+### Delete a Design [DELETE]
+
++ Parameters
+    + design_id (number) - ID of the Design in the form of an integer for the particular Design requested.
+
++ Request (application/json)
+
+    + Headers
+
+            Authorization: Token token=YOUR API _KEY
+
++ Response 200 (application/json)
+
+        {
+            "design": {
+                "id": 12472,
+                "name": "updated new design",
+                "kind": "certificate",
+                "encoded_content": "31884284f406b9e481038c86ca81031031884284f406b9e481038c86ca810310",
+                "background_bleeds": true,
+                "orientation": "landscape",
+                "size": "a4",
+                "department_id": 123
+                "updated_at": "2016-08-29T07:03:25.000Z",
+                "created_at": "2016-08-29T06:14:18.000Z",
+                "rasterized_content_url": "https://api.accredible.com/v1/example",
+                "groups": [
+                    {
+                        "id": 61267,
+                        "name": "group 1",
+                        "updated_at": "2016-08-30T10:26:25.000Z",
+                        "credentials_count": 1
+                    }
+                ],
+                "meta_data": {
+                    "example": "value"
+                }
+            }
+        }
+
+
+## Design [/v1/designs/{design_id}/copy]
+
+### Copy a Design [POST]
++ Parameters
+    + design_id (number) - ID of the Design in the form of an integer for the particular Design requested.
+
++ Request (application/json)
+
+    + Headers
+
+            Authorization: Token token=YOUR API _KEY
+
+    + Attributes
+        + department_id (number,optional) - Department that the Design belongs to. If not defined the Design will be assigned to the organizations default department.
+
+    + Body
+
+            {
+               "design": {
+                    "department_id": 12345
+                }
+            }
+
++ Response 200 (application/json)
+
+        {
+            "design": {
+                "id": 12472,
+                "name": "new design",
+                "kind": "certificate",
+                "encoded_content": "31884284f406b9e481038c86ca81031031884284f406b9e481038c86ca810310",
+                "background_bleeds": true,
+                "orientation": "landscape",
+                "size": "a4",
+                "department_id": 12345
+                "updated_at": "2016-08-29T07:03:25.000Z",
+                "created_at": "2016-08-29T06:14:18.000Z",
+                "rasterized_content_url": "https://api.accredible.com/v1/example",
+                "groups": [
+                    {
+                        "id": 61267,
+                        "name": "group 1",
+                        "updated_at": "2016-08-30T10:26:25.000Z",
+                        "credentials_count": 1
+                    }
+                ],
+                "meta_data": {
+                    "example": "value"
+                }
+            }
+        }
+
+## Search Designs [/v1/designs/search]
+
+### Search for Designs [POST]
+
++ Parameters
+    + kind (string, optional) - Limit results to just "certificates" or "badges".
+    + department_id (string, optional) - Limit results to a particular Department.
+    + meta_data (object, optional) - String key/values you attached to the object.
+    + page_size(number, optional) - The pagination response size, default of 50.
+    + page(number,optional) - The pagination page.
+    
+
++ Request (application/json)
+
+    + Headers
+
+            Authorization: Token token=YOUR API_KEY
+
+
+    + Body
+
+            {
+              "kind": "certificate",
+              "meta_data": { "example": "value" }
+            }
+
++ Response 200 (application/json)
+
+        {
+            "design": {
+                "id": 12472,
+                "name": "new design",
+                "kind": "certificate",
+                "encoded_content": "31884284f406b9e481038c86ca81031031884284f406b9e481038c86ca810310",
+                "background_bleeds": true,
+                "orientation": "landscape",
+                "size": "a4",
+                "department_id": 12345
+                "updated_at": "2016-08-29T07:03:25.000Z",
+                "created_at": "2016-08-29T06:14:18.000Z",
+                "rasterized_content_url": "https://api.accredible.com/v1/example",
+                "groups": [
+                    {
+                        "id": 61267,
+                        "name": "group 1",
+                        "updated_at": "2016-08-30T10:26:25.000Z",
+                        "credentials_count": 1
+                    }
+                ],
+                "meta_data": {
+                    "example": "value"
+                }
+            }
+        }
+
+## Design [/v1/designs/{design_id}/preview]
+
+### Preview a Design [POST]
++ Parameters
+    + design_id (number) - ID of the Design in the form of an integer for the particular Design requested.
+
++ Request (application/json)
+
+    + Headers
+
+            Authorization: Token token=YOUR API _KEY
+
+
+    + Body
+
+            {
+               "recipient.name": "example name",
+               "group.course_name": "My Example Course",
+               "custom.example": "Data for a custom attribute."
+            }
+
+    + Attributes
+        + recipient.name (string, optional) - Add any parameter that you wish to preview data for in your design.
+        + group.course_name (string, optional) - Add any parameter that you wish to preview data for in your design.
+        + custom.example (string, optional) - Add any parameter that you wish to preview data for in your design.
+
+
++ Response 200 (application/json)
+
+    + Body
+
+            { "link": "https://example.api.accredible.com/design/image?env=red&design=f1a53a79-baeb-43fb-a19e-045af89eb206&data=e30:7a2f83ba4880d6d73f0a9d826ed82661108d8c8825984f3a77812704911e2142" }
+
+
+## Badge Designer [/v1/designers/badge/initialize]
+As an OEM provider or reseller of digital badges it's easy to embed our badge design tool within your own platform and give your users the ability to create and update badge designs.
+
+A full guide on using the embedded badge designer can be found at: https://help.accredible.com/embed-badge-designer
+
+
+### Initialize Embedded Badge Designer [POST]
+
++ Request (application/json)
+
+    + Headers
+
+            Authorization: Token token=YOUR API _KEY
+
+    + Body
+
+            {
+               "design_id": 12345,
+               "department_id": 123
+            }
+
+    + Attributes
+        + design_id (number,optional) - ID of the Design in the form of an integer for a Design to be edited. Omitting the ID will result in a newly created design.
+        + department_id (number,optional) - ID of the Department which the Design should belong to.
+
+
++ Response 200 (application/json)
+
+    + Body
+
+            {
+                "token": "abc123:xyz456",
+                "design_id": 12345
+            }
+
+
+## Certificate Designer [/v1/designers/certificate/initialize]
+As an OEM provider or reseller of digital certificates it's easy to embed our certificate design tool within your own platform and give your users the ability to create and update certificate designs.
+
+A full guide on using the embedded certificate designer can be found at: https://help.accredible.com/embed-certificate-designer
+
+
+### Initialize Embedded Certificate Designer [POST]   
+
++ Request (application/json)
+
+    + Headers
+
+            Authorization: Token token=YOUR API _KEY
+
+    + Body
+
+            {
+               "design_id": 12345,
+               "department_id": 123
+            }
+
+    + Attributes
+        + design_id (number,optional) - ID of the Design in the form of an integer for a Design to be edited. Omitting the ID will result in a newly created design.
+        + department_id (number,optional) - ID of the Department which the Design should belong to.
+
+
++ Response 200 (application/json)
+
+    + Body
+
+            { 
+                "token": "abc123:xyz456", 
+                "design_id": 12345 
+            }
 
 # Group Departments
 Resources realted to Departments. If enabled for your account, Departments allow you to manage multiple independent organization groups. Each Department is entirely separate with it's own Designs, Groups, Branding, etc. You cannot share data between Departments excepting Billing and Administrators.
 
 ## Departments [/v1/departments]
-
 ### Create a New Department [POST]
-
 You may create a Department using this action. It takes a JSON object containing a Department.
-
 + Request (application/json)
-
     + Headers
-
             Authorization: Token token=YOUR API _KEY
-
     + Attributes
         + name (string, required) - A name for the Department. This may be displayed publicly on Credentials.
         + url (string, required) - URL for directing users to the website for the given Department. This may be used publicly.
-
-
     + Body
-
             {
                 "department": {
                     "name": "New Department",
                     "url": "https://www.example.com"
                 }
             }
-
 + Response 200 (application/json)
-
         {
             "department": {
                 "id": 1234,
@@ -1277,16 +2006,11 @@ You may create a Department using this action. It takes a JSON object containing
                 "logo": "https://images.credential.net/example/department_logo.png"
             }
         }
-
 ## Department [/v1/departments/{department_id}]
-
 ### View a Department [GET]
-
 + Parameters
     + department_id (string) - ID of the Department in the form of an integer for the particular Department requested.
-
 + Response 200 (application/json)
-
         {
             "department": {
                 "id": 1234,
@@ -1295,35 +2019,38 @@ You may create a Department using this action. It takes a JSON object containing
                 "logo": "https://images.credential.net/example/department_logo.png"
             }
         }
-
 ### Update a Department [PUT]
-
 + Parameters
     + department_id (string) - ID of the Department in the form of an integer for the particular Department requested.
-
-
 + Request (application/json)
-
     + Headers
-
             Authorization: Token token=YOUR API _KEY
-
-
     + Attributes
         + name (string, required) - A name for the Department. This may be displayed publicly on Credentials.
         + url (string, required) - URL for directing users to the website for the given Department. This may be used publicly.
-
     + Body
-
             {
                 "department": {
                     "name": "New Department",
                     "url": "https://www.example.com"
                 }
             }
-
 + Response 200 (application/json)
-
+        {
+            "department": {
+                "id": 1234,
+                "name": "New Department",
+                "url": "https://www.example.com",
+                "logo": "https://images.credential.net/example/department_logo.png"
+            }
+        }
+### Delete a Department [DELETE]
++ Parameters
+    + department_id (string) - ID of the Department in the form of an integer for the particular Department requested.
++ Request (application/json)
+    + Headers
+            Authorization: Token token=YOUR API _KEY
++ Response 200 (application/json)
         {
             "department": {
                 "id": 1234,
@@ -1334,12 +2061,16 @@ You may create a Department using this action. It takes a JSON object containing
         }
 
 
+## Search Departments [/v1/departments/search]
 
-### Delete a Department [DELETE]
+### Search for Departments [POST]
+
+You can search for departments by various search criteria.
 
 + Parameters
-    + department_id (string) - ID of the Department in the form of an integer for the particular Department requested.
-
+    + meta_data (object, optional) - String key/values you attached to the object.
+    + page_size(number, optional) - The pagination response size, default of 50.
+    + page(number,optional) - The pagination page.
 
 + Request (application/json)
 
@@ -1347,18 +2078,29 @@ You may create a Department using this action. It takes a JSON object containing
 
             Authorization: Token token=YOUR API _KEY
 
+    + Body
+
+            {
+                "meta_data": {
+                        "faculty": "physics"
+                }
+            }
 
 + Response 200 (application/json)
 
         {
-            "department": {
+            "departments": [
                 "id": 1234,
-                "name": "New Department",
+                "name": "One Department",
                 "url": "https://www.example.com",
                 "logo": "https://images.credential.net/example/department_logo.png"
-            }
+                "meta_data": {
+                        "internal_id": "R12",
+                        "faculty": "physics"
+                }
+            ]
         }
-
+        
 
 # Group Evidence Items
 Resources realted to EvidenceItems. EvidenceItems provide more information about how the recipient met the achievement. Typically this would include work samples for a course.
@@ -1487,7 +2229,7 @@ You create EvidenceItems using this action. It takes a JSON object containing an
 
 
 
-### DELETE a Evidence Item [DELETE]
+### Delete a Evidence Item [DELETE]
 
 + Parameters
     + credential_id (string) - ID of the Credential in the form of a string or integer for the particular Credential requested.
@@ -1695,17 +2437,17 @@ Your Accredible account is represented as an Issuer within the API.
         {
            "analytics": [
                 {
-                    "credential": { id: 10533900 },
+                    "credential": { id: 10533900, license_id: "xyz123" },
                     "event": "privacy_updated",
                     "created_at": "2018-02-13T07:00:00.000Z"
                 },
                 {
-                    "credential": { id: 10533900 },
+                    "credential": { id: 10533900, license_id: "yourProvidedID" },
                     "event": "recipient_view_certificate",
                     "created_at": "2018-02-13T07:00:00.000Z"
                 },
                 {
-                    "credential": { id: 10533900 },
+                    "credential": { id: 10533900, license_id: "exampleXYZ" },
                     "event": "credential_user_verified",
                     "created_at": "2018-02-13T07:00:00.000Z"
                 }
