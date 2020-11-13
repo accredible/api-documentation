@@ -2374,6 +2374,309 @@ Your Accredible account is represented as an Issuer within the API.
             ]
         }
 
+# Group Team Members
+
+## Team Members [/v1/team_members]
+Accredible Dashboard users who create, edit or manage Credentials as part of your Organization.
+
+### Create a Team Member [POST]
+
+Create a TeamMember using this action. It requires a JSON object containing an TeamMember.
+
++ Request (application/json)
+
+    + Headers
+
+            Authorization: Token token=YOUR_API_KEY
+
+    + Attributes
+        + name (string, required) - The name of the TeamMember user.
+        + email (string, required) - The email address of the TeamMember user.
+        + department_permissions (array, fixed-type, required)
+            + (object)
+                + department_id (number, required) - Department that the TeamMember should have the given permissions for.
+                + permissions (object, required)
+                    + designs (boolean, required) - Should the TeamMember have access to Designs for the given Department?
+                    + emails (boolean, required) - Should the TeamMember have access to Email Settings and Email Templates for the given Department?
+                    + credential_attributes (boolean, required) - Should the TeamMember have access to Attributes for the given Department?
+                    + analytics (boolean, required) - Should the TeamMember have access to Analytics for the given Department?
+                    + settings (boolean, required) - Should the TeamMember have access to Settings for the given Department?
+                    + role (string, required) - "editor" or "viewer" access to Credential data in the Department.
+                    + groups (array, optional) - Limit the TeamMember access to specific Groups in the Department.
+    + Body
+
+            {
+                "team_member": {
+                    "name": "John Doe",
+                    "email": "person@example.com",
+                    "department_permissions": [
+                        {
+                            "department_id": 34,
+                            "permissions": {
+                                "designs": true,
+                                "emails": true,
+                                "credential_attributes": true,
+                                "analytics": true,
+                                "settings": true,
+                                "role": "editor",
+                                "groups": [1, 2, 3]
+                            }
+                            
+                        },
+                        {
+                            "department_id": 35,
+                            "permissions": {
+                                "designs": false,
+                                "emails": false,
+                                "credential_attributes": false,
+                                "analytics": false,
+                                "settings": false,
+                                "role": "viewer",
+                                "groups": null
+                            }
+                            
+                        }
+                    ]
+                }
+            }
+
++ Response 200 (application/json)
+
+        {
+            "team_member": {
+                "id": 12345,
+                "name": "John Doe",
+                "email": "person@example.com",
+                "department_permissions": [
+                    {
+                        "department_id": 34,
+                        "permissions": {
+                            "designs": true,
+                            "emails": true,
+                            "credential_attributes": true,
+                            "analytics": true,
+                            "settings": true,
+                            "role": "editor",
+                            "groups": [1, 2, 3]
+                        }
+                        
+                    },
+                    {
+                        "department_id": 35,
+                        "permissions": {
+                            "designs": false,
+                            "emails": false,
+                            "credential_attributes": false,
+                            "analytics": false,
+                            "settings": false,
+                            "role": "viewer",
+                            "groups": null
+                        }
+                        
+                    }
+                ]
+            }
+        }
+
+## Team Member [/v1/team_members/{id}]
+
+### View a Team Member [GET]
+
++ Request (application/json)
+    + Headers
+        Authorization: Token token=YOUR_API_KEY
+
+    + Parameters
+        + id (string) - ID of the TeamMember in the form of an integer.
+
++ Response 200 (application/json)
+
+        {
+            "team_member": {
+                "id": 12345,
+                "name": "John Doe",
+                "email": "person@example.com",
+                "department_permissions": [
+                    {
+                        "department_id": 34,
+                        "permissions": {
+                            "designs": true,
+                            "emails": true,
+                            "credential_attributes": true,
+                            "analytics": true,
+                            "settings": true,
+                            "role": "editor",
+                            "groups": [1, 2, 3]
+                        }
+                        
+                    },
+                    {
+                        "department_id": 35,
+                        "permissions": {
+                            "designs": false,
+                            "emails": false,
+                            "credential_attributes": false,
+                            "analytics": false,
+                            "settings": false,
+                            "role": "viewer",
+                            "groups": null
+                        }
+                        
+                    }
+                ]
+            }
+        }
+
+
+### Update a Team Member [PUT]
+
+Update a TeamMember using this action. It requires a JSON object containing an TeamMember.
+
++ Request (application/json)
+
+    + Headers
+
+            Authorization: Token token=YOUR_API_KEY
+
+    + Attributes
+        + id (number, required) - The ID of the TeamMember to update.
+        + name (string, optional) - The name of the TeamMember user.
+        + email (string, optional) - The email address of the TeamMember user.
+        + department_permissions (array, fixed-type, optional) - This parameter will override any existing permissions, not append to them.
+            + (object)
+                + department_id (number, required) - Department that the TeamMember should have the given permissions for.
+                + permissions (object, required)
+                    + designs (boolean, required) - Should the TeamMember have access to Designs for the given Department?
+                    + emails (boolean, required) - Should the TeamMember have access to Email Settings and Email Templates for the given Department?
+                    + credential_attributes (boolean, required) - Should the TeamMember have access to Attributes for the given Department?
+                    + analytics (boolean, required) - Should the TeamMember have access to Analytics for the given Department?
+                    + settings (boolean, required) - Should the TeamMember have access to Settings for the given Department?
+                    + role (string, required) - "editor" or "viewer" access to Credential data in the Department.
+                    + groups (array, optional) - Limit the TeamMember access to specific Groups in the Department.
+    + Body
+
+            {
+                "team_member": {
+                    "id": 12345,
+                    "department_permissions": [
+                        {
+                            "department_id": 34,
+                            "permissions": {
+                                "designs": false,
+                                "emails": false,
+                                "credential_attributes": true,
+                                "analytics": true,
+                                "settings": true,
+                                "role": "editor",
+                                "groups": [1, 2, 3]
+                            }
+                            
+                        },
+                        {
+                            "department_id": 35,
+                            "permissions": {
+                                "designs": false,
+                                "emails": false,
+                                "credential_attributes": false,
+                                "analytics": false,
+                                "settings": false,
+                                "role": "viewer",
+                                "groups": null
+                            }
+                            
+                        }
+                    ]
+                }
+            }
+
++ Response 200 (application/json)
+
+        {
+            "team_member": {
+                "id": 12345
+                "name": "John Doe",
+                "email": "person@example.com",
+                "department_permissions": [
+                    {
+                        "department_id": 34,
+                        "permissions": {
+                            "designs": false,
+                            "emails": false,
+                            "credential_attributes": true,
+                            "analytics": true,
+                            "settings": true,
+                            "role": "editor",
+                            "groups": [1, 2, 3]
+                        }
+                        
+                    },
+                    {
+                        "department_id": 35,
+                        "permissions": {
+                            "designs": false,
+                            "emails": false,
+                            "credential_attributes": false,
+                            "analytics": false,
+                            "settings": false,
+                            "role": "viewer",
+                            "groups": null
+                        }
+                        
+                    }
+                ]
+            }
+        }
+
+### Delete a Team Member [DELETE]
+
++ Parameters
+    + id (string) - ID of the TeamMember in the form of an integer.
+
++ Request (application/json)
+
+    + Headers
+
+            Authorization: Token token=YOUR API _KEY
+
+
++ Response 200 (application/json)
+
+        {
+            "team_member": {
+                "id": 12345
+                "name": "John Doe",
+                "email": "person@example.com",
+                "department_permissions": [
+                    {
+                        "department_id": 34,
+                        "permissions": {
+                            "designs": false,
+                            "emails": false,
+                            "credential_attributes": true,
+                            "analytics": true,
+                            "settings": true,
+                            "role": "editor",
+                            "groups": [1, 2, 3]
+                        }
+                        
+                    },
+                    {
+                        "department_id": 35,
+                        "permissions": {
+                            "designs": false,
+                            "emails": false,
+                            "credential_attributes": false,
+                            "analytics": false,
+                            "settings": false,
+                            "role": "viewer",
+                            "groups": null
+                        }
+                        
+                    }
+                ]
+            }
+        }
+
 # Group Issuers
 
 ## Issuers [/v1/issuer/details]
