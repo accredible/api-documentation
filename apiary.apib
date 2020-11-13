@@ -1982,21 +1982,31 @@ A full guide on using the embedded certificate designer can be found at: https:/
 Resources realted to Departments. If enabled for your account, Departments allow you to manage multiple independent organization groups. Each Department is entirely separate with it's own Designs, Groups, Branding, etc. You cannot share data between Departments excepting Billing and Administrators.
 
 ## Departments [/v1/departments]
+
 ### Create a New Department [POST]
 You may create a Department using this action. It takes a JSON object containing a Department.
+
 + Request (application/json)
     + Headers
             Authorization: Token token=YOUR API _KEY
     + Attributes
         + name (string, required) - A name for the Department. This may be displayed publicly on Credentials.
+        + description (string, optional) - A description for the Department. This may be displayed publicly.
         + url (string, required) - URL for directing users to the website for the given Department. This may be used publicly.
+        + logo_image_url (string, required) - URL of an image representing the Department logo. Accredible will copy the given image and store the logo within it's own platform. Images should be square, at least 120px wide by 120px tall. PNG format preferred.
+        + banner_image_url (string, optional) - URL of an image to display as the Department Banner. Accredible will copy the given image and store the logo within it's own platform. The image should be at least 1920px wide by 300px tall. PNG format preferred.
+        + linkedin_company_id (string, optional) - The LinkedIn company ID for the given Department.
         + meta_data (object, optional) - You can use this parameter to attach key-value strings to the object. Meta data is useful for storing additional, structured information on an object.
 
     + Body
             {
                 "department": {
                     "name": "New Department",
+                    "description": "Example description text.",
                     "url": "https://www.example.com",
+                    "logo_image_url": "https://www.website.com/example-logo.png",
+                    "banner_image_url": "https://www.website.com/example-banner.png",
+                    "linkedin_company_id": "5098253",
                     "meta_data": {
                         "internal_id": "R12",
                         "faculty": "physics"
@@ -2008,65 +2018,84 @@ You may create a Department using this action. It takes a JSON object containing
             "department": {
                 "id": 1234,
                 "name": "New Department",
+                "description": "Example description text.",
                 "url": "https://www.example.com",
-                "logo": "https://images.credential.net/example/department_logo.png",
+                "logo_image_url": "https://images.credential.net/example/department_logo.png",
+                "banner_image_url": "https://images.credential.net/example/banner_image.png",
+                "linkedin_company_id": "5098253",
                 "meta_data": {
                     "internal_id": "R12",
                     "faculty": "physics"
                 }
             }
         }
+
 ## Department [/v1/departments/{department_id}]
+
 ### View a Department [GET]
-+ Parameters
-    + department_id (string) - ID of the Department in the form of an integer for the particular Department requested.
+
++ Request (application/json)
+    + Headers
+            Authorization: Token token=YOUR API _KEY
+    + Parameters
+        + department_id (string) - ID of the Department in the form of an integer for the particular Department requested.
+
 + Response 200 (application/json)
         {
             "department": {
                 "id": 1234,
                 "name": "New Department",
+                "description": "Example description text.",
                 "url": "https://www.example.com",
-                "logo": "https://images.credential.net/example/department_logo.png",
+                "logo_image_url": "https://images.credential.net/example/department_logo.png",
+                "banner_image_url": "https://images.credential.net/example/banner_image.png",
+                "linkedin_company_id": "5098253",
                 "meta_data": {
                     "internal_id": "R12",
                     "faculty": "physics"
                 }
             }
         }
+
 ### Update a Department [PUT]
+
 + Parameters
     + department_id (string) - ID of the Department in the form of an integer for the particular Department requested.
 + Request (application/json)
     + Headers
             Authorization: Token token=YOUR API _KEY
     + Attributes
-        + name (string, required) - A name for the Department. This may be displayed publicly on Credentials.
-        + url (string, required) - URL for directing users to the website for the given Department. This may be used publicly.
+        + name (string, optional) - A name for the Department. This may be displayed publicly on Credentials.
+        + description (string, optional) - A description for the Department. This may be displayed publicly.
+        + url (string, optional) - URL for directing users to the website for the given Department. This may be used publicly.
+        + logo_image_url (string, optional) - URL of an image representing the Department logo. Accredible will copy the given image and store the logo within it's own platform. Images should be square, at least 120px wide by 120px tall. PNG format preferred.
+        + banner_image_url (string, optional) - URL of an image to display as the Department Banner. Accredible will copy the given image and store the logo within it's own platform. The image should be at least 1920px wide by 300px tall. PNG format preferred.
+        + linkedin_company_id (string, optional) - The LinkedIn company ID for the given Department.
         + meta_data (object, optional) - You can use this parameter to attach key-value strings to the object. Meta data is useful for storing additional, structured information on an object.
     + Body
             {
                 "department": {
-                    "name": "New Department",
-                    "url": "https://www.example.com",
-                    "meta_data": {
-                        "internal_id": "R12",
-                        "faculty": "physics"
-                    }
+                    "name": "New Department Name"
                 }
             }
+
 + Response 200 (application/json)
         {
             "department": {
                 "id": 1234,
-                "name": "New Department",
+                "name": "New Department Name",
+                "description": "Example description text.",
                 "url": "https://www.example.com",
-                "logo": "https://images.credential.net/example/department_logo.png",
+                "logo_image_url": "https://images.credential.net/example/department_logo.png",
+                "banner_image_url": "https://images.credential.net/example/banner_image.png",
+                "linkedin_company_id": "5098253",
                 "meta_data": {
                     "internal_id": "R12",
                     "faculty": "physics"
                 }
             }
         }
+
 ### Delete a Department [DELETE]
 + Parameters
     + department_id (string) - ID of the Department in the form of an integer for the particular Department requested.
@@ -2077,9 +2106,12 @@ You may create a Department using this action. It takes a JSON object containing
         {
             "department": {
                 "id": 1234,
-                "name": "New Department",
+                "name": "New Department Name",
+                "description": "Example description text.",
                 "url": "https://www.example.com",
-                "logo": "https://images.credential.net/example/department_logo.png",
+                "logo_image_url": "https://images.credential.net/example/department_logo.png",
+                "banner_image_url": "https://images.credential.net/example/banner_image.png",
+                "linkedin_company_id": "5098253",
                 "meta_data": {
                     "internal_id": "R12",
                     "faculty": "physics"
@@ -2116,16 +2148,19 @@ You can search for departments by various search criteria.
 + Response 200 (application/json)
 
         {
-            "departments": [
+            "department": {
                 "id": 1234,
-                "name": "One Department",
+                "name": "New Department Name",
+                "description": "Example description text.",
                 "url": "https://www.example.com",
-                "logo": "https://images.credential.net/example/department_logo.png"
+                "logo_image_url": "https://images.credential.net/example/department_logo.png",
+                "banner_image_url": "https://images.credential.net/example/banner_image.png",
+                "linkedin_company_id": "5098253",
                 "meta_data": {
-                        "internal_id": "R12",
-                        "faculty": "physics"
+                    "internal_id": "R12",
+                    "faculty": "physics"
                 }
-            ]
+            }
         }
         
 
