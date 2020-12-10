@@ -1845,9 +1845,9 @@ For example if we have three courses: Intro to Basic Programming, Intro to Advan
             }
 
 + Response 200 (application/json)
-
-        {
-            "design": {
+      {
+        "designs": [
+             {
                 "id": 12472,
                 "name": "new design",
                 "kind": "certificate",
@@ -1859,19 +1859,12 @@ For example if we have three courses: Intro to Basic Programming, Intro to Advan
                 "updated_at": "2016-08-29T07:03:25.000Z",
                 "created_at": "2016-08-29T06:14:18.000Z",
                 "rasterized_content_url": "https://api.accredible.com/v1/example",
-                "groups": [
-                    {
-                        "id": 61267,
-                        "name": "group 1",
-                        "updated_at": "2016-08-30T10:26:25.000Z",
-                        "credentials_count": 1
-                    }
-                ],
                 "meta_data": {
                     "example": "value"
                 }
             }
-        }
+        ]
+    }
 
 ## Design [/v1/designs/{design_id}/preview]
 
