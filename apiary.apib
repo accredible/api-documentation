@@ -2735,28 +2735,3 @@ The code expires after used once.
         {
             "link": "http://www.credential.net/10000005/sso?code=1330"
         }
-
-# Group API Key
-Most API requests require you to include the API key assigned to your account. We provide the ability to update your API key so you can rotate your key on a regular basis.
-
-## API Key Update [/v1/api/generate_token]
-This endpoint allows you to update your API Key. It allows you to use your old API key for 12 hours following the update so that you can make updates to your records asynchronously.
-
-The returned value is the new API key you've been assigned. You can always view this in your account settings: https://dashboard.accredible.com/issuer/dashboard/settings/api_integrations
-
-### Updating Key [POST]
-+ Request (application/json)
-
-    + Headers
-
-            Authorization: Token token=YOUR API _KEY
-
-    + Attributes
-        + expire_now (boolean, optional) - Set this to true if you'd like to immediately invalidate your current API key. Setting this to false or omitting will ensure your current API key remains active for 12 hours following this request.
-
-
-+ Response 200 (application/json)
-
-        {
-           "api_key": "6c789a500a7ef1d494bc1e39d36a050d"
-        }
