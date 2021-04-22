@@ -332,16 +332,22 @@ Create bulk Credentials using this action. It requires a JSON object containing 
 
             {
                 "credentials": [
-
-                        "recipient":
-                        {
-                            "name": "John Doe", "email": "student@example.com" }, "group_id": "22625"
-                        },
                     {
-                        "recipient":
-                        {
-                        "name": "John Doe", "email": "student@example.com" }, "group_id": "62430"
-                        }
+                        "recipient": {
+                            "name": "John Doe", 
+                            "email": "student@example.com" 
+                        }, 
+                        "group": "ClassGroup",
+                        "group_id": 12345
+                    },
+                    {
+                        "recipient": {
+                            "name": "Jane Doe", 
+                            "email": "student2@example.com" 
+                        }, 
+                        "group": "ClassGroup",
+                        "group_id": 12345
+                    },
                 ]
             }
 
