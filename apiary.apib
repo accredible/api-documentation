@@ -1989,8 +1989,8 @@ You may create a Department using this action. It takes a JSON object containing
         + name (string, required) - A name for the Department. This may be displayed publicly on Credentials.
         + description (string, optional) - A description for the Department. This may be displayed publicly.
         + url (string, required) - URL for directing users to the website for the given Department. This may be used publicly.
-        + logo_image_url (string, required) - URL of an image representing the Department logo. Accredible will copy the given image and store the logo within it's own platform. Images should be square, at least 120px wide by 120px tall. PNG format preferred.
-        + banner_image_url (string, optional) - URL of an image to display as the Department Banner. Accredible will copy the given image and store the logo within it's own platform. The image should be at least 1920px wide by 300px tall. PNG format preferred.
+        + logo (string, required) - URL of an image representing the Department logo. Accredible will copy the given image and store the logo within it's own platform. Images should be square, at least 120px wide by 120px tall. PNG format preferred.
+        + page_banner (string, optional) - URL of an image to display as the Department Banner. Accredible will copy the given image and store the logo within it's own platform. The image should be at least 1920px wide by 300px tall. PNG format preferred.
         + linkedin_company_id (string, optional) - The LinkedIn company ID for the given Department.
         + meta_data (object, optional) - You can use this parameter to attach key-value strings to the object. Meta data is useful for storing additional, structured information on an object.
 
@@ -2000,8 +2000,8 @@ You may create a Department using this action. It takes a JSON object containing
                     "name": "New Department",
                     "description": "Example description text.",
                     "url": "https://www.example.com",
-                    "logo_image_url": "https://www.website.com/example-logo.png",
-                    "banner_image_url": "https://www.website.com/example-banner.png",
+                    "logo": "https://www.website.com/example-logo.png",
+                    "page_banner": "https://www.website.com/example-banner.png",
                     "linkedin_company_id": "5098253",
                     "meta_data": {
                         "internal_id": "R12",
@@ -2016,8 +2016,8 @@ You may create a Department using this action. It takes a JSON object containing
                 "name": "New Department",
                 "description": "Example description text.",
                 "url": "https://www.example.com",
-                "logo_image_url": "https://images.credential.net/example/department_logo.png",
-                "banner_image_url": "https://images.credential.net/example/banner_image.png",
+                "logo": "https://images.credential.net/example/department_logo.png",
+                "page_banner": "https://images.credential.net/example/banner_image.png",
                 "linkedin_company_id": "5098253",
                 "meta_data": {
                     "internal_id": "R12",
@@ -2043,8 +2043,8 @@ You may create a Department using this action. It takes a JSON object containing
                 "name": "New Department",
                 "description": "Example description text.",
                 "url": "https://www.example.com",
-                "logo_image_url": "https://images.credential.net/example/department_logo.png",
-                "banner_image_url": "https://images.credential.net/example/banner_image.png",
+                "logo": "https://images.credential.net/example/department_logo.png",
+                "page_banner": "https://images.credential.net/example/banner_image.png",
                 "linkedin_company_id": "5098253",
                 "meta_data": {
                     "internal_id": "R12",
@@ -2064,8 +2064,8 @@ You may create a Department using this action. It takes a JSON object containing
         + name (string, optional) - A name for the Department. This may be displayed publicly on Credentials.
         + description (string, optional) - A description for the Department. This may be displayed publicly.
         + url (string, optional) - URL for directing users to the website for the given Department. This may be used publicly.
-        + logo_image_url (string, optional) - URL of an image representing the Department logo. Accredible will copy the given image and store the logo within it's own platform. Images should be square, at least 120px wide by 120px tall. PNG format preferred.
-        + banner_image_url (string, optional) - URL of an image to display as the Department Banner. Accredible will copy the given image and store the logo within it's own platform. The image should be at least 1920px wide by 300px tall. PNG format preferred.
+        + logo (string, optional) - URL of an image representing the Department logo. Accredible will copy the given image and store the logo within it's own platform. Images should be square, at least 120px wide by 120px tall. PNG format preferred.
+        + page_banner (string, optional) - URL of an image to display as the Department Banner. Accredible will copy the given image and store the logo within it's own platform. The image should be at least 1920px wide by 300px tall. PNG format preferred.
         + linkedin_company_id (string, optional) - The LinkedIn company ID for the given Department.
         + meta_data (object, optional) - You can use this parameter to attach key-value strings to the object. Meta data is useful for storing additional, structured information on an object.
     + Body
@@ -2082,8 +2082,8 @@ You may create a Department using this action. It takes a JSON object containing
                 "name": "New Department Name",
                 "description": "Example description text.",
                 "url": "https://www.example.com",
-                "logo_image_url": "https://images.credential.net/example/department_logo.png",
-                "banner_image_url": "https://images.credential.net/example/banner_image.png",
+                "logo": "https://images.credential.net/example/department_logo.png",
+                "page_banner": "https://images.credential.net/example/banner_image.png",
                 "linkedin_company_id": "5098253",
                 "meta_data": {
                     "internal_id": "R12",
@@ -2105,8 +2105,8 @@ You may create a Department using this action. It takes a JSON object containing
                 "name": "New Department Name",
                 "description": "Example description text.",
                 "url": "https://www.example.com",
-                "logo_image_url": "https://images.credential.net/example/department_logo.png",
-                "banner_image_url": "https://images.credential.net/example/banner_image.png",
+                "logo": "https://images.credential.net/example/department_logo.png",
+                "page_banner": "https://images.credential.net/example/banner_image.png",
                 "linkedin_company_id": "5098253",
                 "meta_data": {
                     "internal_id": "R12",
@@ -2144,13 +2144,13 @@ You can search for departments by various search criteria.
 + Response 200 (application/json)
 
         {
-            "department": {
+            "departments": {
                 "id": 1234,
                 "name": "New Department Name",
                 "description": "Example description text.",
                 "url": "https://www.example.com",
-                "logo_image_url": "https://images.credential.net/example/department_logo.png",
-                "banner_image_url": "https://images.credential.net/example/banner_image.png",
+                "logo": "https://images.credential.net/example/department_logo.png",
+                "page_banner": "https://images.credential.net/example/banner_image.png",
                 "linkedin_company_id": "5098253",
                 "meta_data": {
                     "internal_id": "R12",
