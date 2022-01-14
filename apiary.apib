@@ -2341,6 +2341,8 @@ Your Accredible account is represented as an Issuer within the API.
     + end_date (date, optional) - Only return Credential analytic events recoreded before the given end date. Format: YYYY/MM/DD.
     + group_id (integer, optional) - Only return Credential analytic events relating to Credentials within the given Group.
     + department_id (integer, optional) - Only return Credential analytic events relating to Credentials within the given Department.
+    + page_size(number, optional) - The pagination response size, default of 100.
+    + page(number,optional) - The pagination page.
 
 
 + Request (application/json)
@@ -2367,7 +2369,14 @@ Your Accredible account is represented as an Issuer within the API.
                     "event": "credential_user_verified",
                     "created_at": "2018-02-13T07:00:00.000Z"
                 }
-            ]
+            ],
+            "meta": {
+                "current_page": 1,
+                "next_page": 2,
+                "prev_page": null,
+                "total_pages": 795,
+                "total_count": 1590
+            }
         }
 
 # Group Team Members
