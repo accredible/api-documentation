@@ -26,6 +26,9 @@ For example if we have three courses: Intro to Basic Programming, Intro to Advan
 # Departments
 [Departments](http://docs.accrediblecredentialapi.apiary.io/#reference/departments), if enabled for your account allow you to manage multiple, independent organization groups. Each Department is entirely separate with it's own Designs, Groups, Branding, etc. You cannot share data between Departments excepting Billing and Administrators.
 
+# Attributes
+[Attributes](http://docs.accrediblecredentialapi.apiary.io/#reference/attributes), are used to merge information with your certificate designs and email templates. Attributes acts as as placeholders for information and can be added to certificate designs and email templates.
+
 # Issuers
 [Issuers](http://docs.accrediblecredentialapi.apiary.io/#reference/issuer) provide organization details.
 
@@ -1975,7 +1978,7 @@ A full guide on using the embedded certificate designer can be found at: https:/
             }
 
 # Group Departments
-Resources realted to Departments. If enabled for your account, Departments allow you to manage multiple independent organization groups. Each Department is entirely separate with it's own Designs, Groups, Branding, etc. You cannot share data between Departments excepting Billing and Administrators.
+Resources related to Departments. If enabled for your account, Departments allow you to manage multiple independent organization groups. Each Department is entirely separate with it's own Designs, Groups, Branding, etc. You cannot share data between Departments excepting Billing and Administrators.
 
 ## Departments [/v1/departments]
 
@@ -2158,10 +2161,44 @@ You can search for departments by various search criteria.
                 }
             }
         }
-        
+
+# Group Attributes
+Attributes provide a way to add information to certificates/emails. A full guide on Attributes can be found here: https://help.accredible.com/a-quick-guide-to-attributes
+
+## Attribute Keys [/v1/attribute_keys]
+
+### Create a New Custom Attribute [POST]
+You may create a Custom Attribute using this action. It takes a JSON object containing the name and kind of the attribute.
+
++ Request (application/json)
+    + Headers
+            Authorization: Token token=YOUR API _KEY
+    + Attributes
+        + name (string, required) - A name for the custom attribute.
+        + kind (string, required) - The kind of custom attribute. Must be one of the following - [text, date, email, image]
+        + department_id (number, required) - Department the custom attribute should belong to.
+
+    + Body
+            {
+                "attribute_key": {
+                    "name": "New Custom Attribute",
+                    "kind": "text",
+                    "department_id": 123
+                }
+            }
++ Response 200 (application/json)
+        {
+            "attribute_key": {
+                "id": 1234,
+                "name": "New Custom Attribute",
+                "kind": "text",
+                "department_id": 123
+            }
+        }
+
 
 # Group Evidence Items
-Resources realted to EvidenceItems. EvidenceItems provide more information about how the recipient met the achievement. Typically this would include work samples for a course.
+Resources related to EvidenceItems. EvidenceItems provide more information about how the recipient met the achievement. Typically this would include work samples for a course.
 
 ## Evidence Items [/v1/credentials/{credential_id}/evidence_items]
 
@@ -2311,7 +2348,7 @@ You create EvidenceItems using this action. It takes a JSON object containing an
 
 
 # Group References
-Resources realted to References. References provide more information about how the recipient met an achievement. Typically this would be a peer, teacher or manager giving their feedback.
+Resources related to References. References provide more information about how the recipient met an achievement. Typically this would be a peer, teacher or manager giving their feedback.
 
 ## References [/v1/credentials/{credential_id}/references]
 
