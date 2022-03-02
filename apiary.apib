@@ -2167,21 +2167,21 @@ Attributes provide a way to add information to certificates/emails. A full guide
 
 ## Attribute Keys [/v1/attribute_keys]
 
-### Create a New Custom Attribute [POST]
-You may create a Custom Attribute using this action. It takes a JSON object containing the name and kind of the attribute.
+### Create a New Custom Attribute Key [POST]
+You may create a Custom Attribute Key using this action. It takes a JSON object containing the name and kind of the attribute key.
 
 + Request (application/json)
     + Headers
             Authorization: Token token=YOUR API _KEY
     + Attributes
-        + name (string, required) - A name for the custom attribute.
-        + kind (string, required) - The kind of custom attribute. Must be one of the following - [text, date, email, image]
-        + department_id (number, required) - Department the custom attribute should belong to.
+        + name (string, required) - A name for the custom attribute key.
+        + kind (string, required) - The kind of custom attribute key. Must be one of the following - [text, date, email, image]
+        + department_id (number, required) - Department the custom attribute key should belong to.
 
     + Body
             {
                 "attribute_key": {
-                    "name": "New Custom Attribute",
+                    "name": "New Custom Attribute Key",
                     "kind": "text",
                     "department_id": 123
                 }
@@ -2190,7 +2190,7 @@ You may create a Custom Attribute using this action. It takes a JSON object cont
         {
             "attribute_key": {
                 "id": 1234,
-                "name": "New Custom Attribute",
+                "name": "New Custom Attribute Key",
                 "kind": "text",
                 "department_id": 123
             }
