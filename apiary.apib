@@ -2196,6 +2196,51 @@ You may create a Custom Attribute Key using this action. It takes a JSON object 
             }
         }
 
+## Search Attribute Keys  [/v1/attribute_keys/search]
+
+### Search for Attribute Keys [POST]
+
+You can search for Attribute Keys by various search criteria.
+
++ Parameters
+    + name (string, optional) - A name for the custom attribute key.
+    + kind (string, optional) - The kind of custom attribute key. Must be one of the following - [text, date, email, image]
+    + page_size(number, optional) - The pagination response size, default of 50.
+    + page(number,optional) - The pagination page.
+
++ Request (application/json)
+
+    + Headers
+
+            Authorization: Token token=YOUR API _KEY
+
+    + Body
+
+            {
+                "name": "attribute",
+                "kind": "text"
+            }
+
++ Response 200 (application/json)
+
+        {
+            "attribute_keys": [
+                {
+                    "id": 1234,
+                    "name": "New Custom Attribute Key",
+                    "kind": "text",
+                    "department_id": 123
+                }
+            ],
+            "meta": {
+                "current_page": 1,
+                "next_page": null,
+                "prev_page": null,
+                "total_pages": 1,
+                "total_count": 1
+            }
+        }
+
 
 # Group Evidence Items
 Resources related to EvidenceItems. EvidenceItems provide more information about how the recipient met the achievement. Typically this would include work samples for a course.
