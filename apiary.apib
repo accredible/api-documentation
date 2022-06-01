@@ -212,7 +212,8 @@ This endpoint requires a JSON object containing a Credential.
                             "referee": {
                                 "name": "Jane Doe",
                                 "email": "person2@example.com",
-                                "avatar": "https://placehold.it/100x100"
+                                "avatar": "https://placehold.it/100x100",
+                                "url": "https://any-url.com"
                             },
                             "relationship": "managed"
                         }
@@ -291,11 +292,9 @@ This endpoint requires a JSON object containing a Credential.
                         "supplemental": false,
                         "approve": true,
                         "referee": {
-                            "id": 4,
                             "name": "Example Person",
-                            "title": null,
-                            "url": null,
-                            "avatar_image_url": "https://s3.amazonaws.com/staging_accredible_api_individuals/images/4/thumb/open-uri20140815-11960-1r0hppg?1408416647"
+                            "email": null,
+                            "avatar": "https://s3.amazonaws.com/staging_accredible_api_individuals/images/4/thumb/open-uri20140815-11960-1r0hppg?1408416647"
                         }
                     }
                 ],
@@ -491,11 +490,9 @@ Create bulk Credentials using this action. It requires a JSON object containing 
                         "supplemental": false,
                         "approve": true,
                         "referee": {
-                            "id": 4,
                             "name": "Example Person",
-                            "title": null,
-                            "url": null,
-                            "avatar_image_url": "https://s3.amazonaws.com/staging_accredible_api_individuals/images/4/thumb/open-uri20140815-11960-1r0hppg?1408416647"
+                            "email": null,
+                            "avatar": "https://s3.amazonaws.com/staging_accredible_api_individuals/images/4/thumb/open-uri20140815-11960-1r0hppg?1408416647"
                         }
                     }
                 ],
@@ -618,11 +615,9 @@ Create bulk Credentials using this action. It requires a JSON object containing 
                         "supplemental": false,
                         "approve": true,
                         "referee": {
-                            "id": 4,
                             "name": "Example Person",
-                            "title": null,
-                            "url": null,
-                            "avatar_image_url": "https://s3.amazonaws.com/staging_accredible_api_individuals/images/4/thumb/open-uri20140815-11960-1r0hppg?1408416647"
+                            "email": "email@example.com"
+                            "avatar": "https://s3.amazonaws.com/staging_accredible_api_individuals/images/4/thumb/open-uri20140815-11960-1r0hppg?1408416647"
                         }
                     }
                 ],
@@ -721,11 +716,9 @@ Create bulk Credentials using this action. It requires a JSON object containing 
                         "supplemental": false,
                         "approve": true,
                         "referee": {
-                            "id": 4,
                             "name": "Example Person",
-                            "title": null,
-                            "url": null,
-                            "avatar_image_url": "https://s3.amazonaws.com/staging_accredible_api_individuals/images/4/thumb/open-uri20140815-11960-1r0hppg?1408416647"
+                            "email": null,
+                            "avatar": "https://s3.amazonaws.com/staging_accredible_api_individuals/images/4/thumb/open-uri20140815-11960-1r0hppg?1408416647"
                         }
                     }
                 ],
@@ -1834,7 +1827,7 @@ For example if we have three courses: Intro to Basic Programming, Intro to Advan
     + meta_data (object, optional) - String key/values you attached to the object.
     + page_size(number, optional) - The pagination response size, default of 50.
     + page(number,optional) - The pagination page.
-    
+
 
 + Request (application/json)
 
@@ -1948,7 +1941,7 @@ As an OEM provider or reseller of digital certificates it's easy to embed our ce
 A full guide on using the embedded certificate designer can be found at: https://help.accredible.com/embed-certificate-designer
 
 
-### Initialize Embedded Certificate Designer [POST]   
+### Initialize Embedded Certificate Designer [POST]
 
 + Request (application/json)
 
@@ -1972,9 +1965,9 @@ A full guide on using the embedded certificate designer can be found at: https:/
 
     + Body
 
-            { 
-                "token": "abc123:xyz456", 
-                "design_id": 12345 
+            {
+                "token": "abc123:xyz456",
+                "design_id": 12345
             }
 
 # Group Departments
@@ -2442,8 +2435,8 @@ You may create a Reference using this action. It takes a JSON object containing 
                 "description": "John worked hard on this course and provided exemplary understanding of the core concepts",
                 "referee": {
                     "name": "Jane Doe",
-                    "avatar_image_url": "https://www.example.com/avatars/janedoe.png",
-                    "url": "http://www.linkedin.com/in/example"
+                    "email": "jdoe@example.com",
+                    "avatar": "https://www.example.com/avatars/janedoe.png"
                 },
                 "supplemental": false,
                 "relationship": "managed"
@@ -2468,8 +2461,8 @@ You may create a Reference using this action. It takes a JSON object containing 
                 "description": "John worked hard on this course and provided exemplary understanding of the core concepts",
                 "referee": {
                     "name": "Jane Doe",
-                    "avatar_image_url": "https://www.example.com/avatars/janedoe.png",
-                    "url": "http://www.linkedin.com/in/example"
+                    "email": "jdoe@example.com",
+                    "avatar": "https://www.example.com/avatars/janedoe.png"
                 },
                 "supplemental": false,
                 "relationship": "managed"
@@ -2511,8 +2504,8 @@ You may create a Reference using this action. It takes a JSON object containing 
                 "description": "John worked hard on this course and provided exemplary understanding of the core concepts",
                 "referee": {
                     "name": "Jane Doe",
-                    "avatar_image_url": "https://www.example.com/avatars/janedoe.png",
-                    "url": "http://www.linkedin.com/in/example"
+                    "email": "jdoe@example.com",
+                    "avatar": "https://www.example.com/avatars/janedoe.png"
                 },
                 "supplemental": false,
                 "relationship": "managed"
@@ -2543,8 +2536,8 @@ You may create a Reference using this action. It takes a JSON object containing 
                 "description": "John worked hard on this course and provided exemplary understanding of the core concepts",
                 "referee": {
                     "name": "Jane Doe",
-                    "avatar_image_url": "https://www.example.com/avatars/janedoe.png",
-                    "url": "http://www.linkedin.com/in/example"
+                    "email": "jdoe@example.com",
+                    "avatar": "https://www.example.com/avatars/janedoe.png"
                 },
                 "supplemental": false,
                 "relationship": "managed"
@@ -2650,7 +2643,7 @@ Create a TeamMember using this action. It requires a JSON object containing an T
                                 "role": "editor",
                                 "groups": [1, 2, 3]
                             }
-                            
+
                         },
                         {
                             "department_id": 35,
@@ -2663,7 +2656,7 @@ Create a TeamMember using this action. It requires a JSON object containing an T
                                 "role": "viewer",
                                 "groups": null
                             }
-                            
+
                         }
                     ]
                 }
@@ -2688,7 +2681,7 @@ Create a TeamMember using this action. It requires a JSON object containing an T
                             "role": "editor",
                             "groups": [1, 2, 3]
                         }
-                        
+
                     },
                     {
                         "department_id": 35,
@@ -2701,7 +2694,7 @@ Create a TeamMember using this action. It requires a JSON object containing an T
                             "role": "viewer",
                             "groups": null
                         }
-                        
+
                     }
                 ]
             }
@@ -2737,7 +2730,7 @@ Create a TeamMember using this action. It requires a JSON object containing an T
                             "role": "editor",
                             "groups": [1, 2, 3]
                         }
-                        
+
                     },
                     {
                         "department_id": 35,
@@ -2750,7 +2743,7 @@ Create a TeamMember using this action. It requires a JSON object containing an T
                             "role": "viewer",
                             "groups": null
                         }
-                        
+
                     }
                 ]
             }
@@ -2798,7 +2791,7 @@ Update a TeamMember using this action. It requires a JSON object containing an T
                                 "role": "editor",
                                 "groups": [1, 2, 3]
                             }
-                            
+
                         },
                         {
                             "department_id": 35,
@@ -2811,7 +2804,7 @@ Update a TeamMember using this action. It requires a JSON object containing an T
                                 "role": "viewer",
                                 "groups": null
                             }
-                            
+
                         }
                     ]
                 }
@@ -2836,7 +2829,7 @@ Update a TeamMember using this action. It requires a JSON object containing an T
                             "role": "editor",
                             "groups": [1, 2, 3]
                         }
-                        
+
                     },
                     {
                         "department_id": 35,
@@ -2849,7 +2842,7 @@ Update a TeamMember using this action. It requires a JSON object containing an T
                             "role": "viewer",
                             "groups": null
                         }
-                        
+
                     }
                 ]
             }
@@ -2886,7 +2879,7 @@ Update a TeamMember using this action. It requires a JSON object containing an T
                             "role": "editor",
                             "groups": [1, 2, 3]
                         }
-                        
+
                     },
                     {
                         "department_id": 35,
@@ -2899,7 +2892,7 @@ Update a TeamMember using this action. It requires a JSON object containing an T
                             "role": "viewer",
                             "groups": null
                         }
-                        
+
                     }
                 ]
             }
