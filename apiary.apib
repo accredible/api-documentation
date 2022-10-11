@@ -1152,6 +1152,7 @@ For example you should create a group for the Introduction to Programming course
         + department_id (number, optional) - Department that the group belongs to. If not defined the group will be assigned to the organizations default department.
         + meta_data (object, optional) - You can use this parameter to attach key-value strings to the object. Meta data is useful for storing additional, structured information on an object.
         + learning_outcomes(array, optional) - Searchable keywords identifying skills credential-holders need to demonstrate (or have learned) in the process of earning this credential.
+        + generate_private_credential (boolean, optional) - The default value of `Credential.private` for the group. The supported values are `true`, `false`, and `null`. If `null` is assigned, the department's `generate_private_credential` will be used instead.
 
     + Body
 
@@ -1171,7 +1172,8 @@ For example you should create a group for the Introduction to Programming course
                     "meta_data": {
                         "batch_id": "271"
                     },
-                    "learning_outcomes": ["Reading Books", "Writing Essays"]
+                    "learning_outcomes": ["Reading Books", "Writing Essays"],
+                    "generate_private_credential": false
                 }
             }
 
@@ -1199,7 +1201,8 @@ For example you should create a group for the Introduction to Programming course
                 "meta_data": {
                     "foo": "bar"
                 },
-                "learning_outcomes": ["Skill One", "Skill Two"]
+                "learning_outcomes": ["Skill One", "Skill Two"],
+                "generate_private_credential": false
             }
         }
 
@@ -1235,7 +1238,8 @@ For example you should create a group for the Introduction to Programming course
             "certificate_design_id": null,
             "badge_design_id": null,
             "department_id": 123,
-            "meta_data": null
+            "meta_data": null,
+            "generate_private_credential": false
           }
       }
 
@@ -1265,6 +1269,7 @@ For example you should create a group for the Introduction to Programming course
         + department_id (number,optional) - Department that the group belongs to. If not defined the group will be assigned to the organizations default department.
         + meta_data (object, optional) - You can use this parameter to attach key-value strings to the object. Meta data is useful for storing additional, structured information on an object.
         + learning_outcomes(array, optional) - Searchable keywords identifying skills credential-holders need to demonstrate (or have learned) in the process of earning this credential.
+        + generate_private_credential (boolean, optional) - The default value of `Credential.private` for the group. The supported values are `true`, `false`, and `null`. If `null` is assigned, the department's `generate_private_credential` will be used instead.
 
     + Body
 
@@ -1297,7 +1302,8 @@ For example you should create a group for the Introduction to Programming course
             "department_id": 123,
             "meta_data": {
                 "foo": "bar"
-            }
+            },
+            "generate_private_credential": false
           }
         }
 
@@ -1332,7 +1338,8 @@ For example you should create a group for the Introduction to Programming course
             "certificate_design_id": null,
             "badge_design_id": null,
             "department_id": 123,
-            "meta_data": null
+            "meta_data": null,
+            "generate_private_credential": false
             }
         }
 
@@ -1375,7 +1382,8 @@ For example you should create a group for the Introduction to Programming course
                     "department_id": 123,
                     "meta_data": {
                         "course_id": "TK764"
-                    }
+                    },
+                    "generate_private_credential": false
                 },
                 {
                     "id": 12473,
@@ -1396,7 +1404,8 @@ For example you should create a group for the Introduction to Programming course
                     "department_id": 123,
                     "meta_data": {
                         "course_id": "TK765"
-                    }
+                    },
+                    "generate_private_credential": false
                 }
             ],
             "meta": {
@@ -1454,7 +1463,8 @@ For example you should create a group for the Introduction to Programming course
                     "department_id": 123,
                     "meta_data": {
                         "course_id": "TK764"
-                    }
+                    },
+                    "generate_private_credential": false
                 },
                 {
                     "id": 12473,
@@ -1475,7 +1485,8 @@ For example you should create a group for the Introduction to Programming course
                     "department_id": 123,
                     "meta_data": {
                         "course_id": "TK765"
-                    }
+                    },
+                    "generate_private_credential": false
                 }
             ],
             "meta": {
@@ -1989,6 +2000,7 @@ You may create a Department using this action. It takes a JSON object containing
         + page_banner (string, optional) - URL of an image to display as the Department Banner. Accredible will copy the given image and store the logo within it's own platform. The image should be at least 1920px wide by 300px tall. PNG format preferred.
         + linkedin_company_id (string, optional) - The LinkedIn company ID for the given Department.
         + meta_data (object, optional) - You can use this parameter to attach key-value strings to the object. Meta data is useful for storing additional, structured information on an object.
+        + generate_private_credential (boolean, optional) - The default value of `Credential.private`.
 
     + Body
             {
@@ -2002,7 +2014,8 @@ You may create a Department using this action. It takes a JSON object containing
                     "meta_data": {
                         "internal_id": "R12",
                         "faculty": "physics"
-                    }
+                    },
+                    "generate_private_credential": false
                 }
             }
 + Response 200 (application/json)
@@ -2018,7 +2031,8 @@ You may create a Department using this action. It takes a JSON object containing
                 "meta_data": {
                     "internal_id": "R12",
                     "faculty": "physics"
-                }
+                },
+                "generate_private_credential": false
             }
         }
 
@@ -2045,7 +2059,8 @@ You may create a Department using this action. It takes a JSON object containing
                 "meta_data": {
                     "internal_id": "R12",
                     "faculty": "physics"
-                }
+                },
+                "generate_private_credential": false
             }
         }
 
@@ -2064,6 +2079,8 @@ You may create a Department using this action. It takes a JSON object containing
         + page_banner (string, optional) - URL of an image to display as the Department Banner. Accredible will copy the given image and store the logo within it's own platform. The image should be at least 1920px wide by 300px tall. PNG format preferred.
         + linkedin_company_id (string, optional) - The LinkedIn company ID for the given Department.
         + meta_data (object, optional) - You can use this parameter to attach key-value strings to the object. Meta data is useful for storing additional, structured information on an object.
+        + generate_private_credential (boolean, optional) - The default value of `Credential.private`.
+
     + Body
             {
                 "department": {
@@ -2084,7 +2101,8 @@ You may create a Department using this action. It takes a JSON object containing
                 "meta_data": {
                     "internal_id": "R12",
                     "faculty": "physics"
-                }
+                },
+                 "generate_private_credential": false
             }
         }
 
@@ -2107,7 +2125,8 @@ You may create a Department using this action. It takes a JSON object containing
                 "meta_data": {
                     "internal_id": "R12",
                     "faculty": "physics"
-                }
+                },
+                 "generate_private_credential": false
             }
         }
 
@@ -2151,7 +2170,8 @@ You can search for departments by various search criteria.
                 "meta_data": {
                     "internal_id": "R12",
                     "faculty": "physics"
-                }
+                },
+                 "generate_private_credential": false
             }
         }
 
