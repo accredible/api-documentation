@@ -169,7 +169,7 @@ This endpoint requires a JSON object containing a Credential.
         + issued_on (string, optional) - Date of issue, the default is when the credential is created. Format: DD/MM/YYYY
         + expired_on (string, optional) - Date you would like the credential to expire on, null by default. Format: DD/MM/YYYY
         + complete (boolean, optional) - Whether the achievement is complete or still in progress, true by default.
-        + private (boolean, optional) - Whether to make credential private, will require a secret key to open it. If set to true, by default false.
+        + private (boolean, optional) - Whether to make credential private, will require a secret key to open it, if set to true. If no value is set, the default value will be automatically assigned based on `Group.generate_private_credential` and `Department.generate_private_credential`. `Department.generate_private_credential` will be used as the default when `Group.generate_private_credential` is set to `null`. `Group.generate_private_credential` will override `Department.generate_private_credential` and be used as the default when it is set to `true` or `false`.
         + approve (boolean, optional) - Whether to publish credential at the time of creation. By default this is true but settings at dashboard for sandbox_mode take precendence.
         + allow_supplemental_evidence (boolean, optional) - Whether to allow recipients to add their own supplemental evidence to the Credential, true by default.
         + allow_supplemental_references (boolean, optional) - Whether to allow recipients to add their own supplemental references to the credential, true by default.
@@ -1152,8 +1152,8 @@ For example you should create a group for the Introduction to Programming course
         + department_id (number, optional) - Department that the group belongs to. If not defined the group will be assigned to the organizations default department.
         + meta_data (object, optional) - You can use this parameter to attach key-value strings to the object. Meta data is useful for storing additional, structured information on an object.
         + learning_outcomes(array, optional) - Searchable keywords identifying skills credential-holders need to demonstrate (or have learned) in the process of earning this credential.
-        + generate_private_credential (boolean, optional) - The default value of `Credential.private` for the group. The supported values are `true`, `false`, and `null`. If `null` is assigned, the department's `generate_private_credential` will be used instead.
-
+        + generate_private_credential (boolean, optional) - The default value of `Credential.private` for the Group. The supported values are `true`, `false`, and `null`. When this is set to `true` or `false`, it will override `Department.generate_private_credential` and be used as the default of `Credential.private` when creating a new `Credential`. When this is set to `null`, it won't override `Department.generate_private_credential` which will be used for the default of `Credential.private` instead.
+        
     + Body
 
             {
@@ -1269,7 +1269,7 @@ For example you should create a group for the Introduction to Programming course
         + department_id (number,optional) - Department that the group belongs to. If not defined the group will be assigned to the organizations default department.
         + meta_data (object, optional) - You can use this parameter to attach key-value strings to the object. Meta data is useful for storing additional, structured information on an object.
         + learning_outcomes(array, optional) - Searchable keywords identifying skills credential-holders need to demonstrate (or have learned) in the process of earning this credential.
-        + generate_private_credential (boolean, optional) - The default value of `Credential.private` for the group. The supported values are `true`, `false`, and `null`. If `null` is assigned, the department's `generate_private_credential` will be used instead.
+        + generate_private_credential (boolean, optional) - The default value of `Credential.private` for the Group. The supported values are `true`, `false`, and `null`. When this is set to `true` or `false`, it will override `Department.generate_private_credential` and be used as the default of `Credential.private` when creating a new `Credential`. When this is set to `null`, it won't override `Department.generate_private_credential` which will be used for the default of `Credential.private` instead.
 
     + Body
 
@@ -2000,7 +2000,7 @@ You may create a Department using this action. It takes a JSON object containing
         + page_banner (string, optional) - URL of an image to display as the Department Banner. Accredible will copy the given image and store the logo within it's own platform. The image should be at least 1920px wide by 300px tall. PNG format preferred.
         + linkedin_company_id (string, optional) - The LinkedIn company ID for the given Department.
         + meta_data (object, optional) - You can use this parameter to attach key-value strings to the object. Meta data is useful for storing additional, structured information on an object.
-        + generate_private_credential (boolean, optional) - The default value of `Credential.private`.
+        + generate_private_credential (boolean, optional) - This boolean value will be used as the default of `Credential.private` when creating a new Credential unless it's overridden by `Group.generate_private_credential` that is set to `true` or `false`.
 
     + Body
             {
@@ -2079,7 +2079,7 @@ You may create a Department using this action. It takes a JSON object containing
         + page_banner (string, optional) - URL of an image to display as the Department Banner. Accredible will copy the given image and store the logo within it's own platform. The image should be at least 1920px wide by 300px tall. PNG format preferred.
         + linkedin_company_id (string, optional) - The LinkedIn company ID for the given Department.
         + meta_data (object, optional) - You can use this parameter to attach key-value strings to the object. Meta data is useful for storing additional, structured information on an object.
-        + generate_private_credential (boolean, optional) - The default value of `Credential.private`.
+        + generate_private_credential (boolean, optional) - This boolean value will be used as the default of `Credential.private` when creating a new Credential unless it's overridden by `Group.generate_private_credential` that is set to `true` or `false`.
 
     + Body
             {
