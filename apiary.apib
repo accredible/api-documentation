@@ -169,7 +169,7 @@ This endpoint requires a JSON object containing a Credential.
         + issued_on (string, optional) - Date of issue, the default is when the credential is created. Format: DD/MM/YYYY
         + expired_on (string, optional) - Date you would like the credential to expire on, null by default. Format: DD/MM/YYYY
         + complete (boolean, optional) - Whether the achievement is complete or still in progress, true by default.
-        + private (boolean, optional) - Whether to make credential private, will require a secret key to open it. If set to true, by default false.
+        + private (boolean, optional) - Whether to make credential private. When it is set to `true`, the Credential will be private and visible only to its recipient who has signed into credential.net. If no value is set, the default value will be automatically assigned based on `Group.generate_private_credential` and `Department.generate_private_credential`. `Department.generate_private_credential` will be used as the default when `Group.generate_private_credential` is set to `null`. `Group.generate_private_credential` will override `Department.generate_private_credential` and be used as the default when it is set to `true` or `false`.
         + approve (boolean, optional) - Whether to publish credential at the time of creation. By default this is true but settings at dashboard for sandbox_mode take precendence.
         + allow_supplemental_evidence (boolean, optional) - Whether to allow recipients to add their own supplemental evidence to the Credential, true by default.
         + allow_supplemental_references (boolean, optional) - Whether to allow recipients to add their own supplemental references to the credential, true by default.
@@ -212,7 +212,8 @@ This endpoint requires a JSON object containing a Credential.
                             "referee": {
                                 "name": "Jane Doe",
                                 "email": "person2@example.com",
-                                "avatar": "https://placehold.it/100x100"
+                                "avatar": "https://placehold.it/100x100",
+                                "url": "https://any-url.com"
                             },
                             "relationship": "managed"
                         }
@@ -291,11 +292,9 @@ This endpoint requires a JSON object containing a Credential.
                         "supplemental": false,
                         "approve": true,
                         "referee": {
-                            "id": 4,
                             "name": "Example Person",
-                            "title": null,
-                            "url": null,
-                            "avatar_image_url": "https://s3.amazonaws.com/staging_accredible_api_individuals/images/4/thumb/open-uri20140815-11960-1r0hppg?1408416647"
+                            "email": null,
+                            "avatar": "https://s3.amazonaws.com/staging_accredible_api_individuals/images/4/thumb/open-uri20140815-11960-1r0hppg?1408416647"
                         }
                     }
                 ],
@@ -491,11 +490,9 @@ Create bulk Credentials using this action. It requires a JSON object containing 
                         "supplemental": false,
                         "approve": true,
                         "referee": {
-                            "id": 4,
                             "name": "Example Person",
-                            "title": null,
-                            "url": null,
-                            "avatar_image_url": "https://s3.amazonaws.com/staging_accredible_api_individuals/images/4/thumb/open-uri20140815-11960-1r0hppg?1408416647"
+                            "email": null,
+                            "avatar": "https://s3.amazonaws.com/staging_accredible_api_individuals/images/4/thumb/open-uri20140815-11960-1r0hppg?1408416647"
                         }
                     }
                 ],
@@ -618,11 +615,9 @@ Create bulk Credentials using this action. It requires a JSON object containing 
                         "supplemental": false,
                         "approve": true,
                         "referee": {
-                            "id": 4,
                             "name": "Example Person",
-                            "title": null,
-                            "url": null,
-                            "avatar_image_url": "https://s3.amazonaws.com/staging_accredible_api_individuals/images/4/thumb/open-uri20140815-11960-1r0hppg?1408416647"
+                            "email": "email@example.com"
+                            "avatar": "https://s3.amazonaws.com/staging_accredible_api_individuals/images/4/thumb/open-uri20140815-11960-1r0hppg?1408416647"
                         }
                     }
                 ],
@@ -721,11 +716,9 @@ Create bulk Credentials using this action. It requires a JSON object containing 
                         "supplemental": false,
                         "approve": true,
                         "referee": {
-                            "id": 4,
                             "name": "Example Person",
-                            "title": null,
-                            "url": null,
-                            "avatar_image_url": "https://s3.amazonaws.com/staging_accredible_api_individuals/images/4/thumb/open-uri20140815-11960-1r0hppg?1408416647"
+                            "email": null,
+                            "avatar": "https://s3.amazonaws.com/staging_accredible_api_individuals/images/4/thumb/open-uri20140815-11960-1r0hppg?1408416647"
                         }
                     }
                 ],
@@ -1159,7 +1152,8 @@ For example you should create a group for the Introduction to Programming course
         + department_id (number, optional) - Department that the group belongs to. If not defined the group will be assigned to the organizations default department.
         + meta_data (object, optional) - You can use this parameter to attach key-value strings to the object. Meta data is useful for storing additional, structured information on an object.
         + learning_outcomes(array, optional) - Searchable keywords identifying skills credential-holders need to demonstrate (or have learned) in the process of earning this credential.
-
+        + generate_private_credential (boolean, optional) - The default value of `Credential.private` for the Group. The supported values are `true`, `false`, and `null`. When this is set to `true` or `false`, it will override `Department.generate_private_credential` and be used as the default of `Credential.private` when creating a new `Credential`. When this is set to `null`, it won't override `Department.generate_private_credential` which will be used for the default of `Credential.private` instead.
+        
     + Body
 
             {
@@ -1178,7 +1172,8 @@ For example you should create a group for the Introduction to Programming course
                     "meta_data": {
                         "batch_id": "271"
                     },
-                    "learning_outcomes": ["Reading Books", "Writing Essays"]
+                    "learning_outcomes": ["Reading Books", "Writing Essays"],
+                    "generate_private_credential": false
                 }
             }
 
@@ -1206,7 +1201,8 @@ For example you should create a group for the Introduction to Programming course
                 "meta_data": {
                     "foo": "bar"
                 },
-                "learning_outcomes": ["Skill One", "Skill Two"]
+                "learning_outcomes": ["Skill One", "Skill Two"],
+                "generate_private_credential": false
             }
         }
 
@@ -1242,7 +1238,8 @@ For example you should create a group for the Introduction to Programming course
             "certificate_design_id": null,
             "badge_design_id": null,
             "department_id": 123,
-            "meta_data": null
+            "meta_data": null,
+            "generate_private_credential": false
           }
       }
 
@@ -1272,6 +1269,7 @@ For example you should create a group for the Introduction to Programming course
         + department_id (number,optional) - Department that the group belongs to. If not defined the group will be assigned to the organizations default department.
         + meta_data (object, optional) - You can use this parameter to attach key-value strings to the object. Meta data is useful for storing additional, structured information on an object.
         + learning_outcomes(array, optional) - Searchable keywords identifying skills credential-holders need to demonstrate (or have learned) in the process of earning this credential.
+        + generate_private_credential (boolean, optional) - The default value of `Credential.private` for the Group. The supported values are `true`, `false`, and `null`. When this is set to `true` or `false`, it will override `Department.generate_private_credential` and be used as the default of `Credential.private` when creating a new `Credential`. When this is set to `null`, it won't override `Department.generate_private_credential` which will be used for the default of `Credential.private` instead.
 
     + Body
 
@@ -1304,7 +1302,8 @@ For example you should create a group for the Introduction to Programming course
             "department_id": 123,
             "meta_data": {
                 "foo": "bar"
-            }
+            },
+            "generate_private_credential": false
           }
         }
 
@@ -1339,7 +1338,8 @@ For example you should create a group for the Introduction to Programming course
             "certificate_design_id": null,
             "badge_design_id": null,
             "department_id": 123,
-            "meta_data": null
+            "meta_data": null,
+            "generate_private_credential": false
             }
         }
 
@@ -1382,7 +1382,8 @@ For example you should create a group for the Introduction to Programming course
                     "department_id": 123,
                     "meta_data": {
                         "course_id": "TK764"
-                    }
+                    },
+                    "generate_private_credential": false
                 },
                 {
                     "id": 12473,
@@ -1403,7 +1404,8 @@ For example you should create a group for the Introduction to Programming course
                     "department_id": 123,
                     "meta_data": {
                         "course_id": "TK765"
-                    }
+                    },
+                    "generate_private_credential": false
                 }
             ],
             "meta": {
@@ -1461,7 +1463,8 @@ For example you should create a group for the Introduction to Programming course
                     "department_id": 123,
                     "meta_data": {
                         "course_id": "TK764"
-                    }
+                    },
+                    "generate_private_credential": false
                 },
                 {
                     "id": 12473,
@@ -1482,7 +1485,8 @@ For example you should create a group for the Introduction to Programming course
                     "department_id": 123,
                     "meta_data": {
                         "course_id": "TK765"
-                    }
+                    },
+                    "generate_private_credential": false
                 }
             ],
             "meta": {
@@ -1834,7 +1838,7 @@ For example if we have three courses: Intro to Basic Programming, Intro to Advan
     + meta_data (object, optional) - String key/values you attached to the object.
     + page_size(number, optional) - The pagination response size, default of 50.
     + page(number,optional) - The pagination page.
-    
+
 
 + Request (application/json)
 
@@ -1948,7 +1952,7 @@ As an OEM provider or reseller of digital certificates it's easy to embed our ce
 A full guide on using the embedded certificate designer can be found at: https://help.accredible.com/embed-certificate-designer
 
 
-### Initialize Embedded Certificate Designer [POST]   
+### Initialize Embedded Certificate Designer [POST]
 
 + Request (application/json)
 
@@ -1972,9 +1976,9 @@ A full guide on using the embedded certificate designer can be found at: https:/
 
     + Body
 
-            { 
-                "token": "abc123:xyz456", 
-                "design_id": 12345 
+            {
+                "token": "abc123:xyz456",
+                "design_id": 12345
             }
 
 # Group Departments
@@ -1996,6 +2000,7 @@ You may create a Department using this action. It takes a JSON object containing
         + page_banner (string, optional) - URL of an image to display as the Department Banner. Accredible will copy the given image and store the logo within it's own platform. The image should be at least 1920px wide by 300px tall. PNG format preferred.
         + linkedin_company_id (string, optional) - The LinkedIn company ID for the given Department.
         + meta_data (object, optional) - You can use this parameter to attach key-value strings to the object. Meta data is useful for storing additional, structured information on an object.
+        + generate_private_credential (boolean, optional) - This boolean value will be used as the default of `Credential.private` when creating a new Credential unless it's overridden by `Group.generate_private_credential` that is set to `true` or `false`.
 
     + Body
             {
@@ -2009,7 +2014,8 @@ You may create a Department using this action. It takes a JSON object containing
                     "meta_data": {
                         "internal_id": "R12",
                         "faculty": "physics"
-                    }
+                    },
+                    "generate_private_credential": false
                 }
             }
 + Response 200 (application/json)
@@ -2025,7 +2031,8 @@ You may create a Department using this action. It takes a JSON object containing
                 "meta_data": {
                     "internal_id": "R12",
                     "faculty": "physics"
-                }
+                },
+                "generate_private_credential": false
             }
         }
 
@@ -2052,7 +2059,8 @@ You may create a Department using this action. It takes a JSON object containing
                 "meta_data": {
                     "internal_id": "R12",
                     "faculty": "physics"
-                }
+                },
+                "generate_private_credential": false
             }
         }
 
@@ -2071,6 +2079,8 @@ You may create a Department using this action. It takes a JSON object containing
         + page_banner (string, optional) - URL of an image to display as the Department Banner. Accredible will copy the given image and store the logo within it's own platform. The image should be at least 1920px wide by 300px tall. PNG format preferred.
         + linkedin_company_id (string, optional) - The LinkedIn company ID for the given Department.
         + meta_data (object, optional) - You can use this parameter to attach key-value strings to the object. Meta data is useful for storing additional, structured information on an object.
+        + generate_private_credential (boolean, optional) - This boolean value will be used as the default of `Credential.private` when creating a new Credential unless it's overridden by `Group.generate_private_credential` that is set to `true` or `false`.
+
     + Body
             {
                 "department": {
@@ -2091,7 +2101,8 @@ You may create a Department using this action. It takes a JSON object containing
                 "meta_data": {
                     "internal_id": "R12",
                     "faculty": "physics"
-                }
+                },
+                 "generate_private_credential": false
             }
         }
 
@@ -2114,7 +2125,8 @@ You may create a Department using this action. It takes a JSON object containing
                 "meta_data": {
                     "internal_id": "R12",
                     "faculty": "physics"
-                }
+                },
+                 "generate_private_credential": false
             }
         }
 
@@ -2158,7 +2170,8 @@ You can search for departments by various search criteria.
                 "meta_data": {
                     "internal_id": "R12",
                     "faculty": "physics"
-                }
+                },
+                 "generate_private_credential": false
             }
         }
 
@@ -2193,6 +2206,51 @@ You may create a Custom Attribute Key using this action. It takes a JSON object 
                 "name": "New Custom Attribute Key",
                 "kind": "text",
                 "department_id": 123
+            }
+        }
+
+## Search Attribute Keys  [/v1/attribute_keys/search]
+
+### Search for Attribute Keys [POST]
+
+You can search for Attribute Keys by various search criteria.
+
++ Parameters
+    + name (string, optional) - A name for the custom attribute key.
+    + kind (string, optional) - The kind of custom attribute key. Must be one of the following - [text, date, email, image]
+    + page_size(number, optional) - The pagination response size, default of 50.
+    + page(number,optional) - The pagination page.
+
++ Request (application/json)
+
+    + Headers
+
+            Authorization: Token token=YOUR API _KEY
+
+    + Body
+
+            {
+                "name": "attribute",
+                "kind": "text"
+            }
+
++ Response 200 (application/json)
+
+        {
+            "attribute_keys": [
+                {
+                    "id": 1234,
+                    "name": "New Custom Attribute Key",
+                    "kind": "text",
+                    "department_id": 123
+                }
+            ],
+            "meta": {
+                "current_page": 1,
+                "next_page": null,
+                "prev_page": null,
+                "total_pages": 1,
+                "total_count": 1
             }
         }
 
@@ -2397,8 +2455,8 @@ You may create a Reference using this action. It takes a JSON object containing 
                 "description": "John worked hard on this course and provided exemplary understanding of the core concepts",
                 "referee": {
                     "name": "Jane Doe",
-                    "avatar_image_url": "https://www.example.com/avatars/janedoe.png",
-                    "url": "http://www.linkedin.com/in/example"
+                    "email": "jdoe@example.com",
+                    "avatar": "https://www.example.com/avatars/janedoe.png"
                 },
                 "supplemental": false,
                 "relationship": "managed"
@@ -2423,8 +2481,8 @@ You may create a Reference using this action. It takes a JSON object containing 
                 "description": "John worked hard on this course and provided exemplary understanding of the core concepts",
                 "referee": {
                     "name": "Jane Doe",
-                    "avatar_image_url": "https://www.example.com/avatars/janedoe.png",
-                    "url": "http://www.linkedin.com/in/example"
+                    "email": "jdoe@example.com",
+                    "avatar": "https://www.example.com/avatars/janedoe.png"
                 },
                 "supplemental": false,
                 "relationship": "managed"
@@ -2466,8 +2524,8 @@ You may create a Reference using this action. It takes a JSON object containing 
                 "description": "John worked hard on this course and provided exemplary understanding of the core concepts",
                 "referee": {
                     "name": "Jane Doe",
-                    "avatar_image_url": "https://www.example.com/avatars/janedoe.png",
-                    "url": "http://www.linkedin.com/in/example"
+                    "email": "jdoe@example.com",
+                    "avatar": "https://www.example.com/avatars/janedoe.png"
                 },
                 "supplemental": false,
                 "relationship": "managed"
@@ -2498,8 +2556,8 @@ You may create a Reference using this action. It takes a JSON object containing 
                 "description": "John worked hard on this course and provided exemplary understanding of the core concepts",
                 "referee": {
                     "name": "Jane Doe",
-                    "avatar_image_url": "https://www.example.com/avatars/janedoe.png",
-                    "url": "http://www.linkedin.com/in/example"
+                    "email": "jdoe@example.com",
+                    "avatar": "https://www.example.com/avatars/janedoe.png"
                 },
                 "supplemental": false,
                 "relationship": "managed"
@@ -2605,7 +2663,7 @@ Create a TeamMember using this action. It requires a JSON object containing an T
                                 "role": "editor",
                                 "groups": [1, 2, 3]
                             }
-                            
+
                         },
                         {
                             "department_id": 35,
@@ -2618,7 +2676,7 @@ Create a TeamMember using this action. It requires a JSON object containing an T
                                 "role": "viewer",
                                 "groups": null
                             }
-                            
+
                         }
                     ]
                 }
@@ -2643,7 +2701,7 @@ Create a TeamMember using this action. It requires a JSON object containing an T
                             "role": "editor",
                             "groups": [1, 2, 3]
                         }
-                        
+
                     },
                     {
                         "department_id": 35,
@@ -2656,7 +2714,7 @@ Create a TeamMember using this action. It requires a JSON object containing an T
                             "role": "viewer",
                             "groups": null
                         }
-                        
+
                     }
                 ]
             }
@@ -2692,7 +2750,7 @@ Create a TeamMember using this action. It requires a JSON object containing an T
                             "role": "editor",
                             "groups": [1, 2, 3]
                         }
-                        
+
                     },
                     {
                         "department_id": 35,
@@ -2705,7 +2763,7 @@ Create a TeamMember using this action. It requires a JSON object containing an T
                             "role": "viewer",
                             "groups": null
                         }
-                        
+
                     }
                 ]
             }
@@ -2753,7 +2811,7 @@ Update a TeamMember using this action. It requires a JSON object containing an T
                                 "role": "editor",
                                 "groups": [1, 2, 3]
                             }
-                            
+
                         },
                         {
                             "department_id": 35,
@@ -2766,7 +2824,7 @@ Update a TeamMember using this action. It requires a JSON object containing an T
                                 "role": "viewer",
                                 "groups": null
                             }
-                            
+
                         }
                     ]
                 }
@@ -2791,7 +2849,7 @@ Update a TeamMember using this action. It requires a JSON object containing an T
                             "role": "editor",
                             "groups": [1, 2, 3]
                         }
-                        
+
                     },
                     {
                         "department_id": 35,
@@ -2804,7 +2862,7 @@ Update a TeamMember using this action. It requires a JSON object containing an T
                             "role": "viewer",
                             "groups": null
                         }
-                        
+
                     }
                 ]
             }
@@ -2841,7 +2899,7 @@ Update a TeamMember using this action. It requires a JSON object containing an T
                             "role": "editor",
                             "groups": [1, 2, 3]
                         }
-                        
+
                     },
                     {
                         "department_id": 35,
@@ -2854,7 +2912,7 @@ Update a TeamMember using this action. It requires a JSON object containing an T
                             "role": "viewer",
                             "groups": null
                         }
-                        
+
                     }
                 ]
             }
