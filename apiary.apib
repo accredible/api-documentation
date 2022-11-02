@@ -749,8 +749,8 @@ Create bulk Credentials using this action. It requires a JSON object containing 
     + license_id (string, optional) - Limit the returned Credential to a specific credential id you set whilst creating credential.
     + start_date (string, optional) - Date after which credentials issued should be return. Format: DD/MM/YYYY
     + end_date (string, optional) - Date before which credetials issued should be return. Format: DD/MM/YYYY
-    + start_updated_date (string, optional) - Date after which credentials updated should be return. Format: DD/MM/YYYY
-    + end_updated_date (string, optional) - Date before which credetials updated should be return. Format: DD/MM/YYYY
+    + start_updated_date (string, optional) - Date after which Credentials updated should be returned. Format: DD/MM/YYYY
+    + end_updated_date (string, optional) - Date before which Credentials updated should be returned. Format: DD/MM/YYYY
     + page_size(number, optional) - The pagination response size, default of 50.
     + page(number,optional) - The pagination page.
 
@@ -846,8 +846,8 @@ Create bulk Credentials using this action. It requires a JSON object containing 
     + meta_data (object, optional) - String key/values for client's own data on credential
     + start_date (string, optional) - Date after which credentials issued should be return. Format: DD/MM/YYYY
     + end_date (string, optional) - Date before which credetials issued should be return. Format: DD/MM/YYYY
-    + start_updated_date (string, optional) - Date after which credentials updated should be return. Format: DD/MM/YYYY
-    + end_updated_date (string, optional) - Date before which credetials updated should be return. Format: DD/MM/YYYY
+    + start_updated_date (string, optional) - Date after which Credentials updated should be returned. Format: DD/MM/YYYY
+    + end_updated_date (string, optional) - Date before which Credetials updated should be returned. Format: DD/MM/YYYY
     + page_size(number, optional) - The pagination response size, default of 50.
     + page(number,optional) - The pagination page.
 
@@ -1425,6 +1425,8 @@ For example you should create a group for the Introduction to Programming course
 + Parameters
     + name(string, optional) - Limit the list of Groups to those named with the given string.
     + meta_data (object, optional) - String key/values for client's own data on group
+    + start_updated_date (string, optional) - Date after which Groups which have been updated should be returned. Format: DD/MM/YYYY
+    + end_updated_date (string, optional) - Date before which Groups which have been updated should be returned. Format: DD/MM/YYYY
     + page_size(number, optional) - The pagination response size, default of 50.
     + page(number,optional) - The pagination page.
 
@@ -2977,6 +2979,7 @@ The code expires after used once.
         + wallet_view (boolean, optional) - If multiple credentials belonging to the recipient requested for this organization and the wallet view flag is set true, we provide a link to the recipients credential wallet.
         + group_id (string, optional) - The group that a credential belongs to. If more than one credential exists for your group for this student, we give the link to their last (most recent) credential.
         + redirect_to (string, optional) - If the code is wrong, we will redirect student back to this link by default we use your registered url.
+        + embed (boolean, optional) - If the embed flag is set to true, we provide a link to the recipient's credential wallet embed page. This is only supported with wallet view.
 
 
 + Response 200 (application/json)
