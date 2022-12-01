@@ -2618,6 +2618,124 @@ Your Accredible account is represented as an Issuer within the API.
             }
         }
 
+# Group Data Exports
+
+## Data Exports [/v1/data_exports]
+
+### View All Data Exports [GET]
+
+Returns list of data exports of departments accessible via the used API_KEY.
+
++ Request (application/json)
+
+    + Headers
+            Authorization: Token token=YOUR API_KEY
+
++ Response 200 (application/json)
+
+        {
+           "data_exports": [
+                    {
+                        "id": 1,
+                        "organization_id": 2,
+                        "status": "completed",
+                        "created_at": "2022-10-20T07:00:00.000Z",
+                        "urls": [
+                            {
+                                id: 30,
+                                status: "completed",
+                                year: 2020,
+                                url: "url_to_file.com/filename2"
+                            },
+                            {
+                                id: 31,
+                                status: "completed",
+                                year: 2021,
+                                url: "url_to_file.com/filename2"
+                            }
+                        ]
+                    },
+                    {
+                        "id": 2,
+                        "organization_id": 2,
+                        "status": "processing",
+                        "created_at": "2022-09-16T07:00:00.000Z",
+                        "urls": []
+                    },
+            ]
+        }
+
+### Create New Data Export [POST]
+
+Returns list of data exports of departments accessible via the used API_KEY.
+
++ Request (application/json)
+
+    + Headers
+            Authorization: Token token=YOUR API_KEY
+
+    + Attributes
+        + entity: (string, required)
+            The resource to be exported, it can only one of these values (organizations, credentials, credential_analytics, groups, designs).
+        + department_id: (number, required)
+            The department ID where resources are exported from, it should be accessible via the given API_KEY.
+
+    + Body
+
+            {
+                "data_export": {
+                    "entity": "credentials",
+                    "department_id": 34
+                }
+            }
+
++ Response 200 (application/json)
+        {
+           "data_export": {
+                "id": 2,
+                "organization_id": 2,
+                "status": "scheduled",
+                "created_at": "2022-09-16T07:00:00.000Z",
+                "urls": []
+            }
+        }
+
+## Data Export [/v1/data_exports/{id}]
+### View a Credential [GET]
++ Parameters
+    + id (number, required)
+        Data Export ID
+
++ Request (application/json)
+
+    + Headers
+
+                Authorization: Token token=YOUR API _KEY
+
++ Response 200 (application/json)
+        {
+           "data_export": {
+                "id": 1,
+                "organization_id": 2,
+                "status": "completed",
+                "created_at": "2022-10-20T07:00:00.000Z",
+                "urls": [
+                    {
+                        id: 30,
+                        status: "completed",
+                        year: 2020,
+                        url: "url_to_file.com/filename2"
+                    },
+                    {
+                        id: 31,
+                        status: "completed",
+                        year: 2021,
+                        url: "url_to_file.com/filename2"
+                    }
+                ]
+            }
+        }
+
 # Group Team Members
 
 ## Team Members [/v1/team_members]
