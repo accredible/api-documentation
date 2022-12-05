@@ -2635,23 +2635,24 @@ Returns list of data exports of departments accessible via the used API_KEY.
 
 + Response 200 (application/json)
     + Attributes
-        + data_exports: (array)
-            + department_id: (number)
-                The department ID where resources are exported from, it should be accessible via the given API_KEY.
-            + status: (string)
-                It can be:
-                - scheduled: Data export is not yet started
-                - processing: Data is being exported
-                - completed: Data has been exported
-                - errored: Something went wrong while exporting the data.
-            + urls: (array)
-                List of urls to the exported files. It'll be available only if the data_export is "completed", otherwise, it will be empty.
+        + data_exports: (array, fixed-type, required)
+            + (object)
+                + department_id: (number)
+                    The department ID where resources are exported from, it should be accessible via the given API_KEY.
                 + status: (string)
-                    It is always completed
-                + year: (number)
-                    the year at which the data in the file is created
-                + url: (string)
-                    the url to the file
+                    It can be:
+                    - scheduled: Data export is not yet started
+                    - processing: Data is being exported
+                    - completed: Data has been exported
+                    - errored: Something went wrong while exporting the data.
+                + urls: (array, fixed-type) - List of urls to the exported files. It'll be available only if the data_export is "completed", otherwise, it will be empty.
+                    + (object)
+                        + status: (string)
+                            It is always completed
+                        + year: (number)
+                            the year at which the data in the file is created
+                        + url: (string)
+                            the url to the file
     + Body
         {
            "data_exports": [
@@ -2719,14 +2720,14 @@ Creates a new data export for the provided department, if it's accessible via th
             - processing: Data is being exported
             - completed: Data has been exported
             - errored: Something went wrong while exporting the data.
-        + urls: (array)
-            List of urls to the exported files. It'll be available only if the data_export is "completed", otherwise, it will be empty.
-            + status: (string)
-                It is always completed
-            + year: (number)
-                the year at which the data in the file is created
-            + url: (string)
-                the url to the file
+        + urls: (array, fixed-type) - List of urls to the exported files. It'll be available only if the data_export is "completed", otherwise, it will be empty.
+            + (object)
+                + status: (string)
+                    It is always completed
+                + year: (number)
+                    the year at which the data in the file is created
+                + url: (string)
+                    the url to the file
     + Body
         {
            "data_export": {
@@ -2760,14 +2761,14 @@ Creates a new data export for the provided department, if it's accessible via th
             - processing: Data is being exported
             - completed: Data has been exported
             - errored: Something went wrong while exporting the data.
-        + urls: (array)
-            List of urls to the exported files. It'll be available only if the data_export is "completed", otherwise, it will be empty.
-            + status: (string)
-                It is always completed
-            + year: (number)
-                the year at which the data in the file is created
-            + url: (string)
-                the url to the file
+        + urls: (array, fixed-type) - List of urls to the exported files. It'll be available only if the data_export is "completed", otherwise, it will be empty.
+            + (object)
+                + status: (string)
+                    It is always completed
+                + year: (number)
+                    the year at which the data in the file is created
+                + url: (string)
+                    the url to the file
     + Body
         {
            "data_export": {
