@@ -1155,7 +1155,7 @@ For example you should create a group for the Introduction to Programming course
         + meta_data (object, optional) - You can use this parameter to attach key-value strings to the object. Meta data is useful for storing additional, structured information on an object.
         + learning_outcomes(array, optional) - Searchable keywords identifying skills credential-holders need to demonstrate (or have learned) in the process of earning this credential.
         + generate_private_credential (boolean, optional) - The default value of `Credential.private` for the Group. The supported values are `true`, `false`, and `null`. When this is set to `true` or `false`, it will override `Department.generate_private_credential` and be used as the default of `Credential.private` when creating a new `Credential`. When this is set to `null`, it won't override `Department.generate_private_credential` which will be used for the default of `Credential.private` instead.
-        
+
     + Body
 
             {
@@ -2617,6 +2617,181 @@ Your Accredible account is represented as an Issuer within the API.
                 "prev_page": null,
                 "total_pages": 795,
                 "total_count": 1590
+            }
+        }
+
+# Group Data Exports
+
+The following endpoints require the `data_exports` feature to be switched on, which is based on your pricing plan.
+
+## Data Exports [/v1/data_exports]
+
+### View All Data Exports [GET]
+
+Returns list of data exports of departments accessible via the used API_KEY.
+
++ Request (application/json)
+
+    + Headers
+            Authorization: Token token=YOUR API_KEY
+
++ Response 200 (application/json)
+    + Attributes
+        + data_exports: (array, fixed-type, required)
+            + (object)
+                + department_id: (number)
+                    The department ID where resources are exported from, it should be accessible via the given API_KEY.
+                + status: (string)
+                    It can be:
+                    - scheduled: Data export is not yet started
+                    - processing: Data is being exported
+                    - completed: Data has been exported
+                    - errored: Something went wrong while exporting the data.
+                + urls: (array, fixed-type) - List of urls to the exported files. It'll be available only if the data_export is "completed", otherwise, it will be empty.
+                    + (object)
+                        + status: (string)
+                            It is always completed
+                        + year: (number)
+                            the year at which the data in the file is created
+                        + url: (string)
+                            the url to the file
+    + Body
+        {
+           "data_exports": [
+                    {
+                        "id": 1,
+                        "department_id": 2,
+                        "status": "completed",
+                        "created_at": "2022-10-20T07:00:00.000Z",
+                        "urls": [
+                            {
+                                id: 30,
+                                status: "completed",
+                                year: 2020,
+                                url: "url_to_file.com/filename2"
+                            },
+                            {
+                                id: 31,
+                                status: "completed",
+                                year: 2021,
+                                url: "url_to_file.com/filename2"
+                            }
+                        ]
+                    },
+                    {
+                        "id": 2,
+                        "department_id": 2,
+                        "status": "processing",
+                        "created_at": "2022-09-16T07:00:00.000Z",
+                        "urls": []
+                    },
+            ]
+        }
+
+### Create New Data Export [POST]
+
+Creates a new data export for the provided department, if it's accessible via the used API_KEY.
+
++ Request (application/json)
+
+    + Headers
+            Authorization: Token token=YOUR API_KEY
+
+    + Attributes
+        + entity: (string, required)
+            The resource to be exported, it can only one of these values (organizations, credentials, credential_analytics, groups, designs).
+        + department_id: (number, required)
+            The department ID where resources are exported from, it should be accessible via the given API_KEY.
+
+    + Body
+
+            {
+                "data_export": {
+                    "entity": "credentials",
+                    "department_id": 34
+                }
+            }
+
++ Response 201 (application/json)
+    + Attributes
+        + department_id: (number)
+            The department ID where resources are exported from, it should be accessible via the given API_KEY.
+        + status: (string)
+            It can be:
+            - scheduled: Data export is not yet started
+            - processing: Data is being exported
+            - completed: Data has been exported
+            - errored: Something went wrong while exporting the data.
+        + urls: (array, fixed-type) - List of urls to the exported files. It'll be available only if the data_export is "completed", otherwise, it will be empty.
+            + (object)
+                + status: (string)
+                    It is always completed
+                + year: (number)
+                    the year at which the data in the file is created
+                + url: (string)
+                    the url to the file
+    + Body
+        {
+           "data_export": {
+                "id": 2,
+                "department_id": 2,
+                "status": "scheduled",
+                "created_at": "2022-09-16T07:00:00.000Z",
+                "urls": []
+            }
+        }
+
+## Data Export [/v1/data_exports/{id}]
+### View a Data Export [GET]
++ Parameters
+    + id (number, required)
+        Data Export ID
+
++ Request (application/json)
+
+    + Headers
+
+                Authorization: Token token=YOUR API _KEY
+
++ Response 200 (application/json)
+    + Attributes
+        + department_id: (number)
+            The department ID where resources are exported from, it should be accessible via the given API_KEY.
+        + status: (string)
+            It can be:
+            - scheduled: Data export is not yet started
+            - processing: Data is being exported
+            - completed: Data has been exported
+            - errored: Something went wrong while exporting the data.
+        + urls: (array, fixed-type) - List of urls to the exported files. It'll be available only if the data_export is "completed", otherwise, it will be empty.
+            + (object)
+                + status: (string)
+                    It is always completed
+                + year: (number)
+                    the year at which the data in the file is created
+                + url: (string)
+                    the url to the file
+    + Body
+        {
+           "data_export": {
+                "id": 1,
+                "department_id": 2,
+                "status": "completed",
+                "created_at": "2022-10-20T07:00:00.000Z",
+                "urls": [
+                    {
+                        id: 30,
+                        status: "completed",
+                        year: 2020,
+                        url: "url_to_file.com/filename2"
+                    },
+                    {
+                        id: 31,
+                        status: "completed",
+                        year: 2021,
+                        url: "url_to_file.com/filename2"
+                    }
+                ]
             }
         }
 
