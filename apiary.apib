@@ -2222,6 +2222,7 @@ You can search for Attribute Keys by various search criteria.
 + Parameters
     + name (string, optional) - A name for the custom attribute key.
     + kind (string, optional) - The kind of custom attribute key. Must be one of the following - [text, date, email, image]
+    + department_id (id, optional) - Only return attributes within the given department.
     + page_size(number, optional) - The pagination response size, default of 50.
     + page(number,optional) - The pagination page.
 
@@ -2235,7 +2236,8 @@ You can search for Attribute Keys by various search criteria.
 
             {
                 "name": "attribute",
-                "kind": "text"
+                "kind": "text",
+                "department_id": 123
             }
 
 + Response 200 (application/json)
