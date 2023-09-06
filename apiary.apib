@@ -938,6 +938,85 @@ Create bulk Credentials using this action. It requires a JSON object containing 
             }
         }
 
+
+## Search Credentials V2 [/v2/credentials/search]
+
+### Search for Credentials [POST]
+
++ Attributes
+    + group.id (string, optional) - Limit the returned Credentials to a specific group ID.
+    + recipient_name (string, optional) - Limit the returned Credentials to a recipient's name
+    + recipient_email (string, optional) - Limit the returned Credentials to a specific recipient's email address.
+    + recipient_id (string, optional) - Limit the returned Credentials to a specific recipient user identifier (ID) you set whilst creating Credentials.
+    + recipient_meta_data (object, optional) - String key/values for client's own data on recipient
+    + license_id (string, optional) - Limit the returned Credential to a specific credential id you set whilst creating credential.
+    + meta_data (object, optional) - String key/values for client's own data on credential
+    + issued_on (string, optional) - Date on which the credentials have been issued. Format: DD/MM/YYYY
+    + updated_at (string, optional) - Date on which the credentials have been updated. Format: DD/MM/YYYY
+    + created_at (string, optional) - Date on which the credentials have been created. Format: DD/MM/YYYY
+    + page (object, optional)
+        + from - The pagination page to start from
+        + size - The number of records to be returned. Default is 50
+
++ Request (application/json)
+
+    + Headers
+
+            Authorization: Token token=YOUR API_KEY
+
+
+    + Body
+
+            {
+              "meta_data": { "example": "value" }
+            }
+
++ Response 200 (application/json)
+
+        {
+            "data": [
+                {
+                "id": 10,
+                "name": "Badge in Analytics",
+                "group.id": 10,
+                "group.badge_design_id": 13,
+                "group.certificate_design_id": null,
+                "group.course_name": "Analytic Science",
+                "group.name": "Analytics",
+                "approve": true,
+                "issued_on": "Tue, 13 Aug 2022 12:11:05 UTC +00:00",
+                "custom_attributes": {
+                    "zen_value": "medium"
+                },
+                "meta_data": {
+                    "foo": "bar"
+                },
+                "recipient_meta_data": {
+                    "foo": "bar"
+                },
+                "expired_on": "Sat, 23 Aug 2025",
+                "private": false,
+                "recipient_email": "test@accredible.com",
+                "recipient_name": "Test Recipient",
+                "recipient_engaged": false,
+                "recipient_opened": true,
+                "recipient_id": 1224,
+                "grade": null,
+                "created_at": "Tue, 13 Aug 2022 12:11:05 UTC +00:00",
+                "updated_at": "Tue, 13 Aug 2022 12:11:05 UTC +00:00",
+                "issuer_id": 102,
+                "license_id": "num001",
+                "published_on": "Tue, 13 Aug 2022 12:11:05 UTC +00:00",
+                "uuid": "60438da7-8c09-4a69-b2a7-ab4b3cf4f569"
+                }
+            ],
+            "meta": {
+                "count": 125,
+                "from": 1,
+                "size": 50
+            }
+        }
+
 ## Generate PDFs [/v1/credentials/generate_pdf]
 
 ### Generate PDF for credentials [POST]
