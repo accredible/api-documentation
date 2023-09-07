@@ -955,28 +955,29 @@ Following operations will be **supported based on the field**. You can also comb
 ### Search for Credentials [POST]
 
 + Attributes
-    + group.id (string, optional) - Limit the returned Credentials to a specific group ID.
-    Supported operations - `eq`, `in`
-    + recipient_name (string, optional) - Limit the returned Credentials to a recipient's name
-    Supported operations - `eq`, `in`
-    + recipient_email (string, optional) - Limit the returned Credentials to a specific recipient's email address.
-    Supported operations - `eq`, `in`
-    + recipient_id (string, optional) - Limit the returned Credentials to a specific recipient user identifier (ID) you set whilst creating Credentials.
-    Supported operations - `eq`, `in`
-    + recipient_meta_data (object, optional) - String key/values for client's own data on recipient
-    Supported operations - none
-    + license_id (string, optional) - Limit the returned Credential to a specific credential id you set whilst creating credential.
-    Supported operations - `eq`, `in`
-    + meta_data (object, optional) - String key/values for client's own data on credential
-    Supported operations - none
-    + issued_on (string, optional) - Date on which the credentials have been issued. Format: DD/MM/YYYY
-    Supported operations - `eq`, `in`, `lt`, `lte`, `gt`, `gte`
-    + expired_on (string, optional) - Date on which the credentials will expire. Format: DD/MM/YYYY
-    Supported operations - `eq`, `in`, `lt`, `lte`, `gt`, `gte`
-    + updated_at (string, optional) - Date on which the credentials have been updated. Format: DD/MM/YYYY
-    Supported operations - `eq`, `in`, `lt`, `lte`, `gt`, `gte`
-    + created_at (string, optional) - Date on which the credentials have been created. Format: DD/MM/YYYY
-    Supported operations - `eq`, `in`, `lt`, `lte`, `gt`, `gte`
+    + query (object, optional)
+        + group.id (string, optional) - Limit the returned Credentials to a specific group ID.
+        Supported operations - `eq`, `in`
+        + recipient_name (string, optional) - Limit the returned Credentials to a recipient's name
+        Supported operations - `eq`, `in`
+        + recipient_email (string, optional) - Limit the returned Credentials to a specific recipient's email address.
+        Supported operations - `eq`, `in`
+        + recipient_id (string, optional) - Limit the returned Credentials to a specific recipient user identifier (ID) you set whilst creating Credentials.
+        Supported operations - `eq`, `in`
+        + recipient_meta_data (object, optional) - String key/values for client's own data on recipient
+        Supported operations - none
+        + license_id (string, optional) - Limit the returned Credential to a specific credential id you set whilst creating credential.
+        Supported operations - `eq`, `in`
+        + meta_data (object, optional) - String key/values for client's own data on credential
+        Supported operations - none
+        + issued_on (string, optional) - Date on which the credentials have been issued. Format: DD/MM/YYYY
+        Supported operations - `eq`, `in`, `lt`, `lte`, `gt`, `gte`
+        + expired_on (string, optional) - Date on which the credentials will expire. Format: DD/MM/YYYY
+        Supported operations - `eq`, `in`, `lt`, `lte`, `gt`, `gte`
+        + updated_at (string, optional) - Date on which the credentials have been updated. Format: DD/MM/YYYY
+        Supported operations - `eq`, `in`, `lt`, `lte`, `gt`, `gte`
+        + created_at (string, optional) - Date on which the credentials have been created. Format: DD/MM/YYYY
+        Supported operations - `eq`, `in`, `lt`, `lte`, `gt`, `gte`
     + page (object, optional)
         + from - The pagination page to start from
         + size - The number of records to be returned. Default is 50
@@ -984,18 +985,21 @@ Following operations will be **supported based on the field**. You can also comb
 + Request (application/json)
 
     + Headers
-
-            Authorization: Token token=YOUR API_KEY
-
+        Authorization: Token token=YOUR API_KEY
 
     + Body
-
-            {
-              "meta_data": { "example": "value" },
-              "group.id": 1,
-              "issued_on[gt]": "01/01/2023",
-              "issued_on[lte]": "31/12/2023"
+        {
+            "query": {
+            "meta_data": { "example": "value" },
+            "group.id": 1,
+            "issued_on[gt]": "01/01/2023",
+            "issued_on[lte]": "31/12/2023"
+            },
+            "page": {
+            "from": 10,
+            "size": 50
             }
+        }
 
 + Response 200 (application/json)
 
