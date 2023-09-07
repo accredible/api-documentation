@@ -1000,15 +1000,17 @@ Following operations will be **supported based on the field**. You can also comb
 + Response 200 (application/json)
 
         {
-            "data": [
+            "credentials": [
                 {
                     "id": 10,
                     "name": "Badge in Analytics",
-                    "group.id": 20,
-                    "group.badge_design_id": 30,
-                    "group.certificate_design_id": 40,
-                    "group.course_name": "Analytic Science",
-                    "group.name": "Analytics",
+                    "group": {
+                        "id": 10,
+                        "badge_design_id": 13,
+                        "certificate_design_id": null,
+                        "course_name": "Analytic Science",
+                        "name": "Analytics",
+                    },
                     "approve": true,
                     "issued_on": "Tue, 13 Aug 2022 12:11:05 UTC +00:00",
                     "custom_attributes": {
