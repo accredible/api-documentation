@@ -991,7 +991,10 @@ Following operations will be **supported based on the field**. You can also comb
     + Body
 
             {
-              "meta_data": { "example": "value" }
+              "meta_data": { "example": "value" },
+              "group.id": 1,
+              "issued_on[gt]": "01/01/2023",
+              "issued_on[lte]": "31/12/2023"
             }
 
 + Response 200 (application/json)
@@ -999,38 +1002,37 @@ Following operations will be **supported based on the field**. You can also comb
         {
             "data": [
                 {
-                "id": 10,
-                "name": "Badge in Analytics",
-                "group.id": 10,
-                "group.badge_design_id": 13,
-                "group.certificate_design_id": null,
-                "group.course_name": "Analytic Science",
-                "group.name": "Analytics",
-                "approve": true,
-                "issued_on": "Tue, 13 Aug 2022 12:11:05 UTC +00:00",
-                "custom_attributes": {
-                    "zen_value": "medium"
-                },
-                "meta_data": {
-                    "foo": "bar"
-                },
-                "recipient_meta_data": {
-                    "foo": "bar"
-                },
-                "expired_on": "Sat, 23 Aug 2025",
-                "private": false,
-                "recipient_email": "test@accredible.com",
-                "recipient_name": "Test Recipient",
-                "recipient_engaged": false,
-                "recipient_opened": true,
-                "recipient_id": 1224,
-                "grade": null,
-                "created_at": "Tue, 13 Aug 2022 12:11:05 UTC +00:00",
-                "updated_at": "Tue, 13 Aug 2022 12:11:05 UTC +00:00",
-                "issuer_id": 102,
-                "license_id": "num001",
-                "published_on": "Tue, 13 Aug 2022 12:11:05 UTC +00:00",
-                "uuid": "60438da7-8c09-4a69-b2a7-ab4b3cf4f569"
+                    "id": 10,
+                    "name": "Badge in Analytics",
+                    "group.id": 20,
+                    "group.badge_design_id": 30,
+                    "group.certificate_design_id": 40,
+                    "group.course_name": "Analytic Science",
+                    "group.name": "Analytics",
+                    "approve": true,
+                    "issued_on": "Tue, 13 Aug 2022 12:11:05 UTC +00:00",
+                    "custom_attributes": {
+                        "zen_value": "medium"
+                    },
+                    "meta_data": {
+                        "foo": "bar"
+                    },
+                    "recipient_meta_data": {
+                        "foo": "bar"
+                    },
+                    "expired_on": "Sat, 23 Aug 2025",
+                    "private": false,
+                    "recipient_email": "test@accredible.com",
+                    "recipient_name": "Test Recipient",
+                    "recipient_engaged": false,
+                    "recipient_opened": true,
+                    "recipient_id": 50,
+                    "created_at": "Tue, 13 Aug 2022 12:11:05 UTC +00:00",
+                    "updated_at": "Tue, 13 Aug 2022 12:11:05 UTC +00:00",
+                    "issuer_id": 60,
+                    "license_id": "l001",
+                    "published_on": "Tue, 13 Aug 2022 12:11:05 UTC +00:00",
+                    "uuid": "60438da7-8c09-4a69-b2a7-ab4b3cf4f569"
                 }
             ],
             "meta": {
