@@ -952,6 +952,8 @@ Following operations will be **supported based on the field**. You can also comb
 | `lte`     | Less than equal to.                          | `{"expired_on[lte]": "31/12/2023"}`                                                      |
 | `gte`     | Greater than equal to.                       | `{"expired_on[gte]": "01/01/2023"}`                                                      |
 
+**Limits:** When a query yields results surpassing 10,000 records, accessing data beyond the 10,000th entry is not supported. It is advisable to refine your search parameters in such instances.
+
 ### Search for Credentials [POST]
 
 + Attributes
@@ -996,8 +998,8 @@ Following operations will be **supported based on the field**. You can also comb
                 "meta_data": { "example": "value" }
             },
             "page": {
-            "from": 10,
-            "size": 50
+                "from": 10,
+                "size": 50
             }
         }
 
