@@ -938,6 +938,118 @@ Create bulk Credentials using this action. It requires a JSON object containing 
             }
         }
 
+
+## Search Credentials V2 [/v2/credentials/search]
+This is a faster alternative to the v1 Search API. It also supports operations on the query fields which can allow you to form more complex queries.
+Following operations will be **supported based on the field**. You can also combine operations on multiple fields.
+
+| Operation | Description                                  | Example                                                                                  |
+|-----------|----------------------------------------------|------------------------------------------------------------------------------------------|
+| `eq`      | Exact match (default, if nothing specified). | `{"group.id[eq]": 1}`<br>or<br>`{"group.id": 1}`<br><br>Both will yield the same result. |
+| `in`      | Allows an array of values.                   | `{"group.id[in]": [1, 2]}`                                                               |
+| `lt`      | Less than.                                   | `{"issued_on[lt]": "31/12/2023"}`                                                        |
+| `gt`      | Greater than.                                | `{"issued_on[gt]": "01/01/2023"}`                                                        |
+| `lte`     | Less than equal to.                          | `{"expired_on[lte]": "31/12/2023"}`                                                      |
+| `gte`     | Greater than equal to.                       | `{"expired_on[gte]": "01/01/2023"}`                                                      |
+
+**Limits:** When a query yields results surpassing 10,000 records, accessing data beyond the 10,000th entry is not supported. It is advisable to refine your search parameters in such instances.
+
+### Search for Credentials [POST]
+
++ Attributes
+    + query (object, required)
+        + group.id (string, optional) - Limit the returned credentials to a specific group ID.
+        Supported operations - `eq`, `in`
+        + recipient_name (string, optional) - Limit the returned credentials to a recipient's name.
+        Supported operations - `eq`, `in`
+        + recipient_email (string, optional) - Limit the returned credentials to a specific recipient's email address.
+        Supported operations - `eq`, `in`
+        + recipient_id (string, optional) - Limit the returned credentials to a specific recipient user identifier (ID) you set whilst creating credentials.
+        Supported operations - `eq`, `in`
+        + recipient_meta_data (object, optional) - String key/values for client's own data on the recipient.
+        Supported operations - none
+        + license_id (string, optional) - Limit the returned credentials to a specific credential id you set whilst creating the credential.
+        Supported operations - `eq`, `in`
+        + meta_data (object, optional) - String key/values for client's own data on the credential.
+        Supported operations - none
+        + issued_on (string, optional) - Date on which the credentials have been issued. Format: DD/MM/YYYY
+        Supported operations - `eq`, `in`, `lt`, `lte`, `gt`, `gte`
+        + expired_on (string, optional) - Date on which the credentials will expire. Format: DD/MM/YYYY
+        Supported operations - `eq`, `in`, `lt`, `lte`, `gt`, `gte`
+        + updated_at (string, optional) - Date on which the credentials have been updated. Format: DD/MM/YYYY
+        Supported operations - `eq`, `in`, `lt`, `lte`, `gt`, `gte`
+        + created_at (string, optional) - Date on which the credentials have been created. Format: DD/MM/YYYY
+        Supported operations - `eq`, `in`, `lt`, `lte`, `gt`, `gte`
+    + page (object, optional)
+        + from - Defines the number of records to skip.
+        + size - The number of records to be returned. Default is 50
+
++ Request (application/json)
+
+    + Headers
+        Authorization: Token token=YOUR API_KEY
+
+    + Body
+        {
+            "query": {
+                "group.id": 1,
+                "issued_on[gt]": "01/01/2023",
+                "issued_on[lte]": "31/12/2023",
+                "meta_data": { "example": "value" }
+            },
+            "page": {
+                "from": 10,
+                "size": 50
+            }
+        }
+
++ Response 200 (application/json)
+
+        {
+            "credentials": [
+                {
+                    "id": 10,
+                    "name": "Badge in Analytics",
+                    "group": {
+                        "id": 10,
+                        "badge_design_id": 13,
+                        "certificate_design_id": null,
+                        "course_name": "Analytic Science",
+                        "name": "Analytics",
+                    },
+                    "approve": true,
+                    "issued_on": "Tue, 13 Aug 2022 12:11:05 UTC +00:00",
+                    "custom_attributes": {
+                        "zen_value": "medium"
+                    },
+                    "meta_data": {
+                        "foo": "bar"
+                    },
+                    "recipient_meta_data": {
+                        "foo": "bar"
+                    },
+                    "expired_on": "Sat, 23 Aug 2025",
+                    "private": false,
+                    "recipient_email": "test@accredible.com",
+                    "recipient_name": "Test Recipient",
+                    "recipient_engaged": false,
+                    "recipient_opened": true,
+                    "recipient_id": 50,
+                    "created_at": "Tue, 13 Aug 2022 12:11:05 UTC +00:00",
+                    "updated_at": "Tue, 13 Aug 2022 12:11:05 UTC +00:00",
+                    "issuer_id": 60,
+                    "license_id": "l001",
+                    "published_on": "Tue, 13 Aug 2022 12:11:05 UTC +00:00",
+                    "uuid": "60438da7-8c09-4a69-b2a7-ab4b3cf4f569"
+                }
+            ],
+            "meta": {
+                "count": 125,
+                "from": 1,
+                "size": 50
+            }
+        }
+
 ## Generate PDFs [/v1/credentials/generate_pdf]
 
 ### Generate PDF for credentials [POST]
