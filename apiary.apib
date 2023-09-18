@@ -947,10 +947,10 @@ Following operations will be **supported based on the field**. You can also comb
 |-----------|----------------------------------------------|------------------------------------------------------------------------------------------|
 | `eq`      | Exact match (default, if nothing specified). | `{"group.id[eq]": 1}`<br>or<br>`{"group.id": 1}`<br><br>Both will yield the same result. |
 | `in`      | Allows an array of values.                   | `{"group.id[in]": [1, 2]}`                                                               |
-| `lt`      | Less than.                                   | `{"issued_on[lt]": "31/12/2023"}`                                                        |
-| `gt`      | Greater than.                                | `{"issued_on[gt]": "01/01/2023"}`                                                        |
-| `lte`     | Less than equal to.                          | `{"expired_on[lte]": "31/12/2023"}`                                                      |
-| `gte`     | Greater than equal to.                       | `{"expired_on[gte]": "01/01/2023"}`                                                      |
+| `lt`      | Less than.                                   | `{"issued_on[lt]": "2023-12-31"}`                                                        |
+| `gt`      | Greater than.                                | `{"issued_on[gt]": "2023-01-01"}`                                                        |
+| `lte`     | Less than equal to.                          | `{"expired_on[lte]": "2023-12-31"}`                                                      |
+| `gte`     | Greater than equal to.                       | `{"expired_on[gte]": "2023-01-01"}`                                                      |
 
 **Limits:** When a query yields results surpassing 10,000 records, accessing data beyond the 10,000th entry is not supported. It is advisable to refine your search parameters in such instances.
 
