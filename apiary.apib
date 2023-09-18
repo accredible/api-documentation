@@ -947,10 +947,10 @@ Following operations will be **supported based on the field**. You can also comb
 |-----------|----------------------------------------------|------------------------------------------------------------------------------------------|
 | `eq`      | Exact match (default, if nothing specified). | `{"group.id[eq]": 1}`<br>or<br>`{"group.id": 1}`<br><br>Both will yield the same result. |
 | `in`      | Allows an array of values.                   | `{"group.id[in]": [1, 2]}`                                                               |
-| `lt`      | Less than.                                   | `{"issued_on[lt]": "31/12/2023"}`                                                        |
-| `gt`      | Greater than.                                | `{"issued_on[gt]": "01/01/2023"}`                                                        |
-| `lte`     | Less than equal to.                          | `{"expired_on[lte]": "31/12/2023"}`                                                      |
-| `gte`     | Greater than equal to.                       | `{"expired_on[gte]": "01/01/2023"}`                                                      |
+| `lt`      | Less than.                                   | `{"issued_on[lt]": "2023-12-31"}`                                                        |
+| `gt`      | Greater than.                                | `{"issued_on[gt]": "2023-01-01"}`                                                        |
+| `lte`     | Less than equal to.                          | `{"expired_on[lte]": "2023-12-31"}`                                                      |
+| `gte`     | Greater than equal to.                       | `{"expired_on[gte]": "2023-01-01"}`                                                      |
 
 **Limits:** When a query yields results surpassing 10,000 records, accessing data beyond the 10,000th entry is not supported. It is advisable to refine your search parameters in such instances.
 
@@ -972,13 +972,13 @@ Following operations will be **supported based on the field**. You can also comb
         Supported operations - `eq`, `in`
         + meta_data (object, optional) - String key/values for client's own data on the credential.
         Supported operations - none
-        + issued_on (string, optional) - Date on which the credentials have been issued. Format: DD/MM/YYYY
+        + issued_on (string, optional) - Date on which the credentials have been issued. Format: YYYY-MM-DD
         Supported operations - `eq`, `in`, `lt`, `lte`, `gt`, `gte`
-        + expired_on (string, optional) - Date on which the credentials will expire. Format: DD/MM/YYYY
+        + expired_on (string, optional) - Date on which the credentials will expire. Format: YYYY-MM-DD
         Supported operations - `eq`, `in`, `lt`, `lte`, `gt`, `gte`
-        + updated_at (string, optional) - Date on which the credentials have been updated. Format: DD/MM/YYYY
+        + updated_at (string, optional) - Date on which the credentials have been updated. Format: YYYY-MM-DD
         Supported operations - `eq`, `in`, `lt`, `lte`, `gt`, `gte`
-        + created_at (string, optional) - Date on which the credentials have been created. Format: DD/MM/YYYY
+        + created_at (string, optional) - Date on which the credentials have been created. Format: YYYY-MM-DD
         Supported operations - `eq`, `in`, `lt`, `lte`, `gt`, `gte`
     + page (object, optional)
         + from - Defines the number of records to skip.
@@ -993,8 +993,8 @@ Following operations will be **supported based on the field**. You can also comb
         {
             "query": {
                 "group.id": 1,
-                "issued_on[gt]": "01/01/2023",
-                "issued_on[lte]": "31/12/2023",
+                "issued_on[gt]": "2023-01-01",
+                "issued_on[lte]": "2023-12-31",
                 "meta_data": { "example": "value" }
             },
             "page": {
