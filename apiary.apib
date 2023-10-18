@@ -152,6 +152,8 @@ You create a Credential with optional EvidenceItems and References using this ac
 
 This endpoint requires a JSON object containing a Credential.
 
+**Important:** If you don’t have enough credits when attempting to create Credentials with this endpoint, your credentials will still be created in your account, but will not be published. This will save your data and prevent you from having to re-attempt your request later. You will be able to publish the created credentials in your account when you have the required credits
+
 + Request (application/json)
 
     + Headers
@@ -320,11 +322,13 @@ This endpoint requires a JSON object containing a Credential.
             }
         }
 
-## Bulk create Credentials [/v1/credentials/bulk_create]
+## Create Multiple Credentials [/v1/credentials/bulk_create]
 
 ### Bulk Create credentials [POST]
 
-Create bulk Credentials using this action. It requires a JSON object containing credentials in an array.
+Create multiple Credentials using this action. It requires a JSON object containing credentials in an array.
+
+**Important:** If you don’t have enough credits when attempting to create Credentials with this endpoint, your credentials will still be created in your account, but will not be published. This will save your data and prevent you from having to re-attempt your request later. You will be able to publish the created credentials in your account when you have the required credits
 
 + Request (application/json)
 
