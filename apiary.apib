@@ -6,7 +6,11 @@ The [Accredible](https://www.accredible.com/) Credential API allows you to creat
 
 There are 3 main objects in Accredible: Credentials, Groups and Designs.
 
+### API Overview video
 [![API Overview Video](https://img.youtube.com/vi/R7euTeMGaQg/0.jpg)](https://www.youtube.com/watch?v=R7euTeMGaQg)
+
+### Getting Started with the API - Video Walkthrough
+[![Getting Started with the API Video Walkthrough](https://cdn.accredible.com/api-overview.jpg)](https://www.loom.com/share/1093916cb4be421eb1ff86f085dae337?sid=0bb24e68-c7b4-41a6-aab8-f5c14841a29c)
 
 # Credentials
 [Credentials](http://docs.accrediblecredentialapi.apiary.io/#reference/credentials) are the core object in the API. They collect all of the data related to a course, training acitivity or achievment and the recipient/participant information.
@@ -153,6 +157,8 @@ You create a Credential with optional EvidenceItems and References using this ac
 This endpoint requires a JSON object containing a Credential.
 
 **Important:** If you don’t have enough credits when attempting to create Credentials with this endpoint, your credentials will still be created in your account, but will not be published. This will save your data and prevent you from having to re-attempt your request later. You will be able to publish the created credentials in your account when you have the required credits
+
+[Creating Credentials - Video Walkthrough](https://www.loom.com/share/c7c47531a46d4a3f85abaf7413d9e636?sid=b3998a3d-dd4a-4289-84fc-db6df40efd5b)
 
 + Request (application/json)
 
@@ -330,6 +336,8 @@ Create multiple Credentials using this action. It requires a JSON object contain
 
 **Important:** If you don’t have enough credits when attempting to create Credentials with this endpoint, your credentials will still be created in your account, but will not be published. This will save your data and prevent you from having to re-attempt your request later. You will be able to publish the created credentials in your account when you have the required credits
 
+[Bulk Creating Credentials - Video Walkthrough](https://www.loom.com/share/df043cb9d2b04140bcc53b633d232147?sid=005848bc-91a9-49cc-8f12-7f31c15245f8)
+
 + Request (application/json)
 
     + Headers
@@ -422,6 +430,8 @@ Create multiple Credentials using this action. It requires a JSON object contain
 ## Credential [/v1/credentials/{id}]
 
 ### View a Credential [GET]
+
+[View Credentials - Video Walkthrough](https://www.loom.com/share/9724ce5eb0694dfab0c03f5b70d8a3f3?sid=cea2c757-5031-4ff1-b33d-91b361fd0cdf)
 
 + Parameters
     + id (string) - ID of the Credential in the form of an integer or string for the particular Credential requested.
@@ -520,6 +530,8 @@ Create multiple Credentials using this action. It requires a JSON object contain
 
 
 ### Update a Credential [PUT]
+
+[Updating Credentials - Video Walkthrough](https://www.loom.com/share/4940d9cf43da43dc870f40ac4dd3831f?sid=ebfe460c-01a1-40a0-b5fe-6e8d13386f54)
 
 + Parameters
     + id (string, optional) - The unique ID of the credential. If you supply your own internal ID we'll use this as a reference for the Credential. If not we'll assign an ID.
@@ -649,6 +661,8 @@ Create multiple Credentials using this action. It requires a JSON object contain
 
 ### Delete a Credential [DELETE]
 
+[Deleting Credentials - Video Walkthrough](https://www.loom.com/share/5cf48b55e1a74803bb9ad3ce87bdc657?sid=44bb79e9-47ee-4070-9e03-bc6a68957789)
+
 + Parameters
     + id (string) - ID of the credential for the particular Credential requested.
 
@@ -747,6 +761,8 @@ Create multiple Credentials using this action. It requires a JSON object contain
 ## All Credentials DEPRECATED [/v1/all_credentials{?group_id}{?email}{?page_size}{?page}{?recipient_id}]
 
 ### View many Credentials [GET]
+
+[View Many Credentials - Video Walkthrough](https://www.loom.com/share/520347485c3b44c7b64daeb17f1b307b?sid=9deb6be0-e636-4a03-ac2a-3dc831b1e3ad)
 
 + Parameters
     + group_id (string, optional) - Limit the returned Credentials to a specific group ID.
@@ -1087,6 +1103,8 @@ This endpoint takes credential_ids and generate pdfs. The endpoint returns zip f
 
 This endpoint takes id of published credential and generate pdf. The endpoint returns link to PDF requested.
 
+[Generate a PDF of a Credential - Video Walkthrough](https://www.loom.com/share/6e9364c74c3a4bb3aeff2e3f8d7e2f59?sid=7172149f-4b66-4539-ae97-66b5f083d89b)
+
 + Parameters
     + id (string) - ID of the Credential in the form of an integer or string for the particular Credential requested.
 
@@ -1126,6 +1144,8 @@ This endpoint redirects to a particular Credential. You can supply your internal
 ###Verify BlockChain Credential [GET]
 
 This endpoint gives data for a blockchain recorded credential. It will help you verify authenticity of the credential on blockchain.
+
+[Verify Blockchain record of a Credential - Video Walkthrough](https://www.loom.com/share/23621ac848c44a77ac1eda0eeb975d93?sid=c10228b9-6317-477b-b903-20ed78ce6b76)
 
 + Parameters
     + id(string) - Encoded id or UUID of the credentials. unique id in the credentials url.
