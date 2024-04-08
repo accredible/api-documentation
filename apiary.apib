@@ -1139,7 +1139,7 @@ This endpoint redirects to a particular Credential. You can supply your internal
 
 
 
-## BlockChain Credential [/v1/credentials/blockchain_data/{id}]
+## BlockChain Credential DEPRECATED [/v1/credentials/blockchain_data/{id}]
 
 ###Verify BlockChain Credential [GET]
 
@@ -1220,6 +1220,160 @@ This endpoint gives data for a blockchain recorded credential. It will help you 
           }
           }
           }
+
+
+## BlockChain Credential V2 [/v2/credentials/{id}/blockchain_data]
+
+###Verify BlockChain Credential [GET]
+
+This endpoint gives data for a blockchain recorded credential.
+It will help you verify authenticity of the credential on blockchain.
+This endpoint would return different responses based on the Blockchain (*Bitcoin* or *Ethereum*) that it's issued in.
+
+[Verify Blockchain record of a Credential - Video Walkthrough](https://www.loom.com/share/23621ac848c44a77ac1eda0eeb975d93?sid=c10228b9-6317-477b-b903-20ed78ce6b76)
+
++ Parameters
+    + id(string) - Encoded id or UUID of the credentials. unique id in the credentials url.
+
+
++ Request (application/json)
+
+    + Attributes
+        + key (string, optional) - If private credentials provide a key
+
++ Response 200 (application/json)
+
+    {
+        "data": {
+            "chain": "Ethereum",
+            "credential_json_data": {
+                "@context": [
+                    "https://www.w3.org/2018/credentials/v1",
+                    "https://w3id.org/blockcerts/v3"
+                ],
+                "type": [
+                    "VerifiableCredential",
+                    "BlockcertsCredential"
+                ],
+                "id": "https://www.credential.net/dbe99696-2cb3-4dc4-aef8-d6e6c2840140",
+                "issuer": "https://api.accredible.com/v1/blockcerts/issuer/f942",
+                "issuanceDate": "2022-10-07T00:00:00+00:00",
+                "credentialSubject": {
+                    "name": "Jewell White Esq.",
+                    "claim": {
+                        "name": "Accounting",
+                        "description": "Business-focused responsive interface"
+                    }
+                },
+                "display": {
+                    "contentMediaType": "text/html",
+                    "content": "<div></div>"
+                }
+            },
+            "receipt": {
+                "txn_id": "0xb534249bc297aa4f8e038c1a6633ab77fef968c54e375ee5a84055f1875305a7",
+                "body": {
+                    "@context": [
+                        "https://www.w3.org/2018/credentials/v1",
+                        "https://w3id.org/security/data-integrity/v2",
+                        "https://w3id.org/blockcerts/v3.1"
+                    ],
+                    "type": [
+                        "VerifiableCredential",
+                        "BlockcertsCredential"
+                    ],
+                    "id": "https://www.credential.net/dbe99696-2cb3-4dc4-aef8-d6e6c2840140",
+                    "issuer": "https://api.accredible.com/v1/blockcerts/issuer/f942",
+                    "issuanceDate": "2022-10-07T00:00:00+00:00",
+                    "credentialSubject": {
+                        "name": "Jewell White Esq.",
+                        "claim": {
+                            "name": "Accounting",
+                            "description": "Business-focused responsive interface"
+                        }
+                    },
+                    "display": {
+                        "contentMediaType": "text/html",
+                        "content": "        <div\n          style=\"\n            background-color:transparent;\n            padding:6px;\n            display:inline-flex;\n            align-items:center;\n            flex-direction:column;\n            font-family: sans-serif, Helvetica, Arial;\n          \"\n        >\n          <h1>Jewell White Esq.</h1>\n          <p>--------------------------------</p>\n          <h3>Accounting</h3>\n          <p>Business-focused responsive interface</p>\n          <p>--------------------------------</p>\n          <p>Issued By</p>\n          <p>Muller, Walsh and Lockman</p>\n          <p>--------------------------------</p>\n          <p>Issued On</p>\n          <p>October 7th, 2022</p>\n          <p>--------------------------------</p>\n          <p>Expires On</p>\n          <p>-</p>\n          <p>--------------------------------</p>\n        </div>\n"
+                    },
+                    "proof": {
+                        "id": "urn:uuid:384b94ec-335f-4d42-a2c3-74d296f711da",
+                        "type": "MerkleProof2019",
+                        "cryptosuite": "merkle-proof-2019",
+                        "proofPurpose": "assertionMethod",
+                        "created": "2024-03-13T11:07:25.181722",
+                        "proofValue": "z8VhG6bxbkqU4L14xLgVfh1ctX985BaKbuHNwKECdsCLLgNgPBizqk5a9FwLE1XnP8QGTNoSfuXLPzAo2ARQ27icJ2CcekHcP71EkFd3wvRrWHdveP2ynYgyPFDS2Dpg2euzUWeMdbMoFHiQw31rfMvfbkyVhFv3bCxHmMj1sHa3S1eRPVvPzVeftU2DvuEPry3YfUYahZbWmc184G2ojWB2K4egND7yRhuFDumaQikVFSXmsKVXcYqpf6a6VWCRU9q4DmuPPxYhWXPtKb5FJVQjXeN7NWR7uJ5SUciewepf2Yo64CVPR8j2BcYMHSvSBBTgCh1wkUisvH947WKYS5z68R4fMS86DeLeBe1WuBiBHaYQV2hM7rt5Fb95dEAMAHAQNmACEFgy1BiK2V8prT18k8jPNDfKiifz1FRwrC5WXpsdJydJwnzJyuYV4TUWGFdVAB4T6hrP8wkkcy9UEjWBRJycNCCERRVPN7VCHH2bYqK1poYtKxncpCmByULodY8BwoX3xzAmJhvLTuEtpvipkF4sMySNrPMXHMZc1Lago8YofAWtswA9H7k4hWSdkzyuuF4HCNLoFjoepcz649PCiTgNhBxq8ynJtKmDESY4GWvtJTwmyfeEV1LvoQZmKgNZH8qe4WYJ3UeL96n3qjnVSbCqUFhEoxcDDofshhtz7YWTQUzS8ihnZc45gnXT2EeXeqE1Hyx6M98ig4TnAoXkzwDJ3KFoc25MqoRfovHdzAzFYjTp9Aa5ybT1iCC6nrUuSwqS1AHaKV4T88KxK5oxkMMQdeEvVcEtEMaVgSVXMhHuULb7dztBzonQRhem6s3v6AYYWHPH23nSVdDopTAAYGQqwZpaiBvXZnxTY85njJa3aT3tmfE7YutjjFmLAwC9cEMEM1dUSEW2NbaHyGVooc6kZnDjXxWZKWBBSx5ujoDPLiRgQrGbgN5aEFRRdYdEvYeCod6zJCgdzQ67coYFgKpkZC2RyYsYXuEwT4uve9M5vk6jDbj2nnXPFkAQhP6295k4UnT6oNZUJaWeBEmNm1BsDSPU7RFx45Js2p4hNG6N72oPHJDdKQn7hpCZt98MJWqtRzyx7XUZNmwPHjpYwFB3t1N7oa9NvA4EV2ahPUJHRP1tm7Xg4xafDRtRABSV5nxpbfnJAGZKjWUGGUCtz2NjLboc3vBP8g48MBbwRxZqvGTMF51eZ9F4D1VaEExAEcPLa3SdMxCby3XdfEbd9uqdEs2gr7qoMBFSHNQQAWGcxuVzd4h2mEwrerpbfFaTi5tq9dpJb6pKX2crAMyyWr8xfSZJvtq9dsuD1z2ZfKo3zwkciftwGzMsHxyF6Zm4XvJdCUG4fQntr6qTo91",
+                        "verificationMethod": "https://accredible.com"
+                    }
+                }
+            }
+        }
+    }
+
++ Response 200 (application/json)
+
+    {
+        "chain": "Bitcoin",
+        "data": {
+            "credential_json_data": {
+                "certificate": {
+                    "name": "Example Certificate Title",
+                    "issuer": {
+                        "name": "Example Organization",
+                        "url": "http://www.accredible.com",
+                        "id": "https://api.accredible.com/v1/obi/issuer_badge_classes/qOeq",
+                        "type": "Issuer",
+                        "email": "issuer+4897@accredible.com"
+                    },
+                    "type": "Certificate",
+                    "id": "https://www.credential.net/10000005",
+                    "description": "This is an example description - you can write anything you want here. We recommend describing the achievement."
+                },
+                "verify": {
+                    "signer": "abc",
+                    "attribute-signed": "uid",
+                    "type": "ECDSA(secp256k1)"
+                },
+                "assertion": {
+                    "issuedOn": "2014-08-14",
+                    "type": "Assertion",
+                    "uid": "10000005-0000-0000-0000-000000000000",
+                    "id": "https://api.accredible.com/v1/obi/badge_assertions/akobz1"
+                },
+                "type": "CertificateDocument",
+                "@context": "https://w3id.org/blockcerts/v1",
+                "recipient": {
+                    "familyName": "Jordan Smith",
+                    "hashed": true,
+                    "type": "email",
+                    "identity": "bUt3VFpyekE5Wmxxa0FRdExUZ3k5WkdVanRWU3JPNmxDVjdVZ2xkckJnVW9MVm5rYmtLSDZ6M3IvS2tMWnA5MS0tN0RwVVdIb1RJUzIyTnBjS20wcVpUdz09--d964109d91c7890715008e1749e0ee990c7ce9cb"
+                }
+            },
+            "receipt": {
+                "@context": "https://w3id.org/chainpoint/v2",
+                "type": "ChainpointSHA256v2",
+                "targetHash": "726245b5a11b7f94b756ee746f3b3ce18efdc492c615c32678dae1ca76a8667a",
+                "merkleRoot": "e9aaf5d6e0021deb260608991fbb45d1c3ccb4553ea710635975834909bd8314",
+                "proof": [
+                    {
+                        "left": "ab4f843e61e1261e832e97807f37d51d851f8aaac3f44216914f67b7588634ad"
+                    },
+                    {
+                        "left": "91ad43d509dabfc0a6d23167a10707a63e8ab7f9fa949d6c0aca763c64fefdb6"
+                    },
+                    {
+                        "right": "9047877604cecc72d9bc614375b14ff0ce02b231d51a53fe33ce24e39cf3e6c4"
+                    }
+                ],
+                "anchors": [
+                    {
+                        "type": "BTCOpReturn",
+                        "sourceId": "707f86dc790338c5bddb19188c1c3f46f95a346a7693cc8c772b5e9252099c54"
+                    }
+                ]
+            }
+        }
+    }
 
 
 ## Credential Analytics [/v1/credentials/analytics/{id}]
