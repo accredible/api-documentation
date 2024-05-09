@@ -994,6 +994,8 @@ Following operations will be **supported based on the field**. You can also comb
         Supported operations - `eq`, `in`
         + meta_data (object, optional) - String key/values for client's own data on the credential.
         Supported operations - none
+        + custom_attributes (object, optional) - String key/values for client's own data on the credential.
+        Supported operations - none
         + issued_on (string, optional) - Date on which the credentials have been issued. Format: YYYY-MM-DD
         Supported operations - `eq`, `in`, `lt`, `lte`, `gt`, `gte`
         + expired_on (string, optional) - Date on which the credentials will expire. Format: YYYY-MM-DD
@@ -1002,6 +1004,10 @@ Following operations will be **supported based on the field**. You can also comb
         Supported operations - `eq`, `in`, `lt`, `lte`, `gt`, `gte`
         + created_at (string, optional) - Date on which the credentials have been created. Format: YYYY-MM-DD
         Supported operations - `eq`, `in`, `lt`, `lte`, `gt`, `gte`
+    + sort (object, optional)
+        + String key/value pair for sorting based on a field and order.
+        Supported keys - `id`, `recipient_name`, `group.name`, `issued_on` and `expired_on`.
+        Supported values - `asc`, `desc`
     + page (object, optional)
         + from - Defines the number of records to skip.
         + size - The number of records to be returned. Default is 50
@@ -1019,6 +1025,9 @@ Following operations will be **supported based on the field**. You can also comb
                 "issued_on[lte]": "2023-12-31",
                 "meta_data": { "example": "value" }
             },
+            "sort": {
+                "recipient_name": "asc"
+            }
             "page": {
                 "from": 10,
                 "size": 50
