@@ -1456,6 +1456,11 @@ For example you should create a group for the Introduction to Programming course
         + meta_data (object, optional) - You can use this parameter to attach key-value strings to the object. Meta data is useful for storing additional, structured information on an object.
         + learning_outcomes(array, optional) - Searchable keywords identifying skills credential-holders need to demonstrate (or have learned) in the process of earning this credential.
         + generate_private_credential (boolean, optional) - The default value of `Credential.private` for the Group. The supported values are `true`, `false`, and `null`. When this is set to `true` or `false`, it will override `Department.generate_private_credential` and be used as the default of `Credential.private` when creating a new `Credential`. When this is set to `null`, it won't override `Department.generate_private_credential` which will be used for the default of `Credential.private` instead.
+        + auto_expiry - (number, optional) - Expiration period for a Group credentials
+        + signup_url_show - (boolean, optional) - Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+        + signup_url - (string, optional) - Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+        + course_link_show - (boolean, optional) - Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+        + organization_link_show - (boolean, optional) - Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
 
     + Body
 
@@ -1476,7 +1481,12 @@ For example you should create a group for the Introduction to Programming course
                         "batch_id": "271"
                     },
                     "learning_outcomes": ["Reading Books", "Writing Essays"],
-                    "generate_private_credential": false
+                    "generate_private_credential": false,
+                    "auto_expiry": 2024,
+                    "signup_url_show": false,
+                    "signup_url": "https://example.com",
+                    "course_link_show": false,
+                    "organization_link_show": false
                 }
             }
 
@@ -1505,7 +1515,12 @@ For example you should create a group for the Introduction to Programming course
                     "foo": "bar"
                 },
                 "learning_outcomes": ["Skill One", "Skill Two"],
-                "generate_private_credential": false
+                "generate_private_credential": false,
+                "auto_expiry": 2024,
+                "signup_url_show": false,
+                "signup_url": "https://example.com",
+                "course_link_show": false,
+                "organization_link_show": false
             }
         }
 
@@ -1542,7 +1557,12 @@ For example you should create a group for the Introduction to Programming course
             "badge_design_id": null,
             "department_id": 123,
             "meta_data": null,
-            "generate_private_credential": false
+            "generate_private_credential": false,
+            "auto_expiry": 2024,
+            "signup_url_show": false,
+            "signup_url": "https://example.com",
+            "course_link_show": false,
+            "organization_link_show": false
           }
       }
 
@@ -1573,6 +1593,11 @@ For example you should create a group for the Introduction to Programming course
         + meta_data (object, optional) - You can use this parameter to attach key-value strings to the object. Meta data is useful for storing additional, structured information on an object.
         + learning_outcomes(array, optional) - Searchable keywords identifying skills credential-holders need to demonstrate (or have learned) in the process of earning this credential.
         + generate_private_credential (boolean, optional) - The default value of `Credential.private` for the Group. The supported values are `true`, `false`, and `null`. When this is set to `true` or `false`, it will override `Department.generate_private_credential` and be used as the default of `Credential.private` when creating a new `Credential`. When this is set to `null`, it won't override `Department.generate_private_credential` which will be used for the default of `Credential.private` instead.
+        + auto_expiry - (number, optional) - Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+        + signup_url_show - (boolean, optional) - Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+        + signup_url - (string, optional) - Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+        + course_link_show - (boolean, optional) - Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+        + organization_link_show - (boolean, optional) - Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
 
     + Body
 
@@ -1606,7 +1631,12 @@ For example you should create a group for the Introduction to Programming course
             "meta_data": {
                 "foo": "bar"
             },
-            "generate_private_credential": false
+            "generate_private_credential": false,
+            "auto_expiry": 2024,
+            "signup_url_show": false,
+            "signup_url": "https://example.com",
+            "course_link_show": false,
+            "organization_link_show": false
           }
         }
 
@@ -1642,7 +1672,12 @@ For example you should create a group for the Introduction to Programming course
             "badge_design_id": null,
             "department_id": 123,
             "meta_data": null,
-            "generate_private_credential": false
+            "generate_private_credential": false,
+            "auto_expiry": 2024,
+            "signup_url_show": false,
+            "signup_url": "https://example.com",
+            "course_link_show": false,
+            "organization_link_show": false
             }
         }
 
@@ -1686,7 +1721,12 @@ For example you should create a group for the Introduction to Programming course
                     "meta_data": {
                         "course_id": "TK764"
                     },
-                    "generate_private_credential": false
+                    "generate_private_credential": false,
+                    "auto_expiry": 2024,
+                    "signup_url_show": false,
+                    "signup_url": "https://example.com",
+                    "course_link_show": false,
+                    "organization_link_show": false
                 },
                 {
                     "id": 12473,
@@ -1708,7 +1748,12 @@ For example you should create a group for the Introduction to Programming course
                     "meta_data": {
                         "course_id": "TK765"
                     },
-                    "generate_private_credential": false
+                    "generate_private_credential": false,
+                    "auto_expiry": 2024,
+                    "signup_url_show": false,
+                    "signup_url": "https://example.com",
+                    "course_link_show": false,
+                    "organization_link_show": false
                 }
             ],
             "meta": {
@@ -1769,7 +1814,12 @@ For example you should create a group for the Introduction to Programming course
                     "meta_data": {
                         "course_id": "TK764"
                     },
-                    "generate_private_credential": false
+                    "generate_private_credential": false,
+                    "auto_expiry": 2024,
+                    "signup_url_show": false,
+                    "signup_url": "https://example.com",
+                    "course_link_show": false,
+                    "organization_link_show": false
                 },
                 {
                     "id": 12473,
@@ -1791,7 +1841,12 @@ For example you should create a group for the Introduction to Programming course
                     "meta_data": {
                         "course_id": "TK765"
                     },
-                    "generate_private_credential": false
+                    "generate_private_credential": false,
+                    "auto_expiry": 2024,
+                    "signup_url_show": false,
+                    "signup_url": "https://example.com",
+                    "course_link_show": false,
+                    "organization_link_show": false
                 }
             ],
             "meta": {
