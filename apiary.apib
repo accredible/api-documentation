@@ -1456,11 +1456,11 @@ For example you should create a group for the Introduction to Programming course
         + meta_data (object, optional) - You can use this parameter to attach key-value strings to the object. Meta data is useful for storing additional, structured information on an object.
         + learning_outcomes(array, optional) - Searchable keywords identifying skills credential-holders need to demonstrate (or have learned) in the process of earning this credential.
         + generate_private_credential (boolean, optional) - The default value of `Credential.private` for the Group. The supported values are `true`, `false`, and `null`. When this is set to `true` or `false`, it will override `Department.generate_private_credential` and be used as the default of `Credential.private` when creating a new `Credential`. When this is set to `null`, it won't override `Department.generate_private_credential` which will be used for the default of `Credential.private` instead.
-        + auto_expiry (number, optional) - If the Group's credentials expire, it's important to set an expiration period. Add a number to say how long the credentials for this group should be valid. e.g. 1 means expires in 1 year.
+        + auto_expiry (number, optional) - Set a date for when the credentials automatically expire after a certain amount of time has elapsed since the date of issue.
+        + signup_url (string, optional) - This provides a direct path for credential viewers to enroll in your course.
         + signup_url_show (boolean, optional) - Show or hide the sign up url. The supported values are `true`, `false` and `null`.
-        + signup_url (string, optional) - This provides a direct path for credential viewers in the Group to enrol on your course.
-        + course_link_show (boolean, optional) - You can use this parameter to show or hide the page on your website specifically regarding the course the credential was issued for. The supported values are `true`, `false` and `null`
-        + organization_link_show (boolean, optional) - You can use this parameter to show or hide the link to your website homepage. The supported values are `true`, `false` and `null`
+        + course_link_show (boolean, optional) - This links the credential data record to your information about the credential on your website. The supported values are `true`, `false` and `null`.
+        + organization_link_show (boolean, optional) - Show or hide the link to your website homepage. The supported values are `true`, `false` and `null`.
 
     + Body
 
