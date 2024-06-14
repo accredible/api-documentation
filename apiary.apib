@@ -1688,6 +1688,102 @@ For example you should create a group for the Introduction to Programming course
             }
         }
 
+## Group [/v1/issuer/groups/{group_id}/clone]
+
+### Clone a Group [POST]
+
++ Request (application/json)
+
+    + Headers
+
+            Authorization: Token token=YOUR API_KEY
+
+    + Attributes
+        + name (string, optional) - Name of the group (for your reference and never shown to the recipient).
+        + course_name (string, optional) - Name of the course or achievement. This is visible to the recipient.
+        + course_description (string, optional) - Description of the course or achievement. This is visible to the recipient.
+        + course_link (string, optional) - Link to the web page with information related to this Credential. Typically this is a course information or event information page.
+        + language (string, optional) - Language for the group. Currently we support "en", "es", "vi", "pt", "ja", "fr", "da", "nl", "fi", "no", "nb", "ro", "sv", "th", "tw", "zh", "tr", "ar", "he", "ms" and "de". Default language is en.
+        + attach_pdf (boolean, optional) - PDF of the Credential should be attached to email when recipient is informed. Default is false.
+        + blockchain (boolean, optional) - Enable or disable recording of these Credentials on a Blockchain.
+        + design_id (number, optional) - DEPRECATED. Certificate Design which the Group will use to display Credentials.
+        + certificate_design_id (number, optional) - Certificate Design which the Group will use to display Credentials.
+        + badge_design_id (number, optional) - Badge Design which the Group will use to display Credentials.
+        + primary_design_id (number, optional) - Primary Design which the Group will use to display Credentials.
+        + department_id (number, optional) - Department that the group belongs to. If not defined the group will be assigned to the organizations default department.
+        + meta_data (object, optional) - You can use this parameter to attach key-value strings to the object. Meta data is useful for storing additional, structured information on an object.
+        + learning_outcomes(array, optional) - Searchable keywords identifying skills credential-holders need to demonstrate (or have learned) in the process of earning this credential.
+        + generate_private_credential (boolean, optional) - The default value of `Credential.private` for the Group. The supported values are `true`, `false`, and `null`. When this is set to `true` or `false`, it will override `Department.generate_private_credential` and be used as the default of `Credential.private` when creating a new `Credential`. When this is set to `null`, it won't override `Department.generate_private_credential` which will be used for the default of `Credential.private` instead.
+        + auto_expiry (number, optional) - Set a date for when the credentials automatically expire after a certain amount of time has elapsed since the date of issue.
+        + signup_url (string, optional) - This provides a direct path for credential viewers to enroll in your course.
+        + signup_url_show (boolean, optional) - Show or hide the sign up url. The supported values are `true`, `false` and `null`.
+        + course_link_show (boolean, optional) - This links the credential data record to your information about the credential on your website. The supported values are `true`, `false` and `null`.
+        + organization_link_show (boolean, optional) - Show or hide the link to your website homepage. The supported values are `true`, `false` and `null`.
+
+    + Body
+
+            {
+                "group": {
+                    "name": "new group copy",
+                    "course_name": "Intro to Prgramming",
+                    "course_description": "Description of course",
+                    "course_link": "http://www.example.com",
+                    "language": "en",
+                    "attach_pdf": true,
+                    "design_id": null,
+                    "blockchain": false,
+                    "certificate_design_id": null,
+                    "badge_design_id": null,
+                    "primary_design_id": null,
+                    "department_id": 123,
+                    "meta_data": {
+                        "batch_id": "271"
+                    },
+                    "learning_outcomes": ["Reading Books", "Writing Essays"],
+                    "generate_private_credential": false,
+                    "auto_expiry": 1,
+                    "signup_url_show": false,
+                    "signup_url": "http://www.example.com",
+                    "course_link_show": false,
+                    "organization_link_show": false
+                }
+            }
+
+
++ Response 200 (application/json)
+
+        {
+            "group": {
+                "id": 12345,
+                "name": "new group copy",
+                "course_description": "Desscription of course",
+                "course_name": "Intro to Programming",
+                "learning_outcomes": null,
+                "attach_pdf": true,
+                "course_link": "http://www.example.com",
+                "language": "en",
+                "design_name": "test",
+                "updated_at": "2016-08-29T07:03:25.000Z",
+                "created_at": "2016-08-29T06:14:18.000Z",
+                "design_id": 23,
+                "blockchain": false,
+                "certificate_design_id": null,
+                "badge_design_id": null,
+                "primary_design_id": null,
+                "department_id": 123,
+                "meta_data": {
+                    "foo": "bar"
+                },
+                "learning_outcomes": ["Skill One", "Skill Two"],
+                "generate_private_credential": false,
+                "auto_expiry": 1,
+                "signup_url_show": false,
+                "signup_url": "http://www.example.com",
+                "course_link_show": false,
+                "organization_link_show": false
+            }
+        }
+
 
 ## All Groups DEPRECATED [/v1/issuer/all_groups{?name}{?page_size}{?page}]
 
