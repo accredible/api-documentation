@@ -1452,10 +1452,16 @@ For example you should create a group for the Introduction to Programming course
         + design_id (number, optional) - DEPRECATED. Certificate Design which the Group will use to display Credentials.
         + certificate_design_id (number, optional) - Certificate Design which the Group will use to display Credentials.
         + badge_design_id (number, optional) - Badge Design which the Group will use to display Credentials.
+        + primary_design_id (number, optional) - Primary Design which the Group will use to display Credentials.
         + department_id (number, optional) - Department that the group belongs to. If not defined the group will be assigned to the organizations default department.
         + meta_data (object, optional) - You can use this parameter to attach key-value strings to the object. Meta data is useful for storing additional, structured information on an object.
         + learning_outcomes(array, optional) - Searchable keywords identifying skills credential-holders need to demonstrate (or have learned) in the process of earning this credential.
         + generate_private_credential (boolean, optional) - The default value of `Credential.private` for the Group. The supported values are `true`, `false`, and `null`. When this is set to `true` or `false`, it will override `Department.generate_private_credential` and be used as the default of `Credential.private` when creating a new `Credential`. When this is set to `null`, it won't override `Department.generate_private_credential` which will be used for the default of `Credential.private` instead.
+        + auto_expiry (integer, optional) - Set a date for when the credentials automatically expire after a certain amount of time has elapsed since the date of issue.
+        + signup_url (string, optional) - This provides a direct path for credential viewers to enroll in your course.
+        + signup_url_show (boolean, optional) - Show or hide the sign up url. The supported values are `true`, `false` and `null`.
+        + course_link_show (boolean, optional) - This links the credential data record to your information about the credential on your website. The supported values are `true`, `false` and `null`.
+        + organization_link_show (boolean, optional) - Show or hide the link to your website homepage. The supported values are `true`, `false` and `null`.
 
     + Body
 
@@ -1471,12 +1477,18 @@ For example you should create a group for the Introduction to Programming course
                     "blockchain": false,
                     "certificate_design_id": null,
                     "badge_design_id": null,
+                    "primary_design_id": null,
                     "department_id": 123,
                     "meta_data": {
                         "batch_id": "271"
                     },
                     "learning_outcomes": ["Reading Books", "Writing Essays"],
-                    "generate_private_credential": false
+                    "generate_private_credential": false,
+                    "auto_expiry": 1,
+                    "signup_url_show": false,
+                    "signup_url": "http://www.example.com",
+                    "course_link_show": false,
+                    "organization_link_show": false
                 }
             }
 
@@ -1500,12 +1512,18 @@ For example you should create a group for the Introduction to Programming course
                 "blockchain": false,
                 "certificate_design_id": null,
                 "badge_design_id": null,
+                "primary_design_id": null,
                 "department_id": 123,
                 "meta_data": {
                     "foo": "bar"
                 },
                 "learning_outcomes": ["Skill One", "Skill Two"],
-                "generate_private_credential": false
+                "generate_private_credential": false,
+                "auto_expiry": 1,
+                "signup_url_show": false,
+                "signup_url": "http://www.example.com",
+                "course_link_show": false,
+                "organization_link_show": false
             }
         }
 
@@ -1540,9 +1558,15 @@ For example you should create a group for the Introduction to Programming course
             "blockchain": false,
             "certificate_design_id": null,
             "badge_design_id": null,
+            "primary_design_id": null,
             "department_id": 123,
             "meta_data": null,
-            "generate_private_credential": false
+            "generate_private_credential": false,
+            "auto_expiry": 1,
+            "signup_url_show": false,
+            "signup_url": "http://www.example.com",
+            "course_link_show": false,
+            "organization_link_show": false
           }
       }
 
@@ -1569,10 +1593,16 @@ For example you should create a group for the Introduction to Programming course
         + design_id (number,optional) - DEPRECATED. Certificate Design which the Group will use to display Credentials.
         + certificate_design_id (number,optional) - Certificate Design which the Group will use to display Credentials.
         + badge_design_id (number,optional) - Badge Design which the Group will use to display Credentials.
+        + primary_design_id (number, optional) - Primary Design which the Group will use to display Credentials.
         + department_id (number,optional) - Department that the group belongs to. If not defined the group will be assigned to the organizations default department.
         + meta_data (object, optional) - You can use this parameter to attach key-value strings to the object. Meta data is useful for storing additional, structured information on an object.
         + learning_outcomes(array, optional) - Searchable keywords identifying skills credential-holders need to demonstrate (or have learned) in the process of earning this credential.
         + generate_private_credential (boolean, optional) - The default value of `Credential.private` for the Group. The supported values are `true`, `false`, and `null`. When this is set to `true` or `false`, it will override `Department.generate_private_credential` and be used as the default of `Credential.private` when creating a new `Credential`. When this is set to `null`, it won't override `Department.generate_private_credential` which will be used for the default of `Credential.private` instead.
+        + auto_expiry (integer, optional) - Set a date for when the credentials automatically expire after a certain amount of time has elapsed since the date of issue.
+        + signup_url (string, optional) - This provides a direct path for credential viewers to enroll in your course.
+        + signup_url_show (boolean, optional) - Show or hide the sign up url. The supported values are `true`, `false` and `null`.
+        + course_link_show (boolean, optional) - This links the credential data record to your information about the credential on your website. The supported values are `true`, `false` and `null`.
+        + organization_link_show (boolean, optional) - Show or hide the link to your website homepage. The supported values are `true`, `false` and `null`.
 
     + Body
 
@@ -1602,11 +1632,17 @@ For example you should create a group for the Introduction to Programming course
             "blockchain": false,
             "certificate_design_id": null,
             "badge_design_id": null,
+            "primary_design_id": null,
             "department_id": 123,
             "meta_data": {
                 "foo": "bar"
             },
-            "generate_private_credential": false
+            "generate_private_credential": false,
+            "auto_expiry": 1,
+            "signup_url_show": false,
+            "signup_url": "http://www.example.com",
+            "course_link_show": false,
+            "organization_link_show": false
           }
         }
 
@@ -1640,9 +1676,15 @@ For example you should create a group for the Introduction to Programming course
             "blockchain": false,
             "certificate_design_id": null,
             "badge_design_id": null,
+            "primary_design_id": null,
             "department_id": 123,
             "meta_data": null,
-            "generate_private_credential": false
+            "generate_private_credential": false,
+            "auto_expiry": 1,
+            "signup_url_show": false,
+            "signup_url": "http://www.example.com",
+            "course_link_show": false,
+            "organization_link_show": false
             }
         }
 
@@ -1682,11 +1724,17 @@ For example you should create a group for the Introduction to Programming course
                     "blockchain": false,
                     "certificate_design_id": 23,
                     "badge_design_id": null,
+                    "primary_design_id": 23,
                     "department_id": 123,
                     "meta_data": {
                         "course_id": "TK764"
                     },
-                    "generate_private_credential": false
+                    "generate_private_credential": false,
+                    "auto_expiry": 1,
+                    "signup_url_show": false,
+                    "signup_url": "http://www.example.com",
+                    "course_link_show": false,
+                    "organization_link_show": false
                 },
                 {
                     "id": 12473,
@@ -1704,11 +1752,17 @@ For example you should create a group for the Introduction to Programming course
                     "design_id": null,
                     "certificate_design_id": null,
                     "badge_design_id": 345,
+                    "primary_design_id": null,
                     "department_id": 123,
                     "meta_data": {
                         "course_id": "TK765"
                     },
-                    "generate_private_credential": false
+                    "generate_private_credential": false,
+                    "auto_expiry": 1,
+                    "signup_url_show": false,
+                    "signup_url": "http://www.example.com",
+                    "course_link_show": false,
+                    "organization_link_show": false
                 }
             ],
             "meta": {
@@ -1765,11 +1819,17 @@ For example you should create a group for the Introduction to Programming course
                     "blockchain": false,
                     "certificate_design_id": 23,
                     "badge_design_id": null,
+                    "primary_design_id": 23,
                     "department_id": 123,
                     "meta_data": {
                         "course_id": "TK764"
                     },
-                    "generate_private_credential": false
+                    "generate_private_credential": false,
+                    "auto_expiry": 1,
+                    "signup_url_show": false,
+                    "signup_url": "http://www.example.com",
+                    "course_link_show": false,
+                    "organization_link_show": false
                 },
                 {
                     "id": 12473,
@@ -1787,11 +1847,17 @@ For example you should create a group for the Introduction to Programming course
                     "design_id": null,
                     "certificate_design_id": null,
                     "badge_design_id": 345,
+                    "primary_design_id": null,
                     "department_id": 123,
                     "meta_data": {
                         "course_id": "TK765"
                     },
-                    "generate_private_credential": false
+                    "generate_private_credential": false,
+                    "auto_expiry": 1,
+                    "signup_url_show": false,
+                    "signup_url": "http://www.example.com",
+                    "course_link_show": false,
+                    "organization_link_show": false
                 }
             ],
             "meta": {
