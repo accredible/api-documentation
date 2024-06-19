@@ -1691,7 +1691,7 @@ For example you should create a group for the Introduction to Programming course
 ## Group [/v1/issuer/groups/{group_id}/clone]
 
 ### Clone a Group [POST]
-You can clone a group using this action. Add attributes to override values.
+You can clone a group using this action. Add attributes to override cloned values.
 
 + Request (application/json)
 
@@ -1700,7 +1700,7 @@ You can clone a group using this action. Add attributes to override values.
             Authorization: Token token=YOUR API_KEY
 
     + Attributes
-        + name (string, optional) - Name of the group (for your reference and never shown to the recipient).
+        + name (string, optional) - Name of the group (for your reference and never shown to the recipient). `Copy` will be added to the beginning of name of the new cloned group when a new name is not provided.
         + course_name (string, optional) - Name of the course or achievement. This is visible to the recipient.
         + course_description (string, optional) - Description of the course or achievement. This is visible to the recipient.
         + course_link (string, optional) - Link to the web page with information related to this Credential. Typically this is a course information or event information page.
