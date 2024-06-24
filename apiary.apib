@@ -1691,7 +1691,7 @@ For example you should create a group for the Introduction to Programming course
 ## Group [/v1/issuer/groups/{group_id}/clone]
 
 ### Clone a Group [POST]
-You can clone a group using this action. Add attributes to override cloned values. Cloning a group only works when certificate or badge designs are within the same department as the group being cloned.
+You can clone a group using this action. Add attributes to override cloned values. Cloning a group only works when certificate or badge designs are within the same department as the original group.
 
 + Request (application/json)
 
@@ -1708,8 +1708,8 @@ You can clone a group using this action. Add attributes to override cloned value
         + attach_pdf (boolean, optional) - PDF of the Credential should be attached to email when recipient is informed. Default is false.
         + blockchain (boolean, optional) - Enable or disable recording of these Credentials on a Blockchain.
         + design_id (number, optional) - DEPRECATED. Certificate Design which the Group will use to display Credentials.
-        + certificate_design_id (number, optional) - Certificate Design which the Group will use to display Credentials.
-        + badge_design_id (number, optional) - Badge Design which the Group will use to display Credentials.
+        + certificate_design_id (number, optional) - Certificate Design which the Group will use to display Credentials. Certificate design needs to exist in the newly cloned space.
+        + badge_design_id (number, optional) - Badge Design which the Group will use to display Credentials. Badge design needs to exist in the newly cloned space.
         + primary_design_id (number, optional) - Primary Design which the Group will use to display Credentials.
         + department_id (number, optional) - Department that the group belongs to. If not defined the group will be assigned to the organizations default department.
         + meta_data (object, optional) - You can use this parameter to attach key-value strings to the object. Meta data is useful for storing additional, structured information on an object.
