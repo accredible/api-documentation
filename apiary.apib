@@ -429,8 +429,13 @@ Create multiple Credentials using this action. It requires a JSON object contain
         ]
 
 ## Bulk Create Credentials V2 [/v2/credentials/bulk_create]
-
+This is an alternative to the v2 Bulk Create Credentials API. It also requires a JSON object containing credentials in an array.
 ### Bulk Create Credentials [POST]
+**Important:** If you don’t have enough credits when attempting to create Credentials with this endpoint, your credentials will still be created in your account, but will not be published.
+It supports multi-status responses, where partial successes and errors are consolidated into a single structure with `status: 207 Multi-Status`.
+You will be able to publish the created credentials in your account when you have the required credits.
+**Limits:** API Limits: Each request can accommodate up to 30 credentials. Should you have a larger set of credentials to process, it's recommended to split them into batches of 30 and make successive calls to this API.
+
 
 + Request (application/json)
 
@@ -460,12 +465,12 @@ Create multiple Credentials using this action. It requires a JSON object contain
 
 + Response 200 (application/json)
 
-            {
-                "results": [
-                    {
-                        "credential": {
-                            "id": 1234,
-                            "approve": true,
+        {
+            "results": [
+                {
+                    "credential": {
+                        "id": 1234,
+                        "approve": true,
                         "recipient": {
                             "name": "John Doe",
                             "email": "person2@example.com",
@@ -489,8 +494,8 @@ Create multiple Credentials using this action. It requires a JSON object contain
                         "course_link": null,
                         "meta_data": null
                     },
-                {
-                    "credential": {
+                    {
+                        "credential": {
                         "id": 1234,
                         "approve": true,
                         "recipient": {
@@ -519,7 +524,6 @@ Create multiple Credentials using this action. It requires a JSON object contain
                         "meta_data": {
                             "checked_by": "Jane Doe"
                         }
-                    }
                     }
                 }
             ]
@@ -556,7 +560,7 @@ Create multiple Credentials using this action. It requires a JSON object contain
                         "course_link": null,
                         "meta_data": null
                     },
-                    "warnings": {
+                    "errors": {
                         "code": "insufficient_credits",
                         "message": "The credential was created but not published."
                     }
