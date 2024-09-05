@@ -434,139 +434,164 @@ This is an alternative to the v2 Bulk Create Credentials API. It also requires a
 **Important:** If you don’t have enough credits when attempting to create Credentials with this endpoint, your credentials will still be created in your account, but will not be published.
 It supports multi-status responses, where partial successes and errors are consolidated into a single structure with `status: 207 Multi-Status`.
 You will be able to publish the created credentials in your account when you have the required credits.
-**Limits:** API Limits: Each request can accommodate up to 30 credentials. Should you have a larger set of credentials to process, it's recommended to split them into batches of 30 and make successive calls to this API.
+
+**API Limits:** Each request can accommodate up to 30 credentials. Should you have a larger set of credentials to process, it's recommended to split them into batches of 30 and make successive calls to this API.
 
 
 + Request (application/json)
 
     + Headers
 
-            Authorization: Token token=YOUR API_KEY
+      Authorization: Token token=YOUR API_KEY
 
     + Attributes
         + credentials (array, required) - Array of the credentials payload all field applicable which is in create credential endpoint.
 
     + Body
-
+      {
+        "credentials": [
+          {
+            "name": "Credential Name",
+            "description": "A detailed description of what the credential is for",
+            "recipient":
             {
-                "credentials": [
-                    {
-                        "recipient":
-                        {
-                            "name": "John Doe", "email": "student@example.com" }, "group_id": "22625"
-                        },
-                    {
-                        "recipient":
-                        {
-                            "name": "John Doe", "email": "student@example.com" }, "group_id": "62430"
-                        }
-                ]
+                "name": "John Doe", "email": "student@example.com" }, "group_id": "22625"
+            },
+          {
+            "name": "Credential Name",
+            "description": "A detailed description of what the credential is for",
+            "recipient":
+            {
+                "name": "John Doe", "email": "student@example.com" }, "group_id": "62430"
             }
+          }
+        ]
+      }
 
 + Response 200 (application/json)
-
+  {
+    "results": [
+      {
+        "credential": {
+          "id": 1234,
+          "approve": true,
+          "recipient": {
+            "name": "John Doe",
+            "email": "person2@example.com",
+            "id": 232,
+            "meta_data": null
+          },
+          "issuer": {
+            "name": "Course Provider",
+            "url": "http://www.awesomelearningexample.com",
+            "description": "Technical courses at an introductory level..."
+          },
+          "name": "Credential Name",
+          "description": "A detailed description of what the credential is for",
+          "issued_on": "2014-06-14",
+          "group_name": "Test Group",
+          "url": "https://www.example.com/10000005",
+          "grade": null,
+          "complete": true,
+          "expired_on": null,
+          "custom_attibutes": null,
+          "course_link": null,
+          "meta_data": null,
+          "evidence_items": [],
+          "references": []
+        },
         {
-            "results": [
-                {
-                    "credential": {
-                        "id": 1234,
-                        "approve": true,
-                        "recipient": {
-                            "name": "John Doe",
-                            "email": "person2@example.com",
-                            "id": 232,
-                            "meta_data": null
-                        },
-                        "issuer": {
-                            "name": "Course Provider",
-                            "url": "http://www.awesomelearningexample.com",
-                            "description": "Technical courses at an introductory level..."
-                        },
-                        "name": "Credential Name",
-                        "description": "A detailed description of what the credential is for",
-                        "issued_on": "2014-06-14",
-                        "group_name": "Test Group",
-                        "url": "https://www.example.com/10000005",
-                        "grade": null,
-                        "complete": true,
-                        "expired_on": null,
-                        "custom_attibutes": null,
-                        "course_link": null,
-                        "meta_data": null
-                    },
-                    {
-                        "credential": {
-                        "id": 1234,
-                        "approve": true,
-                        "recipient": {
-                            "name": "John Doe",
-                            "email": "person2@example.com",
-                            "id": 2232,
-                            "meta_data": {
-                                "bar": "foo"
-                            }
-                        }
-                        "issuer": {
-                            "name": "Course Provider",
-                            "url": "http://www.awesomelearningexample.com",
-                            "description": "Technical courses at an introductory level..."
-                        },
-                        "name": "Credential Name",
-                        "description": "A detailed description of what the credential is for",
-                        "issued_on": "2014-06-14",
-                        "group_name": "Test Group",
-                        "url": "https://www.example.com/10000005",
-                        "grade": null,
-                        "complete": true,
-                        "expired_on": null,
-                        "custom_attibutes": null,
-                        "course_link": null,
-                        "meta_data": {
-                            "checked_by": "Jane Doe"
-                        }
-                    }
-                }
-            ]
+          "credential": {
+          "id": 1234,
+          "approve": true,
+          "recipient": {
+              "name": "John Doe",
+              "email": "person2@example.com",
+              "id": 2232,
+              "meta_data": {
+                  "bar": "foo"
+              }
+          }
+          "issuer": {
+              "name": "Course Provider",
+              "url": "http://www.awesomelearningexample.com",
+              "description": "Technical courses at an introductory level..."
+          },
+          "name": "Credential Name",
+          "description": "A detailed description of what the credential is for",
+          "issued_on": "2014-06-14",
+          "group_name": "Test Group",
+          "url": "https://www.example.com/10000005",
+          "grade": null,
+          "complete": true,
+          "expired_on": null,
+          "custom_attibutes": null,
+          "course_link": null,
+          "meta_data": {
+              "checked_by": "Jane Doe"
+          }
         }
+      }
+    ]
+  }
 
 + Response 207 (application/json)
-
-        {
-            "results": [
-                {
-                    "credential": {
-                        "id": 1234,
-                        "approve": false,
-                        "recipient": {
-                            "name": "John Doe",
-                            "email": "person2@example.com",
-                            "id": 232,
-                            "meta_data": null
-                        },
-                        "issuer": {
-                            "name": "Course Provider",
-                            "url": "http://www.awesomelearningexample.com",
-                            "description": "Technical courses at an introductory level..."
-                        },
-                        "name": "Credential Name",
-                        "description": "A detailed description of what the credential is for",
-                        "issued_on": "2014-06-14",
-                        "group_name": "Test Group",
-                        "url": "https://www.example.com/10000005",
-                        "grade": null,
-                        "complete": true,
-                        "expired_on": null,
-                        "custom_attibutes": null,
-                        "course_link": null,
-                        "meta_data": null
-                    },
-                    "errors": {
-                        "code": "insufficient_credits",
-                        "message": "The credential was created but not published."
-                    }
-                }
-            ]
+  {
+    "results": [
+      {
+        "credential": {
+          "id": 1234,
+          "approve": false,
+          "recipient": {
+            "name": "John Doe",
+            "email": "person2@example.com",
+            "id": 232,
+            "meta_data": null
+          },
+          "issuer": {
+            "name": "Course Provider",
+            "url": "http://www.awesomelearningexample.com",
+            "description": "Technical courses at an introductory level..."
+          },
+          "name": "Credential Name",
+          "description": "A detailed description of what the credential is for",
+          "issued_on": "2014-06-14",
+          "group_name": "Test Group",
+          "url": "https://www.example.com/10000005",
+          "grade": null,
+          "complete": true,
+          "expired_on": null,
+          "custom_attibutes": null,
+          "course_link": null,
+          "meta_data": null,
+          "evidence_items": [],
+          "references": []
+        },
+        "errors": {
+          "code": "insufficient_credits",
+          "message": "The credential was created but not published."
         }
+      }
+    ]
+  }
+
++ Response 422 (application/json)
+  {
+    "results": [
+      {
+        "errors": {
+          "code": "credential_invalid",
+          "message": "The credential is not valid",
+          "details": [
+            {
+              "property": "recipient.email",
+              "message": "has already been taken. Your group settings do not allow duplicates of this credential to be sent to the same email."
+            }
+          ]
+        }
+      }
+    ]
+  }
 
 ## Credential [/v1/credentials/{id}]
 
