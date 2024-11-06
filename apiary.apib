@@ -1629,6 +1629,7 @@ For example you should create a group for the Introduction to Programming course
         + signup_url_show (boolean, optional) - Show or hide the sign up url. The supported values are `true`, `false` and `null`.
         + course_link_show (boolean, optional) - This links the credential data record to your information about the credential on your website. The supported values are `true`, `false` and `null`.
         + organization_link_show (boolean, optional) - Show or hide the link to your website homepage. The supported values are `true`, `false` and `null`.
+        + earning_criteria (array, optional) - Define recipient prerequisites for this credential. Provide an array of Earning Criteria, as objects with a kind and text. Kind may be: certificate, course, degree, exam, experience, knowledge, license, participation, reading, skill, specialization, other. Text may include simple HTML (bold, italics, underline, lists, hyperlinks).
 
     + Body
 
@@ -1655,7 +1656,21 @@ For example you should create a group for the Introduction to Programming course
                     "signup_url_show": false,
                     "signup_url": "http://www.example.com",
                     "course_link_show": false,
-                    "organization_link_show": false
+                    "organization_link_show": false,
+                    "earning_criteria": [
+                        { 
+                            "kind": "course",
+                            "position": 1,
+                            "required": true,
+                            "text":  "<p>this is an example of an earning criteria.</p>"
+                        },
+                        { 
+                            "kind": "experience",
+                            "position": 2,
+                            "required": false,
+                            "text":  "<p>this is another example.</p>"
+                        }
+                    ]
                 }
             }
 
@@ -1690,7 +1705,21 @@ For example you should create a group for the Introduction to Programming course
                 "signup_url_show": false,
                 "signup_url": "http://www.example.com",
                 "course_link_show": false,
-                "organization_link_show": false
+                "organization_link_show": false,
+                "earning_criteria": [
+                    { 
+                        "kind": "course",
+                        "position": 1,
+                        "required": true,
+                        "text":  "<p>this is an example of an earning criteria.</p>"
+                    },
+                    { 
+                        "kind": "experience",
+                        "position": 2,
+                        "required": false,
+                        "text":  "<p>this is another example.</p>"
+                    }
+                ]
             }
         }
 
@@ -1733,7 +1762,21 @@ For example you should create a group for the Introduction to Programming course
             "signup_url_show": false,
             "signup_url": "http://www.example.com",
             "course_link_show": false,
-            "organization_link_show": false
+            "organization_link_show": false,
+            "earning_criteria": [
+                { 
+                    "kind": "course",
+                    "position": 1,
+                    "required": true,
+                    "text":  "<p>this is an example of an earning criteria.</p>"
+                },
+                { 
+                    "kind": "experience",
+                    "position": 2,
+                    "required": false,
+                    "text":  "<p>this is another example.</p>"
+                }
+            ]
           }
       }
 
@@ -1770,6 +1813,7 @@ For example you should create a group for the Introduction to Programming course
         + signup_url_show (boolean, optional) - Show or hide the sign up url. The supported values are `true`, `false` and `null`.
         + course_link_show (boolean, optional) - This links the credential data record to your information about the credential on your website. The supported values are `true`, `false` and `null`.
         + organization_link_show (boolean, optional) - Show or hide the link to your website homepage. The supported values are `true`, `false` and `null`.
+        + earning_criteria (array, optional) - Define recipient prerequisites for this credential. Provide an array of Earning Criteria, as objects with a kind and text. Kind may be: certificate, course, degree, exam, experience, knowledge, license, participation, reading, skill, specialization, other. Text may include simple HTML (bold, italics, underline, lists, hyperlinks).
 
     + Body
 
@@ -1809,7 +1853,21 @@ For example you should create a group for the Introduction to Programming course
             "signup_url_show": false,
             "signup_url": "http://www.example.com",
             "course_link_show": false,
-            "organization_link_show": false
+            "organization_link_show": false,
+            "earning_criteria": [
+                { 
+                    "kind": "course",
+                    "position": 1,
+                    "required": true,
+                    "text":  "<p>this is an example of an earning criteria.</p>"
+                },
+                { 
+                    "kind": "experience",
+                    "position": 2,
+                    "required": false,
+                    "text":  "<p>this is another example.</p>"
+                }
+            ]
           }
         }
 
@@ -1851,7 +1909,21 @@ For example you should create a group for the Introduction to Programming course
             "signup_url_show": false,
             "signup_url": "http://www.example.com",
             "course_link_show": false,
-            "organization_link_show": false
+            "organization_link_show": false,
+            "earning_criteria": [
+                { 
+                    "kind": "course",
+                    "position": 1,
+                    "required": true,
+                    "text":  "<p>this is an example of an earning criteria.</p>"
+                },
+                { 
+                    "kind": "experience",
+                    "position": 2,
+                    "required": false,
+                    "text":  "<p>this is another example.</p>"
+                }
+            ]
             }
         }
 
@@ -1885,6 +1957,7 @@ You can clone a group using this action. Add attributes to override cloned value
         + signup_url_show (boolean, optional) - Show or hide the sign up url. The supported values are `true`, `false` and `null`.
         + course_link_show (boolean, optional) - This links the credential data record to your information about the credential on your website. The supported values are `true`, `false` and `null`.
         + organization_link_show (boolean, optional) - Show or hide the link to your website homepage. The supported values are `true`, `false` and `null`.
+        + earning_criteria (array, optional) - Define recipient prerequisites for this credential. Provide an array of Earning Criteria, as objects with a kind and text. Kind may be: certificate, course, degree, exam, experience, knowledge, license, participation, reading, skill, specialization, other. Text may include simple HTML (bold, italics, underline, lists, hyperlinks).
 
     + Body
 
@@ -1944,7 +2017,8 @@ You can clone a group using this action. Add attributes to override cloned value
                 "signup_url_show": false,
                 "signup_url": "http://www.example.com",
                 "course_link_show": false,
-                "organization_link_show": false
+                "organization_link_show": false,
+                "earning_criteria": []
             }
         }
 
@@ -1994,7 +2068,8 @@ You can clone a group using this action. Add attributes to override cloned value
                     "signup_url_show": false,
                     "signup_url": "http://www.example.com",
                     "course_link_show": false,
-                    "organization_link_show": false
+                    "organization_link_show": false,
+                    "earning_criteria": []
                 },
                 {
                     "id": 12473,
@@ -2022,7 +2097,8 @@ You can clone a group using this action. Add attributes to override cloned value
                     "signup_url_show": false,
                     "signup_url": "http://www.example.com",
                     "course_link_show": false,
-                    "organization_link_show": false
+                    "organization_link_show": false,
+                    "earning_criteria": []
                 }
             ],
             "meta": {
@@ -2089,7 +2165,8 @@ You can clone a group using this action. Add attributes to override cloned value
                     "signup_url_show": false,
                     "signup_url": "http://www.example.com",
                     "course_link_show": false,
-                    "organization_link_show": false
+                    "organization_link_show": false,
+                    "earning_criteria": []
                 },
                 {
                     "id": 12473,
@@ -2117,7 +2194,8 @@ You can clone a group using this action. Add attributes to override cloned value
                     "signup_url_show": false,
                     "signup_url": "http://www.example.com",
                     "course_link_show": false,
-                    "organization_link_show": false
+                    "organization_link_show": false,
+                    "earning_criteria": []
                 }
             ],
             "meta": {
