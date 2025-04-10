@@ -2134,6 +2134,31 @@ You can clone a group using this action. Add attributes to override cloned value
             }
         }
 
+## Skill Categories [/v1/skill_categories]
+
+You can link these categories to groups using the category's id field.
+
+### View all Skill Categories [GET]
+
++ Request (application/json)
+    + Headers
+            Authorization: Token token=YOUR API _KEY
++ Response 200 (application/json)
+
+        {
+            "skill_categories": [
+                {
+                    "id": 2,
+                    "name": "Administrative Support"
+                },
+                {
+                    "id": 8,
+                    "name": "Scheduling"
+                },
+                ...
+            ]
+        }
+
 # Group Designs
 
 ## Designs [/v1/designs{?kind}{?department_id}]
