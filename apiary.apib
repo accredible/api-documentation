@@ -2134,6 +2134,31 @@ You can clone a group using this action. Add attributes to override cloned value
             }
         }
 
+## Skill Categories [/v1/skill_categories]
+
+You can link these categories to groups using the category's id field.
+
+### View all Skill Categories [GET]
+
++ Request (application/json)
+    + Headers
+            Authorization: Token token=YOUR API _KEY
++ Response 200 (application/json)
+
+        {
+            "skill_categories": [
+                {
+                    "id": 2,
+                    "name": "Administrative Support"
+                },
+                {
+                    "id": 8,
+                    "name": "Scheduling"
+                },
+                ...
+            ]
+        }
+
 # Group Collections
 Collection is a set of selected groups.
 
@@ -2169,7 +2194,7 @@ For example you may create a collection. You'd provide the Collection Name, Desc
 + Response 200 (application/json)
 
 ## Collection [/v1/collections/{collection_id}]
-### Update a Group [PUT]
+### Update a Collection [PUT]
 
 + Parameters
     + collection_id (number) - ID of the collection in the form of an integer for the particular collection requested.
@@ -2211,31 +2236,6 @@ For example you may create a collection. You'd provide the Collection Name, Desc
             Authorization: Token token=YOUR API _KEY
 
 + Response 200 (application/json)
-
-## Skill Categories [/v1/skill_categories]
-
-You can link these categories to groups using the category's id field.
-
-### View all Skill Categories [GET]
-
-+ Request (application/json)
-    + Headers
-            Authorization: Token token=YOUR API _KEY
-+ Response 200 (application/json)
-
-        {
-            "skill_categories": [
-                {
-                    "id": 2,
-                    "name": "Administrative Support"
-                },
-                {
-                    "id": 8,
-                    "name": "Scheduling"
-                },
-                ...
-            ]
-        }
 
 # Group Designs
 
