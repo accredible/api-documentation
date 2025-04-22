@@ -1910,6 +1910,7 @@ You can clone a group using this action. Add attributes to override cloned value
         + course_link_show (boolean, optional) - This links the credential data record to your information about the credential on your website. The supported values are `true`, `false` and `null`.
         + organization_link_show (boolean, optional) - Show or hide the link to your website homepage. The supported values are `true`, `false` and `null`.
         + allow_duplicate_credentials (boolean, optional) - An email address can receive more than one credential. The supported values are `true` & `false`. Defaults to `false`.
+        + skill_category_id (number, optional) - ID of the skill category to associate with the cloned group.
 
     + Body
 
@@ -1934,7 +1935,8 @@ You can clone a group using this action. Add attributes to override cloned value
                     "signup_url_show": false,
                     "signup_url": "http://www.example.com",
                     "course_link_show": false,
-                    "organization_link_show": false
+                    "organization_link_show": false,
+                    "skill_category_id": 1
                 }
             }
 
@@ -1969,7 +1971,11 @@ You can clone a group using this action. Add attributes to override cloned value
                 "signup_url_show": false,
                 "signup_url": "http://www.example.com",
                 "course_link_show": false,
-                "organization_link_show": false
+                "organization_link_show": false,
+                "skill_category": {
+                    "id": 1,
+                    "name": "Skill Category"
+                }
             }
         }
 
