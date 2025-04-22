@@ -2134,6 +2134,84 @@ You can clone a group using this action. Add attributes to override cloned value
             }
         }
 
+## Collection Collections
+Collection is a set of selected groups.
+
+For example you may create a collection. You'd provide the Collection Name, Descripion and if this collection is public or not.
+
+## Collections [/v1/collections]
+
+### Create a Collection [POST]
+
++ Request (application/json)
+
+    + Headers
+
+            Authorization: Token token=YOUR API_KEY
+
+    + Attributes
+        + name (string, required) - Name of the Collection.
+        + description (string, optional) - Description of the collection.
+        + public (boolean, optional) - A boolean to indicate if a collection will be public or not.
+
+    + Body
+
+            {
+                "collection": {
+                    "name": "Collection name",
+                    "description": "DESCRIPTION",
+                    "public": true,
+                    "organization_id": 1,
+                    "groups_count": 22
+                }
+            }
+
++ Response 200 (application/json)
+
+## Collection [/v1/collections/{collection_id}]
+### Update a Group [PUT]
+
++ Parameters
+    + collection_id (number) - ID of the collection in the form of an integer for the particular collection requested.
+
++ Request (application/json)
+
+    + Headers
+
+            Authorization: Token token=YOUR API _KEY
+
+    + Attributes
+        + name (string, required) - Name of the Collection.
+        + description (string, optional) - Description of the collection.
+        + public (boolean, optional) - A boolean to indicate if a collection will be public or not.
+
+    + Body
+
+            {
+                "collection": {
+                    "name": "Collection name",
+                    "description": "DESCRIPTION",
+                    "public": true,
+                    "organization_id": 1,
+                    "groups_count": 22
+                }
+            }
+
++ Response 200 (application/json)
+
+### Delete a Collection [DELETE]
+
++ Parameters
+    + collection_id (number) - ID of the Collection in the form of an integer for the particular Collection requested.
+
++ Request (application/json)
+
+    + Headers
+
+            Authorization: Token token=YOUR API _KEY
+
++ Response 200 (application/json)
+
 ## Skill Categories [/v1/skill_categories]
 
 You can link these categories to groups using the category's id field.
