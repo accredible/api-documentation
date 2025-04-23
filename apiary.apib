@@ -2201,6 +2201,84 @@ You can link these categories to groups using the category's id field.
             ]
         }
 
+# Group Collections
+A Collection is a curated set of groups.
+
+To create one, you'll need to provide a collection name, a description, and indicate whether it should be public or private. Once created, you can assign groups to the collection using the Groups APIs.
+
+## Collections [/v1/collections]
+
+### Create a Collection [POST]
+
++ Request (application/json)
+
+    + Headers
+
+            Authorization: Token token=YOUR API_KEY
+
+    + Attributes
+        + name (string, required) - Name of the Collection.
+        + description (string, optional) - Description of the collection.
+        + public (boolean, optional) - A boolean to indicate if a collection will be public or not.
+
+    + Body
+
+            {
+                "collection": {
+                    "name": "Collection name",
+                    "description": "DESCRIPTION",
+                    "public": true,
+                    "organization_id": 1,
+                    "groups_count": 0
+                }
+            }
+
++ Response 200 (application/json)
+
+## Collection [/v1/collections/{collection_id}]
+### Update a Collection [PUT]
+
++ Parameters
+    + collection_id (number) - ID of the collection in the form of an integer for the particular collection requested.
+
++ Request (application/json)
+
+    + Headers
+
+            Authorization: Token token=YOUR API _KEY
+
+    + Attributes
+        + name (string, required) - Name of the Collection.
+        + description (string, optional) - Description of the collection.
+        + public (boolean, optional) - A boolean to indicate if a collection will be public or not.
+
+    + Body
+
+            {
+                "collection": {
+                    "name": "Collection name",
+                    "description": "DESCRIPTION",
+                    "public": true,
+                    "organization_id": 1,
+                    "groups_count": 22
+                }
+            }
+
++ Response 200 (application/json)
+
+### Delete a Collection [DELETE]
+
++ Parameters
+    + collection_id (number) - ID of the Collection in the form of an integer for the particular Collection requested.
+
++ Request (application/json)
+
+    + Headers
+
+            Authorization: Token token=YOUR API _KEY
+
++ Response 200 (application/json)
+
 # Group Designs
 
 ## Designs [/v1/designs{?kind}{?department_id}]
