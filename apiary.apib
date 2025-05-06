@@ -1633,6 +1633,7 @@ For example you should create a group for the Introduction to Programming course
         + organization_link_show (boolean, optional) - Show or hide the link to your website homepage. The supported values are `true`, `false` and `null`.
         + allow_duplicate_credentials (boolean, optional) - An email address can receive more than one credential. The supported values are `true` & `false`. Defaults to `false`.
         + skill_category_id (number, optional) - ID of the skill category to associate with this group.
+        + collections (array, optional) - Full list of collections to associate to this group
 
     + Body
 
@@ -1660,7 +1661,8 @@ For example you should create a group for the Introduction to Programming course
                     "signup_url": "http://www.example.com",
                     "course_link_show": false,
                     "organization_link_show": false,
-                    "skill_category_id": 1
+                    "skill_category_id": 1,
+                    "collections": [{"id": 1}, {"id": 2}]
                 }
             }
 
@@ -1699,7 +1701,11 @@ For example you should create a group for the Introduction to Programming course
                 "skill_category": {
                     "id": 1,
                     "name": "Example Category"
-                }
+                },
+                "collections": [
+                    {"id": 1, "name": "one", "description": null},
+                    {"id": 2, "name": "two", "description": "description example"}
+                ]
             }
         }
 
@@ -1746,7 +1752,11 @@ For example you should create a group for the Introduction to Programming course
             "skill_category": {
                 "id": 1,
                 "name": "Example Category"
-            }
+            },
+            "collections": [
+                {"id": 1, "name": "one", "description": null},
+                {"id": 2, "name": "two", "description": "description example"}
+            ]
           }
       }
 
@@ -1785,6 +1795,8 @@ For example you should create a group for the Introduction to Programming course
         + organization_link_show (boolean, optional) - Show or hide the link to your website homepage. The supported values are `true`, `false` and `null`.
         + allow_duplicate_credentials (boolean, optional) - An email address can receive more than one credential. The supported values are `true` & `false`. Defaults to `false`.
         + skill_category_id (number, optional) - ID of the skill category to associate with this group.
+        + collections (array, optional) - Full list of collections to associate to this group
+
 
     + Body
 
@@ -1792,7 +1804,8 @@ For example you should create a group for the Introduction to Programming course
                "group": {
                     "name": "updated new group",
                     "course_name": "updated course name",
-                    "skill_category_id": 1
+                    "skill_category_id": 1,
+                    "collections": [{"id": 1}, {"id": 2}]
                 }
             }
 
@@ -1829,7 +1842,11 @@ For example you should create a group for the Introduction to Programming course
             "skill_category": {
                 "id": 1,
                 "name": "Example Category"
-            }
+            },
+            "collections": [
+                {"id": 1, "name": "one", "description": null},
+                {"id": 2, "name": "two", "description": "description example"}
+            ]
           }
         }
 
@@ -1975,7 +1992,11 @@ You can clone a group using this action. Add attributes to override cloned value
                 "skill_category": {
                     "id": 1,
                     "name": "Skill Category"
-                }
+                },
+                "collections": [
+                    {"id": 1, "name": "one", "description": null},
+                    {"id": 2, "name": "two", "description": "description example"}
+                ]
             }
         }
 
@@ -2132,7 +2153,10 @@ You can clone a group using this action. Add attributes to override cloned value
                     "skill_category": {
                         "id": 1,
                         "name": "Example Category"
-                    }
+                    },
+                    "collections": [
+                        {"id": 1, "name": "one", "description": null}
+                    ]
                 },
                 {
                     "id": 12473,
@@ -2164,7 +2188,11 @@ You can clone a group using this action. Add attributes to override cloned value
                     "skill_category": {
                         "id": 1,
                         "name": "Example Category"
-                    }
+                    },
+                    "collections": [
+                        {"id": 1, "name": "one", "description": null},
+                        {"id": 2, "name": "two", "description": "description example"}
+                    ]
                 }
             ],
             "meta": {
@@ -2251,6 +2279,7 @@ To create one, you'll need to provide a collection name, a description, and indi
         + name (string, required) - Name of the Collection.
         + description (string, optional) - Description of the collection.
         + public (boolean, optional) - A boolean to indicate if a collection will be public or not.
+        + groups (array, optional) - Full List of groups to associate with the collection
 
     + Body
 
@@ -2260,7 +2289,8 @@ To create one, you'll need to provide a collection name, a description, and indi
                     "description": "DESCRIPTION",
                     "public": true,
                     "organization_id": 1,
-                    "groups_count": 22
+                    "groups_count": 22,
+                    "groups": [{"id": 1}, {"id": 2}, {"id": 3}]
                 }
             }
 
@@ -2278,6 +2308,82 @@ To create one, you'll need to provide a collection name, a description, and indi
             Authorization: Token token=YOUR API _KEY
 
 + Response 200 (application/json)
+
+## Search Collections [/v1/collections/search]
+
+### Search for Collections [POST]
+
++ Attributes
+    + query(object, required)
+        + ids (array, optional) - Limit the returned collections to specific collections IDs.
+        + name (string, optional) - Search collections by name (substring search)
+        + public (boolean, optional) - Limit the returned collections to public or not public collections.
+        + exclusion_list (array, optional) - Exclude specific collections IDs from the search results.
+    + sort (object, optional)
+        + String key/value pair for sorting based on a field and order.
+        Supported keys - `name`, `groups_count` and `public`
+        Supported values - `asc`, `desc`
+    + page (object, optional)
+        + page_number - Defines the number of page wanted
+        + per_page - The number of records to be returned
+
++ Request (application/json)
+
+    + Headers
+
+            Authorization: Token token=YOUR API_KEY
+
+    + Body
+
+        {
+            "query": {
+                "ids": ["809fxsq0-fx89-11ef-8c4a-b7d12b7poib3"]
+                "name": "abc",
+                "public": true,
+                "exclusion_list": [
+                    "409fnnn8-fx89-11ef-8e4a-b7d17b7poib3",
+                    "999fnnn8-fx89-11ef-8e4a-b7d17b7poib3"
+                ]
+            },
+            "sort": {
+                "field": asc"
+            },
+            "meta": {
+                "page_number": 1,
+                "per_page": 99
+            }
+        }
+
++ Response 200 (application/json)
+
+        {
+            "collections": [
+                {
+                    "id": "809fxsq0-fx89-11ef-8c4a-b7d12b7poib3",
+                    "name": "abc",
+                    "description": null,
+                    "organization_id": 231,
+                    "public": true,
+                    "groups_count": 1
+                },
+                {
+                    "id": "666fxsq2-fx00-11cf-8c4a-11112b7poib3",
+                    "name": "abc",
+                    "description": null,
+                    "organization_id": 231,
+                    "public": true,
+                    "groups_count": 1
+                }
+            ],
+            "meta": {
+                "current_page": 10,
+                "next_page": 11,
+                "prev_page": 9,
+                "total_pages": 119,
+                "total_count": 238,
+                "page_size": 99
+            }
+        }
 
 # Group Designs
 
