@@ -2100,6 +2100,7 @@ You can clone a group using this action. Add attributes to override cloned value
 ### Search for Groups [POST]
 
 + Parameters
+    + ids(array, optional) - Limit the list of Groups to those id match the given array.
     + name(string, optional) - Limit the list of Groups to those named with the given string.
     + meta_data (object, optional) - String key/values for client's own data on group
     + start_updated_date (string, optional) - Date after which Groups which have been updated should be returned. Format: YYYY-MM-DD (DD/MM/YYYY also works but is deprecated)
