@@ -2,6 +2,7 @@
 <html>
   <head>
     <title>Accredible - API Docs</title>
+    <link rel="icon" type="image/png" href="favicon.png">
     <script src="https://cdn.redoc.ly/redoc/latest/bundles/redoc.standalone.js"></script>
   </head>
   <body>
@@ -10,7 +11,8 @@
       Redoc.init('openapi.json', {
         scrollYOffset: 0,
         jsonSampleExpandLevel: 5,
-        hideDownloadButton: false
+        hideDownloadButton: true,
+        hideHostname: true
       }, document.getElementById('redoc-container'));
     </script>
   </body>

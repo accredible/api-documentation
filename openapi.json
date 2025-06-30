@@ -349,18 +349,6 @@
                 "tags": [
                     "Credentials"
                 ],
-                "parameters": [
-                    {
-                        "name": "Authorization",
-                        "in": "header",
-                        "description": "e.g. Token token=YOUR_API_KEY",
-                        "required": false,
-                        "schema": {
-                            "type": "string"
-                        },
-                        "example": "Token token=YOUR_API_KEY"
-                    }
-                ],
                 "requestBody": {
                     "content": {
                         "application/json": {
@@ -501,7 +489,12 @@
                             }
                         }
                     }
-                }
+                },
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ]
             }
         },
         "/v1/credentials/bulk_create": {
@@ -518,18 +511,6 @@
                 "description": "Create multiple Credentials using this action. It requires a JSON object containing credentials in an array.\n\n**Important:** If you don't have enough credits when attempting to create Credentials with this endpoint, your credentials will still be created in your account, but will not be published. This will save your data and prevent you from having to re-attempt your request later. You will be able to publish the created credentials in your account when you have the required credits.\n\n**API Limits:** Each request can accommodate up to 100 credentials. Should you have a larger set of credentials to process, it's recommended to split them into batches of 100 and make successive calls to this API.\n\n[Bulk Creating Credentials - Video Walkthrough](https://www.loom.com/share/df043cb9d2b04140bcc53b633d232147?sid=005848bc-91a9-49cc-8f12-7f31c15245f8)",
                 "tags": [
                     "Credentials"
-                ],
-                "parameters": [
-                    {
-                        "name": "Authorization",
-                        "in": "header",
-                        "description": "e.g. Token token=YOUR_API_KEY",
-                        "required": false,
-                        "schema": {
-                            "type": "string"
-                        },
-                        "example": "Token token=YOUR_API_KEY"
-                    }
                 ],
                 "requestBody": {
                     "content": {
@@ -565,7 +546,12 @@
                             }
                         }
                     }
-                }
+                },
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ]
             }
         },
         "/v2/credentials/bulk_create": {
@@ -798,18 +784,6 @@
                 "tags": [
                     "Credentials"
                 ],
-                "parameters": [
-                    {
-                        "name": "Authorization",
-                        "in": "header",
-                        "description": "e.g. Token token=YOUR_API_KEY",
-                        "required": false,
-                        "schema": {
-                            "type": "string"
-                        },
-                        "example": "Token token=YOUR_API_KEY"
-                    }
-                ],
                 "requestBody": {
                     "content": {
                         "application/json": {
@@ -826,7 +800,12 @@
                             }
                         }
                     }
-                }
+                },
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ]
             }
         },
         "/v1/credentials/{id}": {
@@ -1152,16 +1131,11 @@
                         "schema": {
                             "type": "string"
                         }
-                    },
+                    }
+                ],
+                "security": [
                     {
-                        "name": "Authorization",
-                        "in": "header",
-                        "description": "e.g. Token token=YOUR_API_KEY",
-                        "required": false,
-                        "schema": {
-                            "type": "string"
-                        },
-                        "example": "Token token=YOUR_API_KEY"
+                        "ApiKeyAuth": []
                     }
                 ]
             },
@@ -1187,16 +1161,6 @@
                         "schema": {
                             "type": "string"
                         }
-                    },
-                    {
-                        "name": "Authorization",
-                        "in": "header",
-                        "description": "e.g. Token token=YOUR_API_KEY",
-                        "required": false,
-                        "schema": {
-                            "type": "string"
-                        },
-                        "example": "Token token=YOUR_API_KEY"
                     }
                 ],
                 "requestBody": {
@@ -1288,7 +1252,12 @@
                             }
                         }
                     }
-                }
+                },
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ]
             },
             "delete": {
                 "responses": {
@@ -1612,336 +1581,326 @@
                         "schema": {
                             "type": "string"
                         }
-                    },
+                    }
+                ],
+                "security": [
                     {
-                        "name": "Authorization",
-                        "in": "header",
-                        "description": "e.g. Token token=YOUR_API_KEY",
-                        "required": false,
-                        "schema": {
-                            "type": "string"
-                        },
-                        "example": "Token token=YOUR_API_KEY"
+                        "ApiKeyAuth": []
                     }
                 ]
-                }
-            },
-            "/v1/all_credentials": {
-                "get": {
-                    "responses": {
-                        "200": {
-                            "description": "OK",
-                            "headers": {},
-                            "content": {
-                                "application/json": {
-                                    "schema": {
-                                        "type": "object",
-                                        "properties": {
-                                            "credentials": {
-                                                "type": "array",
-                                                "items": {
-                                                    "type": "object",
-                                                    "properties": {
-                                                        "id": {
-                                                            "type": "number"
-                                                        },
-                                                        "name": {
-                                                            "type": "string"
-                                                        },
-                                                        "description": {
-                                                            "type": "string"
-                                                        },
-                                                        "grade": {
-                                                            "nullable": true
-                                                        },
-                                                        "complete": {
-                                                            "type": "boolean"
-                                                        },
-                                                        "issued_on": {
-                                                            "type": "string"
-                                                        },
-                                                        "allow_supplemental_references": {
-                                                            "nullable": true
-                                                        },
-                                                        "allow_supplemental_evidence": {
-                                                            "nullable": true
-                                                        },
-                                                        "course_link": {
-                                                            "type": "string"
-                                                        },
-                                                        "custom_attributes": {
-                                                            "nullable": true
-                                                        },
-                                                        "expired_on": {
-                                                            "nullable": true
-                                                        },
-                                                        "group_name": {
-                                                            "type": "string"
-                                                        },
-                                                        "private": {
-                                                            "type": "boolean"
-                                                        },
-                                                        "recipient": {
-                                                            "type": "object",
-                                                            "properties": {
-                                                                "name": {
-                                                                    "type": "string"
-                                                                },
-                                                                "email": {
-                                                                    "type": "string"
-                                                                },
-                                                                "id": {
-                                                                    "type": "number"
-                                                                },
-                                                                "meta_data": {
-                                                                    "type": "object",
-                                                                    "properties": {
-                                                                        "zip_code": {
-                                                                            "type": "string"
-                                                                        }
-                                                                    },
-                                                                    "nullable": true
-                                                                }
-                                                            }
-                                                        },
-                                                        "issuer": {
-                                                            "type": "object",
-                                                            "properties": {
-                                                                "name": {
-                                                                    "type": "string"
-                                                                },
-                                                                "description": {
-                                                                    "type": "string"
-                                                                },
-                                                                "url": {
-                                                                    "type": "string"
-                                                                }
-                                                            }
-                                                        },
-                                                        "meta_data": {
-                                                            "type": "object",
-                                                            "properties": {
-                                                                "foo": {
-                                                                    "type": "string"
-                                                                }
-                                                            },
-                                                            "nullable": true
-                                                        }
-                                                    },
-                                                    "required": [
-                                                        "id",
-                                                        "name",
-                                                        "description",
-                                                        "grade",
-                                                        "complete",
-                                                        "issued_on",
-                                                        "allow_supplemental_references",
-                                                        "allow_supplemental_evidence",
-                                                        "course_link",
-                                                        "custom_attributes",
-                                                        "expired_on",
-                                                        "group_name",
-                                                        "private",
-                                                        "recipient",
-                                                        "issuer",
-                                                        "meta_data"
-                                                    ]
-                                                }
-                                            },
-                                            "meta": {
+            }
+        },
+        "/v1/all_credentials": {
+            "get": {
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "headers": {},
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "credentials": {
+                                            "type": "array",
+                                            "items": {
                                                 "type": "object",
                                                 "properties": {
-                                                    "current_page": {
+                                                    "id": {
                                                         "type": "number"
                                                     },
-                                                    "next_page": {
-                                                        "type": "number"
+                                                    "name": {
+                                                        "type": "string"
                                                     },
-                                                    "prev_page": {
+                                                    "description": {
+                                                        "type": "string"
+                                                    },
+                                                    "grade": {
                                                         "nullable": true
                                                     },
-                                                    "total_pages": {
-                                                        "type": "number"
+                                                    "complete": {
+                                                        "type": "boolean"
                                                     },
-                                                    "total_count": {
-                                                        "type": "number"
+                                                    "issued_on": {
+                                                        "type": "string"
+                                                    },
+                                                    "allow_supplemental_references": {
+                                                        "nullable": true
+                                                    },
+                                                    "allow_supplemental_evidence": {
+                                                        "nullable": true
+                                                    },
+                                                    "course_link": {
+                                                        "type": "string"
+                                                    },
+                                                    "custom_attributes": {
+                                                        "nullable": true
+                                                    },
+                                                    "expired_on": {
+                                                        "nullable": true
+                                                    },
+                                                    "group_name": {
+                                                        "type": "string"
+                                                    },
+                                                    "private": {
+                                                        "type": "boolean"
+                                                    },
+                                                    "recipient": {
+                                                        "type": "object",
+                                                        "properties": {
+                                                            "name": {
+                                                                "type": "string"
+                                                            },
+                                                            "email": {
+                                                                "type": "string"
+                                                            },
+                                                            "id": {
+                                                                "type": "number"
+                                                            },
+                                                            "meta_data": {
+                                                                "type": "object",
+                                                                "properties": {
+                                                                    "zip_code": {
+                                                                        "type": "string"
+                                                                    }
+                                                                },
+                                                                "nullable": true
+                                                            }
+                                                        }
+                                                    },
+                                                    "issuer": {
+                                                        "type": "object",
+                                                        "properties": {
+                                                            "name": {
+                                                                "type": "string"
+                                                            },
+                                                            "description": {
+                                                                "type": "string"
+                                                            },
+                                                            "url": {
+                                                                "type": "string"
+                                                            }
+                                                        }
+                                                    },
+                                                    "meta_data": {
+                                                        "type": "object",
+                                                        "properties": {
+                                                            "foo": {
+                                                                "type": "string"
+                                                            }
+                                                        },
+                                                        "nullable": true
                                                     }
+                                                },
+                                                "required": [
+                                                    "id",
+                                                    "name",
+                                                    "description",
+                                                    "grade",
+                                                    "complete",
+                                                    "issued_on",
+                                                    "allow_supplemental_references",
+                                                    "allow_supplemental_evidence",
+                                                    "course_link",
+                                                    "custom_attributes",
+                                                    "expired_on",
+                                                    "group_name",
+                                                    "private",
+                                                    "recipient",
+                                                    "issuer",
+                                                    "meta_data"
+                                                ]
+                                            }
+                                        },
+                                        "meta": {
+                                            "type": "object",
+                                            "properties": {
+                                                "current_page": {
+                                                    "type": "number"
+                                                },
+                                                "next_page": {
+                                                    "type": "number"
+                                                },
+                                                "prev_page": {
+                                                    "nullable": true
+                                                },
+                                                "total_pages": {
+                                                    "type": "number"
+                                                },
+                                                "total_count": {
+                                                    "type": "number"
                                                 }
                                             }
                                         }
-                                    },
-                                    "example": {
-                                        "credentials": [
-                                            {
-                                                "id": 10250009,
-                                                "name": "TestCourse",
-                                                "description": "Test Description",
-                                                "grade": null,
-                                                "complete": true,
-                                                "issued_on": "2015-07-03",
-                                                "allow_supplemental_references": null,
-                                                "allow_supplemental_evidence": null,
-                                                "course_link": "http://example.com",
-                                                "custom_attributes": null,
-                                                "expired_on": null,
-                                                "group_name": "test",
-                                                "private": false,
-                                                "recipient": {
-                                                    "name": "John Doe",
-                                                    "email": "person2@example.com",
-                                                    "id": 772,
-                                                    "meta_data": {
-                                                        "zip_code": "10459"
-                                                    }
-                                                },
-                                                "issuer": {
-                                                    "name": "Example Provider",
-                                                    "description": " Best place to manage online learning",
-                                                    "url": "http://www.accredible.com"
-                                                },
+                                    }
+                                },
+                                "example": {
+                                    "credentials": [
+                                        {
+                                            "id": 10250009,
+                                            "name": "TestCourse",
+                                            "description": "Test Description",
+                                            "grade": null,
+                                            "complete": true,
+                                            "issued_on": "2015-07-03",
+                                            "allow_supplemental_references": null,
+                                            "allow_supplemental_evidence": null,
+                                            "course_link": "http://example.com",
+                                            "custom_attributes": null,
+                                            "expired_on": null,
+                                            "group_name": "test",
+                                            "private": false,
+                                            "recipient": {
+                                                "name": "John Doe",
+                                                "email": "person2@example.com",
+                                                "id": 772,
                                                 "meta_data": {
-                                                    "foo": "bar"
+                                                    "zip_code": "10459"
                                                 }
                                             },
-                                            {
-                                                "id": 10250010,
-                                                "name": "TestCourse",
-                                                "description": "Test Description",
-                                                "grade": null,
-                                                "complete": true,
-                                                "issued_on": "2015-07-03",
-                                                "allow_supplemental_references": null,
-                                                "allow_supplemental_evidence": null,
-                                                "course_link": "http://example.com",
-                                                "custom_attributes": null,
-                                                "expired_on": null,
-                                                "group_name": "test",
-                                                "private": false,
-                                                "recipient": {
-                                                    "name": "John Doe",
-                                                    "email": "person2@example.com",
-                                                    "id": 883,
-                                                    "meta_data": null
-                                                },
-                                                "issuer": {
-                                                    "name": "Example Provider",
-                                                    "description": " Best place to manage online learning",
-                                                    "url": "http://www.accredible.com"
-                                                },
-                                                "meta_data": null
+                                            "issuer": {
+                                                "name": "Example Provider",
+                                                "description": " Best place to manage online learning",
+                                                "url": "http://www.accredible.com"
+                                            },
+                                            "meta_data": {
+                                                "foo": "bar"
                                             }
-                                        ],
-                                        "meta": {
-                                            "current_page": 1,
-                                            "next_page": 2,
-                                            "prev_page": null,
-                                            "total_pages": 795,
-                                            "total_count": 1590
+                                        },
+                                        {
+                                            "id": 10250010,
+                                            "name": "TestCourse",
+                                            "description": "Test Description",
+                                            "grade": null,
+                                            "complete": true,
+                                            "issued_on": "2015-07-03",
+                                            "allow_supplemental_references": null,
+                                            "allow_supplemental_evidence": null,
+                                            "course_link": "http://example.com",
+                                            "custom_attributes": null,
+                                            "expired_on": null,
+                                            "group_name": "test",
+                                            "private": false,
+                                            "recipient": {
+                                                "name": "John Doe",
+                                                "email": "person2@example.com",
+                                                "id": 883,
+                                                "meta_data": null
+                                            },
+                                            "issuer": {
+                                                "name": "Example Provider",
+                                                "description": " Best place to manage online learning",
+                                                "url": "http://www.accredible.com"
+                                            },
+                                            "meta_data": null
                                         }
+                                    ],
+                                    "meta": {
+                                        "current_page": 1,
+                                        "next_page": 2,
+                                        "prev_page": null,
+                                        "total_pages": 795,
+                                        "total_count": 1590
                                     }
                                 }
                             }
                         }
-                    },
-                    "summary": "View many Credentials",
-                    "operationId": "View many Credentials",
-                    "description": "[View Many Credentials - Video Walkthrough](https://www.loom.com/share/520347485c3b44c7b64daeb17f1b307b?sid=9deb6be0-e636-4a03-ac2a-3dc831b1e3ad)",
-                    "tags": [
-                        "Credentials"
-                    ],
-                    "parameters": [
-                        {
-                            "name": "group_id",
-                            "in": "query",
-                            "description": "Limit the returned Credentials to a specific group ID.",
-                            "schema": {
-                                "type": "string"
-                            }
-                        },
-                        {
-                            "name": "email",
-                            "in": "query",
-                            "description": "Limit the returned Credentials to a specific recipient's email address.",
-                            "schema": {
-                                "type": "string"
-                            }
-                        },
-                        {
-                            "name": "recipient_id",
-                            "in": "query",
-                            "description": "Limit the returned Credentials to a specific recipient user identifier (ID) you set whilst creating Credentials.",
-                            "schema": {
-                                "type": "string"
-                            }
-                        },
-                        {
-                            "name": "license_id",
-                            "in": "query",
-                            "description": "Limit the returned Credential to a specific credential id you set whilst creating credential.",
-                            "schema": {
-                                "type": "string"
-                            }
-                        },
-                        {
-                            "name": "start_date",
-                            "in": "query",
-                            "description": "Date after which credentials issued should be return. Format: YYYY-MM-DD (DD/MM/YYYY also works but is deprecated)",
-                            "schema": {
-                                "type": "string"
-                            }
-                        },
-                        {
-                            "name": "end_date",
-                            "in": "query",
-                            "description": "Date before which credetials issued should be return. Format: YYYY-MM-DD (DD/MM/YYYY also works but is deprecated)",
-                            "schema": {
-                                "type": "string"
-                            }
-                        },
-                        {
-                            "name": "start_updated_date",
-                            "in": "query",
-                            "description": "Date after which Credentials updated should be returned. Format: YYYY-MM-DD (DD/MM/YYYY also works but is deprecated)",
-                            "schema": {
-                                "type": "string"
-                            }
-                        },
-                        {
-                            "name": "end_updated_date",
-                            "in": "query",
-                            "description": "Date before which Credentials updated should be returned. Format: YYYY-MM-DD (DD/MM/YYYY also works but is deprecated)",
-                            "schema": {
-                                "type": "string"
-                            }
-                        },
-                        {
-                            "name": "page_size",
-                            "in": "query",
-                            "description": "The pagination response size, default of 50.",
-                            "schema": {
-                                "type": "number"
-                            }
-                        },
-                        {
-                            "name": "page",
-                            "in": "query",
-                            "description": "The pagination page.",
-                            "schema": {
-                                "type": "number"
-                            }
-                        },
-                        {
-                            "name": "Authorization",
-                            "in": "header",
-                            "description": "e.g. Token token=YOUR_API_KEY",
-                            "required": false,
-                            "schema": {
-                                "type": "string"
-                            },
-                            "example": "Token token=YOUR_API_KEY"
+                    }
+                },
+                "summary": "View many Credentials",
+                "operationId": "View many Credentials",
+                "description": "[View Many Credentials - Video Walkthrough](https://www.loom.com/share/520347485c3b44c7b64daeb17f1b307b?sid=9deb6be0-e636-4a03-ac2a-3dc831b1e3ad)",
+                "tags": [
+                    "Credentials"
+                ],
+                "parameters": [
+                    {
+                        "name": "group_id",
+                        "in": "query",
+                        "description": "Limit the returned Credentials to a specific group ID.",
+                        "schema": {
+                            "type": "string"
                         }
-                    ]
-                }
+                    },
+                    {
+                        "name": "email",
+                        "in": "query",
+                        "description": "Limit the returned Credentials to a specific recipient's email address.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "recipient_id",
+                        "in": "query",
+                        "description": "Limit the returned Credentials to a specific recipient user identifier (ID) you set whilst creating Credentials.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "license_id",
+                        "in": "query",
+                        "description": "Limit the returned Credential to a specific credential id you set whilst creating credential.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "start_date",
+                        "in": "query",
+                        "description": "Date after which credentials issued should be return. Format: YYYY-MM-DD (DD/MM/YYYY also works but is deprecated)",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "end_date",
+                        "in": "query",
+                        "description": "Date before which credetials issued should be return. Format: YYYY-MM-DD (DD/MM/YYYY also works but is deprecated)",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "start_updated_date",
+                        "in": "query",
+                        "description": "Date after which Credentials updated should be returned. Format: YYYY-MM-DD (DD/MM/YYYY also works but is deprecated)",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "end_updated_date",
+                        "in": "query",
+                        "description": "Date before which Credentials updated should be returned. Format: YYYY-MM-DD (DD/MM/YYYY also works but is deprecated)",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "page_size",
+                        "in": "query",
+                        "description": "The pagination response size, default of 50.",
+                        "schema": {
+                            "type": "number"
+                        }
+                    },
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "description": "The pagination page.",
+                        "schema": {
+                            "type": "number"
+                        }
+                    }
+                ],
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ]
+            }
         },
         "/v1/credentials/search": {
             "post": {
@@ -2270,16 +2229,6 @@
                         "schema": {
                             "type": "number"
                         }
-                    },
-                    {
-                        "name": "Authorization",
-                        "in": "header",
-                        "description": "e.g. Token token=YOUR_API_KEY",
-                        "required": false,
-                        "schema": {
-                            "type": "string"
-                        },
-                        "example": "Token token=YOUR_API_KEY"
                     }
                 ],
                 "requestBody": {
@@ -2305,7 +2254,12 @@
                             }
                         }
                     }
-                }
+                },
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ]
             }
         },
         "/v2/credentials/search": {
@@ -2322,18 +2276,6 @@
                 "description": "",
                 "tags": [
                     "Credentials"
-                ],
-                "parameters": [
-                    {
-                        "name": "Authorization",
-                        "in": "header",
-                        "description": "e.g. Token token=YOUR_API_KEY",
-                        "required": false,
-                        "schema": {
-                            "type": "string"
-                        },
-                        "example": "Token token=YOUR_API_KEY"
-                    }
                 ],
                 "requestBody": {
                     "content": {
@@ -2430,7 +2372,12 @@
                             }
                         }
                     }
-                }
+                },
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ]
             }
         },
         "/v1/credentials/generate_pdf": {
@@ -2462,18 +2409,6 @@
                 "tags": [
                     "Credentials"
                 ],
-                "parameters": [
-                    {
-                        "name": "Authorization",
-                        "in": "header",
-                        "description": "e.g. Token token=YOUR_API_KEY",
-                        "required": false,
-                        "schema": {
-                            "type": "string"
-                        },
-                        "example": "Token token=YOUR_API_KEY"
-                    }
-                ],
                 "requestBody": {
                     "content": {
                         "application/json": {
@@ -2497,7 +2432,12 @@
                             }
                         }
                     }
-                }
+                },
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ]
             }
         },
         "/v1/credentials/generate_single_pdf/{id}": {
@@ -2538,16 +2478,11 @@
                         "schema": {
                             "type": "string"
                         }
-                    },
+                    }
+                ],
+                "security": [
                     {
-                        "name": "Authorization",
-                        "in": "header",
-                        "description": "e.g. Token token=YOUR_API_KEY",
-                        "required": false,
-                        "schema": {
-                            "type": "string"
-                        },
-                        "example": "Token token=YOUR_API_KEY"
+                        "ApiKeyAuth": []
                     }
                 ]
             }
@@ -2561,7 +2496,6 @@
                 "tags": [
                     "Credentials"
                 ],
-                "parameters": [],
                 "requestBody": {
                     "content": {
                         "application/json": {
@@ -2588,7 +2522,12 @@
                             }
                         }
                     }
-                }
+                },
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ]
             }
         },
         "/v1/credentials/blockchain_data/{id}": {
@@ -2850,7 +2789,12 @@
                             }
                         }
                     }
-                }
+                },
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ]
             }
         },
         "/v2/credentials/{id}/blockchain_data": {
@@ -3351,7 +3295,12 @@
                             }
                         }
                     }
-                }
+                },
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ]
             }
         },
         "/v1/credentials/analytics/{id}": {
@@ -3427,16 +3376,11 @@
                         "schema": {
                             "type": "string"
                         }
-                    },
+                    }
+                ],
+                "security": [
                     {
-                        "name": "Authorization",
-                        "in": "header",
-                        "description": "e.g. Token token=YOUR_API_KEY",
-                        "required": false,
-                        "schema": {
-                            "type": "string"
-                        },
-                        "example": "Token token=YOUR_API_KEY"
+                        "ApiKeyAuth": []
                     }
                 ]
             }
@@ -3632,18 +3576,6 @@
                 "tags": [
                     "Groups"
                 ],
-                "parameters": [
-                    {
-                        "name": "Authorization",
-                        "in": "header",
-                        "description": "e.g. Token token=YOUR_API_KEY",
-                        "required": false,
-                        "schema": {
-                            "type": "string"
-                        },
-                        "example": "Token token=YOUR_API_KEY"
-                    }
-                ],
                 "requestBody": {
                     "content": {
                         "application/json": {
@@ -3788,7 +3720,12 @@
                             }
                         }
                     }
-                }
+                },
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ]
             }
         },
         "/v1/issuer/groups/{group_id}": {
@@ -3978,16 +3915,11 @@
                         "schema": {
                             "type": "number"
                         }
-                    },
+                    }
+                ],
+                "security": [
                     {
-                        "name": "Authorization",
-                        "in": "header",
-                        "description": "e.g. Token token=YOUR_API_KEY",
-                        "required": false,
-                        "schema": {
-                            "type": "string"
-                        },
-                        "example": "Token token=YOUR_API_KEY"
+                        "ApiKeyAuth": []
                     }
                 ]
             },
@@ -4184,16 +4116,6 @@
                         "schema": {
                             "type": "number"
                         }
-                    },
-                    {
-                        "name": "Authorization",
-                        "in": "header",
-                        "description": "e.g. Token token=YOUR_API_KEY",
-                        "required": false,
-                        "schema": {
-                            "type": "string"
-                        },
-                        "example": "Token token=YOUR_API_KEY"
                     }
                 ],
                 "requestBody": {
@@ -4317,7 +4239,12 @@
                             }
                         }
                     }
-                }
+                },
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ]
             },
             "delete": {
                 "responses": {
@@ -4470,16 +4397,11 @@
                         "schema": {
                             "type": "number"
                         }
-                    },
+                    }
+                ],
+                "security": [
                     {
-                        "name": "Authorization",
-                        "in": "header",
-                        "description": "e.g. Token token=YOUR_API_KEY",
-                        "required": false,
-                        "schema": {
-                            "type": "string"
-                        },
-                        "example": "Token token=YOUR_API_KEY"
+                        "ApiKeyAuth": []
                     }
                 ]
             }
@@ -4675,18 +4597,6 @@
                 "tags": [
                     "Groups"
                 ],
-                "parameters": [
-                    {
-                        "name": "Authorization",
-                        "in": "header",
-                        "description": "e.g. Token token=YOUR_API_KEY",
-                        "required": false,
-                        "schema": {
-                            "type": "string"
-                        },
-                        "example": "Token token=YOUR_API_KEY"
-                    }
-                ],
                 "requestBody": {
                     "content": {
                         "application/json": {
@@ -4805,7 +4715,12 @@
                             }
                         }
                     }
-                }
+                },
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ]
             }
         },
         "/v1/issuer/all_groups": {
@@ -5077,16 +4992,11 @@
                         "schema": {
                             "type": "number"
                         }
-                    },
+                    }
+                ],
+                "security": [
                     {
-                        "name": "Authorization",
-                        "in": "header",
-                        "description": "e.g. Token token=YOUR_API_KEY",
-                        "required": false,
-                        "schema": {
-                            "type": "string"
-                        },
-                        "example": "Token token=YOUR_API_KEY"
+                        "ApiKeyAuth": []
                     }
                 ]
             }
@@ -5441,16 +5351,11 @@
                         "schema": {
                             "type": "number"
                         }
-                    },
+                    }
+                ],
+                "security": [
                     {
-                        "name": "Authorization",
-                        "in": "header",
-                        "description": "e.g. Token token=YOUR_API_KEY",
-                        "required": false,
-                        "schema": {
-                            "type": "string"
-                        },
-                        "example": "Token token=YOUR_API_KEY"
+                        "ApiKeyAuth": []
                     }
                 ]
             }
@@ -5470,16 +5375,9 @@
                 "tags": [
                     "Groups"
                 ],
-                "parameters": [
+                "security": [
                     {
-                        "name": "Authorization",
-                        "in": "header",
-                        "description": "e.g. Token token=YOUR_API_KEY",
-                        "required": false,
-                        "schema": {
-                            "type": "string"
-                        },
-                        "example": "Token token=YOUR_API_KEY"
+                        "ApiKeyAuth": []
                     }
                 ]
             }
@@ -5498,18 +5396,6 @@
                 "description": "",
                 "tags": [
                     "Collections"
-                ],
-                "parameters": [
-                    {
-                        "name": "Authorization",
-                        "in": "header",
-                        "description": "e.g. Token token=YOUR_API_KEY",
-                        "required": false,
-                        "schema": {
-                            "type": "string"
-                        },
-                        "example": "Token token=YOUR_API_KEY"
-                    }
                 ],
                 "requestBody": {
                     "content": {
@@ -5546,7 +5432,12 @@
                             }
                         }
                     }
-                }
+                },
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ]
             }
         },
         "/v1/collections/{collection_id}": {
@@ -5573,16 +5464,6 @@
                         "schema": {
                             "type": "number"
                         }
-                    },
-                    {
-                        "name": "Authorization",
-                        "in": "header",
-                        "description": "e.g. Token token=YOUR_API_KEY",
-                        "required": false,
-                        "schema": {
-                            "type": "string"
-                        },
-                        "example": "Token token=YOUR_API_KEY"
                     }
                 ],
                 "requestBody": {
@@ -5633,7 +5514,12 @@
                             }
                         }
                     }
-                }
+                },
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ]
             },
             "delete": {
                 "responses": {
@@ -5658,16 +5544,11 @@
                         "schema": {
                             "type": "number"
                         }
-                    },
+                    }
+                ],
+                "security": [
                     {
-                        "name": "Authorization",
-                        "in": "header",
-                        "description": "e.g. Token token=YOUR_API_KEY",
-                        "required": false,
-                        "schema": {
-                            "type": "string"
-                        },
-                        "example": "Token token=YOUR_API_KEY"
+                        "ApiKeyAuth": []
                     }
                 ]
             }
@@ -5805,18 +5686,6 @@
                 "tags": [
                     "Collections"
                 ],
-                "parameters": [
-                    {
-                        "name": "Authorization",
-                        "in": "header",
-                        "description": "e.g. Token token=YOUR_API_KEY",
-                        "required": false,
-                        "schema": {
-                            "type": "string"
-                        },
-                        "example": "Token token=YOUR_API_KEY"
-                    }
-                ],
                 "requestBody": {
                     "content": {
                         "application/json": {
@@ -5875,7 +5744,12 @@
                             }
                         }
                     }
-                }
+                },
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ]
             }
         },
         "/v1/designs": {
@@ -5892,18 +5766,6 @@
                 "description": "",
                 "tags": [
                     "Designs"
-                ],
-                "parameters": [
-                    {
-                        "name": "Authorization",
-                        "in": "header",
-                        "description": "e.g. Token token=YOUR_API_KEY",
-                        "required": false,
-                        "schema": {
-                            "type": "string"
-                        },
-                        "example": "Token token=YOUR_API_KEY"
-                    }
                 ],
                 "requestBody": {
                     "content": {
@@ -5964,7 +5826,12 @@
                             }
                         }
                     }
-                }
+                },
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ]
             },
             "get": {
                 "responses": {
@@ -5996,16 +5863,11 @@
                         "schema": {
                             "type": "number"
                         }
-                    },
+                    }
+                ],
+                "security": [
                     {
-                        "name": "Authorization",
-                        "in": "header",
-                        "description": "e.g. Token token=YOUR_API_KEY",
-                        "required": false,
-                        "schema": {
-                            "type": "string"
-                        },
-                        "example": "Token token=YOUR_API_KEY"
+                        "ApiKeyAuth": []
                     }
                 ]
             }
@@ -6034,16 +5896,11 @@
                         "schema": {
                             "type": "number"
                         }
-                    },
+                    }
+                ],
+                "security": [
                     {
-                        "name": "Authorization",
-                        "in": "header",
-                        "description": "e.g. Token token=YOUR_API_KEY",
-                        "required": false,
-                        "schema": {
-                            "type": "string"
-                        },
-                        "example": "Token token=YOUR_API_KEY"
+                        "ApiKeyAuth": []
                     }
                 ]
             },
@@ -6070,16 +5927,6 @@
                         "schema": {
                             "type": "number"
                         }
-                    },
-                    {
-                        "name": "Authorization",
-                        "in": "header",
-                        "description": "e.g. Token token=YOUR_API_KEY",
-                        "required": false,
-                        "schema": {
-                            "type": "string"
-                        },
-                        "example": "Token token=YOUR_API_KEY"
                     }
                 ],
                 "requestBody": {
@@ -6131,7 +5978,12 @@
                             }
                         }
                     }
-                }
+                },
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ]
             },
             "delete": {
                 "responses": {
@@ -6156,16 +6008,11 @@
                         "schema": {
                             "type": "number"
                         }
-                    },
+                    }
+                ],
+                "security": [
                     {
-                        "name": "Authorization",
-                        "in": "header",
-                        "description": "e.g. Token token=YOUR_API_KEY",
-                        "required": false,
-                        "schema": {
-                            "type": "string"
-                        },
-                        "example": "Token token=YOUR_API_KEY"
+                        "ApiKeyAuth": []
                     }
                 ]
             }
@@ -6194,16 +6041,6 @@
                         "schema": {
                             "type": "number"
                         }
-                    },
-                    {
-                        "name": "Authorization",
-                        "in": "header",
-                        "description": "e.g. Token token=YOUR_API_KEY",
-                        "required": false,
-                        "schema": {
-                            "type": "string"
-                        },
-                        "example": "Token token=YOUR_API_KEY"
                     }
                 ],
                 "requestBody": {
@@ -6225,7 +6062,12 @@
                             }
                         }
                     }
-                }
+                },
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ]
             }
         },
         "/v1/designs/search": {
@@ -6283,16 +6125,6 @@
                         "schema": {
                             "type": "number"
                         }
-                    },
-                    {
-                        "name": "Authorization",
-                        "in": "header",
-                        "description": "e.g. Token token=YOUR_API_KEY",
-                        "required": false,
-                        "schema": {
-                            "type": "string"
-                        },
-                        "example": "Token token=YOUR_API_KEY"
                     }
                 ],
                 "requestBody": {
@@ -6322,7 +6154,12 @@
                             }
                         }
                     }
-                }
+                },
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ]
             }
         },
         "/v1/designs/{design_id}/preview": {
@@ -6363,16 +6200,6 @@
                         "schema": {
                             "type": "number"
                         }
-                    },
-                    {
-                        "name": "Authorization",
-                        "in": "header",
-                        "description": "e.g. Token token=YOUR_API_KEY",
-                        "required": false,
-                        "schema": {
-                            "type": "string"
-                        },
-                        "example": "Token token=YOUR_API_KEY"
                     }
                 ],
                 "requestBody": {
@@ -6402,7 +6229,12 @@
                             }
                         }
                     }
-                }
+                },
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ]
             }
         },
         "/v1/designers/badge/initialize": {
@@ -6438,18 +6270,6 @@
                 "tags": [
                     "Designs"
                 ],
-                "parameters": [
-                    {
-                        "name": "Authorization",
-                        "in": "header",
-                        "description": "e.g. Token token=YOUR_API_KEY",
-                        "required": false,
-                        "schema": {
-                            "type": "string"
-                        },
-                        "example": "Token token=YOUR_API_KEY"
-                    }
-                ],
                 "requestBody": {
                     "content": {
                         "application/json": {
@@ -6472,7 +6292,12 @@
                             }
                         }
                     }
-                }
+                },
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ]
             }
         },
         "/v1/designers/certificate/initialize": {
@@ -6508,18 +6333,6 @@
                 "tags": [
                     "Designs"
                 ],
-                "parameters": [
-                    {
-                        "name": "Authorization",
-                        "in": "header",
-                        "description": "e.g. Token token=YOUR_API_KEY",
-                        "required": false,
-                        "schema": {
-                            "type": "string"
-                        },
-                        "example": "Token token=YOUR_API_KEY"
-                    }
-                ],
                 "requestBody": {
                     "content": {
                         "application/json": {
@@ -6542,7 +6355,12 @@
                             }
                         }
                     }
-                }
+                },
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ]
             }
         },
         "/v1/departments": {
@@ -6628,18 +6446,6 @@
                 "tags": [
                     "Departments"
                 ],
-                "parameters": [
-                    {
-                        "name": "Authorization",
-                        "in": "header",
-                        "description": "e.g. Token token=YOUR_API_KEY",
-                        "required": false,
-                        "schema": {
-                            "type": "string"
-                        },
-                        "example": "Token token=YOUR_API_KEY"
-                    }
-                ],
                 "requestBody": {
                     "content": {
                         "application/json": {
@@ -6708,7 +6514,12 @@
                             }
                         }
                     }
-                }
+                },
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ]
             }
         },
         "/v1/departments/{department_id}": {
@@ -6794,16 +6605,9 @@
                 "tags": [
                     "Departments"
                 ],
-                "parameters": [
+                "security": [
                     {
-                        "name": "Authorization",
-                        "in": "header",
-                        "description": "e.g. Token token=YOUR_API_KEY",
-                        "required": false,
-                        "schema": {
-                            "type": "string"
-                        },
-                        "example": "Token token=YOUR_API_KEY"
+                        "ApiKeyAuth": []
                     }
                 ]
             },
@@ -6898,16 +6702,6 @@
                         "schema": {
                             "type": "string"
                         }
-                    },
-                    {
-                        "name": "Authorization",
-                        "in": "header",
-                        "description": "e.g. Token token=YOUR_API_KEY",
-                        "required": false,
-                        "schema": {
-                            "type": "string"
-                        },
-                        "example": "Token token=YOUR_API_KEY"
                     }
                 ],
                 "requestBody": {
@@ -6962,7 +6756,12 @@
                             }
                         }
                     }
-                }
+                },
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ]
             },
             "delete": {
                 "responses": {
@@ -7055,16 +6854,11 @@
                         "schema": {
                             "type": "string"
                         }
-                    },
+                    }
+                ],
+                "security": [
                     {
-                        "name": "Authorization",
-                        "in": "header",
-                        "description": "e.g. Token token=YOUR_API_KEY",
-                        "required": false,
-                        "schema": {
-                            "type": "string"
-                        },
-                        "example": "Token token=YOUR_API_KEY"
+                        "ApiKeyAuth": []
                     }
                 ]
             }
@@ -7176,16 +6970,6 @@
                         "schema": {
                             "type": "number"
                         }
-                    },
-                    {
-                        "name": "Authorization",
-                        "in": "header",
-                        "description": "e.g. Token token=YOUR_API_KEY",
-                        "required": false,
-                        "schema": {
-                            "type": "string"
-                        },
-                        "example": "Token token=YOUR_API_KEY"
                     }
                 ],
                 "requestBody": {
@@ -7211,7 +6995,12 @@
                             }
                         }
                     }
-                }
+                },
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ]
             }
         },
         "/v1/attribute_keys": {
@@ -7262,18 +7051,6 @@
                 "tags": [
                     "Attributes"
                 ],
-                "parameters": [
-                    {
-                        "name": "Authorization",
-                        "in": "header",
-                        "description": "e.g. Token token=YOUR_API_KEY",
-                        "required": false,
-                        "schema": {
-                            "type": "string"
-                        },
-                        "example": "Token token=YOUR_API_KEY"
-                    }
-                ],
                 "requestBody": {
                     "content": {
                         "application/json": {
@@ -7308,7 +7085,12 @@
                             }
                         }
                     }
-                }
+                },
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ]
             }
         },
         "/v1/attribute_keys/search": {
@@ -7431,16 +7213,6 @@
                         "schema": {
                             "type": "number"
                         }
-                    },
-                    {
-                        "name": "Authorization",
-                        "in": "header",
-                        "description": "e.g. Token token=YOUR_API_KEY",
-                        "required": false,
-                        "schema": {
-                            "type": "string"
-                        },
-                        "example": "Token token=YOUR_API_KEY"
                     }
                 ],
                 "requestBody": {
@@ -7467,7 +7239,12 @@
                             }
                         }
                     }
-                }
+                },
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ]
             }
         },
         "/v1/credentials/{credential_id}/evidence_items": {
@@ -7543,16 +7320,6 @@
                         "schema": {
                             "type": "string"
                         }
-                    },
-                    {
-                        "name": "Authorization",
-                        "in": "header",
-                        "description": "e.g. Token token=YOUR_API_KEY",
-                        "required": false,
-                        "schema": {
-                            "type": "string"
-                        },
-                        "example": "Token token=YOUR_API_KEY"
                     }
                 ],
                 "requestBody": {
@@ -7608,7 +7375,12 @@
                             }
                         }
                     }
-                }
+                },
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ]
             }
         },
         "/v1/credentials/{credential_id}/evidence_items/{evidence_item_id}": {
@@ -7694,6 +7466,11 @@
                             "type": "number"
                         }
                     }
+                ],
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
                 ]
             },
             "put": {
@@ -7777,16 +7554,6 @@
                         "schema": {
                             "type": "number"
                         }
-                    },
-                    {
-                        "name": "Authorization",
-                        "in": "header",
-                        "description": "e.g. Token token=YOUR_API_KEY",
-                        "required": false,
-                        "schema": {
-                            "type": "string"
-                        },
-                        "example": "Token token=YOUR_API_KEY"
                     }
                 ],
                 "requestBody": {
@@ -7840,7 +7607,12 @@
                             }
                         }
                     }
-                }
+                },
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ]
             },
             "delete": {
                 "responses": {
@@ -7899,16 +7671,11 @@
                         "schema": {
                             "type": "number"
                         }
-                    },
+                    }
+                ],
+                "security": [
                     {
-                        "name": "Authorization",
-                        "in": "header",
-                        "description": "e.g. Token token=YOUR_API_KEY",
-                        "required": false,
-                        "schema": {
-                            "type": "string"
-                        },
-                        "example": "Token token=YOUR_API_KEY"
+                        "ApiKeyAuth": []
                     }
                 ]
             }
@@ -7989,16 +7756,6 @@
                         "schema": {
                             "type": "string"
                         }
-                    },
-                    {
-                        "name": "Authorization",
-                        "in": "header",
-                        "description": "e.g. Token token=YOUR_API_KEY",
-                        "required": false,
-                        "schema": {
-                            "type": "string"
-                        },
-                        "example": "Token token=YOUR_API_KEY"
                     }
                 ],
                 "requestBody": {
@@ -8054,7 +7811,12 @@
                             }
                         }
                     }
-                }
+                },
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ]
             }
         },
         "/v1/credentials/{credential_id}/references/{reference_id}": {
@@ -8143,6 +7905,11 @@
                             "type": "number"
                         }
                     }
+                ],
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
                 ]
             },
             "put": {
@@ -8229,16 +7996,6 @@
                         "schema": {
                             "type": "number"
                         }
-                    },
-                    {
-                        "name": "Authorization",
-                        "in": "header",
-                        "description": "e.g. Token token=YOUR_API_KEY",
-                        "required": false,
-                        "schema": {
-                            "type": "string"
-                        },
-                        "example": "Token token=YOUR_API_KEY"
                     }
                 ],
                 "requestBody": {
@@ -8258,7 +8015,7 @@
                                     },
                                     "relationship": {
                                         "type": "string",
-                                        "description": "Must be one of: “taught”, “managed”, “mentored”, “worked”, “studied”, “friends”, “stranger”, “professor”."
+                                        "description": "Must be one of: \u201ctaught\u201d, \u201cmanaged\u201d, \u201cmentored\u201d, \u201cworked\u201d, \u201cstudied\u201d, \u201cfriends\u201d, \u201cstranger\u201d, \u201cprofessor\u201d."
                                     },
                                     "position": {
                                         "type": "number",
@@ -8272,7 +8029,12 @@
                             }
                         }
                     }
-                }
+                },
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ]
             },
             "delete": {
                 "responses": {
@@ -8358,16 +8120,11 @@
                         "schema": {
                             "type": "number"
                         }
-                    },
+                    }
+                ],
+                "security": [
                     {
-                        "name": "Authorization",
-                        "in": "header",
-                        "description": "e.g. Token token=YOUR_API_KEY",
-                        "required": false,
-                        "schema": {
-                            "type": "string"
-                        },
-                        "example": "Token token=YOUR_API_KEY"
+                        "ApiKeyAuth": []
                     }
                 ]
             }
@@ -8435,16 +8192,11 @@
                         "schema": {
                             "type": "number"
                         }
-                    },
+                    }
+                ],
+                "security": [
                     {
-                        "name": "Authorization",
-                        "in": "header",
-                        "description": "e.g. Token token=YOUR_API_KEY",
-                        "required": false,
-                        "schema": {
-                            "type": "string"
-                        },
-                        "example": "Token token=YOUR_API_KEY"
+                        "ApiKeyAuth": []
                     }
                 ]
             }
@@ -8512,16 +8264,9 @@
                 "tags": [
                     "Data Exports"
                 ],
-                "parameters": [
+                "security": [
                     {
-                        "name": "Authorization",
-                        "in": "header",
-                        "description": "e.g. Token token=YOUR_API_KEY",
-                        "required": false,
-                        "schema": {
-                            "type": "string"
-                        },
-                        "example": "Token token=YOUR_API_KEY"
+                        "ApiKeyAuth": []
                     }
                 ]
             },
@@ -8585,18 +8330,6 @@
                 "tags": [
                     "Data Exports"
                 ],
-                "parameters": [
-                    {
-                        "name": "Authorization",
-                        "in": "header",
-                        "description": "e.g. Token token=YOUR_API_KEY",
-                        "required": false,
-                        "schema": {
-                            "type": "string"
-                        },
-                        "example": "Token token=YOUR_API_KEY"
-                    }
-                ],
                 "requestBody": {
                     "content": {
                         "application/json": {
@@ -8625,7 +8358,12 @@
                             }
                         }
                     }
-                }
+                },
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ]
             }
         },
         "/v1/data_exports/{id}": {
@@ -8689,16 +8427,11 @@
                         "schema": {
                             "type": "number"
                         }
-                    },
+                    }
+                ],
+                "security": [
                     {
-                        "name": "Authorization",
-                        "in": "header",
-                        "description": "e.g. Token token=YOUR_API_KEY",
-                        "required": false,
-                        "schema": {
-                            "type": "string"
-                        },
-                        "example": "Token token=YOUR_API_KEY"
+                        "ApiKeyAuth": []
                     }
                 ]
             }
@@ -8822,18 +8555,6 @@
                 "tags": [
                     "Team Members"
                 ],
-                "parameters": [
-                    {
-                        "name": "Authorization",
-                        "in": "header",
-                        "description": "e.g. Token token=YOUR_API_KEY",
-                        "required": false,
-                        "schema": {
-                            "type": "string"
-                        },
-                        "example": "Token token=YOUR_API_KEY"
-                    }
-                ],
                 "requestBody": {
                     "content": {
                         "application/json": {
@@ -8949,7 +8670,12 @@
                             }
                         }
                     }
-                }
+                },
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ]
             }
         },
         "/v1/team_members/{id}": {
@@ -9071,16 +8797,9 @@
                 "tags": [
                     "Team Members"
                 ],
-                "parameters": [
+                "security": [
                     {
-                        "name": "Authorization",
-                        "in": "header",
-                        "description": "e.g. Token token=YOUR_API_KEY",
-                        "required": false,
-                        "schema": {
-                            "type": "string"
-                        },
-                        "example": "Token token=YOUR_API_KEY"
+                        "ApiKeyAuth": []
                     }
                 ]
             },
@@ -9097,18 +8816,6 @@
                 "description": "Update a TeamMember using this action. It requires a JSON object containing an TeamMember.",
                 "tags": [
                     "Team Members"
-                ],
-                "parameters": [
-                    {
-                        "name": "Authorization",
-                        "in": "header",
-                        "description": "e.g. Token token=YOUR_API_KEY",
-                        "required": false,
-                        "schema": {
-                            "type": "string"
-                        },
-                        "example": "Token token=YOUR_API_KEY"
-                    }
                 ],
                 "requestBody": {
                     "content": {
@@ -9226,7 +8933,12 @@
                             }
                         }
                     }
-                }
+                },
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ]
             },
             "delete": {
                 "responses": {
@@ -9251,16 +8963,11 @@
                         "schema": {
                             "type": "string"
                         }
-                    },
+                    }
+                ],
+                "security": [
                     {
-                        "name": "Authorization",
-                        "in": "header",
-                        "description": "e.g. Token token=YOUR_API_KEY",
-                        "required": false,
-                        "schema": {
-                            "type": "string"
-                        },
-                        "example": "Token token=YOUR_API_KEY"
+                        "ApiKeyAuth": []
                     }
                 ]
             }
@@ -9337,18 +9044,18 @@
                 "tags": [
                     "Issuers"
                 ],
-                "parameters": [
+                "security": [
                     {
-                        "name": "Authorization",
-                        "in": "header",
-                        "description": "e.g. Token token=YOUR_API_KEY",
-                        "required": false,
-                        "schema": {
-                            "type": "string"
-                        },
-                        "example": "Token token=YOUR_API_KEY"
+                        "ApiKeyAuth": []
                     }
-                ]
+                ],
+                "x-code-samples": {
+                    "curl": {
+                        "lang": "cURL",
+                        "label": "cURL",
+                        "source": "curl -X GET \"https://api.accredible.com/v1/issuer/details\" \\\n  -H \"Authorization: Token token=YOUR_API_KEY\""
+                    }
+                }
             }
         },
         "/v1/sso/generate_link": {
@@ -9381,7 +9088,9 @@
                     "SSO"
                 ],
                 "security": [
-                    { "ApiKeyAuth": [] }
+                    {
+                        "ApiKeyAuth": []
+                    }
                 ],
                 "requestBody": {
                     "content": {
