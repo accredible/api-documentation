@@ -7,7 +7,16 @@
     },
     "servers": [
         {
-            "url": "https://api.accredible.com/"
+            "url": "https://api.accredible.com/",
+            "description": "Production environment - US"
+        },
+        {
+            "url": "https://eu.api.accredible.com/",
+            "description": "Production environment - EU"
+        },
+        {
+            "url": "https://sandbox.api.accredible.com/",
+            "description": "Sandbox environment - Testing environment"
         }
     ],
     "paths": {
@@ -166,7 +175,8 @@
                                                                 "type": "string"
                                                             },
                                                             "relationship": {
-                                                                "type": "string"
+                                                                "type": "string",
+                                                                "description": "Must be one of: \"taught\", \"managed\", \"mentored\", \"worked\", \"studied\", \"friends\", \"stranger\", \"professor\"."
                                                             },
                                                             "supplemental": {
                                                                 "type": "boolean"
@@ -335,7 +345,7 @@
                 },
                 "summary": "Create a New Credential",
                 "operationId": "Create a New Credential",
-                "description": "You create a Credential with optional EvidenceItems and References using this action. Please make sure that you've created a group on your dashboard before creating a Credential. If you haven't then [create a group in the dashboard](https://dashboard.accredible.com/issuer/dashboard/group/new?edit=information-and-appearance) or use [this API request](https://accrediblecredentialapi.docs.apiary.io/reference/groups/groups/create-a-group).\n\nThis endpoint requires a JSON object containing a Credential.\n\n**Important:** If you don’t have enough credits when attempting to create Credentials with this endpoint, your credentials will still be created in your account, but will not be published. This will save your data and prevent you from having to re-attempt your request later. You will be able to publish the created credentials in your account when you have the required credits\n\n[Creating Credentials - Video Walkthrough](https://www.loom.com/share/c7c47531a46d4a3f85abaf7413d9e636?sid=b3998a3d-dd4a-4289-84fc-db6df40efd5b)",
+                "description": "You create a Credential with optional EvidenceItems and References using this action. Please make sure that you've created a group on your dashboard before creating a Credential. If you haven't then [create a group in the dashboard](https://dashboard.accredible.com/issuer/dashboard/group/new?edit=information-and-appearance) or use [this API request](https://accrediblecredentialapi.docs.apiary.io/reference/groups/groups/create-a-group).\n\nThis endpoint requires a JSON object containing a Credential.\n\n**Important:** If you don't have enough credits when attempting to create Credentials with this endpoint, your credentials will still be created in your account, but will not be published. This will save your data and prevent you from having to re-attempt your request later. You will be able to publish the created credentials in your account when you have the required credits\n\n[Creating Credentials - Video Walkthrough](https://www.loom.com/share/c7c47531a46d4a3f85abaf7413d9e636?sid=b3998a3d-dd4a-4289-84fc-db6df40efd5b)",
                 "tags": [
                     "Credentials"
                 ],
@@ -505,7 +515,7 @@
                 },
                 "summary": "Bulk Create credentials",
                 "operationId": "Bulk Create credentials",
-                "description": "Create multiple Credentials using this action. It requires a JSON object containing credentials in an array.\n\n**Important:** If you don’t have enough credits when attempting to create Credentials with this endpoint, your credentials will still be created in your account, but will not be published. This will save your data and prevent you from having to re-attempt your request later. You will be able to publish the created credentials in your account when you have the required credits.\n\n**API Limits:** Each request can accommodate up to 100 credentials. Should you have a larger set of credentials to process, it's recommended to split them into batches of 100 and make successive calls to this API.\n\n[Bulk Creating Credentials - Video Walkthrough](https://www.loom.com/share/df043cb9d2b04140bcc53b633d232147?sid=005848bc-91a9-49cc-8f12-7f31c15245f8)",
+                "description": "Create multiple Credentials using this action. It requires a JSON object containing credentials in an array.\n\n**Important:** If you don't have enough credits when attempting to create Credentials with this endpoint, your credentials will still be created in your account, but will not be published. This will save your data and prevent you from having to re-attempt your request later. You will be able to publish the created credentials in your account when you have the required credits.\n\n**API Limits:** Each request can accommodate up to 100 credentials. Should you have a larger set of credentials to process, it's recommended to split them into batches of 100 and make successive calls to this API.\n\n[Bulk Creating Credentials - Video Walkthrough](https://www.loom.com/share/df043cb9d2b04140bcc53b633d232147?sid=005848bc-91a9-49cc-8f12-7f31c15245f8)",
                 "tags": [
                     "Credentials"
                 ],
@@ -784,7 +794,7 @@
                 },
                 "summary": "Bulk Create Credentials",
                 "operationId": "Bulk Create Credentials",
-                "description": "**Important:** If you don’t have enough credits when attempting to create Credentials with this endpoint, your credentials will still be created in your account, but will not be published.\nIt supports multi-status responses, where partial successes and errors are consolidated into a single structure with `status: 207 Multi-Status`.\nYou will be able to publish the created credentials in your account when you have the required credits.\n\n**API Limits:** Each request can accommodate up to 30 credentials. Should you have a larger set of credentials to process, it's recommended to split them into batches of 30 and make successive calls to this API.",
+                "description": "**Important:** If you don't have enough credits when attempting to create Credentials with this endpoint, your credentials will still be created in your account, but will not be published.\nIt supports multi-status responses, where partial successes and errors are consolidated into a single structure with `status: 207 Multi-Status`.\nYou will be able to publish the created credentials in your account when you have the required credits.\n\n**API Limits:** Each request can accommodate up to 30 credentials. Should you have a larger set of credentials to process, it's recommended to split them into batches of 30 and make successive calls to this API.",
                 "tags": [
                     "Credentials"
                 ],
@@ -8014,7 +8024,7 @@
                                     },
                                     "relationship": {
                                         "type": "string",
-                                        "description": "Must be one of: “taught”, “managed”, “mentored”, “worked”, “studied”, “friends”, “stranger”, “professor”."
+                                        "description": "Must be one of: \"taught\", \"managed\", \"mentored\", \"worked\", \"studied\", \"friends\", \"stranger\", \"professor\"."
                                     },
                                     "referee.name": {
                                         "type": "string",
@@ -9414,7 +9424,14 @@
                             }
                         }
                     }
-                }
+                },
+                "x-codeSamples": [
+                    {
+                        "lang": "cURL",
+                        "label": "cURL",
+                        "source": "curl -X POST https://api.accredible.com/v1/sso/generate_link \\\n  -H \"Authorization: Token token=YOUR_API_KEY\" \\\n  -H \"Content-Type: application/json\" \\\n  -d '{\"credential_id\": \"12345\"}'"
+                    }
+                ]
             }
         }
     },
@@ -9480,4 +9497,4 @@
             "description": "Accredible offers single sign-on solutions for recipients and issuers. Email support@accredible.com for a full list of options and to receive development assistance. SSO is also available via our Integrations and via SAML 2.0."
         }
     ]
-                            }
+}
