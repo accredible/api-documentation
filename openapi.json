@@ -343,12 +343,12 @@
                     {
                         "name": "Authorization",
                         "in": "header",
-                        "description": "e.g. Token token=YOUR API_KEY",
+                        "description": "e.g. Token token=YOUR_API_KEY",
                         "required": false,
                         "schema": {
                             "type": "string"
                         },
-                        "example": "Token token=YOUR API_KEY"
+                        "example": "Token token=YOUR_API_KEY"
                     }
                 ],
                 "requestBody": {
@@ -513,12 +513,12 @@
                     {
                         "name": "Authorization",
                         "in": "header",
-                        "description": "e.g. Token token=YOUR API_KEY",
+                        "description": "e.g. Token token=YOUR_API_KEY",
                         "required": false,
                         "schema": {
                             "type": "string"
                         },
-                        "example": "Token token=YOUR API_KEY"
+                        "example": "Token token=YOUR_API_KEY"
                     }
                 ],
                 "requestBody": {
@@ -792,12 +792,12 @@
                     {
                         "name": "Authorization",
                         "in": "header",
-                        "description": "e.g. Token token=YOUR API_KEY",
+                        "description": "e.g. Token token=YOUR_API_KEY",
                         "required": false,
                         "schema": {
                             "type": "string"
                         },
-                        "example": "Token token=YOUR API_KEY"
+                        "example": "Token token=YOUR_API_KEY"
                     }
                 ],
                 "requestBody": {
@@ -1146,12 +1146,12 @@
                     {
                         "name": "Authorization",
                         "in": "header",
-                        "description": "e.g. Token token=YOUR API _KEY",
+                        "description": "e.g. Token token=YOUR_API_KEY",
                         "required": false,
                         "schema": {
                             "type": "string"
                         },
-                        "example": "Token token=YOUR API _KEY"
+                        "example": "Token token=YOUR_API_KEY"
                     }
                 ]
             },
@@ -1181,12 +1181,12 @@
                     {
                         "name": "Authorization",
                         "in": "header",
-                        "description": "e.g. Token token=YOUR API _KEY",
+                        "description": "e.g. Token token=YOUR_API_KEY",
                         "required": false,
                         "schema": {
                             "type": "string"
                         },
-                        "example": "Token token=YOUR API _KEY"
+                        "example": "Token token=YOUR_API_KEY"
                     }
                 ],
                 "requestBody": {
@@ -1606,332 +1606,332 @@
                     {
                         "name": "Authorization",
                         "in": "header",
-                        "description": "e.g. Token token=YOUR API _KEY",
+                        "description": "e.g. Token token=YOUR_API_KEY",
                         "required": false,
                         "schema": {
                             "type": "string"
                         },
-                        "example": "Token token=YOUR API _KEY"
+                        "example": "Token token=YOUR_API_KEY"
                     }
                 ]
-            }
-        },
-        "/v1/all_credentials": {
-            "get": {
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "headers": {},
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "type": "object",
-                                    "properties": {
-                                        "credentials": {
-                                            "type": "array",
-                                            "items": {
-                                                "type": "object",
-                                                "properties": {
-                                                    "id": {
-                                                        "type": "number"
-                                                    },
-                                                    "name": {
-                                                        "type": "string"
-                                                    },
-                                                    "description": {
-                                                        "type": "string"
-                                                    },
-                                                    "grade": {
-                                                        "nullable": true
-                                                    },
-                                                    "complete": {
-                                                        "type": "boolean"
-                                                    },
-                                                    "issued_on": {
-                                                        "type": "string"
-                                                    },
-                                                    "allow_supplemental_references": {
-                                                        "nullable": true
-                                                    },
-                                                    "allow_supplemental_evidence": {
-                                                        "nullable": true
-                                                    },
-                                                    "course_link": {
-                                                        "type": "string"
-                                                    },
-                                                    "custom_attributes": {
-                                                        "nullable": true
-                                                    },
-                                                    "expired_on": {
-                                                        "nullable": true
-                                                    },
-                                                    "group_name": {
-                                                        "type": "string"
-                                                    },
-                                                    "private": {
-                                                        "type": "boolean"
-                                                    },
-                                                    "recipient": {
-                                                        "type": "object",
-                                                        "properties": {
-                                                            "name": {
-                                                                "type": "string"
-                                                            },
-                                                            "email": {
-                                                                "type": "string"
-                                                            },
-                                                            "id": {
-                                                                "type": "number"
-                                                            },
-                                                            "meta_data": {
-                                                                "type": "object",
-                                                                "properties": {
-                                                                    "zip_code": {
-                                                                        "type": "string"
-                                                                    }
+                }
+            },
+            "/v1/all_credentials": {
+                "get": {
+                    "responses": {
+                        "200": {
+                            "description": "OK",
+                            "headers": {},
+                            "content": {
+                                "application/json": {
+                                    "schema": {
+                                        "type": "object",
+                                        "properties": {
+                                            "credentials": {
+                                                "type": "array",
+                                                "items": {
+                                                    "type": "object",
+                                                    "properties": {
+                                                        "id": {
+                                                            "type": "number"
+                                                        },
+                                                        "name": {
+                                                            "type": "string"
+                                                        },
+                                                        "description": {
+                                                            "type": "string"
+                                                        },
+                                                        "grade": {
+                                                            "nullable": true
+                                                        },
+                                                        "complete": {
+                                                            "type": "boolean"
+                                                        },
+                                                        "issued_on": {
+                                                            "type": "string"
+                                                        },
+                                                        "allow_supplemental_references": {
+                                                            "nullable": true
+                                                        },
+                                                        "allow_supplemental_evidence": {
+                                                            "nullable": true
+                                                        },
+                                                        "course_link": {
+                                                            "type": "string"
+                                                        },
+                                                        "custom_attributes": {
+                                                            "nullable": true
+                                                        },
+                                                        "expired_on": {
+                                                            "nullable": true
+                                                        },
+                                                        "group_name": {
+                                                            "type": "string"
+                                                        },
+                                                        "private": {
+                                                            "type": "boolean"
+                                                        },
+                                                        "recipient": {
+                                                            "type": "object",
+                                                            "properties": {
+                                                                "name": {
+                                                                    "type": "string"
                                                                 },
-                                                                "nullable": true
-                                                            }
-                                                        }
-                                                    },
-                                                    "issuer": {
-                                                        "type": "object",
-                                                        "properties": {
-                                                            "name": {
-                                                                "type": "string"
-                                                            },
-                                                            "description": {
-                                                                "type": "string"
-                                                            },
-                                                            "url": {
-                                                                "type": "string"
-                                                            }
-                                                        }
-                                                    },
-                                                    "meta_data": {
-                                                        "type": "object",
-                                                        "properties": {
-                                                            "foo": {
-                                                                "type": "string"
+                                                                "email": {
+                                                                    "type": "string"
+                                                                },
+                                                                "id": {
+                                                                    "type": "number"
+                                                                },
+                                                                "meta_data": {
+                                                                    "type": "object",
+                                                                    "properties": {
+                                                                        "zip_code": {
+                                                                            "type": "string"
+                                                                        }
+                                                                    },
+                                                                    "nullable": true
+                                                                }
                                                             }
                                                         },
+                                                        "issuer": {
+                                                            "type": "object",
+                                                            "properties": {
+                                                                "name": {
+                                                                    "type": "string"
+                                                                },
+                                                                "description": {
+                                                                    "type": "string"
+                                                                },
+                                                                "url": {
+                                                                    "type": "string"
+                                                                }
+                                                            }
+                                                        },
+                                                        "meta_data": {
+                                                            "type": "object",
+                                                            "properties": {
+                                                                "foo": {
+                                                                    "type": "string"
+                                                                }
+                                                            },
+                                                            "nullable": true
+                                                        }
+                                                    },
+                                                    "required": [
+                                                        "id",
+                                                        "name",
+                                                        "description",
+                                                        "grade",
+                                                        "complete",
+                                                        "issued_on",
+                                                        "allow_supplemental_references",
+                                                        "allow_supplemental_evidence",
+                                                        "course_link",
+                                                        "custom_attributes",
+                                                        "expired_on",
+                                                        "group_name",
+                                                        "private",
+                                                        "recipient",
+                                                        "issuer",
+                                                        "meta_data"
+                                                    ]
+                                                }
+                                            },
+                                            "meta": {
+                                                "type": "object",
+                                                "properties": {
+                                                    "current_page": {
+                                                        "type": "number"
+                                                    },
+                                                    "next_page": {
+                                                        "type": "number"
+                                                    },
+                                                    "prev_page": {
                                                         "nullable": true
+                                                    },
+                                                    "total_pages": {
+                                                        "type": "number"
+                                                    },
+                                                    "total_count": {
+                                                        "type": "number"
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    },
+                                    "example": {
+                                        "credentials": [
+                                            {
+                                                "id": 10250009,
+                                                "name": "TestCourse",
+                                                "description": "Test Description",
+                                                "grade": null,
+                                                "complete": true,
+                                                "issued_on": "2015-07-03",
+                                                "allow_supplemental_references": null,
+                                                "allow_supplemental_evidence": null,
+                                                "course_link": "http://example.com",
+                                                "custom_attributes": null,
+                                                "expired_on": null,
+                                                "group_name": "test",
+                                                "private": false,
+                                                "recipient": {
+                                                    "name": "John Doe",
+                                                    "email": "person2@example.com",
+                                                    "id": 772,
+                                                    "meta_data": {
+                                                        "zip_code": "10459"
                                                     }
                                                 },
-                                                "required": [
-                                                    "id",
-                                                    "name",
-                                                    "description",
-                                                    "grade",
-                                                    "complete",
-                                                    "issued_on",
-                                                    "allow_supplemental_references",
-                                                    "allow_supplemental_evidence",
-                                                    "course_link",
-                                                    "custom_attributes",
-                                                    "expired_on",
-                                                    "group_name",
-                                                    "private",
-                                                    "recipient",
-                                                    "issuer",
-                                                    "meta_data"
-                                                ]
-                                            }
-                                        },
-                                        "meta": {
-                                            "type": "object",
-                                            "properties": {
-                                                "current_page": {
-                                                    "type": "number"
+                                                "issuer": {
+                                                    "name": "Example Provider",
+                                                    "description": " Best place to manage online learning",
+                                                    "url": "http://www.accredible.com"
                                                 },
-                                                "next_page": {
-                                                    "type": "number"
-                                                },
-                                                "prev_page": {
-                                                    "nullable": true
-                                                },
-                                                "total_pages": {
-                                                    "type": "number"
-                                                },
-                                                "total_count": {
-                                                    "type": "number"
-                                                }
-                                            }
-                                        }
-                                    }
-                                },
-                                "example": {
-                                    "credentials": [
-                                        {
-                                            "id": 10250009,
-                                            "name": "TestCourse",
-                                            "description": "Test Description",
-                                            "grade": null,
-                                            "complete": true,
-                                            "issued_on": "2015-07-03",
-                                            "allow_supplemental_references": null,
-                                            "allow_supplemental_evidence": null,
-                                            "course_link": "http://example.com",
-                                            "custom_attributes": null,
-                                            "expired_on": null,
-                                            "group_name": "test",
-                                            "private": false,
-                                            "recipient": {
-                                                "name": "John Doe",
-                                                "email": "person2@example.com",
-                                                "id": 772,
                                                 "meta_data": {
-                                                    "zip_code": "10459"
+                                                    "foo": "bar"
                                                 }
                                             },
-                                            "issuer": {
-                                                "name": "Example Provider",
-                                                "description": " Best place to manage online learning",
-                                                "url": "http://www.accredible.com"
-                                            },
-                                            "meta_data": {
-                                                "foo": "bar"
-                                            }
-                                        },
-                                        {
-                                            "id": 10250010,
-                                            "name": "TestCourse",
-                                            "description": "Test Description",
-                                            "grade": null,
-                                            "complete": true,
-                                            "issued_on": "2015-07-03",
-                                            "allow_supplemental_references": null,
-                                            "allow_supplemental_evidence": null,
-                                            "course_link": "http://example.com",
-                                            "custom_attributes": null,
-                                            "expired_on": null,
-                                            "group_name": "test",
-                                            "private": false,
-                                            "recipient": {
-                                                "name": "John Doe",
-                                                "email": "person2@example.com",
-                                                "id": 883,
+                                            {
+                                                "id": 10250010,
+                                                "name": "TestCourse",
+                                                "description": "Test Description",
+                                                "grade": null,
+                                                "complete": true,
+                                                "issued_on": "2015-07-03",
+                                                "allow_supplemental_references": null,
+                                                "allow_supplemental_evidence": null,
+                                                "course_link": "http://example.com",
+                                                "custom_attributes": null,
+                                                "expired_on": null,
+                                                "group_name": "test",
+                                                "private": false,
+                                                "recipient": {
+                                                    "name": "John Doe",
+                                                    "email": "person2@example.com",
+                                                    "id": 883,
+                                                    "meta_data": null
+                                                },
+                                                "issuer": {
+                                                    "name": "Example Provider",
+                                                    "description": " Best place to manage online learning",
+                                                    "url": "http://www.accredible.com"
+                                                },
                                                 "meta_data": null
-                                            },
-                                            "issuer": {
-                                                "name": "Example Provider",
-                                                "description": " Best place to manage online learning",
-                                                "url": "http://www.accredible.com"
-                                            },
-                                            "meta_data": null
+                                            }
+                                        ],
+                                        "meta": {
+                                            "current_page": 1,
+                                            "next_page": 2,
+                                            "prev_page": null,
+                                            "total_pages": 795,
+                                            "total_count": 1590
                                         }
-                                    ],
-                                    "meta": {
-                                        "current_page": 1,
-                                        "next_page": 2,
-                                        "prev_page": null,
-                                        "total_pages": 795,
-                                        "total_count": 1590
                                     }
                                 }
                             }
                         }
-                    }
-                },
-                "summary": "View many Credentials",
-                "operationId": "View many Credentials",
-                "description": "[View Many Credentials - Video Walkthrough](https://www.loom.com/share/520347485c3b44c7b64daeb17f1b307b?sid=9deb6be0-e636-4a03-ac2a-3dc831b1e3ad)",
-                "tags": [
-                    "Credentials"
-                ],
-                "parameters": [
-                    {
-                        "name": "group_id",
-                        "in": "query",
-                        "description": "Limit the returned Credentials to a specific group ID.",
-                        "schema": {
-                            "type": "string"
-                        }
                     },
-                    {
-                        "name": "email",
-                        "in": "query",
-                        "description": "Limit the returned Credentials to a specific recipient's email address.",
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
-                    {
-                        "name": "recipient_id",
-                        "in": "query",
-                        "description": "Limit the returned Credentials to a specific recipient user identifier (ID) you set whilst creating Credentials.",
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
-                    {
-                        "name": "license_id",
-                        "in": "query",
-                        "description": "Limit the returned Credential to a specific credential id you set whilst creating credential.",
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
-                    {
-                        "name": "start_date",
-                        "in": "query",
-                        "description": "Date after which credentials issued should be return. Format: YYYY-MM-DD (DD/MM/YYYY also works but is deprecated)",
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
-                    {
-                        "name": "end_date",
-                        "in": "query",
-                        "description": "Date before which credetials issued should be return. Format: YYYY-MM-DD (DD/MM/YYYY also works but is deprecated)",
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
-                    {
-                        "name": "start_updated_date",
-                        "in": "query",
-                        "description": "Date after which Credentials updated should be returned. Format: YYYY-MM-DD (DD/MM/YYYY also works but is deprecated)",
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
-                    {
-                        "name": "end_updated_date",
-                        "in": "query",
-                        "description": "Date before which Credentials updated should be returned. Format: YYYY-MM-DD (DD/MM/YYYY also works but is deprecated)",
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
-                    {
-                        "name": "page_size",
-                        "in": "query",
-                        "description": "The pagination response size, default of 50.",
-                        "schema": {
-                            "type": "number"
-                        }
-                    },
-                    {
-                        "name": "page",
-                        "in": "query",
-                        "description": "The pagination page.",
-                        "schema": {
-                            "type": "number"
-                        }
-                    },
-                    {
-                        "name": "Authorization",
-                        "in": "header",
-                        "description": "e.g. Token token=YOUR API_KEY",
-                        "required": false,
-                        "schema": {
-                            "type": "string"
+                    "summary": "View many Credentials",
+                    "operationId": "View many Credentials",
+                    "description": "[View Many Credentials - Video Walkthrough](https://www.loom.com/share/520347485c3b44c7b64daeb17f1b307b?sid=9deb6be0-e636-4a03-ac2a-3dc831b1e3ad)",
+                    "tags": [
+                        "Credentials"
+                    ],
+                    "parameters": [
+                        {
+                            "name": "group_id",
+                            "in": "query",
+                            "description": "Limit the returned Credentials to a specific group ID.",
+                            "schema": {
+                                "type": "string"
+                            }
                         },
-                        "example": "Token token=YOUR API_KEY"
-                    }
-                ]
-            }
+                        {
+                            "name": "email",
+                            "in": "query",
+                            "description": "Limit the returned Credentials to a specific recipient's email address.",
+                            "schema": {
+                                "type": "string"
+                            }
+                        },
+                        {
+                            "name": "recipient_id",
+                            "in": "query",
+                            "description": "Limit the returned Credentials to a specific recipient user identifier (ID) you set whilst creating Credentials.",
+                            "schema": {
+                                "type": "string"
+                            }
+                        },
+                        {
+                            "name": "license_id",
+                            "in": "query",
+                            "description": "Limit the returned Credential to a specific credential id you set whilst creating credential.",
+                            "schema": {
+                                "type": "string"
+                            }
+                        },
+                        {
+                            "name": "start_date",
+                            "in": "query",
+                            "description": "Date after which credentials issued should be return. Format: YYYY-MM-DD (DD/MM/YYYY also works but is deprecated)",
+                            "schema": {
+                                "type": "string"
+                            }
+                        },
+                        {
+                            "name": "end_date",
+                            "in": "query",
+                            "description": "Date before which credetials issued should be return. Format: YYYY-MM-DD (DD/MM/YYYY also works but is deprecated)",
+                            "schema": {
+                                "type": "string"
+                            }
+                        },
+                        {
+                            "name": "start_updated_date",
+                            "in": "query",
+                            "description": "Date after which Credentials updated should be returned. Format: YYYY-MM-DD (DD/MM/YYYY also works but is deprecated)",
+                            "schema": {
+                                "type": "string"
+                            }
+                        },
+                        {
+                            "name": "end_updated_date",
+                            "in": "query",
+                            "description": "Date before which Credentials updated should be returned. Format: YYYY-MM-DD (DD/MM/YYYY also works but is deprecated)",
+                            "schema": {
+                                "type": "string"
+                            }
+                        },
+                        {
+                            "name": "page_size",
+                            "in": "query",
+                            "description": "The pagination response size, default of 50.",
+                            "schema": {
+                                "type": "number"
+                            }
+                        },
+                        {
+                            "name": "page",
+                            "in": "query",
+                            "description": "The pagination page.",
+                            "schema": {
+                                "type": "number"
+                            }
+                        },
+                        {
+                            "name": "Authorization",
+                            "in": "header",
+                            "description": "e.g. Token token=YOUR_API_KEY",
+                            "required": false,
+                            "schema": {
+                                "type": "string"
+                            },
+                            "example": "Token token=YOUR_API_KEY"
+                        }
+                    ]
+                }
         },
         "/v1/credentials/search": {
             "post": {
@@ -2264,12 +2264,12 @@
                     {
                         "name": "Authorization",
                         "in": "header",
-                        "description": "e.g. Token token=YOUR API_KEY",
+                        "description": "e.g. Token token=YOUR_API_KEY",
                         "required": false,
                         "schema": {
                             "type": "string"
                         },
-                        "example": "Token token=YOUR API_KEY"
+                        "example": "Token token=YOUR_API_KEY"
                     }
                 ],
                 "requestBody": {
@@ -2317,12 +2317,12 @@
                     {
                         "name": "Authorization",
                         "in": "header",
-                        "description": "e.g. Token token=YOUR API_KEY",
+                        "description": "e.g. Token token=YOUR_API_KEY",
                         "required": false,
                         "schema": {
                             "type": "string"
                         },
-                        "example": "Token token=YOUR API_KEY"
+                        "example": "Token token=YOUR_API_KEY"
                     }
                 ],
                 "requestBody": {
@@ -2456,12 +2456,12 @@
                     {
                         "name": "Authorization",
                         "in": "header",
-                        "description": "e.g. Token token=YOUR API_KEY",
+                        "description": "e.g. Token token=YOUR_API_KEY",
                         "required": false,
                         "schema": {
                             "type": "string"
                         },
-                        "example": "Token token=YOUR API_KEY"
+                        "example": "Token token=YOUR_API_KEY"
                     }
                 ],
                 "requestBody": {
@@ -2532,12 +2532,12 @@
                     {
                         "name": "Authorization",
                         "in": "header",
-                        "description": "e.g. Token token=YOUR API_KEY",
+                        "description": "e.g. Token token=YOUR_API_KEY",
                         "required": false,
                         "schema": {
                             "type": "string"
                         },
-                        "example": "Token token=YOUR API_KEY"
+                        "example": "Token token=YOUR_API_KEY"
                     }
                 ]
             }
@@ -3421,12 +3421,12 @@
                     {
                         "name": "Authorization",
                         "in": "header",
-                        "description": "e.g. Token token=YOUR API_KEY",
+                        "description": "e.g. Token token=YOUR_API_KEY",
                         "required": false,
                         "schema": {
                             "type": "string"
                         },
-                        "example": "Token token=YOUR API_KEY"
+                        "example": "Token token=YOUR_API_KEY"
                     }
                 ]
             }
@@ -3626,12 +3626,12 @@
                     {
                         "name": "Authorization",
                         "in": "header",
-                        "description": "e.g. Token token=YOUR API_KEY",
+                        "description": "e.g. Token token=YOUR_API_KEY",
                         "required": false,
                         "schema": {
                             "type": "string"
                         },
-                        "example": "Token token=YOUR API_KEY"
+                        "example": "Token token=YOUR_API_KEY"
                     }
                 ],
                 "requestBody": {
@@ -3972,12 +3972,12 @@
                     {
                         "name": "Authorization",
                         "in": "header",
-                        "description": "e.g. Token token=YOUR API _KEY",
+                        "description": "e.g. Token token=YOUR_API_KEY",
                         "required": false,
                         "schema": {
                             "type": "string"
                         },
-                        "example": "Token token=YOUR API _KEY"
+                        "example": "Token token=YOUR_API_KEY"
                     }
                 ]
             },
@@ -4178,12 +4178,12 @@
                     {
                         "name": "Authorization",
                         "in": "header",
-                        "description": "e.g. Token token=YOUR API _KEY",
+                        "description": "e.g. Token token=YOUR_API_KEY",
                         "required": false,
                         "schema": {
                             "type": "string"
                         },
-                        "example": "Token token=YOUR API _KEY"
+                        "example": "Token token=YOUR_API_KEY"
                     }
                 ],
                 "requestBody": {
@@ -4464,12 +4464,12 @@
                     {
                         "name": "Authorization",
                         "in": "header",
-                        "description": "e.g. Token token=YOUR API _KEY",
+                        "description": "e.g. Token token=YOUR_API_KEY",
                         "required": false,
                         "schema": {
                             "type": "string"
                         },
-                        "example": "Token token=YOUR API _KEY"
+                        "example": "Token token=YOUR_API_KEY"
                     }
                 ]
             }
@@ -4669,12 +4669,12 @@
                     {
                         "name": "Authorization",
                         "in": "header",
-                        "description": "e.g. Token token=YOUR API_KEY",
+                        "description": "e.g. Token token=YOUR_API_KEY",
                         "required": false,
                         "schema": {
                             "type": "string"
                         },
-                        "example": "Token token=YOUR API_KEY"
+                        "example": "Token token=YOUR_API_KEY"
                     }
                 ],
                 "requestBody": {
@@ -5071,12 +5071,12 @@
                     {
                         "name": "Authorization",
                         "in": "header",
-                        "description": "e.g. Token token=YOUR API _KEY",
+                        "description": "e.g. Token token=YOUR_API_KEY",
                         "required": false,
                         "schema": {
                             "type": "string"
                         },
-                        "example": "Token token=YOUR API _KEY"
+                        "example": "Token token=YOUR_API_KEY"
                     }
                 ]
             }
@@ -5435,12 +5435,12 @@
                     {
                         "name": "Authorization",
                         "in": "header",
-                        "description": "e.g. Token token=YOUR API_KEY",
+                        "description": "e.g. Token token=YOUR_API_KEY",
                         "required": false,
                         "schema": {
                             "type": "string"
                         },
-                        "example": "Token token=YOUR API_KEY"
+                        "example": "Token token=YOUR_API_KEY"
                     }
                 ]
             }
@@ -5464,12 +5464,12 @@
                     {
                         "name": "Authorization",
                         "in": "header",
-                        "description": "e.g. Token token=YOUR API _KEY",
+                        "description": "e.g. Token token=YOUR_API_KEY",
                         "required": false,
                         "schema": {
                             "type": "string"
                         },
-                        "example": "Token token=YOUR API _KEY"
+                        "example": "Token token=YOUR_API_KEY"
                     }
                 ]
             }
@@ -5493,12 +5493,12 @@
                     {
                         "name": "Authorization",
                         "in": "header",
-                        "description": "e.g. Token token=YOUR API_KEY",
+                        "description": "e.g. Token token=YOUR_API_KEY",
                         "required": false,
                         "schema": {
                             "type": "string"
                         },
-                        "example": "Token token=YOUR API_KEY"
+                        "example": "Token token=YOUR_API_KEY"
                     }
                 ],
                 "requestBody": {
@@ -5567,12 +5567,12 @@
                     {
                         "name": "Authorization",
                         "in": "header",
-                        "description": "e.g. Token token=YOUR API _KEY",
+                        "description": "e.g. Token token=YOUR_API_KEY",
                         "required": false,
                         "schema": {
                             "type": "string"
                         },
-                        "example": "Token token=YOUR API _KEY"
+                        "example": "Token token=YOUR_API_KEY"
                     }
                 ],
                 "requestBody": {
@@ -5652,12 +5652,12 @@
                     {
                         "name": "Authorization",
                         "in": "header",
-                        "description": "e.g. Token token=YOUR API _KEY",
+                        "description": "e.g. Token token=YOUR_API_KEY",
                         "required": false,
                         "schema": {
                             "type": "string"
                         },
-                        "example": "Token token=YOUR API _KEY"
+                        "example": "Token token=YOUR_API_KEY"
                     }
                 ]
             }
@@ -5799,12 +5799,12 @@
                     {
                         "name": "Authorization",
                         "in": "header",
-                        "description": "e.g. Token token=YOUR API_KEY",
+                        "description": "e.g. Token token=YOUR_API_KEY",
                         "required": false,
                         "schema": {
                             "type": "string"
                         },
-                        "example": "Token token=YOUR API_KEY"
+                        "example": "Token token=YOUR_API_KEY"
                     }
                 ],
                 "requestBody": {
@@ -5887,12 +5887,12 @@
                     {
                         "name": "Authorization",
                         "in": "header",
-                        "description": "e.g. Token token=YOUR API_KEY",
+                        "description": "e.g. Token token=YOUR_API_KEY",
                         "required": false,
                         "schema": {
                             "type": "string"
                         },
-                        "example": "Token token=YOUR API_KEY"
+                        "example": "Token token=YOUR_API_KEY"
                     }
                 ],
                 "requestBody": {
@@ -5990,12 +5990,12 @@
                     {
                         "name": "Authorization",
                         "in": "header",
-                        "description": "e.g. Token token=YOUR API _KEY",
+                        "description": "e.g. Token token=YOUR_API_KEY",
                         "required": false,
                         "schema": {
                             "type": "string"
                         },
-                        "example": "Token token=YOUR API _KEY"
+                        "example": "Token token=YOUR_API_KEY"
                     }
                 ]
             }
@@ -6028,12 +6028,12 @@
                     {
                         "name": "Authorization",
                         "in": "header",
-                        "description": "e.g. Token token=YOUR API _KEY",
+                        "description": "e.g. Token token=YOUR_API_KEY",
                         "required": false,
                         "schema": {
                             "type": "string"
                         },
-                        "example": "Token token=YOUR API _KEY"
+                        "example": "Token token=YOUR_API_KEY"
                     }
                 ]
             },
@@ -6064,12 +6064,12 @@
                     {
                         "name": "Authorization",
                         "in": "header",
-                        "description": "e.g. Token token=YOUR API _KEY",
+                        "description": "e.g. Token token=YOUR_API_KEY",
                         "required": false,
                         "schema": {
                             "type": "string"
                         },
-                        "example": "Token token=YOUR API _KEY"
+                        "example": "Token token=YOUR_API_KEY"
                     }
                 ],
                 "requestBody": {
@@ -6150,12 +6150,12 @@
                     {
                         "name": "Authorization",
                         "in": "header",
-                        "description": "e.g. Token token=YOUR API _KEY",
+                        "description": "e.g. Token token=YOUR_API_KEY",
                         "required": false,
                         "schema": {
                             "type": "string"
                         },
-                        "example": "Token token=YOUR API _KEY"
+                        "example": "Token token=YOUR_API_KEY"
                     }
                 ]
             }
@@ -6188,12 +6188,12 @@
                     {
                         "name": "Authorization",
                         "in": "header",
-                        "description": "e.g. Token token=YOUR API _KEY",
+                        "description": "e.g. Token token=YOUR_API_KEY",
                         "required": false,
                         "schema": {
                             "type": "string"
                         },
-                        "example": "Token token=YOUR API _KEY"
+                        "example": "Token token=YOUR_API_KEY"
                     }
                 ],
                 "requestBody": {
@@ -6277,12 +6277,12 @@
                     {
                         "name": "Authorization",
                         "in": "header",
-                        "description": "e.g. Token token=YOUR API_KEY",
+                        "description": "e.g. Token token=YOUR_API_KEY",
                         "required": false,
                         "schema": {
                             "type": "string"
                         },
-                        "example": "Token token=YOUR API_KEY"
+                        "example": "Token token=YOUR_API_KEY"
                     }
                 ],
                 "requestBody": {
@@ -6357,12 +6357,12 @@
                     {
                         "name": "Authorization",
                         "in": "header",
-                        "description": "e.g. Token token=YOUR API _KEY",
+                        "description": "e.g. Token token=YOUR_API_KEY",
                         "required": false,
                         "schema": {
                             "type": "string"
                         },
-                        "example": "Token token=YOUR API _KEY"
+                        "example": "Token token=YOUR_API_KEY"
                     }
                 ],
                 "requestBody": {
@@ -6432,12 +6432,12 @@
                     {
                         "name": "Authorization",
                         "in": "header",
-                        "description": "e.g. Token token=YOUR API _KEY",
+                        "description": "e.g. Token token=YOUR_API_KEY",
                         "required": false,
                         "schema": {
                             "type": "string"
                         },
-                        "example": "Token token=YOUR API _KEY"
+                        "example": "Token token=YOUR_API_KEY"
                     }
                 ],
                 "requestBody": {
@@ -6502,12 +6502,12 @@
                     {
                         "name": "Authorization",
                         "in": "header",
-                        "description": "e.g. Token token=YOUR API _KEY",
+                        "description": "e.g. Token token=YOUR_API_KEY",
                         "required": false,
                         "schema": {
                             "type": "string"
                         },
-                        "example": "Token token=YOUR API _KEY"
+                        "example": "Token token=YOUR_API_KEY"
                     }
                 ],
                 "requestBody": {
@@ -6622,12 +6622,12 @@
                     {
                         "name": "Authorization",
                         "in": "header",
-                        "description": "e.g. Token token=YOUR API _KEY",
+                        "description": "e.g. Token token=YOUR_API_KEY",
                         "required": false,
                         "schema": {
                             "type": "string"
                         },
-                        "example": "Token token=YOUR API _KEY"
+                        "example": "Token token=YOUR_API_KEY"
                     }
                 ],
                 "requestBody": {
@@ -6788,12 +6788,12 @@
                     {
                         "name": "Authorization",
                         "in": "header",
-                        "description": "e.g. Token token=YOUR API _KEY",
+                        "description": "e.g. Token token=YOUR_API_KEY",
                         "required": false,
                         "schema": {
                             "type": "string"
                         },
-                        "example": "Token token=YOUR API _KEY"
+                        "example": "Token token=YOUR_API_KEY"
                     }
                 ]
             },
@@ -6892,12 +6892,12 @@
                     {
                         "name": "Authorization",
                         "in": "header",
-                        "description": "e.g. Token token=YOUR API _KEY",
+                        "description": "e.g. Token token=YOUR_API_KEY",
                         "required": false,
                         "schema": {
                             "type": "string"
                         },
-                        "example": "Token token=YOUR API _KEY"
+                        "example": "Token token=YOUR_API_KEY"
                     }
                 ],
                 "requestBody": {
@@ -7049,12 +7049,12 @@
                     {
                         "name": "Authorization",
                         "in": "header",
-                        "description": "e.g. Token token=YOUR API _KEY",
+                        "description": "e.g. Token token=YOUR_API_KEY",
                         "required": false,
                         "schema": {
                             "type": "string"
                         },
-                        "example": "Token token=YOUR API _KEY"
+                        "example": "Token token=YOUR_API_KEY"
                     }
                 ]
             }
@@ -7170,12 +7170,12 @@
                     {
                         "name": "Authorization",
                         "in": "header",
-                        "description": "e.g. Token token=YOUR API _KEY",
+                        "description": "e.g. Token token=YOUR_API_KEY",
                         "required": false,
                         "schema": {
                             "type": "string"
                         },
-                        "example": "Token token=YOUR API _KEY"
+                        "example": "Token token=YOUR_API_KEY"
                     }
                 ],
                 "requestBody": {
@@ -7256,12 +7256,12 @@
                     {
                         "name": "Authorization",
                         "in": "header",
-                        "description": "e.g. Token token=YOUR API _KEY",
+                        "description": "e.g. Token token=YOUR_API_KEY",
                         "required": false,
                         "schema": {
                             "type": "string"
                         },
-                        "example": "Token token=YOUR API _KEY"
+                        "example": "Token token=YOUR_API_KEY"
                     }
                 ],
                 "requestBody": {
@@ -7425,12 +7425,12 @@
                     {
                         "name": "Authorization",
                         "in": "header",
-                        "description": "e.g. Token token=YOUR API _KEY",
+                        "description": "e.g. Token token=YOUR_API_KEY",
                         "required": false,
                         "schema": {
                             "type": "string"
                         },
-                        "example": "Token token=YOUR API _KEY"
+                        "example": "Token token=YOUR_API_KEY"
                     }
                 ],
                 "requestBody": {
@@ -7537,12 +7537,12 @@
                     {
                         "name": "Authorization",
                         "in": "header",
-                        "description": "e.g. Token token=YOUR API _KEY",
+                        "description": "e.g. Token token=YOUR_API_KEY",
                         "required": false,
                         "schema": {
                             "type": "string"
                         },
-                        "example": "Token token=YOUR API _KEY"
+                        "example": "Token token=YOUR_API_KEY"
                     }
                 ],
                 "requestBody": {
@@ -7771,12 +7771,12 @@
                     {
                         "name": "Authorization",
                         "in": "header",
-                        "description": "e.g. Token token=YOUR API _KEY",
+                        "description": "e.g. Token token=YOUR_API_KEY",
                         "required": false,
                         "schema": {
                             "type": "string"
                         },
-                        "example": "Token token=YOUR API _KEY"
+                        "example": "Token token=YOUR_API_KEY"
                     }
                 ],
                 "requestBody": {
@@ -7893,12 +7893,12 @@
                     {
                         "name": "Authorization",
                         "in": "header",
-                        "description": "e.g. Token token=YOUR API _KEY",
+                        "description": "e.g. Token token=YOUR_API_KEY",
                         "required": false,
                         "schema": {
                             "type": "string"
                         },
-                        "example": "Token token=YOUR API _KEY"
+                        "example": "Token token=YOUR_API_KEY"
                     }
                 ]
             }
@@ -7983,12 +7983,12 @@
                     {
                         "name": "Authorization",
                         "in": "header",
-                        "description": "e.g. Token token=YOUR API _KEY",
+                        "description": "e.g. Token token=YOUR_API_KEY",
                         "required": false,
                         "schema": {
                             "type": "string"
                         },
-                        "example": "Token token=YOUR API _KEY"
+                        "example": "Token token=YOUR_API_KEY"
                     }
                 ],
                 "requestBody": {
@@ -8223,12 +8223,12 @@
                     {
                         "name": "Authorization",
                         "in": "header",
-                        "description": "e.g. Token token=YOUR API _KEY",
+                        "description": "e.g. Token token=YOUR_API_KEY",
                         "required": false,
                         "schema": {
                             "type": "string"
                         },
-                        "example": "Token token=YOUR API _KEY"
+                        "example": "Token token=YOUR_API_KEY"
                     }
                 ],
                 "requestBody": {
@@ -8352,12 +8352,12 @@
                     {
                         "name": "Authorization",
                         "in": "header",
-                        "description": "e.g. Token token=YOUR API _KEY",
+                        "description": "e.g. Token token=YOUR_API_KEY",
                         "required": false,
                         "schema": {
                             "type": "string"
                         },
-                        "example": "Token token=YOUR API _KEY"
+                        "example": "Token token=YOUR_API_KEY"
                     }
                 ]
             }
@@ -8429,12 +8429,12 @@
                     {
                         "name": "Authorization",
                         "in": "header",
-                        "description": "e.g. Token token=YOUR API _KEY",
+                        "description": "e.g. Token token=YOUR_API_KEY",
                         "required": false,
                         "schema": {
                             "type": "string"
                         },
-                        "example": "Token token=YOUR API _KEY"
+                        "example": "Token token=YOUR_API_KEY"
                     }
                 ]
             }
@@ -8506,12 +8506,12 @@
                     {
                         "name": "Authorization",
                         "in": "header",
-                        "description": "e.g. Token token=YOUR API_KEY",
+                        "description": "e.g. Token token=YOUR_API_KEY",
                         "required": false,
                         "schema": {
                             "type": "string"
                         },
-                        "example": "Token token=YOUR API_KEY"
+                        "example": "Token token=YOUR_API_KEY"
                     }
                 ]
             },
@@ -8579,12 +8579,12 @@
                     {
                         "name": "Authorization",
                         "in": "header",
-                        "description": "e.g. Token token=YOUR API_KEY",
+                        "description": "e.g. Token token=YOUR_API_KEY",
                         "required": false,
                         "schema": {
                             "type": "string"
                         },
-                        "example": "Token token=YOUR API_KEY"
+                        "example": "Token token=YOUR_API_KEY"
                     }
                 ],
                 "requestBody": {
@@ -8683,12 +8683,12 @@
                     {
                         "name": "Authorization",
                         "in": "header",
-                        "description": "e.g. Token token=YOUR API _KEY",
+                        "description": "e.g. Token token=YOUR_API_KEY",
                         "required": false,
                         "schema": {
                             "type": "string"
                         },
-                        "example": "Token token=YOUR API _KEY"
+                        "example": "Token token=YOUR_API_KEY"
                     }
                 ]
             }
@@ -9245,12 +9245,12 @@
                     {
                         "name": "Authorization",
                         "in": "header",
-                        "description": "e.g. Token token=YOUR API _KEY",
+                        "description": "e.g. Token token=YOUR_API_KEY",
                         "required": false,
                         "schema": {
                             "type": "string"
                         },
-                        "example": "Token token=YOUR API _KEY"
+                        "example": "Token token=YOUR_API_KEY"
                     }
                 ]
             }
@@ -9331,12 +9331,12 @@
                     {
                         "name": "Authorization",
                         "in": "header",
-                        "description": "e.g. Token token=YOUR API _KEY",
+                        "description": "e.g. Token token=YOUR_API_KEY",
                         "required": false,
                         "schema": {
                             "type": "string"
                         },
-                        "example": "Token token=YOUR API _KEY"
+                        "example": "Token token=YOUR_API_KEY"
                     }
                 ]
             }
@@ -9364,35 +9364,27 @@
                         }
                     }
                 },
-                "summary": "Generating Link",
-                "operationId": "Generating Link",
+                "summary": "Generate SSO Link",
+                "operationId": "Generate SSO Link",
                 "description": "This endpoint generates a single sign on link that authorizes the recipient on their credential.\n\nThe code expires after used once.",
                 "tags": [
                     "SSO"
                 ],
-                "parameters": [
-                    {
-                        "name": "Authorization",
-                        "in": "header",
-                        "description": "e.g. Token token=YOUR API _KEY",
-                        "required": false,
-                        "schema": {
-                            "type": "string"
-                        },
-                        "example": "Token token=YOUR API _KEY"
-                    }
+                "security": [
+                    { "ApiKeyAuth": [] }
                 ],
                 "requestBody": {
                     "content": {
                         "application/json": {
                             "example": {
-                                "credential_id (string, optional) - The unique ID of the credential. If you supply your own internal ID as a license_id, you should use that.": ""
+                                "credential_id": "12345"
                             },
                             "schema": {
                                 "type": "object",
                                 "properties": {
-                                    "credential_id (string, optional) - The unique ID of the credential. If you supply your own internal ID as a license_id, you should use that.": {
-                                        "type": "string"
+                                    "credential_id": {
+                                        "type": "string",
+                                        "description": "The unique ID of the credential. If you supply your own internal ID as a license_id, you should use that."
                                     },
                                     "recipient_id": {
                                         "type": "string",
@@ -9427,7 +9419,15 @@
         }
     },
     "components": {
-        "schemas": {}
+        "schemas": {},
+        "securitySchemes": {
+            "ApiKeyAuth": {
+                "type": "apiKey",
+                "in": "header",
+                "name": "Authorization",
+                "description": "Use the format: Token token=YOUR_API_KEY"
+            }
+        }
     },
     "tags": [
         {
@@ -9480,4 +9480,4 @@
             "description": "Accredible offers single sign-on solutions for recipients and issuers. Email support@accredible.com for a full list of options and to receive development assistance. SSO is also available via our Integrations and via SAML 2.0."
         }
     ]
-}
+                            }
