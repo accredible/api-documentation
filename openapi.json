@@ -529,14 +529,14 @@
                       "name": "John Doe",
                       "email": "student@example.com"
                     },
-                    "group_id": "22625"
+                    "group_id": 22625
                   },
                   {
                     "recipient": {
                       "name": "John Doe",
                       "email": "student@example.com"
                     },
-                    "group_id": "62430"
+                    "group_id": 62430
                   }
                 ]
               },
@@ -563,7 +563,7 @@
           {
             "lang": "cURL",
             "label": "cURL",
-            "source": "curl -X POST \\\n  \"https://api.accredible.com/v1/credentials/bulk_create\" \\\n  -H \"Authorization: Token token=YOUR_API_KEY\" \\\n  -H \"Content-Type: application/json\" \\\n  -d '{\n  \"credentials\": [\n    {\n      \"recipient\": {\n        \"name\": \"John Doe\",\n        \"email\": \"student@example.com\"\n      },\n      \"group_id\": \"22625\"\n    },\n    {\n      \"recipient\": {\n        \"name\": \"John Doe\",\n        \"email\": \"student@example.com\"\n      },\n      \"group_id\": \"62430\"\n    }\n  ]\n}'"
+            "source": "curl -X POST \\\n  \"https://api.accredible.com/v1/credentials/bulk_create\" \\\n  -H \"Authorization: Token token=YOUR_API_KEY\" \\\n  -H \"Content-Type: application/json\" \\\n  -d '{\n  \"credentials\": [\n    {\n      \"recipient\": {\n        \"name\": \"John Doe\",\n        \"email\": \"student@example.com\"\n      },\n      \"group_id\": 22625\n    },\n    {\n      \"recipient\": {\n        \"name\": \"John Doe\",\n        \"email\": \"student@example.com\"\n      },\n      \"group_id\": 62430\n    }\n  ]\n}'"
           }
         ]
       }
@@ -811,9 +811,27 @@
                 "required": [
                   "credentials"
                 ]
+              },
+              "example": {
+                "credentials": [
+                  {
+                    "recipient": {
+                      "name": "John Doe",
+                      "email": "student@example.com"
+                    },
+                    "group_id": 22625
+                  },
+                  {
+                    "recipient": {
+                      "name": "John Doe",
+                      "email": "student@example.com"
+                    },
+                    "group_id": 62430
+                  }
+                ]
               }
             }
-          }
+          },
         },
         "security": [
           {
@@ -824,7 +842,7 @@
           {
             "lang": "cURL",
             "label": "cURL",
-            "source": "curl -X POST \\\n  \"https://api.accredible.com/v2/credentials/bulk_create\" \\\n  -H \"Authorization: Token token=YOUR_API_KEY\" \\\n  -H \"Content-Type: application/json\" \\\n  -d '{\n  \"credentials\": null\n}'"
+            "source": "curl -X POST \\\n  \"https://api.accredible.com/v2/credentials/bulk_create\" \\\n  -H \"Authorization: Token token=YOUR_API_KEY\" \\\n  -H \"Content-Type: application/json\" \\\n  -d '{\n  \"credentials\": [\n    {\n      \"recipient\": {\n        \"name\": \"John Doe\",\n        \"email\": \"student@example.com\"\n      },\n      \"group_id\": 22625\n    },\n    {\n      \"recipient\": {\n        \"name\": \"John Doe\",\n        \"email\": \"student@example.com\"\n      },\n      \"group_id\": 62430\n    }\n  ]\n}'"
           }
         ]
       }
@@ -5150,6 +5168,66 @@
     },
     "/v1/issuer/groups/search": {
       "post": {
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "ids": {
+                    "type": "array",
+                    "items": {
+                      "type": "number"
+                    },
+                    "description": "Limit the list of Groups to those id match the given array."
+                  },
+                  "name": {
+                    "type": "string",
+                    "description": "Limit the list of Groups to those named with the given string."
+                  },
+                  "meta_data": {
+                    "type": "object",
+                    "description": "Key/values for client's own data on group",
+                    "additionalProperties": {
+                      "type": "string"
+                    }
+                  },
+                  "start_updated_date": {
+                    "type": "string",
+                    "format": "date",
+                    "description": "Date after which Groups which have been updated should be returned. Format: YYYY-MM-DD"
+                  },
+                  "end_updated_date": {
+                    "type": "string",
+                    "format": "date",
+                    "description": "Date before which Groups which have been updated should be returned. Format: YYYY-MM-DD"
+                  },
+                  "page_size": {
+                    "type": "number",
+                    "default": 50,
+                    "description": "The pagination response size, default of 50."
+                  },
+                  "page": {
+                    "type": "number",
+                    "description": "The pagination page."
+                  }
+                }
+              },
+              "example": {
+                "name": "Programming Course",
+                "meta_data": {
+                  "course_id": "CS101",
+                  "department": "Computer Science"
+                },
+                "start_updated_date": "2023-01-01",
+                "end_updated_date": "2023-12-31",
+                "page_size": 25,
+                "page": 1
+              }
+            }
+          }
+        },
         "responses": {
           "200": {
             "description": "OK",
@@ -5442,64 +5520,6 @@
         "tags": [
           "Groups"
         ],
-        "parameters": [
-          {
-            "name": "ids",
-            "in": "query",
-            "description": "Limit the list of Groups to those id match the given array.",
-            "schema": {
-              "type": "array"
-            }
-          },
-          {
-            "name": "name",
-            "in": "query",
-            "description": "Limit the list of Groups to those named with the given string.",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "meta_data",
-            "in": "query",
-            "description": "String key/values for client's own data on group",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "start_updated_date",
-            "in": "query",
-            "description": "Date after which Groups which have been updated should be returned. Format: YYYY-MM-DD (DD/MM/YYYY also works but is deprecated)",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "end_updated_date",
-            "in": "query",
-            "description": "Date before which Groups which have been updated should be returned. Format: YYYY-MM-DD (DD/MM/YYYY also works but is deprecated)",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "page_size",
-            "in": "query",
-            "description": "The pagination response size, default of 50.",
-            "schema": {
-              "type": "number"
-            }
-          },
-          {
-            "name": "page",
-            "in": "query",
-            "description": "The pagination page.",
-            "schema": {
-              "type": "number"
-            }
-          }
-        ],
         "security": [
           {
             "ApiKeyAuth": []
@@ -5509,7 +5529,7 @@
           {
             "lang": "cURL",
             "label": "cURL",
-            "source": "curl -X POST \\\n  \"https://api.accredible.com/v1/issuer/groups/search\" \\\n  -H \"Authorization: Token token=YOUR_API_KEY\" \\\n  -H \"Content-Type: application/json\" \\\n  -d '{}'"
+            "source": "curl -X POST \\\n  \"https://api.accredible.com/v1/issuer/groups/search\" \\\n  -H \"Authorization: Token token=YOUR_API_KEY\" \\\n  -H \"Content-Type: application/json\" \\\n  -d '{\n    \"ids\": [1, 2, 3],\n    \"name\": \"Programming Course\",\n    \"meta_data\": {\n      \"course_id\": \"CS101\",\n      \"department\": \"Computer Science\"\n    },\n    \"start_updated_date\": \"2023-01-01\",\n    \"end_updated_date\": \"2023-12-31\",\n    \"page_size\": 25,\n    \"page\": 1\n  }'"
           }
         ]
       }
