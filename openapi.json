@@ -513,8 +513,8 @@
             "content": {}
           }
         },
-        "summary": "Bulk Create credentials",
-        "operationId": "Bulk Create credentials",
+        "summary": "Bulk Create credentials (v1)",
+        "operationId": "Bulk Create credentials (v1)",
         "description": "Create multiple Credentials using this action. It requires a JSON object containing credentials in an array.\n\n**Important:** If you don't have enough credits when attempting to create Credentials with this endpoint, your credentials will still be created in your account, but will not be published. This will save your data and prevent you from having to re-attempt your request later. You will be able to publish the created credentials in your account when you have the required credits.\n\n**API Limits:** Each request can accommodate up to 100 credentials. Should you have a larger set of credentials to process, it's recommended to split them into batches of 100 and make successive calls to this API.\n\n[Bulk Creating Credentials - Video Walkthrough](https://www.loom.com/share/df043cb9d2b04140bcc53b633d232147?sid=005848bc-91a9-49cc-8f12-7f31c15245f8)",
         "tags": [
           "Credentials"
@@ -792,8 +792,8 @@
             }
           }
         },
-        "summary": "Bulk Create Credentials",
-        "operationId": "Bulk Create Credentials",
+        "summary": "Bulk Create Credentials (v2)",
+        "operationId": "Bulk Create Credentials (v2)",
         "description": "**Important:** If you don't have enough credits when attempting to create Credentials with this endpoint, your credentials will still be created in your account, but will not be published.\nIt supports multi-status responses, where partial successes and errors are consolidated into a single structure with `status: 207 Multi-Status`.\nYou will be able to publish the created credentials in your account when you have the required credits.\n\n**API Limits:** Each request can accommodate up to 30 credentials. Should you have a larger set of credentials to process, it's recommended to split them into batches of 30 and make successive calls to this API.",
         "tags": [
           "Credentials"
@@ -2186,8 +2186,8 @@
             }
           }
         },
-        "summary": "Search for Credentials",
-        "operationId": "Search for Credentials",
+        "summary": "Search for Credentials (v1)",
+        "operationId": "Search for Credentials (v1)",
         "description": "",
         "tags": [
           "Credentials"
@@ -2307,8 +2307,8 @@
             "content": {}
           }
         },
-        "summary": "Search for Credentials",
-        "operationId": "Search for Credentials",
+        "summary": "Search for Credentials (v2)",
+        "operationId": "Search for Credentials (v2)",
         "description": "",
         "tags": [
           "Credentials"
@@ -2814,8 +2814,8 @@
             }
           }
         },
-        "summary": "Verify BlockChain Credential",
-        "operationId": "Verify BlockChain Credential",
+        "summary": "Verify BlockChain Credential (v1)",
+        "operationId": "Verify BlockChain Credential (v1)",
         "description": "This endpoint gives data for a blockchain recorded credential. It will help you verify authenticity of the credential on blockchain.\n\n[Verify Blockchain record of a Credential - Video Walkthrough](https://www.loom.com/share/23621ac848c44a77ac1eda0eeb975d93?sid=c10228b9-6317-477b-b903-20ed78ce6b76)",
         "tags": [
           "Credentials"
@@ -3320,8 +3320,8 @@
             }
           }
         },
-        "summary": "Verify BlockChain Credential",
-        "operationId": "Verify BlockChain Credential",
+        "summary": "Verify BlockChain Credential (v2)",
+        "operationId": "Verify BlockChain Credential (v2)",
         "description": "This endpoint gives data for a blockchain recorded credential.\nIt will help you verify authenticity of the credential on blockchain.\nThis endpoint would return different responses based on the Blockchain (*Bitcoin* or *Ethereum*) that it's issued in.\n\n[Verify Blockchain record of a Credential - Video Walkthrough](https://www.loom.com/share/23621ac848c44a77ac1eda0eeb975d93?sid=c10228b9-6317-477b-b903-20ed78ce6b76)",
         "tags": [
           "Credentials"
