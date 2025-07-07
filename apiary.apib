@@ -1147,6 +1147,8 @@ Following operations will be **supported based on the field**. You can also comb
 
 + Attributes
     + query (object, required)
+        + uuid (string, optional) - Limit the returned credentials to a specific uuid.
+        Supported operations - `eq`, `in`
         + group.id (string, optional) - Limit the returned credentials to a specific group ID.
         Supported operations - `eq`, `in`
         + recipient_name (string, optional) - Limit the returned credentials to a recipient's name.
@@ -1196,7 +1198,7 @@ Following operations will be **supported based on the field**. You can also comb
             },
             "sort": {
                 "recipient_name": "asc"
-            }
+            },
             "page": {
                 "from": 10,
                 "size": 50
