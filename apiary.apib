@@ -2296,6 +2296,22 @@ To create one, you'll need to provide a collection name, a description, and indi
 
 + Response 200 (application/json)
 
+        {
+            "collection": {
+                "id": "809fxsq0-fx89-11ef-8c4a-b7d12b7poib3",
+                "name": "Collection name",
+                "description": "DESCRIPTION",
+                "organization_id": 231,
+                "public": true,
+                "groups_count": 3,
+                "groups": [
+                    {"id": 1},
+                    {"id": 2},
+                    {"id": 3}
+                ]
+            }
+        }
+
 ### Delete a Collection [DELETE]
 
 + Parameters
