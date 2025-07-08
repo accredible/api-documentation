@@ -1,0 +1,87 @@
+body {
+  font-family: Montserrat, sans-serif;
+}
+
+/* Header styling */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 40px;
+  border-bottom: 1px solid #eaeaea;
+  background-color: #fff;
+}
+
+.navbar-left {
+  display: flex;
+  align-items: center;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #000;
+  margin-right: 40px;
+}
+
+.logo img {
+  height: 28px;
+  margin-right: 8px;
+}
+
+/* Nav links */
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+
+.nav-links a,
+.dropbtn {
+  font-size: 1rem;
+  color: #111;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 6px 0;
+  text-decoration: none;
+}
+
+.nav-links a:hover,
+.dropbtn:hover {
+  text-decoration: underline;
+}
+
+/* Right section */
+.navbar-right {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.nav-link {
+  font-size: 1rem;
+  color: #111;
+  text-decoration: none;
+}
+
+.nav-link:hover {
+  text-decoration: underline;
+}
+
+.btn-primary {
+  background-color: #6b4eff;
+  color: #fff;
+  padding: 10px 20px;
+  border-radius: 9999px;
+  font-weight: 500;
+  transition: background 0.2s ease;
+  text-decoration: none;
+}
+
+.btn-primary:hover {
+  background-color: #5a3de0;
+  text-decoration: underline;
+}

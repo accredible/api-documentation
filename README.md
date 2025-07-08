@@ -10,7 +10,7 @@ Digital certificates and badges help maximize the value from your training or ce
 
 This documentation defines the objects, endpoints and interfaces for the Accredible RESTful API.
 
-The live REST API documentation can be found here: http://docs.accrediblecredentialapi.apiary.io/
+The live REST API documentation can be found here: https://docs.api.accredible.com
 
 Output Digital Certificates or Open Badges
 --------------
@@ -22,14 +22,12 @@ Contributions
 --------------
 Please branch from `develop` to make changes and submit a Pull Request with a full decsription of your change.
 
-Releases happen automatically via Apiary when you merge into `master`.
+Releases happen automatically via Cloudflare when you merge into `master`.
 
 ### Preview Local changes
 
-To preview your changes locally, you need to have the [Apiary CLI](https://help.apiary.io/tools/apiary-cli/). Install with: `gem install apiaryio`
-
-Anytime you need to preview your changes, just run `apiary preview` in your docs directory.
+To preview your changes locally, you can use Python's built-in HTTP server. Run `python3 -m http.server 8080` in your docs directory, then open http://localhost:8080 in your browser.
 
 Releases
 --------------
-Releases happen automatically via Apiary when you merge into `master`.
+Releases happen automatically via Cloudflare when you merge into `master`.
