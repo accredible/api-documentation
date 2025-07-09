@@ -1,5 +1,8 @@
 body {
   font-family: Montserrat, sans-serif;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
 /* Header styling */
@@ -90,7 +93,7 @@ body {
     background-color: #1c1f6c;
     color: #ffffffcc;
     padding: 60px 40px 30px;
-    font-family: 'Segoe UI', sans-serif;
+    font-family: Montserrat, sans-serif;
   }
   
   .footer-top {

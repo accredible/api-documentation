@@ -2,7 +2,7 @@
 <html>
   <head>
     <title>Accredible - API Documentation</title>
-    <link rel="icon" type="image/png" href="favicon.png">
+    <link rel="icon" type="image/png" href="img/favicon.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -13,7 +13,7 @@
     <header class="navbar">
         <div class="navbar-left">
           <a href="https://www.accredible.com/" target="_blank" class="logo">
-            <img src="accredible_logo.webp" alt="Accredible Logo" />
+            <img src="img/accredible_logo.webp" alt="Accredible Logo" />
           </a>
         </div>
         <div class="navbar-right">
@@ -28,15 +28,15 @@
     <footer class="footer">
         <div class="footer-top">
           <div class="footer-brand">
-            <img src="accredible_logo_white.webp" alt="Accredible Logo" class="footer-logo" />
+            <img src="img/accredible_logo_white.webp" alt="Accredible Logo" class="footer-logo" />
             <p class="description">
               Accredible is the world's leading digital credential platform, enabling education and training leaders to increase learner engagement and drive program growth.
             </p>
             <div class="social-icons">
-              <a href="https://www.linkedin.com/company/accredible" target="_blank"><img src="linkedin.webp" alt="LinkedIn" /></a>
-              <a href="https://www.youtube.com/c/Accredible" target="_blank"><img src="youtube.webp" alt="YouTube" /></a>
-              <a href="https://twitter.com/accredible?lang=en" target="_blank"><img src="x.webp" alt="Twitter/X" /></a>
-              <a href="https://www.facebook.com/Accredible/" target="_blank"><img src="facebook.webp" alt="Facebook" /></a>
+              <a href="https://www.linkedin.com/company/accredible" target="_blank"><img src="img/linkedin.webp" alt="LinkedIn" /></a>
+              <a href="https://www.youtube.com/c/Accredible" target="_blank"><img src="img/youtube.webp" alt="YouTube" /></a>
+              <a href="https://twitter.com/accredible?lang=en" target="_blank"><img src="img/x.webp" alt="Twitter/X" /></a>
+              <a href="https://www.facebook.com/Accredible/" target="_blank"><img src="img/facebook.webp" alt="Facebook" /></a>
             </div>
           </div>
       
@@ -112,6 +112,20 @@
         scrollYOffset: 0,
         jsonSampleExpandLevel: 5,
         hideDownloadButton: true,
+        theme: {
+          sidebar: {
+            backgroundColor: '#22257c',
+            textColor: '#ffffff'
+          },
+          colors: {
+            primary: {
+              main: '#660099'
+            }
+          },
+          typography: {
+            fontFamily: 'Montserrat, sans-serif'
+          }
+        }
       }, document.getElementById('redoc-container'));
     </script>
   </body>
