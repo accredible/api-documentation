@@ -85,3 +85,134 @@ body {
   background-color: #5a3de0;
   text-decoration: underline;
 }
+
+.footer {
+    background-color: #1c1f6c;
+    color: #ffffffcc;
+    padding: 60px 40px 30px;
+    font-family: 'Segoe UI', sans-serif;
+  }
+  
+  .footer-top {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 40px;
+    max-width: 1200px;
+    margin: auto;
+  }
+  
+  .footer-brand {
+    flex: 1 1 250px;
+    max-width: 300px;
+  }
+  
+  .footer-logo {
+    height: 32px;
+    margin-bottom: 20px;
+  }
+  
+  .description {
+    font-size: 0.95rem;
+    line-height: 1.6;
+    margin-bottom: 20px;
+  }
+  
+  .social-icons a {
+    margin-right: 16px;
+    display: inline-block;
+  }
+  
+  .social-icons img {
+    width: 20px;
+    height: 20px;
+  }
+  
+  .footer-columns {
+    display: flex;
+    flex: 3 1 600px;
+    flex-wrap: wrap;
+    gap: 40px;
+  }
+  
+  .column {
+    flex: 1 1 150px;
+    min-width: 150px;
+  }
+  
+  .column h4 {
+    color: #ccccff;
+    font-size: 0.9rem;
+    margin-bottom: 14px;
+    text-transform: uppercase;
+    font-weight: 600;
+  }
+  
+  .column ul {
+    list-style: none;
+    padding: 0;
+  }
+  
+  .column li {
+    margin-bottom: 10px;
+  }
+  
+  .column a {
+    color: #ffffffcc;
+    font-size: 0.95rem;
+    text-decoration: none;
+  }
+  
+  .column a:hover {
+    text-decoration: underline;
+  }
+  
+  .footer-bottom {
+    border-top: 1px solid #444a8d;
+    margin-top: 40px;
+    padding-top: 20px;
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    font-size: 0.85rem;
+    color: #ccccff;
+    max-width: 1200px;
+    margin-inline: auto;
+  }
+  
+  .legal-links {
+    display: flex;
+    gap: 20px;
+  }
+  
+  .legal-links a {
+    color: #ccccff;
+    text-decoration: none;
+  }
+  
+  .legal-links a:hover {
+    text-decoration: underline;
+  }
+  
+  /* Responsive */
+  @media (max-width: 768px) {
+    .footer-top {
+      flex-direction: column;
+    }
+  
+    .footer-columns {
+      flex-direction: column;
+    }
+  
+    .footer-bottom {
+      flex-direction: column;
+      gap: 16px;
+      text-align: center;
+    }
+  
+    .legal-links {
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+  }
+  
