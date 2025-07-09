@@ -2325,6 +2325,10 @@
                   "query": {
                     "type": "object",
                     "properties": {
+                      "uuid": {
+                        "type": "string",
+                        "description": "Limit the returned credentials to a specific UUID.\n\nSupported operations - `eq`, `in`"
+                      },
                       "group.id": {
                         "type": "string",
                         "description": "Limit the returned credentials to a specific group ID.\n\nSupported operations - `eq`, `in`"
