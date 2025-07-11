@@ -2350,7 +2350,7 @@ To create one, you'll need to provide a collection name, a description, and indi
         + String key/value pair for sorting based on a field and order.
         Supported keys - `name`, `groups_count` and `public`
         Supported values - `asc`, `desc`
-    + page (object, optional)
+    + meta (object, optional)
         + page_number - Defines the number of page wanted
         + per_page - The number of records to be returned
 
@@ -2364,7 +2364,7 @@ To create one, you'll need to provide a collection name, a description, and indi
 
         {
             "query": {
-                "ids": ["809fxsq0-fx89-11ef-8c4a-b7d12b7poib3"]
+                "ids": ["809fxsq0-fx89-11ef-8c4a-b7d12b7poib3"],
                 "name": "abc",
                 "public": true,
                 "exclusion_list": [
@@ -2373,7 +2373,7 @@ To create one, you'll need to provide a collection name, a description, and indi
                 ]
             },
             "sort": {
-                "field": asc"
+                "field": "asc"
             },
             "meta": {
                 "page_number": 1,
