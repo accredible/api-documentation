@@ -2168,6 +2168,8 @@
                       "expired_on": null,
                       "group_name": "test",
                       "private": false,
+                      "seo_image": "https://api.accredible.com/v1/frontend/credential_seo_image/10250010",
+                      "encoded_id": "gqm1e36g",
                       "recipient": {
                         "name": "John Doe",
                         "email": "person2@example.com",
@@ -2505,6 +2507,8 @@
                       "expired_on": null,
                       "group_name": "test",
                       "private": false,
+                      "seo_image": "https://api.accredible.com/v1/frontend/credential_seo_image/10250010",
+                      "encoded_id": "gqm1e36g",
                       "recipient": {
                         "name": "John Doe",
                         "email": "person2@example.com",
