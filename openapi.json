@@ -831,7 +831,7 @@
                 ]
               }
             }
-          },
+          }
         },
         "security": [
           {
@@ -2024,6 +2024,12 @@
                           "private": {
                             "type": "boolean"
                           },
+                          "seo_image": {
+                            "type": "string"
+                          },
+                          "encoded_id": {
+                            "type": "string"
+                          },
                           "recipient": {
                             "type": "object",
                             "properties": {
@@ -2129,6 +2135,8 @@
                       "expired_on": null,
                       "group_name": "test",
                       "private": false,
+                      "seo_image": "https://api.accredible.com/v1/frontend/credential_seo_image/10250009",
+                      "encoded_id": "gqm1e46g",
                       "recipient": {
                         "name": "John Doe",
                         "email": "person2@example.com",
@@ -2304,7 +2312,223 @@
           "200": {
             "description": "OK",
             "headers": {},
-            "content": {}
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "credentials": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "number"
+                          },
+                          "name": {
+                            "type": "string"
+                          },
+                          "description": {
+                            "type": "string"
+                          },
+                          "grade": {
+                            "nullable": true
+                          },
+                          "complete": {
+                            "type": "boolean"
+                          },
+                          "issued_on": {
+                            "type": "string"
+                          },
+                          "allow_supplemental_references": {
+                            "nullable": true
+                          },
+                          "allow_supplemental_evidence": {
+                            "nullable": true
+                          },
+                          "course_link": {
+                            "type": "string"
+                          },
+                          "custom_attributes": {
+                            "nullable": true
+                          },
+                          "expired_on": {
+                            "nullable": true
+                          },
+                          "seo_image": {
+                            "type": "string"
+                          },
+                          "encoded_id": {
+                            "type": "string"
+                          },
+                          "group_name": {
+                            "type": "string"
+                          },
+                          "private": {
+                            "type": "boolean"
+                          },
+                          "recipient": {
+                            "type": "object",
+                            "properties": {
+                              "name": {
+                                "type": "string"
+                              },
+                              "email": {
+                                "type": "string"
+                              },
+                              "id": {
+                                "type": "number"
+                              },
+                              "meta_data": {
+                                "type": "object",
+                                "properties": {
+                                  "zip_code": {
+                                    "type": "string"
+                                  }
+                                },
+                                "nullable": true
+                              }
+                            }
+                          },
+                          "issuer": {
+                            "type": "object",
+                            "properties": {
+                              "name": {
+                                "type": "string"
+                              },
+                              "description": {
+                                "type": "string"
+                              },
+                              "url": {
+                                "type": "string"
+                              }
+                            }
+                          },
+                          "meta_data": {
+                            "type": "object",
+                            "properties": {
+                              "foo": {
+                                "type": "string"
+                              }
+                            },
+                            "nullable": true
+                          }
+                        },
+                        "required": [
+                          "id",
+                          "name",
+                          "description",
+                          "grade",
+                          "complete",
+                          "issued_on",
+                          "allow_supplemental_references",
+                          "allow_supplemental_evidence",
+                          "course_link",
+                          "custom_attributes",
+                          "expired_on",
+                          "group_name",
+                          "private",
+                          "recipient",
+                          "issuer",
+                          "meta_data"
+                        ]
+                      }
+                    },
+                    "meta": {
+                      "type": "object",
+                      "properties": {
+                        "current_page": {
+                          "type": "number"
+                        },
+                        "next_page": {
+                          "type": "number"
+                        },
+                        "prev_page": {
+                          "nullable": true
+                        },
+                        "total_pages": {
+                          "type": "number"
+                        },
+                        "total_count": {
+                          "type": "number"
+                        }
+                      }
+                    }
+                  }
+                },
+                "example": {
+                  "credentials": [
+                    {
+                      "id": 10250009,
+                      "name": "TestCourse",
+                      "description": "Test Description",
+                      "grade": null,
+                      "complete": true,
+                      "issued_on": "2015-07-03",
+                      "allow_supplemental_references": null,
+                      "allow_supplemental_evidence": null,
+                      "course_link": "http://example.com",
+                      "custom_attributes": null,
+                      "expired_on": null,
+                      "group_name": "test",
+                      "private": false,
+                      "seo_image": "https://api.accredible.com/v1/frontend/credential_seo_image/10250009",
+                      "encoded_id": "gqm1e46g",
+                      "recipient": {
+                        "name": "John Doe",
+                        "email": "person2@example.com",
+                        "id": 772,
+                        "meta_data": {
+                          "zip_code": "10459"
+                        }
+                      },
+                      "issuer": {
+                        "name": "Example Provider",
+                        "description": " Best place to manage online learning",
+                        "url": "http://www.accredible.com"
+                      },
+                      "meta_data": {
+                        "foo": "bar"
+                      }
+                    },
+                    {
+                      "id": 10250010,
+                      "name": "TestCourse",
+                      "description": "Test Description",
+                      "grade": null,
+                      "complete": true,
+                      "issued_on": "2015-07-03",
+                      "allow_supplemental_references": null,
+                      "allow_supplemental_evidence": null,
+                      "course_link": "http://example.com",
+                      "custom_attributes": null,
+                      "expired_on": null,
+                      "group_name": "test",
+                      "private": false,
+                      "recipient": {
+                        "name": "John Doe",
+                        "email": "person2@example.com",
+                        "id": 883,
+                        "meta_data": null
+                      },
+                      "issuer": {
+                        "name": "Example Provider",
+                        "description": " Best place to manage online learning",
+                        "url": "http://www.accredible.com"
+                      },
+                      "meta_data": null
+                    }
+                  ],
+                  "meta": {
+                    "current_page": 1,
+                    "next_page": 2,
+                    "prev_page": null,
+                    "total_pages": 795,
+                    "total_count": 1590
+                  }
+                }
+              }
+            }
           }
         },
         "summary": "Search for Credentials (v2)",
