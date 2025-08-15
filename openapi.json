@@ -3,7 +3,7 @@
   "info": {
     "title": "Accredible Credential API",
     "version": "25.08.0",
-    "description": "The [Accredible](https://www.accredible.com/) Credential API allows you to create and interact with badges and certificates called [Accredible Credentials](https://www.credential.net/10000005).\n\nThere are 3 main objects in Accredible: Credentials, Groups and Designs.\n\n### Getting Started with the API - Video Walkthrough\n\n[![Getting Started with the API Video Walkthrough](https://cdn.accredible.com/api-overview.jpg)](https://www.loom.com/share/1093916cb4be421eb1ff86f085dae337?sid=0bb24e68-c7b4-41a6-aab8-f5c14841a29c)\n\n# Objects Overview\n## Credentials\n[Credentials](#tag/Credentials) are the core object in the API. They collect all of the data related to a course, training acitivity or achievment and the recipient/participant information.\n\nYou should create a credential for each achievement completion that a recipient has. For example if John Doe finishes the Programming 101 course we should create one credential to represent that. If John Doe achieves something else then he would need a new credential.\n\n## Groups\n\n[Groups](#tag/Groups) represent an achievement such as a course or qualification. They contain information about the achievement and have multiple Credentials attached to them.\n\nFor example you should create a group for the Introduction to Programming course. You'd provide the Course Name, Course Descripion and Course URL. In the future you can pass the name or ID of this group when creating a credential so that the credential is passed all the information relating to the achievement.\n\n## Designs\n\n[Designs](#tag/Designs) provide a visual specification for how a Credential should be rendered. Design can be used accross multiple Groups.\n\nFor example if we have three courses: Intro to Basic Programming, Intro to Advanced Programming and Intro to DevOps each of these may have the same design for their Credentials. When creating or updating their corresponding Groups you would attach the desired design accordingly.\n\n## Departments\n\n[Departments](#tag/Departments), if enabled for your account allow you to manage multiple, independent organization groups. Each Department is entirely separate with it's own Designs, Groups, Branding, etc. You cannot share data between Departments except Billing and Administrators.\n\n## Attributes\n\n[Attributes](#tag/Attributes), are used to merge information with your badge or certificate designs and email templates. Attributes acts as as placeholders for information and can be added to certificate designs and email templates.\n\n# API Keys\n\nAPI keys are used as Authorization tokens in the header in all authenticated API endpoints. These Keys are managed in the [Accredible Dashboard](https://dashboard.accredible.com/). There are two types of API Keys, those that are account wide and work on all assets and those that are related to a specific department. API keys scoped to a specific department can only access the resources (Credentials, Groups, Designs etc.) belonging to that department.\n\n# Single sign-on options\n\n[Single sign-on](#tag/SSO) in addition to the student authentication provided by Accredible, you can also use single sign-on to authenticate your student into Accredible and they can directly sign-in.\n\nSSO is also available via our Integrations and via SAML 2.0.\n\n# Rate Limiting\n\nWe allow up to 2000 requests every 5 minutes from a single IP address, but some higher security endpoints have stricter rate limiting. Requests are counted in 30 second periods.\n\nIf you attempt to make requests more quickly than permitted by these rules, you may receive a `429 Too Many Requests` response from an endpoint.\n\n# Errors\n\nAccredible uses conventional HTTP response codes to indicate the success or failure of an API request. Codes in the 2xx range indicate success in general and codes in the 4xx range indicate an error that failed given the information provided (e.g., a required parameter was omitted, a permissions error, etc). Codes in the 5xx range indicate an error with Accredible.\n\nSummary of response codes:\n\n| Response Code | Description |\n| ------------- | ------------- |\n| 200 | The request was successful. |\n| 401 | Invalid API key. |\n| 403 | Permissions error. You do not have access to the requested resource. |\n| 404 | The request used a resource that could not be found. |\n| 429 | Too many requests. Please see the Rate Limiting section. |\n| 500 | Accredible Internal Error. |"
+    "description": "The [Accredible](https://www.accredible.com/) Credential API allows you to create and interact with badges and certificates called [Accredible Credentials](https://www.credential.net/10000005).\n\nThere are 3 main objects in Accredible: Credentials, Groups and Designs.\n\n### Getting Started with the API - Video Walkthrough\n\n[![Getting Started with the API Video Walkthrough](https://cdn.accredible.com/api-overview.jpg)](https://www.loom.com/share/1093916cb4be421eb1ff86f085dae337?sid=0bb24e68-c7b4-41a6-aab8-f5c14841a29c)\n\n# Objects Overview\n## Credentials\n[Credentials](#tag/Credentials) are the core object in the API. They collect all of the data related to a course, training acitivity or achievment and the recipient/participant information.\n\nYou should create a credential for each achievement completion that a recipient has. For example if John Doe finishes the Programming 101 course we should create one credential to represent that. If John Doe achieves something else then he would need a new credential.\n\n## Groups\n\n[Groups](#tag/Groups) represent an achievement such as a course or qualification. They contain information about the achievement and have multiple Credentials attached to them.\n\nFor example you should create a group for the Introduction to Programming course. You'd provide the Course Name, Course Descripion and Course URL. In the future you can pass the name or ID of this group when creating a credential so that the credential is passed all the information relating to the achievement.\n\n## Designs\n\n[Designs](#tag/Designs) provide a visual specification for how a Credential should be rendered. Design can be used accross multiple Groups.\n\nFor example if we have three courses: Intro to Basic Programming, Intro to Advanced Programming and Intro to DevOps each of these may have the same design for their Credentials. When creating or updating their corresponding Groups you would attach the desired design accordingly.\n\n## Departments\n\n[Departments](#tag/Departments), if enabled for your account allow you to manage multiple, independent organization groups. Each Department is entirely separate with it's own Designs, Groups, Branding, etc. You cannot share data between Departments except Billing and Administrators.\n\n## Attributes\n\n[Attributes](#tag/Attributes), are used to merge information with your badge or certificate designs and email templates. Attributes acts as as placeholders for information and can be added to certificate designs and email templates.\n\n# API Keys\n\nAPI keys are used as Authorization tokens in the header in all authenticated API endpoints. These Keys are managed in the [Accredible Dashboard](https://dashboard.accredible.com/). There are two types of API Keys, those that are account wide and work on all assets and those that are related to a specific department. API keys scoped to a specific department can only access the resources (Credentials, Groups, Designs etc.) belonging to that department.\n\n# Single sign-on options\n\n[Single sign-on](#tag/SSO) in addition to the student authentication provided by Accredible, you can also use single sign-on to authenticate your student into Accredible and they can directly sign-in.\n\nSSO is also available via our Integrations and via SAML 2.0.\n\n# Rate Limiting\n\nWe allow up to 2000 requests every 5 minutes from a single IP address, but some higher security endpoints have stricter rate limiting. Requests are counted in 30 second periods.\n\nIf you attempt to make requests more quickly than permitted by these rules, you may receive a `429 Too Many Requests` response from an endpoint.\n\n# Errors\n\nAccredible uses conventional HTTP response codes to indicate the success or failure of an API request. Most error response formats are consistent across API versions, with some differences in bulk operations.\n\n## HTTP Status Codes\n\n| Status Code | Description |\n| ----------- | ----------- |\n| **2xx** | Success |\n| 200 | OK - The request was successful |\n| 207 | Multi-Status - Partial success in batch operations (v2 only) |\n| **4xx** | Client Error |\n| 400 | Bad Request - Invalid request parameters |\n| 401 | Unauthorized - Invalid or missing API key |\n| 403 | Forbidden - Insufficient permissions |\n| 404 | Not Found - Resource not found |\n| 422 | Unprocessable Entity - Validation errors |\n| 429 | Too Many Requests - Rate limit exceeded |\n| **5xx** | Server Error |\n| 500 | Internal Server Error |\n\n## Common Error Formats\n\nMost API endpoints use these standard error formats:\n\n### Simple Error Messages\n```json\n{\n  \"errors\": \"Invalid Group\"\n}\n```\n\n```json\n{\n  \"errors\": \"Doesn't exist\"\n}\n```\n\n```json\n{\n  \"error\": \"Not found\"\n}\n```\n\n### ActiveRecord Validation Errors (422)\n```json\n{\n  \"errors\": {\n    \"course_name\": [\n      \"can't be blank\"\n    ],\n    \"course_description\": [\n      \"can't be blank\"\n    ]\n  }\n}\n```\n\n### Alternative Success/Error Format (some endpoints)\n```json\n{\n  \"success\": false,\n  \"data\": \"Group does not exist\"\n}\n```\n\n### Search Query Errors (400) - V2 only\n```json\n{\n  \"code\": 400,\n  \"message\": \"Sort order increasing is not supported\",\n  \"status\": \"invalid_search_query\",\n  \"errors\": {}\n}\n```\n\n## Bulk Operations Error Handling\n\nBulk credential creation has different error handling between API versions:\n\n### V1 Bulk Create (All-or-Nothing)\n\n**All Successful (200):**\n```json\n{\n  \"credentials\": [\n    { /* credential object */ },\n    { /* credential object */ }\n  ]\n}\n```\n\n**All Failed (422):**\n```json\n{\n  \"errors\": [\n    {\n      \"course_name\": [\"can't be blank\"],\n      \"recipient_email\": [\"can't be blank\"]\n    },\n    {\n      \"recipient_name\": [\"can't be blank\"]\n    }\n  ]\n}\n```\n\n### V2 Bulk Create (Mixed Results Supported)\n\n**All Successful (200):**\n```json\n{\n  \"results\": [\n    {\n      \"credential\": { /* credential object */ }\n    },\n    {\n      \"credential\": { /* credential object */ }\n    }\n  ]\n}\n```\n\n**Mixed Success/Failure (207 Multi-Status):**\n```json\n{\n  \"results\": [\n    {\n      \"credential\": { /* successful credential */ }\n    },\n    {\n      \"error\": {\n        \"code\": \"credential_invalid\",\n        \"message\": \"The credential is not valid\",\n        \"details\": [\n          {\n            \"property\": \"recipient_name\",\n            \"reason\": \"blank\"\n          }\n        ]\n      }\n    },\n    {\n      \"credential\": { /* successful but unpublished */ },\n      \"error\": {\n        \"code\": \"insufficient_credits\",\n        \"message\": \"The credential was created but not published\"\n      }\n    }\n  ]\n}\n```\n\n**All Failed (422):**\n```json\n{\n  \"results\": [\n    {\n      \"error\": {\n        \"code\": \"credential_invalid\",\n        \"message\": \"The credential is not valid\",\n        \"details\": [\n          {\n            \"property\": \"course_name\",\n            \"reason\": \"blank\"\n          }\n        ]\n      }\n    }\n  ]\n}\n```\n\n## Error Handling Best Practices\n\n1. **Check Status Codes**: Always examine HTTP status codes first\n2. **Parse Error Keys**: Look for both `error` and `errors` keys in responses\n3. **Handle Validation Arrays**: Field validation errors are returned as arrays\n4. **Bulk Operations**: \n   - V1: All-or-nothing approach with simple error arrays\n   - V2: Mixed results with structured error objects and 207 status codes\n5. **Retry Logic**: Implement appropriate retry for temporary errors (rate limits, server errors)\n6. **Credits Monitoring**: Watch for `insufficient_credits` messages in bulk operations"
   },
   "servers": [
     {
@@ -8483,7 +8483,234 @@
     }
   },
   "components": {
-    "schemas": {},
+    "schemas": {
+      "SimpleError": {
+        "type": "object",
+        "properties": {
+          "errors": {
+            "type": "string",
+            "description": "Simple error message"
+          }
+        },
+        "example": {
+          "errors": "Invalid Group"
+        }
+      },
+      "AlternativeError": {
+        "type": "object",
+        "properties": {
+          "error": {
+            "type": "string",
+            "description": "Alternative error key format"
+          }
+        },
+        "example": {
+          "error": "Not found"
+        }
+      },
+      "SuccessFormatError": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "example": false
+          },
+          "data": {
+            "type": "string",
+            "description": "Error message in data field"
+          }
+        },
+        "example": {
+          "success": false,
+          "data": "Group does not exist"
+        }
+      },
+      "ValidationError": {
+        "type": "object",
+        "properties": {
+          "errors": {
+            "type": "object",
+            "description": "ActiveRecord validation errors with field names as keys",
+            "additionalProperties": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "example": {
+          "errors": {
+            "course_name": ["can't be blank"],
+            "course_description": ["can't be blank"]
+          }
+        }
+      },
+      "SearchError": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "integer",
+            "example": 400
+          },
+          "message": {
+            "type": "string",
+            "example": "Sort order increasing is not supported"
+          },
+          "status": {
+            "type": "string",
+            "example": "invalid_search_query"
+          },
+          "errors": {
+            "type": "object",
+            "example": {}
+          }
+        }
+      },
+      "V1BulkError": {
+        "type": "object",
+        "properties": {
+          "errors": {
+            "type": "array",
+            "description": "Array of validation errors for each failed credential (V1 bulk operations)",
+            "items": {
+              "type": "object",
+              "additionalProperties": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        "example": {
+          "errors": [
+            {
+              "course_name": ["can't be blank"],
+              "recipient_email": ["can't be blank"]
+            },
+            {
+              "recipient_name": ["can't be blank"]
+            }
+          ]
+        }
+      },
+      "V2BulkError": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "string",
+            "enum": ["credential_invalid", "insufficient_credits"]
+          },
+          "message": {
+            "type": "string"
+          },
+          "details": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ErrorDetail"
+            }
+          }
+        },
+        "example": {
+          "code": "credential_invalid",
+          "message": "The credential is not valid",
+          "details": [
+            {
+              "property": "recipient_name",
+              "reason": "blank"
+            }
+          ]
+        }
+      },
+      "ErrorDetail": {
+        "type": "object",
+        "required": ["property", "reason"],
+        "properties": {
+          "property": {
+            "type": "string",
+            "description": "The field or property that has an error"
+          },
+          "reason": {
+            "type": "string",
+            "description": "The reason for the error"
+          }
+        }
+      },
+      "UnauthorizedError": {
+        "oneOf": [
+          {
+            "$ref": "#/components/schemas/SimpleError"
+          },
+          {
+            "$ref": "#/components/schemas/AlternativeError"
+          }
+        ],
+        "description": "Authentication error"
+      },
+      "ForbiddenError": {
+        "oneOf": [
+          {
+            "$ref": "#/components/schemas/SimpleError"
+          },
+          {
+            "$ref": "#/components/schemas/AlternativeError"
+          }
+        ],
+        "description": "Access denied error"
+      },
+      "NotFoundError": {
+        "oneOf": [
+          {
+            "$ref": "#/components/schemas/SimpleError"
+          },
+          {
+            "$ref": "#/components/schemas/AlternativeError"
+          },
+          {
+            "$ref": "#/components/schemas/SuccessFormatError"
+          }
+        ],
+        "description": "Resource not found error"
+      },
+      "UnprocessableEntityError": {
+        "oneOf": [
+          {
+            "$ref": "#/components/schemas/ValidationError"
+          },
+          {
+            "$ref": "#/components/schemas/V1BulkError"
+          },
+          {
+            "$ref": "#/components/schemas/SimpleError"
+          }
+        ],
+        "description": "Validation or processing error"
+      },
+      "TooManyRequestsError": {
+        "oneOf": [
+          {
+            "$ref": "#/components/schemas/SimpleError"
+          },
+          {
+            "$ref": "#/components/schemas/AlternativeError"
+          }
+        ],
+        "description": "Rate limit exceeded"
+      },
+      "InternalServerError": {
+        "oneOf": [
+          {
+            "$ref": "#/components/schemas/SimpleError"
+          },
+          {
+            "$ref": "#/components/schemas/AlternativeError"
+          }
+        ],
+        "description": "Internal server error"
+      }
+    },
     "securitySchemes": {
       "ApiKeyAuth": {
         "type": "apiKey",
