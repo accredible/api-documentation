@@ -8962,6 +8962,259 @@
         ]
       }
     },
+    "/v1/team_members": {
+      "post": {
+        "responses": {
+          "200": {
+            "description": "OK",
+            "headers": {},
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "team_member": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "number"
+                        },
+                        "name": {
+                          "type": "string"
+                        },
+                        "email": {
+                          "type": "string"
+                        },
+                        "department_permissions": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "department_id": {
+                                "type": "number"
+                              },
+                              "permissions": {
+                                "type": "object",
+                                "properties": {
+                                  "designs": {
+                                    "type": "boolean"
+                                  },
+                                  "emails": {
+                                    "type": "boolean"
+                                  },
+                                  "credential_attributes": {
+                                    "type": "boolean"
+                                  },
+                                  "analytics": {
+                                    "type": "boolean"
+                                  },
+                                  "settings": {
+                                    "type": "boolean"
+                                  },
+                                  "role": {
+                                    "type": "string"
+                                  },
+                                  "groups": {
+                                    "type": "array",
+                                    "items": {
+                                      "type": "number"
+                                    }
+                                  }
+                                },
+                                "required": [
+                                  "designs",
+                                  "emails",
+                                  "credential_attributes",
+                                  "analytics",
+                                  "settings",
+                                  "role"
+                                ]
+                              }
+                            },
+                            "required": [
+                              "department_id",
+                              "permissions"
+                            ]
+                          }
+                        }
+                      }
+                    }
+                  }
+                },
+                "example": {
+                  "team_member": {
+                    "id": 12345,
+                    "name": "John Doe",
+                    "email": "person@example.com",
+                    "department_permissions": [
+                      {
+                        "department_id": 34,
+                        "permissions": {
+                          "designs": true,
+                          "emails": true,
+                          "credential_attributes": true,
+                          "analytics": true,
+                          "settings": true,
+                          "role": "editor",
+                          "groups": [1, 2, 3]
+                        }
+                      },
+                      {
+                        "department_id": 35,
+                        "permissions": {
+                          "designs": false,
+                          "emails": false,
+                          "credential_attributes": false,
+                          "analytics": false,
+                          "settings": false,
+                          "role": "viewer",
+                          "groups": null
+                        }
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        },
+        "summary": "Create a Team Member",
+        "operationId": "Create a Team Member",
+        "description": "Create a TeamMember using this action. It requires a JSON object containing an TeamMember.",
+        "tags": [
+          "Team Members"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "example": {
+                "team_member": {
+                  "name": "John Doe",
+                  "email": "person@example.com",
+                  "department_permissions": [
+                    {
+                      "department_id": 34,
+                      "permissions": {
+                        "designs": true,
+                        "emails": true,
+                        "credential_attributes": true,
+                        "analytics": true,
+                        "settings": true,
+                        "role": "editor",
+                        "groups": [1, 2, 3]
+                      }
+                    },
+                    {
+                      "department_id": 35,
+                      "permissions": {
+                        "designs": false,
+                        "emails": false,
+                        "credential_attributes": false,
+                        "analytics": false,
+                        "settings": false,
+                        "role": "viewer",
+                        "groups": null
+                      }
+                    }
+                  ]
+                }
+              },
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "description": "The name of the TeamMember user."
+                  },
+                  "email": {
+                    "type": "string",
+                    "description": "The email address of the TeamMember user."
+                  },
+                  "department_permissions": {
+                    "type": "array",
+                    "description": "Array of department permissions for the team member.",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "department_id": {
+                          "type": "number",
+                          "description": "Department that the TeamMember should have the given permissions for."
+                        },
+                        "permissions": {
+                          "type": "object",
+                          "properties": {
+                            "designs": {
+                              "type": "boolean",
+                              "description": "Should the TeamMember have access to Designs for the given Department?"
+                            },
+                            "emails": {
+                              "type": "boolean",
+                              "description": "Should the TeamMember have access to Email Settings and Email Templates for the given Department?"
+                            },
+                            "credential_attributes": {
+                              "type": "boolean",
+                              "description": "Should the TeamMember have access to Attributes for the given Department?"
+                            },
+                            "analytics": {
+                              "type": "boolean",
+                              "description": "Should the TeamMember have access to Analytics for the given Department?"
+                            },
+                            "settings": {
+                              "type": "boolean",
+                              "description": "Should the TeamMember have access to Settings for the given Department?"
+                            },
+                            "role": {
+                              "type": "string",
+                              "description": "\"editor\" or \"viewer\" access to Credential data in the Department."
+                            },
+                            "groups": {
+                              "type": "array",
+                              "description": "Limit the TeamMember access to specific Groups in the Department.",
+                              "items": {
+                                "type": "number"
+                              }
+                            }
+                          },
+                          "required": [
+                            "designs",
+                            "emails",
+                            "credential_attributes",
+                            "analytics",
+                            "settings",
+                            "role"
+                          ]
+                        }
+                      },
+                      "required": [
+                        "department_id",
+                        "permissions"
+                      ]
+                    }
+                  }
+                },
+                "required": [
+                  "name",
+                  "email",
+                  "department_permissions"
+                ]
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ],
+        "x-code-samples": [
+          {
+            "lang": "cURL",
+            "label": "cURL",
+            "source": "curl -X POST \\\n  \"https://api.accredible.com/v1/team_members\" \\\n  -H \"Authorization: Token token=YOUR_API_KEY\" \\\n  -H \"Content-Type: application/json\" \\\n  -d '{\n  \"team_member\": {\n    \"name\": \"John Doe\",\n    \"email\": \"person@example.com\",\n    \"department_permissions\": [\n      {\n        \"department_id\": 34,\n        \"permissions\": {\n          \"designs\": true,\n          \"emails\": true,\n          \"credential_attributes\": true,\n          \"analytics\": true,\n          \"settings\": true,\n          \"role\": \"editor\",\n          \"groups\": [1, 2, 3]\n        }\n      },\n      {\n        \"department_id\": 35,\n        \"permissions\": {\n          \"designs\": false,\n          \"emails\": false,\n          \"credential_attributes\": false,\n          \"analytics\": false,\n          \"settings\": false,\n          \"role\": \"viewer\",\n          \"groups\": null\n        }\n      }\n    ]\n  }\n}'"
+          }
+        ]
+      }
+    },
     "/v1/team_members/{id}": {
       "get": {
         "responses": {
@@ -9500,7 +9753,8 @@
       "description": "The following endpoints require the `data_exports` feature to be switched on, which is based on your pricing plan."
     },
     {
-      "name": "Team Members"
+      "name": "Team Members",
+      "description": "Accredible Dashboard users who create, edit or manage Credentials as part of your Organization."
     },
     {
       "name": "Issuers"
