@@ -1865,7 +1865,8 @@
         },
         "summary": "View many Credentials",
         "operationId": "View many Credentials",
-        "description": "[View Many Credentials - Video Walkthrough](https://www.loom.com/share/520347485c3b44c7b64daeb17f1b307b?sid=9deb6be0-e636-4a03-ac2a-3dc831b1e3ad)",
+        "description": "**DEPRECATED:** This endpoint is deprecated.\n\n[View Many Credentials - Video Walkthrough](https://www.loom.com/share/520347485c3b44c7b64daeb17f1b307b?sid=9deb6be0-e636-4a03-ac2a-3dc831b1e3ad)",
+        "deprecated": true,
         "tags": [
           "Credentials"
         ],
@@ -6266,7 +6267,8 @@
         },
         "summary": "View all Groups",
         "operationId": "View all Groups",
-        "description": "",
+        "description": "**DEPRECATED:** This endpoint is deprecated.",
+        "deprecated": true,
         "tags": [
           "Groups"
         ],
@@ -7200,7 +7202,8 @@
         },
         "summary": "View all Designs DEPRECATED",
         "operationId": "View all Designs DEPRECATED",
-        "description": "",
+        "description": "**DEPRECATED:** This endpoint is deprecated.",
+        "deprecated": true,
         "tags": [
           "Designs"
         ],
