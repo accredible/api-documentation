@@ -3702,6 +3702,956 @@
         ]
       }
     },
+    "/v1/credentials/{credential_id}/evidence_items": {
+      "post": {
+        "responses": {
+          "200": {
+            "description": "OK",
+            "headers": {},
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "evidence_item": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "number"
+                        },
+                        "description": {
+                          "type": "string"
+                        },
+                        "link_url": {
+                          "type": "string"
+                        },
+                        "preview_image_url": {
+                          "type": "string"
+                        },
+                        "type": {
+                          "type": "string"
+                        },
+                        "supplemental": {
+                          "type": "boolean"
+                        },
+                        "string_object": {
+                          "nullable": true
+                        },
+                        "position": {
+                          "type": "number"
+                        }
+                      }
+                    }
+                  }
+                },
+                "example": {
+                  "evidence_item": {
+                    "id": 1234,
+                    "description": "updated description",
+                    "link_url": "https://s3.amazonaws.com/accredible_api_evidence_items/files/44/original/1410743692307_Hours_Tracking.pdf",
+                    "preview_image_url": "https://www.example.com/1234/reportcard.png",
+                    "type": "url",
+                    "supplemental": false,
+                    "string_object": null,
+                    "position": 1
+                  }
+                }
+              }
+            }
+          }
+        },
+        "summary": "Create a New Evidence Item",
+        "operationId": "Create a New Evidence Item",
+        "tags": [
+          "Evidence Items"
+        ],
+        "parameters": [
+          {
+            "name": "credential_id",
+            "in": "path",
+            "description": "Global ID of the credential in the form of an integer or string for the particular Credential requested.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "example": {
+                "evidence_item": {
+                  "description": "Example file",
+                  "file": "https://s3.amazonaws.com/accredible_api_evidence_items/files/44/original/1410743692307_Hours_Tracking.pdf",
+                  "category": "file"
+                }
+              },
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "evidence_item": {
+                    "type": "object",
+                    "properties": {
+                      "description": {
+                        "type": "string",
+                        "description": "Title text for the evidence item. This is displayed on a Credential."
+                      },
+                      "category": {
+                        "type": "string",
+                        "enum": ["file", "url", "video", "grade", "transcript"],
+                        "description": "Type of Evidence Item added, must be one of [file, url, video, grade, transcript]. The type dictates how the item is displayed on the certificate."
+                      },
+                      "url": {
+                        "type": "string",
+                        "description": "If the category is url or video, this should be the URL of Evidence Item."
+                      },
+                      "file": {
+                        "type": "string",
+                        "description": "If the category is file, this should be the file's URL."
+                      },
+                      "string_object": {
+                        "type": "string",
+                        "description": "If the category is grade or transcript then use it. For grade it will be just string 83."
+                      },
+                      "preview": {
+                        "type": "string",
+                        "description": "By default if you add a URL category EvidenceItem, we take a screenshot to set the preview of this URL on Credential. You can overwrite this default behaviour by setting this preview field to be the URL of the desired image."
+                      },
+                      "position": {
+                        "type": "number",
+                        "description": "The numeric position of the evidence item on the credential. 0 is displayed first in the list."
+                      },
+                      "custom_insight": {
+                        "type": "string",
+                        "description": "The insights which will appear below Evidence Item, if not given it will be generated automatically based on data."
+                      }
+                    },
+                    "required": ["description", "category"]
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ],
+        "x-code-samples": [
+          {
+            "lang": "cURL",
+            "label": "cURL",
+            "source": "curl -X POST \\\n  \"https://api.accredible.com/v1/credentials/12345/evidence_items\" \\\n  -H \"Authorization: Token token=YOUR_API_KEY\" \\\n  -H \"Content-Type: application/json\" \\\n  -d '{\n  \"evidence_item\": {\n    \"description\": \"Example file\",\n    \"file\": \"https://s3.amazonaws.com/accredible_api_evidence_items/files/44/original/1410743692307_Hours_Tracking.pdf\",\n    \"category\": \"file\"\n  }\n}'"
+          }
+        ]
+      }
+    },
+    "/v1/credentials/{credential_id}/evidence_items/{evidence_item_id}": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "OK",
+            "headers": {},
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "evidence_item": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "number"
+                        },
+                        "description": {
+                          "type": "string"
+                        },
+                        "link_url": {
+                          "type": "string"
+                        },
+                        "preview_image_url": {
+                          "type": "string"
+                        },
+                        "type": {
+                          "type": "string"
+                        },
+                        "supplemental": {
+                          "type": "boolean"
+                        },
+                        "string_object": {
+                          "nullable": true
+                        },
+                        "position": {
+                          "type": "number"
+                        }
+                      }
+                    }
+                  }
+                },
+                "example": {
+                  "evidence_item": {
+                    "id": 1234,
+                    "description": "updated description",
+                    "link_url": "https://s3.amazonaws.com/accredible_api_evidence_items/files/44/original/1410743692307_Hours_Tracking.pdf",
+                    "preview_image_url": "https://www.example.com/1234/reportcard.png",
+                    "type": "url",
+                    "supplemental": false,
+                    "string_object": null,
+                    "position": 1
+                  }
+                }
+              }
+            }
+          }
+        },
+        "summary": "View an Evidence Item",
+        "operationId": "View an Evidence Item",
+        "tags": [
+          "Evidence Items"
+        ],
+        "parameters": [
+          {
+            "name": "credential_id",
+            "in": "path",
+            "description": "ID of the Credential in the form of an integer or string for the particular Credential requested.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "evidence_item_id",
+            "in": "path",
+            "description": "ID of the EvidenceItem in the form of an integer.",
+            "required": true,
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ],
+        "x-code-samples": [
+          {
+            "lang": "cURL",
+            "label": "cURL",
+            "source": "curl -X GET \\\n  \"https://api.accredible.com/v1/credentials/12345/evidence_items/1234\" \\\n  -H \"Authorization: Token token=YOUR_API_KEY\""
+          }
+        ]
+      },
+      "put": {
+        "responses": {
+          "200": {
+            "description": "OK",
+            "headers": {},
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "evidence_item": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "number"
+                        },
+                        "description": {
+                          "type": "string"
+                        },
+                        "link_url": {
+                          "type": "string"
+                        },
+                        "preview_image_url": {
+                          "type": "string"
+                        },
+                        "type": {
+                          "type": "string"
+                        },
+                        "supplemental": {
+                          "type": "boolean"
+                        },
+                        "string_object": {
+                          "nullable": true
+                        },
+                        "position": {
+                          "type": "number"
+                        }
+                      }
+                    }
+                  }
+                },
+                "example": {
+                  "evidence_item": {
+                    "id": 1234,
+                    "description": "updated description",
+                    "link_url": "https://s3.amazonaws.com/accredible_api_evidence_items/files/44/original/1410743692307_Hours_Tracking.pdf",
+                    "preview_image_url": "https://www.example.com/1234/reportcard.png",
+                    "type": "url",
+                    "supplemental": false,
+                    "string_object": null,
+                    "position": 1
+                  }
+                }
+              }
+            }
+          }
+        },
+        "summary": "Update an Evidence Item",
+        "operationId": "Update an Evidence Item",
+        
+        "tags": [
+          "Evidence Items"
+        ],
+        "parameters": [
+          {
+            "name": "credential_id",
+            "in": "path",
+            "description": "ID of the Credential in the form of a string or integer for the particular Credential requested.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "evidence_item_id",
+            "in": "path",
+            "description": "ID of the Evidence Item in the form of an integer.",
+            "required": true,
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "example": {
+                "evidence_item": {
+                  "description": "updated description"
+                }
+              },
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "evidence_item": {
+                    "type": "object",
+                    "properties": {
+                      "description": {
+                        "type": "string",
+                        "description": "Title text for the evidence item. This is displayed on a Credential."
+                      },
+                      "category": {
+                        "type": "string",
+                        "enum": ["file", "url", "video", "grade", "transcript"],
+                        "description": "Type of Evidence Item added, must be one of [file, url, video, grade, transcript]. The type dictates how the item is displayed on the Credential."
+                      },
+                      "url": {
+                        "type": "string",
+                        "description": "If the category is url or video, this should be the URL of Evidence Item."
+                      },
+                      "file": {
+                        "type": "string",
+                        "description": "If the category is file, this should be the file's URL."
+                      },
+                      "string_object": {
+                        "type": "string",
+                        "description": "If the category is grade or transcript then use it. For grade it will be just string 83."
+                      },
+                      "preview": {
+                        "type": "string",
+                        "description": "By default if you add a URL category EvidenceItem, we take a screenshot to set the preview of this URL on Credentials. You can overwrite this default behaviour by setting this preview field to be the URL of the desired image."
+                      },
+                      "position": {
+                        "type": "number",
+                        "description": "The numeric position of the evidence item on the credential. 0 is displayed first in the list."
+                      },
+                      "custom_insight": {
+                        "type": "string",
+                        "description": "The insights which will appear below Evidence Item, if not given it will be generated automatically based on data."
+                      }
+                    },
+                    "required": ["description", "category"]
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ],
+        "x-code-samples": [
+          {
+            "lang": "cURL",
+            "label": "cURL",
+            "source": "curl -X PUT \\\n  \"https://api.accredible.com/v1/credentials/12345/evidence_items/1234\" \\\n  -H \"Authorization: Token token=YOUR_API_KEY\" \\\n  -H \"Content-Type: application/json\" \\\n  -d '{\n  \"evidence_item\": {\n    \"description\": \"updated description\"\n  }\n}'"
+          }
+        ]
+      },
+      "delete": {
+        "responses": {
+          "200": {
+            "description": "OK",
+            "headers": {},
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "evidence_item": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "number"
+                        },
+                        "description": {
+                          "type": "string"
+                        }
+                      }
+                    }
+                  }
+                },
+                "example": {
+                  "evidence_item": {
+                    "id": 1234,
+                    "description": "Report card including all grades"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "summary": "Delete an Evidence Item",
+        "operationId": "Delete an Evidence Item",
+        
+        "tags": [
+          "Evidence Items"
+        ],
+        "parameters": [
+          {
+            "name": "credential_id",
+            "in": "path",
+            "description": "ID of the Credential in the form of a string or integer for the particular Credential requested.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "evidence_item_id",
+            "in": "path",
+            "description": "ID of the EvidenceItem in the form of an integer.",
+            "required": true,
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ],
+        "x-code-samples": [
+          {
+            "lang": "cURL",
+            "label": "cURL",
+            "source": "curl -X DELETE \\\n  \"https://api.accredible.com/v1/credentials/12345/evidence_items/1234\" \\\n  -H \"Authorization: Token token=YOUR_API_KEY\""
+          }
+        ]
+      }
+    },
+    "/v1/credentials/{credential_id}/references": {
+      "post": {
+        "responses": {
+          "200": {
+            "description": "OK",
+            "headers": {},
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "reference": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "number"
+                        },
+                        "description": {
+                          "type": "string"
+                        },
+                        "referee": {
+                          "type": "object",
+                          "properties": {
+                            "name": {
+                              "type": "string"
+                            },
+                            "email": {
+                              "type": "string"
+                            },
+                            "avatar": {
+                              "type": "string"
+                            }
+                          }
+                        },
+                        "supplemental": {
+                          "type": "boolean"
+                        },
+                        "relationship": {
+                          "type": "string"
+                        }
+                      }
+                    }
+                  }
+                },
+                "example": {
+                  "reference": {
+                    "id": 1234,
+                    "description": "John worked hard on this course and provided exemplary understanding of the core concepts",
+                    "referee": {
+                      "name": "Jane Doe",
+                      "email": "jdoe@example.com",
+                      "avatar": "https://www.example.com/avatars/janedoe.png"
+                    },
+                    "supplemental": false,
+                    "relationship": "managed"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "summary": "Create a New Reference",
+        "operationId": "Create a New Reference",
+        "description": "You may create a Reference using this action. It takes a JSON object containing a Reference.",
+        "tags": [
+          "References"
+        ],
+        "parameters": [
+          {
+            "name": "credential_id",
+            "in": "path",
+            "description": "ID of the Credential in the form of a string integer for the particular Credential requested.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "example": {
+                "reference": {
+                  "description": "John worked hard on this course and provided exemplary understanding of the core concepts",
+                  "referee": {
+                    "name": "Jane Doe",
+                    "email": "person@example.com",
+                    "avatar": "https://placehold.it/100x100"
+                  },
+                  "relationship": "managed"
+                }
+              },
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "reference": {
+                    "type": "object",
+                    "properties": {
+                      "description": {
+                        "type": "string",
+                        "description": "The reference comments / text."
+                      },
+                      "relationship": {
+                        "type": "string",
+                        "enum": ["taught", "managed", "mentored", "worked", "studied", "friends", "stranger", "professor"],
+                        "description": "Must be one of: \"taught\", \"managed\", \"mentored\", \"worked\", \"studied\", \"friends\", \"stranger\", \"professor\"."
+                      },
+                      "referee": {
+                        "type": "object",
+                        "properties": {
+                          "name": {
+                            "type": "string",
+                            "description": "Name of the person providing the reference."
+                          },
+                          "email": {
+                            "type": "string",
+                            "description": "Email of the person providing the reference."
+                          },
+                          "avatar": {
+                            "type": "string",
+                            "description": "URL of image of the person providing the reference."
+                          },
+                          "url": {
+                            "type": "string",
+                            "description": "URL of a social profile such as LinkedIn that would allow a viewer to learn more about the referee."
+                          }
+                        }
+                      },
+                      "position": {
+                        "type": "number",
+                        "description": "The numeric position of the evidence item on the credential. 0 is displayed first in the list."
+                      }
+                    },
+                    "required": ["description", "relationship"]
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ],
+        "x-code-samples": [
+          {
+            "lang": "cURL",
+            "label": "cURL",
+            "source": "curl -X POST \\\n  \"https://api.accredible.com/v1/credentials/12345/references\" \\\n  -H \"Authorization: Token token=YOUR_API_KEY\" \\\n  -H \"Content-Type: application/json\" \\\n  -d '{\n  \"reference\": {\n    \"description\": \"John worked hard on this course and provided exemplary understanding of the core concepts\",\n    \"referee\": {\n      \"name\": \"Jane Doe\",\n      \"email\": \"person@example.com\",\n      \"avatar\": \"https://placehold.it/100x100\"\n    },\n    \"relationship\": \"managed\"\n  }\n}'"
+          }
+        ]
+      }
+    },
+    "/v1/credentials/{credential_id}/references/{reference_id}": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "OK",
+            "headers": {},
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "reference": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "number"
+                        },
+                        "description": {
+                          "type": "string"
+                        },
+                        "referee": {
+                          "type": "object",
+                          "properties": {
+                            "name": {
+                              "type": "string"
+                            },
+                            "email": {
+                              "type": "string"
+                            },
+                            "avatar": {
+                              "type": "string"
+                            }
+                          }
+                        },
+                        "supplemental": {
+                          "type": "boolean"
+                        },
+                        "relationship": {
+                          "type": "string"
+                        }
+                      }
+                    }
+                  }
+                },
+                "example": {
+                  "reference": {
+                    "id": 1234,
+                    "description": "John worked hard on this course and provided exemplary understanding of the core concepts",
+                    "referee": {
+                      "name": "Jane Doe",
+                      "email": "jdoe@example.com",
+                      "avatar": "https://www.example.com/avatars/janedoe.png"
+                    },
+                    "supplemental": false,
+                    "relationship": "managed"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "summary": "View a Reference",
+        "operationId": "View a Reference",
+        "tags": [
+          "References"
+        ],
+        "parameters": [
+          {
+            "name": "credential_id",
+            "in": "path",
+            "description": "ID of the Credential in the form of a string or integer for the particular Credential requested.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "reference_id",
+            "in": "path",
+            "description": "ID of the Reference in the form of an integer.",
+            "required": true,
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ],
+        "x-code-samples": [
+          {
+            "lang": "cURL",
+            "label": "cURL",
+            "source": "curl -X GET \\\n  \"https://api.accredible.com/v1/credentials/12345/references/1234\" \\\n  -H \"Authorization: Token token=YOUR_API_KEY\""
+          }
+        ]
+      },
+      "put": {
+        "responses": {
+          "200": {
+            "description": "OK",
+            "headers": {},
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "reference": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "number"
+                        },
+                        "description": {
+                          "type": "string"
+                        },
+                        "referee": {
+                          "type": "object",
+                          "properties": {
+                            "name": {
+                              "type": "string"
+                            },
+                            "email": {
+                              "type": "string"
+                            },
+                            "avatar": {
+                              "type": "string"
+                            }
+                          }
+                        },
+                        "supplemental": {
+                          "type": "boolean"
+                        },
+                        "relationship": {
+                          "type": "string"
+                        }
+                      }
+                    }
+                  }
+                },
+                "example": {
+                  "reference": {
+                    "id": 1234,
+                    "description": "John worked hard on this course and provided exemplary understanding of the core concepts",
+                    "referee": {
+                      "name": "Jane Doe",
+                      "email": "jdoe@example.com",
+                      "avatar": "https://www.example.com/avatars/janedoe.png"
+                    },
+                    "supplemental": false,
+                    "relationship": "managed"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "summary": "Update a Reference",
+        "operationId": "Update a Reference",
+        "tags": [
+          "References"
+        ],
+        "parameters": [
+          {
+            "name": "credential_id",
+            "in": "path",
+            "description": "ID of the Credential in the form of a string or integer for the particular Credential requested.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "reference_id",
+            "in": "path",
+            "description": "ID of the Reference in the form of an integer.",
+            "required": true,
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "example": {
+                "reference": {
+                  "description": "my new reference text"
+                }
+              },
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "reference": {
+                    "type": "object",
+                    "properties": {
+                      "description": {
+                        "type": "string",
+                        "description": "The reference comments / text."
+                      },
+                      "relationship": {
+                        "type": "string",
+                        "enum": ["taught", "managed", "mentored", "worked", "studied", "friends", "stranger", "professor"],
+                        "description": "Must be one of: \"taught\", \"managed\", \"mentored\", \"worked\", \"studied\", \"friends\", \"stranger\", \"professor\"."
+                      },
+                      "position": {
+                        "type": "number",
+                        "description": "The numeric position of the evidence item on the credential. 0 is displayed first in the list."
+                      }
+                    },
+                    "required": ["description", "relationship"]
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ],
+        "x-code-samples": [
+          {
+            "lang": "cURL",
+            "label": "cURL",
+            "source": "curl -X PUT \\\n  \"https://api.accredible.com/v1/credentials/12345/references/1234\" \\\n  -H \"Authorization: Token token=YOUR_API_KEY\" \\\n  -H \"Content-Type: application/json\" \\\n  -d '{\n  \"reference\": {\n    \"description\": \"my new reference text\"\n  }\n}'"
+          }
+        ]
+      },
+      "delete": {
+        "responses": {
+          "200": {
+            "description": "OK",
+            "headers": {},
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "reference": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "number"
+                        },
+                        "description": {
+                          "type": "string"
+                        },
+                        "referee": {
+                          "type": "object",
+                          "properties": {
+                            "name": {
+                              "type": "string"
+                            },
+                            "email": {
+                              "type": "string"
+                            },
+                            "avatar": {
+                              "type": "string"
+                            }
+                          }
+                        },
+                        "supplemental": {
+                          "type": "boolean"
+                        },
+                        "relationship": {
+                          "type": "string"
+                        }
+                      }
+                    }
+                  }
+                },
+                "example": {
+                  "reference": {
+                    "id": 1234,
+                    "description": "John worked hard on this course and provided exemplary understanding of the core concepts",
+                    "referee": {
+                      "name": "Jane Doe",
+                      "email": "jdoe@example.com",
+                      "avatar": "https://www.example.com/avatars/janedoe.png"
+                    },
+                    "supplemental": false,
+                    "relationship": "managed"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "summary": "Delete a Reference",
+        "operationId": "Delete a Reference",
+        "tags": [
+          "References"
+        ],
+        "parameters": [
+          {
+            "name": "credential_id",
+            "in": "path",
+            "description": "ID of the Credential in the form of a string or integer for the particular Credential requested.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "reference_id",
+            "in": "path",
+            "description": "ID of the Reference in the form of an integer.",
+            "required": true,
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ],
+        "x-code-samples": [
+          {
+            "lang": "cURL",
+            "label": "cURL",
+            "source": "curl -X DELETE \\\n  \"https://api.accredible.com/v1/credentials/12345/references/1234\" \\\n  -H \"Authorization: Token token=YOUR_API_KEY\""
+          }
+        ]
+      }
+    },
     "/v1/issuer/groups": {
       "post": {
         "responses": {
@@ -8555,6 +9505,14 @@
     {
       "name": "SSO",
       "description": "Accredible offers single sign-on solutions for recipients and issuers. Email support@accredible.com for a full list of options and to receive development assistance. SSO is also available via our Integrations and via SAML 2.0."
+    },
+    {
+      "name": "Evidence Items",
+      "description": "Resources related to EvidenceItems. EvidenceItems provide more information about how the recipient met the achievement. Typically this would include work samples for a course."
+    },
+    {
+      "name": "References",
+      "description": "Resources related to References. References provide more information about how the recipient met an achievement. Typically this would be a peer, teacher or manager giving their feedback."
     }
   ]
 }
