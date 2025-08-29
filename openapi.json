@@ -1204,6 +1204,7 @@
             "name": "id",
             "in": "path",
             "description": "The unique ID of the credential. If you supply your own internal ID we'll use this as a reference for the Credential. If not we'll assign an ID.",
+            "required": true,
             "schema": {
               "type": "string"
             }
@@ -1289,12 +1290,7 @@
                     "properties": {},
                     "description": "You can use this parameter to attach key-value strings to the object. Meta data is useful for storing additional, structured information on an object."
                   }
-                },
-                "required": [
-                  "recipient.name",
-                  "recipient.email",
-                  "group_id"
-                ]
+                }
               }
             }
           }
