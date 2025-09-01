@@ -426,7 +426,7 @@
                   },
                   "group_id": {
                     "type": "number",
-                    "description": "Group Id to which the credential should belong. Legacy field. Group name may be used in place of a Group ID."
+                    "description": "Group Id to which the credential should belong."
                   },
                   "name": {
                     "type": "string",
@@ -1244,7 +1244,7 @@
                   },
                   "group_id": {
                     "type": "number",
-                    "description": "Group Id to which the credential should belong. Legacy field. Group name may be used in place of a Group ID."
+                    "description": "Group Id to which the credential should belong."
                   },
                   "name": {
                     "type": "string",
