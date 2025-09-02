@@ -4254,8 +4254,7 @@
                   "description": "John worked hard on this course and provided exemplary understanding of the core concepts",
                   "referee": {
                     "name": "Jane Doe",
-                    "email": "person@example.com",
-                    "avatar": "https://placehold.it/100x100"
+                    "email": "person@example.com"
                   },
                   "relationship": "managed"
                 }
@@ -4317,7 +4316,7 @@
           {
             "lang": "cURL",
             "label": "cURL",
-            "source": "curl -X POST \\\n  \"https://api.accredible.com/v1/credentials/12345/references\" \\\n  -H \"Authorization: Token token=YOUR_API_KEY\" \\\n  -H \"Content-Type: application/json\" \\\n  -d '{\n  \"reference\": {\n    \"description\": \"John worked hard on this course and provided exemplary understanding of the core concepts\",\n    \"referee\": {\n      \"name\": \"Jane Doe\",\n      \"email\": \"person@example.com\",\n      \"avatar\": \"https://placehold.it/100x100\"\n    },\n    \"relationship\": \"managed\"\n  }\n}'"
+            "source": "curl -X POST \\\n  \"https://api.accredible.com/v1/credentials/12345/references\" \\\n  -H \"Authorization: Token token=YOUR_API_KEY\" \\\n  -H \"Content-Type: application/json\" \\\n  -d '{\n  \"reference\": {\n    \"description\": \"John worked hard on this course and provided exemplary understanding of the core concepts\",\n    \"referee\": {\n      \"name\": \"Jane Doe\",\n      \"email\": \"person@example.com\"\n    },\n    \"relationship\": \"managed\"\n  }\n}'"
           }
         ]
       }
