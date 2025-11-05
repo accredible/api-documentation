@@ -210,6 +210,10 @@
                             "email": {
                               "type": "string"
                             },
+                            "phone_number": {
+                              "type": "string",
+                              "nullable": true
+                            },
                             "id": {
                               "type": "string"
                             },
@@ -323,6 +327,7 @@
                     "recipient": {
                       "name": "Jordan Smith",
                       "email": "jor@dan.org",
+                      "phone_number": "+14155552671",
                       "id": "ct992",
                       "meta_data": {
                         "bar": "foo"
@@ -357,6 +362,7 @@
                   "recipient": {
                     "name": "John Doe",
                     "email": "person@example.com",
+                    "phone_number": "+14155552671",
                     "id": "PK-17993",
                     "meta_data": {
                       "credential_batch": "772"
@@ -414,6 +420,10 @@
                   "recipient.email": {
                     "type": "string",
                     "description": "The recipient's email address."
+                  },
+                  "recipient.phone_number": {
+                    "type": "string",
+                    "description": "The recipient's phone number in E.164 format (e.g., +14155552671). This field is optional and available as part of the Growth plan. Phone numbers are used for SMS campaigns and are associated with the credential."
                   },
                   "recipient.id": {
                     "type": "string",
@@ -499,7 +509,7 @@
           {
             "lang": "cURL",
             "label": "cURL",
-            "source": "curl -X POST \\\n  \"https://api.accredible.com/v1/credentials\" \\\n  -H \"Authorization: Token token=YOUR_API_KEY\" \\\n  -H \"Content-Type: application/json\" \\\n  -d '{\n  \"credential\": {\n    \"recipient\": {\n      \"name\": \"John Doe\",\n      \"email\": \"person@example.com\",\n      \"id\": \"PK-17993\",\n      \"meta_data\": {\n        \"credential_batch\": \"772\"\n      }\n    },\n    \"name\": \"Credential Name\",\n    \"group_name\": \"course1234\",\n    \"group_id\": 23,\n    \"description\": null,\n    \"issued_on\": \"2014-06-14\",\n    \"evidence_items\": [\n      {\n        \"description\": \"Report card including all grades\",\n        \"url\": \"http://www.awesomelearningexample.com/johndoe/reportcard\",\n        \"category\": \"url\"\n      },\n      {\n        \"description\": \"Final essay\",\n        \"file\": \"https://s3.amazonaws.com/accredible_api_evidence_items/files/12/original/open-uri20140316-15266-1m3by6h.jpeg\",\n        \"category\": \"file\"\n      }\n    ],\n    \"references\": [\n      {\n        \"description\": \"John worked hard on this course and provided exemplary understanding of the core concepts\",\n        \"referee\": {\n          \"name\": \"Jane Doe\",\n          \"email\": \"person2@example.com\",\n          \"avatar\": \"https://placehold.it/100x100\",\n          \"url\": \"https://any-url.com\"\n        },\n        \"relationship\": \"managed\"\n      }\n    ],\n    \"custom_attributes\": {\n      \"custom_variables\": \"some value\",\n      \"dob\": \"29 jan 1970\"\n    },\n    \"meta_data\": {\n      \"batch_id\": \"TK210\"\n    }\n  }\n}'"
+            "source": "curl -X POST \\\n  \"https://api.accredible.com/v1/credentials\" \\\n  -H \"Authorization: Token token=YOUR_API_KEY\" \\\n  -H \"Content-Type: application/json\" \\\n  -d '{\n  \"credential\": {\n    \"recipient\": {\n      \"name\": \"John Doe\",\n      \"email\": \"person@example.com\",\n      \"phone_number\": \"+14155552671\",\n      \"id\": \"PK-17993\",\n      \"meta_data\": {\n        \"credential_batch\": \"772\"\n      }\n    },\n    \"name\": \"Credential Name\",\n    \"group_name\": \"course1234\",\n    \"group_id\": 23,\n    \"description\": null,\n    \"issued_on\": \"2014-06-14\",\n    \"evidence_items\": [\n      {\n        \"description\": \"Report card including all grades\",\n        \"url\": \"http://www.awesomelearningexample.com/johndoe/reportcard\",\n        \"category\": \"url\"\n      },\n      {\n        \"description\": \"Final essay\",\n        \"file\": \"https://s3.amazonaws.com/accredible_api_evidence_items/files/12/original/open-uri20140316-15266-1m3by6h.jpeg\",\n        \"category\": \"file\"\n      }\n    ],\n    \"references\": [\n      {\n        \"description\": \"John worked hard on this course and provided exemplary understanding of the core concepts\",\n        \"referee\": {\n          \"name\": \"Jane Doe\",\n          \"email\": \"person2@example.com\",\n          \"avatar\": \"https://placehold.it/100x100\",\n          \"url\": \"https://any-url.com\"\n        },\n        \"relationship\": \"managed\"\n      }\n    ],\n    \"custom_attributes\": {\n      \"custom_variables\": \"some value\",\n      \"dob\": \"29 jan 1970\"\n    },\n    \"meta_data\": {\n      \"batch_id\": \"TK210\"\n    }\n  }\n}'"
           }
         ]
       }
@@ -527,14 +537,16 @@
                   {
                     "recipient": {
                       "name": "John Doe",
-                      "email": "student@example.com"
+                      "email": "student@example.com",
+                      "phone_number": "+14155552671"
                     },
                     "group_id": 22625
                   },
                   {
                     "recipient": {
-                      "name": "John Doe",
-                      "email": "student@example.com"
+                      "name": "Jane Smith",
+                      "email": "jane@example.com",
+                      "phone_number": "+14155552672"
                     },
                     "group_id": 62430
                   }
@@ -563,7 +575,7 @@
           {
             "lang": "cURL",
             "label": "cURL",
-            "source": "curl -X POST \\\n  \"https://api.accredible.com/v1/credentials/bulk_create\" \\\n  -H \"Authorization: Token token=YOUR_API_KEY\" \\\n  -H \"Content-Type: application/json\" \\\n  -d '{\n  \"credentials\": [\n    {\n      \"recipient\": {\n        \"name\": \"John Doe\",\n        \"email\": \"student@example.com\"\n      },\n      \"group_id\": 22625\n    },\n    {\n      \"recipient\": {\n        \"name\": \"John Doe\",\n        \"email\": \"student@example.com\"\n      },\n      \"group_id\": 62430\n    }\n  ]\n}'"
+            "source": "curl -X POST \\\n  \"https://api.accredible.com/v1/credentials/bulk_create\" \\\n  -H \"Authorization: Token token=YOUR_API_KEY\" \\\n  -H \"Content-Type: application/json\" \\\n  -d '{\n  \"credentials\": [\n    {\n      \"recipient\": {\n        \"name\": \"John Doe\",\n        \"email\": \"student@example.com\",\n        \"phone_number\": \"+14155552671\"\n      },\n      \"group_id\": 22625\n    },\n    {\n      \"recipient\": {\n        \"name\": \"Jane Smith\",\n        \"email\": \"jane@example.com\",\n        \"phone_number\": \"+14155552672\"\n      },\n      \"group_id\": 62430\n    }\n  ]\n}'"
           }
         ]
       }
@@ -606,6 +618,10 @@
                                   },
                                   "email": {
                                     "type": "string"
+                                  },
+                                  "phone_number": {
+                                    "type": "string",
+                                    "nullable": true
                                   },
                                   "id": {
                                     "type": "number"
@@ -697,6 +713,7 @@
                         "recipient": {
                           "name": "John Doe",
                           "email": "person2@example.com",
+                          "phone_number": "+14155552671",
                           "id": 232,
                           "meta_data": null
                         },
@@ -817,14 +834,16 @@
                   {
                     "recipient": {
                       "name": "John Doe",
-                      "email": "student@example.com"
+                      "email": "student@example.com",
+                      "phone_number": "+14155552671"
                     },
                     "group_id": 22625
                   },
                   {
                     "recipient": {
-                      "name": "John Doe",
-                      "email": "student@example.com"
+                      "name": "Jane Smith",
+                      "email": "jane@example.com",
+                      "phone_number": "+14155552672"
                     },
                     "group_id": 62430
                   }
@@ -842,7 +861,7 @@
           {
             "lang": "cURL",
             "label": "cURL",
-            "source": "curl -X POST \\\n  \"https://api.accredible.com/v2/credentials/bulk_create\" \\\n  -H \"Authorization: Token token=YOUR_API_KEY\" \\\n  -H \"Content-Type: application/json\" \\\n  -d '{\n  \"credentials\": [\n    {\n      \"recipient\": {\n        \"name\": \"John Doe\",\n        \"email\": \"student@example.com\"\n      },\n      \"group_id\": 22625\n    },\n    {\n      \"recipient\": {\n        \"name\": \"John Doe\",\n        \"email\": \"student@example.com\"\n      },\n      \"group_id\": 62430\n    }\n  ]\n}'"
+            "source": "curl -X POST \\\n  \"https://api.accredible.com/v2/credentials/bulk_create\" \\\n  -H \"Authorization: Token token=YOUR_API_KEY\" \\\n  -H \"Content-Type: application/json\" \\\n  -d '{\n  \"credentials\": [\n    {\n      \"recipient\": {\n        \"name\": \"John Doe\",\n        \"email\": \"student@example.com\",\n        \"phone_number\": \"+14155552671\"\n      },\n      \"group_id\": 22625\n    },\n    {\n      \"recipient\": {\n        \"name\": \"Jane Smith\",\n        \"email\": \"jane@example.com\",\n        \"phone_number\": \"+14155552672\"\n      },\n      \"group_id\": 62430\n    }\n  ]\n}'"
           }
         ]
       }
@@ -1036,6 +1055,10 @@
                             "email": {
                               "type": "string"
                             },
+                            "phone_number": {
+                              "type": "string",
+                              "nullable": true
+                            },
                             "id": {
                               "type": "string"
                             },
@@ -1139,6 +1162,7 @@
                     "recipient": {
                       "name": "Jordan Smith",
                       "email": "jor@dan.org",
+                      "phone_number": "+14155552671",
                       "id": "dw373",
                       "meta_data": null
                     },
@@ -1215,7 +1239,10 @@
             "application/json": {
               "example": {
                 "credential": {
-                  "approve": true
+                  "approve": true,
+                  "recipient": {
+                    "phone_number": "+14155552671"
+                  }
                 }
               },
               "schema": {
@@ -1232,6 +1259,10 @@
                   "recipient.email": {
                     "type": "string",
                     "description": "The recipient's email address."
+                  },
+                  "recipient.phone_number": {
+                    "type": "string",
+                    "description": "The recipient's phone number in E.164 format (e.g., +14155552671). This field is optional and available as part of the Growth plan. Phone numbers are used for SMS campaigns and are associated with the credential."
                   },
                   "recipient.id": {
                     "type": "string",
@@ -1304,7 +1335,7 @@
           {
             "lang": "cURL",
             "label": "cURL",
-            "source": "curl -X PUT \\\n  \"https://api.accredible.com/v1/credentials/12345\" \\\n  -H \"Authorization: Token token=YOUR_API_KEY\" \\\n  -H \"Content-Type: application/json\" \\\n  -d '{\n  \"credential\": {\n    \"approve\": true\n  }\n}'"
+            "source": "curl -X PUT \\\n  \"https://api.accredible.com/v1/credentials/12345\" \\\n  -H \"Authorization: Token token=YOUR_API_KEY\" \\\n  -H \"Content-Type: application/json\" \\\n  -d '{\n  \"credential\": {\n    \"approve\": true,\n    \"recipient\": {\n      \"phone_number\": \"+14155552671\"\n    }\n  }\n}'"
           }
         ]
       },
@@ -1495,6 +1526,10 @@
                             },
                             "email": {
                               "type": "string"
+                            },
+                            "phone_number": {
+                              "type": "string",
+                              "nullable": true
                             },
                             "id": {
                               "type": "string"
@@ -1709,6 +1744,10 @@
                               },
                               "email": {
                                 "type": "string"
+                              },
+                              "phone_number": {
+                                "type": "string",
+                                "nullable": true
                               },
                               "id": {
                                 "type": "number"
@@ -2035,6 +2074,10 @@
                               },
                               "email": {
                                 "type": "string"
+                              },
+                              "phone_number": {
+                                "type": "string",
+                                "nullable": true
                               },
                               "id": {
                                 "type": "number"
@@ -2375,6 +2418,10 @@
                               },
                               "email": {
                                 "type": "string"
+                              },
+                              "phone_number": {
+                                "type": "string",
+                                "nullable": true
                               },
                               "id": {
                                 "type": "number"
