@@ -4804,6 +4804,9 @@
                             }
                           }
                         },
+                        "achievement_type": {
+                          "type": "string"
+                        },
                         "collections": {
                           "type": "array",
                           "items": {
@@ -4866,6 +4869,7 @@
                       "id": 1,
                       "name": "Example Category"
                     },
+                    "achievement_type": "Certificate",
                     "collections": [
                       {
                         "id": 1,
@@ -4921,6 +4925,7 @@
                   "course_link_show": false,
                   "organization_link_show": false,
                   "skill_category_id": 1,
+                  "achievement_type": "Certificate",
                   "collections": [
                     {
                       "id": 1
@@ -5024,6 +5029,10 @@
                   },
                   "collections": {
                     "description": "Full list of collections to associate to this group"
+                  },
+                  "achievement_type": {
+                    "type": "string",
+                    "description": "The type of achievement, for example 'Award' or 'Certification'. The supported values are listed here https://www.imsglobal.org/spec/ob/v3p0#achievementtype-enumeration"
                   }
                 },
                 "required": [
@@ -5203,6 +5212,7 @@
                       "id": 1,
                       "name": "Example Category"
                     },
+                    "achievement_type": null,
                     "collections": [
                       {
                         "id": 1,
@@ -5352,6 +5362,9 @@
                             }
                           }
                         },
+                        "achievement_type": {
+                          "type": "string"
+                        },
                         "collections": {
                           "type": "array",
                           "items": {
@@ -5411,6 +5424,7 @@
                       "id": 1,
                       "name": "Example Category"
                     },
+                    "achievement_type": "Badge",
                     "collections": [
                       {
                         "id": 1,
@@ -5454,6 +5468,7 @@
                   "name": "updated new group",
                   "course_name": "updated course name",
                   "skill_category_id": 1,
+                  "achievement_type": "Badge",
                   "collections": [
                     {
                       "id": 1
@@ -5554,6 +5569,10 @@
                   "skill_category_id": {
                     "type": "number",
                     "description": "ID of the skill category to associate with this group."
+                  },
+                  "achievement_type": {
+                    "type": "string",
+                    "description": "The type of achievement, for example 'Award' or 'Certification'. The supported values are listed here https://www.imsglobal.org/spec/ob/v3p0#achievementtype-enumeration"
                   },
                   "collections": {
                     "description": "Full list of collections to associate to this group"
@@ -5666,6 +5685,9 @@
                         "organization_link_show": {
                           "type": "boolean"
                         },
+                        "achievement_type": {
+                          "type": "string"
+                        },
                         "skill_category": {
                           "type": "object",
                           "properties": {
@@ -5707,6 +5729,7 @@
                     "signup_url": "http://www.example.com",
                     "course_link_show": false,
                     "organization_link_show": false,
+                    "achievement_type": null,
                     "skill_category": {
                       "id": 1,
                       "name": "Example Category"
@@ -5853,6 +5876,9 @@
                             }
                           }
                         },
+                        "achievement_type": {
+                          "type": "string"
+                        },
                         "collections": {
                           "type": "array",
                           "items": {
@@ -5915,6 +5941,7 @@
                       "id": 1,
                       "name": "Skill Category"
                     },
+                    "achievement_type": "Badge",
                     "collections": [
                       {
                         "id": 1,
@@ -5967,7 +5994,8 @@
                   "signup_url": "http://www.example.com",
                   "course_link_show": false,
                   "organization_link_show": false,
-                  "skill_category_id": 1
+                  "skill_category_id": 1,
+                  "achievement_type": "Badge"
                 }
               },
               "schema": {
@@ -6052,6 +6080,10 @@
                   "skill_category_id": {
                     "type": "number",
                     "description": "ID of the skill category to associate with the cloned group."
+                  },
+                  "achievement_type": {
+                    "type": "string",
+                    "description": "The type of achievement, for example 'Award' or 'Certification'. The supported values are listed here https://www.imsglobal.org/spec/ob/v3p0#achievementtype-enumeration"
                   }
                 }
               }
@@ -6531,6 +6563,9 @@
                               }
                             }
                           },
+                          "achievement_type": {
+                            "type": "string"
+                          },
                           "collections": {
                             "type": "array",
                             "items": {
@@ -6640,6 +6675,7 @@
                         "id": 1,
                         "name": "Example Category"
                       },
+                      "achievement_type": null,
                       "collections": [
                         {
                           "id": 1,
@@ -6682,6 +6718,7 @@
                         "id": 1,
                         "name": "Example Category"
                       },
+                      "achievement_type": null,
                       "collections": [
                         {
                           "id": 1,
