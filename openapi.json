@@ -2677,11 +2677,11 @@
                     "type": "object",
                     "properties": {
                       "from": {
-                        "type": "string",
+                        "type": "integer",
                         "description": "Number of records to skip (offset-based pagination). Limited to the first 10,000 results. Cannot be used together with `cursor`."
                       },
                       "size": {
-                        "type": "string",
+                        "type": "integer",
                         "description": "The number of records to be returned. Default is 50"
                       },
                       "cursor": {
