@@ -2477,6 +2477,9 @@
                         },
                         "size": {
                           "type": "number"
+                        },
+                        "cursor": {
+                          "type": "string"
                         }
                       }
                     }
@@ -2520,7 +2523,8 @@
                   "meta": {
                     "count": 1000,
                     "from": 0,
-                    "size": 50
+                    "size": 50,
+                    "cursor": "WzEsMC4wXQ=="
                   }
                 }
               }
@@ -2529,35 +2533,65 @@
         },
         "summary": "Search for Credentials (v2)",
         "operationId": "Search for Credentials (v2)",
-        "description": "This is a faster alternative to the v1 Search API. It also supports operations on the query fields which can allow you to form more complex queries.\n\nFollowing operations are **supported based on the field**. You can also combine operations on multiple fields:\n\n| Operation | Description | Example |\n|-----------|-------------|----------|\n| `eq` | Exact match (default, if nothing specified). | `{\"group.id[eq]\": 1}` or `{\"group.id\": 1}` - Both yield the same result. |\n| `in` | Allows an array of values. | `{\"group.id[in]\": [1, 2]}` |\n| `lt` | Less than. | `{\"issued_on[lt]\": \"2023-12-31\"}` |\n| `gt` | Greater than. | `{\"issued_on[gt]\": \"2023-01-01\"}` |\n| `lte` | Less than equal to. | `{\"expired_on[lte]\": \"2023-12-31\"}` |\n| `gte` | Greater than equal to. | `{\"expired_on[gte]\": \"2023-01-01\"}` |\n\n**Limits:** When a query yields results surpassing 10,000 records, accessing data beyond the 10,000th entry is not supported. It is advisable to refine your search parameters in such instances.",
+        "description": "This is a faster alternative to the v1 Search API. It also supports operations on the query fields which can allow you to form more complex queries.\n\nFollowing operations are **supported based on the field**. You can also combine operations on multiple fields:\n\n| Operation | Description | Example |\n|-----------|-------------|----------|\n| `eq` | Exact match (default, if nothing specified). | `{\"group.id[eq]\": 1}` or `{\"group.id\": 1}` - Both yield the same result. |\n| `in` | Allows an array of values. | `{\"group.id[in]\": [1, 2]}` |\n| `lt` | Less than. | `{\"issued_on[lt]\": \"2023-12-31\"}` |\n| `gt` | Greater than. | `{\"issued_on[gt]\": \"2023-01-01\"}` |\n| `lte` | Less than equal to. | `{\"expired_on[lte]\": \"2023-12-31\"}` |\n| `gte` | Greater than equal to. | `{\"expired_on[gte]\": \"2023-01-01\"}` |\n\n**Note:** Offset-based pagination using `page.from` + `page.size` supports a maximum of 10,000 results. To retrieve results beyond this limit, use cursor-based pagination with `page.cursor` and `page.size`.",
         "tags": [
           "Credentials"
         ],
         "requestBody": {
           "content": {
             "application/json": {
-              "example": {
-                "query": {
-                  "group.id[in]": [1, 2],
-                  "recipient_name": "John Doe",
-                  "approve": true,
-                  "recipient_email": "person@example.com",
-                  "recipient_id": "example",
-                  "recipient_meta_data": {"example": "value"},
-                  "license_id": "example",
-                  "meta_data": {"example": "value"},
-                  "custom_attributes": {"example": "value"},
-                  "issued_on[gte]": "2023-01-01",
-                  "issued_on[lt]": "2024-01-01",
-                  "updated_at[gte]": "2023-01-01",
-                  "created_at[gte]": "2023-01-01"
+              "examples": {
+                "Offset-based pagination": {
+                  "value": {
+                    "query": {
+                      "group.id[in]": [1, 2],
+                      "recipient_name": "John Doe",
+                      "approve": true,
+                      "recipient_email": "person@example.com",
+                      "recipient_id": "example",
+                      "recipient_meta_data": {"example": "value"},
+                      "license_id": "example",
+                      "meta_data": {"example": "value"},
+                      "custom_attributes": {"example": "value"},
+                      "issued_on[gte]": "2023-01-01",
+                      "issued_on[lt]": "2024-01-01",
+                      "updated_at[gte]": "2023-01-01",
+                      "created_at[gte]": "2023-01-01"
+                    },
+                    "sort": {
+                      "issued_on": "desc"
+                    },
+                    "page": {
+                      "from": 0,
+                      "size": 50
+                    }
+                  }
                 },
-                "sort": {
-                  "issued_on": "desc"
-                },
-                "page": {
-                  "from": 0,
-                  "size": 50
+                "Cursor-based pagination": {
+                  "value": {
+                    "query": {
+                      "group.id[in]": [1, 2],
+                      "recipient_name": "John Doe",
+                      "approve": true,
+                      "recipient_email": "person@example.com",
+                      "recipient_id": "example",
+                      "recipient_meta_data": {"example": "value"},
+                      "license_id": "example",
+                      "meta_data": {"example": "value"},
+                      "custom_attributes": {"example": "value"},
+                      "issued_on[gte]": "2023-01-01",
+                      "issued_on[lt]": "2024-01-01",
+                      "updated_at[gte]": "2023-01-01",
+                      "created_at[gte]": "2023-01-01"
+                    },
+                    "sort": {
+                      "issued_on": "desc"
+                    },
+                    "page": {
+                      "cursor": "WzEsMC4wXQ==",
+                      "size": 50
+                    }
+                  }
                 }
               },
               "schema": {
@@ -2643,12 +2677,16 @@
                     "type": "object",
                     "properties": {
                       "from": {
-                        "type": "string",
-                        "description": "Defines the number of records to skip."
+                        "type": "integer",
+                        "description": "Number of records to skip (offset-based pagination). Limited to the first 10,000 results. Cannot be used together with `cursor`."
                       },
                       "size": {
-                        "type": "string",
+                        "type": "integer",
                         "description": "The number of records to be returned. Default is 50"
+                      },
+                      "cursor": {
+                        "type": "string",
+                        "description": "An opaque pagination token returned by a previous response. Use this to retrieve the next page of results. Cannot be used together with `from`."
                       }
                     }
                   }
