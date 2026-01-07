@@ -2450,6 +2450,10 @@
                               "name": {
                                 "type": "string"
                               },
+                              "phone_number": {
+                                "type": "string",
+                                "nullable": true
+                              },
                               "id": {
                                 "type": "number"
                               }
