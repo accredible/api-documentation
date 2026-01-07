@@ -2365,58 +2365,89 @@
                       "items": {
                         "type": "object",
                         "properties": {
-                          "id": {
-                            "type": "number"
-                          },
-                          "name": {
-                            "type": "string"
-                          },
-                          "description": {
-                            "type": "string"
-                          },
-                          "grade": {
-                            "nullable": true
-                          },
-                          "complete": {
-                            "type": "boolean"
-                          },
-                          "issued_on": {
-                            "type": "string"
-                          },
-                          "allow_supplemental_references": {
-                            "nullable": true
-                          },
-                          "allow_supplemental_evidence": {
-                            "nullable": true
-                          },
-                          "course_link": {
-                            "type": "string"
-                          },
-                          "custom_attributes": {
-                            "nullable": true
-                          },
-                          "expired_on": {
-                            "nullable": true
-                          },
-                          "seo_image": {
-                            "type": "string"
-                          },
                           "encoded_id": {
-                            "type": "string"
-                          },
-                          "group_name": {
                             "type": "string"
                           },
                           "private": {
                             "type": "boolean"
                           },
-                          "recipient": {
+                          "recipient_opened": {
+                            "type": "boolean"
+                          },
+                          "seo_image": {
+                            "type": "string"
+                          },
+                          "published_on": {
+                            "type": "string",
+                            "nullable": true
+                          },
+                          "recipient_email": {
+                            "type": "string"
+                          },
+                          "created_at": {
+                            "type": "string"
+                          },
+                          "recipient_engaged": {
+                            "type": "boolean"
+                          },
+                          "uuid": {
+                            "type": "string"
+                          },
+                          "custom_attributes": {
+                            "type": "object",
+                            "nullable": true
+                          },
+                          "issuer_id": {
+                            "type": "number"
+                          },
+                          "recipient_meta_data": {
+                            "type": "object",
+                            "nullable": true
+                          },
+                          "updated_at": {
+                            "type": "string"
+                          },
+                          "approve": {
+                            "type": "boolean"
+                          },
+                          "license_id": {
+                            "type": "string",
+                            "nullable": true
+                          },
+                          "grade": {
+                            "nullable": true
+                          },
+                          "meta_data": {
+                            "type": "object",
+                            "nullable": true
+                          },
+                          "name": {
+                            "type": "string"
+                          },
+                          "issued_on": {
+                            "type": "string"
+                          },
+                          "id": {
+                            "type": "number"
+                          },
+                          "recipient_name": {
+                            "type": "string"
+                          },
+                          "group": {
                             "type": "object",
                             "properties": {
-                              "name": {
+                              "course_name": {
                                 "type": "string"
                               },
-                              "email": {
+                              "badge_design_id": {
+                                "type": "number",
+                                "nullable": true
+                              },
+                              "certificate_design_id": {
+                                "type": "number",
+                                "nullable": true
+                              },
+                              "name": {
                                 "type": "string"
                               },
                               "phone_number": {
@@ -2425,79 +2456,34 @@
                               },
                               "id": {
                                 "type": "number"
-                              },
-                              "meta_data": {
-                                "type": "object",
-                                "properties": {
-                                  "zip_code": {
-                                    "type": "string"
-                                  }
-                                },
-                                "nullable": true
                               }
                             }
                           },
-                          "issuer": {
-                            "type": "object",
-                            "properties": {
-                              "name": {
-                                "type": "string"
-                              },
-                              "description": {
-                                "type": "string"
-                              },
-                              "url": {
-                                "type": "string"
-                              }
-                            }
+                          "expired_on": {
+                            "type": "string",
+                            "nullable": true
                           },
-                          "meta_data": {
-                            "type": "object",
-                            "properties": {
-                              "foo": {
-                                "type": "string"
-                              }
-                            },
+                          "recipient_id": {
+                            "type": "string",
                             "nullable": true
                           }
-                        },
-                        "required": [
-                          "id",
-                          "name",
-                          "description",
-                          "grade",
-                          "complete",
-                          "issued_on",
-                          "allow_supplemental_references",
-                          "allow_supplemental_evidence",
-                          "course_link",
-                          "custom_attributes",
-                          "expired_on",
-                          "group_name",
-                          "private",
-                          "recipient",
-                          "issuer",
-                          "meta_data"
-                        ]
+                        }
                       }
                     },
                     "meta": {
                       "type": "object",
                       "properties": {
-                        "current_page": {
+                        "count": {
                           "type": "number"
                         },
-                        "next_page": {
+                        "from": {
                           "type": "number"
                         },
-                        "prev_page": {
-                          "nullable": true
-                        },
-                        "total_pages": {
+                        "size": {
                           "type": "number"
                         },
-                        "total_count": {
-                          "type": "number"
+                        "cursor": {
+                          "type": "string"
                         }
                       }
                     }
@@ -2506,74 +2492,43 @@
                 "example": {
                   "credentials": [
                     {
-                      "id": 10250009,
-                      "name": "TestCourse",
-                      "description": "Test Description",
-                      "grade": null,
-                      "complete": true,
-                      "issued_on": "2015-07-03",
-                      "allow_supplemental_references": null,
-                      "allow_supplemental_evidence": null,
-                      "course_link": "http://example.com",
-                      "custom_attributes": null,
-                      "expired_on": null,
-                      "group_name": "test",
+                      "encoded_id": "qwerty123",
                       "private": false,
-                      "seo_image": "https://api.accredible.com/v1/frontend/credential_seo_image/10250009",
-                      "encoded_id": "gqm1e46g",
-                      "recipient": {
-                        "name": "John Doe",
-                        "email": "person2@example.com",
-                        "id": 772,
-                        "meta_data": {
-                          "zip_code": "10459"
-                        }
-                      },
-                      "issuer": {
-                        "name": "Example Provider",
-                        "description": " Best place to manage online learning",
-                        "url": "http://www.accredible.com"
-                      },
-                      "meta_data": {
-                        "foo": "bar"
-                      }
-                    },
-                    {
-                      "id": 10250010,
-                      "name": "TestCourse",
-                      "description": "Test Description",
+                      "recipient_opened": false,
+                      "seo_image": "https://api.accredible.com/v1/frontend/credential_seo_image/1234",
+                      "published_on": "2025-10-31",
+                      "recipient_email": "john.doe@mailinator.test",
+                      "created_at": "2025-10-31T08:11:16.390Z",
+                      "recipient_engaged": false,
+                      "uuid": "a8307173-e4e6-4eb4-991c-56ebe80g4623",
+                      "custom_attributes": {},
+                      "issuer_id": 1234,
+                      "recipient_meta_data": {},
+                      "updated_at": "2025-10-31T08:11:16.390Z",
+                      "approve": true,
+                      "license_id": null,
                       "grade": null,
-                      "complete": true,
-                      "issued_on": "2015-07-03",
-                      "allow_supplemental_references": null,
-                      "allow_supplemental_evidence": null,
-                      "course_link": "http://example.com",
-                      "custom_attributes": null,
+                      "meta_data": {},
+                      "name": "Group / Course Name",
+                      "issued_on": "2025-10-31",
+                      "id": 12345678,
+                      "recipient_name": "John Doe",
+                      "group": {
+                        "course_name": "Group / Course Name",
+                        "badge_design_id": null,
+                        "certificate_design_id": 1234,
+                        "name": "COURSE_NAME",
+                        "id": 12345
+                      },
                       "expired_on": null,
-                      "group_name": "test",
-                      "private": false,
-                      "seo_image": "https://api.accredible.com/v1/frontend/credential_seo_image/10250010",
-                      "encoded_id": "gqm1e36g",
-                      "recipient": {
-                        "name": "John Doe",
-                        "email": "person2@example.com",
-                        "id": 883,
-                        "meta_data": null
-                      },
-                      "issuer": {
-                        "name": "Example Provider",
-                        "description": " Best place to manage online learning",
-                        "url": "http://www.accredible.com"
-                      },
-                      "meta_data": null
+                      "recipient_id": null
                     }
                   ],
                   "meta": {
-                    "current_page": 1,
-                    "next_page": 2,
-                    "prev_page": null,
-                    "total_pages": 795,
-                    "total_count": 1590
+                    "count": 1000,
+                    "from": 0,
+                    "size": 50,
+                    "cursor": "WzEsMC4wXQ=="
                   }
                 }
               }
@@ -2582,35 +2537,65 @@
         },
         "summary": "Search for Credentials (v2)",
         "operationId": "Search for Credentials (v2)",
-        "description": "This is a faster alternative to the v1 Search API. It also supports operations on the query fields which can allow you to form more complex queries.\n\nFollowing operations are **supported based on the field**. You can also combine operations on multiple fields:\n\n| Operation | Description | Example |\n|-----------|-------------|----------|\n| `eq` | Exact match (default, if nothing specified). | `{\"group.id[eq]\": 1}` or `{\"group.id\": 1}` - Both yield the same result. |\n| `in` | Allows an array of values. | `{\"group.id[in]\": [1, 2]}` |\n| `lt` | Less than. | `{\"issued_on[lt]\": \"2023-12-31\"}` |\n| `gt` | Greater than. | `{\"issued_on[gt]\": \"2023-01-01\"}` |\n| `lte` | Less than equal to. | `{\"expired_on[lte]\": \"2023-12-31\"}` |\n| `gte` | Greater than equal to. | `{\"expired_on[gte]\": \"2023-01-01\"}` |\n\n**Limits:** When a query yields results surpassing 10,000 records, accessing data beyond the 10,000th entry is not supported. It is advisable to refine your search parameters in such instances.",
+        "description": "This is a faster alternative to the v1 Search API. It also supports operations on the query fields which can allow you to form more complex queries.\n\nFollowing operations are **supported based on the field**. You can also combine operations on multiple fields:\n\n| Operation | Description | Example |\n|-----------|-------------|----------|\n| `eq` | Exact match (default, if nothing specified). | `{\"group.id[eq]\": 1}` or `{\"group.id\": 1}` - Both yield the same result. |\n| `in` | Allows an array of values. | `{\"group.id[in]\": [1, 2]}` |\n| `lt` | Less than. | `{\"issued_on[lt]\": \"2023-12-31\"}` |\n| `gt` | Greater than. | `{\"issued_on[gt]\": \"2023-01-01\"}` |\n| `lte` | Less than equal to. | `{\"expired_on[lte]\": \"2023-12-31\"}` |\n| `gte` | Greater than equal to. | `{\"expired_on[gte]\": \"2023-01-01\"}` |\n\n**Note:** Offset-based pagination using `page.from` + `page.size` supports a maximum of 10,000 results. To retrieve results beyond this limit, use cursor-based pagination with `page.cursor` and `page.size`.",
         "tags": [
           "Credentials"
         ],
         "requestBody": {
           "content": {
             "application/json": {
-              "example": {
-                "query": {
-                  "group.id[in]": [1, 2],
-                  "recipient_name": "John Doe",
-                  "approve": true,
-                  "recipient_email": "person@example.com",
-                  "recipient_id": "example",
-                  "recipient_meta_data": {"example": "value"},
-                  "license_id": "example",
-                  "meta_data": {"example": "value"},
-                  "custom_attributes": {"example": "value"},
-                  "issued_on[gte]": "2023-01-01",
-                  "issued_on[lt]": "2024-01-01",
-                  "updated_at[gte]": "2023-01-01",
-                  "created_at[gte]": "2023-01-01"
+              "examples": {
+                "Offset-based pagination": {
+                  "value": {
+                    "query": {
+                      "group.id[in]": [1, 2],
+                      "recipient_name": "John Doe",
+                      "approve": true,
+                      "recipient_email": "person@example.com",
+                      "recipient_id": "example",
+                      "recipient_meta_data": {"example": "value"},
+                      "license_id": "example",
+                      "meta_data": {"example": "value"},
+                      "custom_attributes": {"example": "value"},
+                      "issued_on[gte]": "2023-01-01",
+                      "issued_on[lt]": "2024-01-01",
+                      "updated_at[gte]": "2023-01-01",
+                      "created_at[gte]": "2023-01-01"
+                    },
+                    "sort": {
+                      "issued_on": "desc"
+                    },
+                    "page": {
+                      "from": 0,
+                      "size": 50
+                    }
+                  }
                 },
-                "sort": {
-                  "issued_on": "desc"
-                },
-                "page": {
-                  "from": 0,
-                  "size": 50
+                "Cursor-based pagination": {
+                  "value": {
+                    "query": {
+                      "group.id[in]": [1, 2],
+                      "recipient_name": "John Doe",
+                      "approve": true,
+                      "recipient_email": "person@example.com",
+                      "recipient_id": "example",
+                      "recipient_meta_data": {"example": "value"},
+                      "license_id": "example",
+                      "meta_data": {"example": "value"},
+                      "custom_attributes": {"example": "value"},
+                      "issued_on[gte]": "2023-01-01",
+                      "issued_on[lt]": "2024-01-01",
+                      "updated_at[gte]": "2023-01-01",
+                      "created_at[gte]": "2023-01-01"
+                    },
+                    "sort": {
+                      "issued_on": "desc"
+                    },
+                    "page": {
+                      "cursor": "WzEsMC4wXQ==",
+                      "size": 50
+                    }
+                  }
                 }
               },
               "schema": {
@@ -2696,12 +2681,16 @@
                     "type": "object",
                     "properties": {
                       "from": {
-                        "type": "string",
-                        "description": "Defines the number of records to skip."
+                        "type": "integer",
+                        "description": "Number of records to skip (offset-based pagination). Limited to the first 10,000 results. Cannot be used together with `cursor`."
                       },
                       "size": {
-                        "type": "string",
+                        "type": "integer",
                         "description": "The number of records to be returned. Default is 50"
+                      },
+                      "cursor": {
+                        "type": "string",
+                        "description": "An opaque pagination token returned by a previous response. Use this to retrieve the next page of results. Cannot be used together with `from`."
                       }
                     }
                   }
@@ -4804,6 +4793,9 @@
                             }
                           }
                         },
+                        "achievement_type": {
+                          "type": "string"
+                        },
                         "collections": {
                           "type": "array",
                           "items": {
@@ -4866,6 +4858,7 @@
                       "id": 1,
                       "name": "Example Category"
                     },
+                    "achievement_type": "Certificate",
                     "collections": [
                       {
                         "id": 1,
@@ -4921,6 +4914,7 @@
                   "course_link_show": false,
                   "organization_link_show": false,
                   "skill_category_id": 1,
+                  "achievement_type": "Certificate",
                   "collections": [
                     {
                       "id": 1
@@ -5024,6 +5018,10 @@
                   },
                   "collections": {
                     "description": "Full list of collections to associate to this group"
+                  },
+                  "achievement_type": {
+                    "type": "string",
+                    "description": "The type of achievement, for example 'Award' or 'Certification'. The supported values are listed here https://www.imsglobal.org/spec/ob/v3p0#achievementtype-enumeration"
                   }
                 },
                 "required": [
@@ -5203,6 +5201,7 @@
                       "id": 1,
                       "name": "Example Category"
                     },
+                    "achievement_type": null,
                     "collections": [
                       {
                         "id": 1,
@@ -5352,6 +5351,9 @@
                             }
                           }
                         },
+                        "achievement_type": {
+                          "type": "string"
+                        },
                         "collections": {
                           "type": "array",
                           "items": {
@@ -5411,6 +5413,7 @@
                       "id": 1,
                       "name": "Example Category"
                     },
+                    "achievement_type": "Badge",
                     "collections": [
                       {
                         "id": 1,
@@ -5454,6 +5457,7 @@
                   "name": "updated new group",
                   "course_name": "updated course name",
                   "skill_category_id": 1,
+                  "achievement_type": "Badge",
                   "collections": [
                     {
                       "id": 1
@@ -5554,6 +5558,10 @@
                   "skill_category_id": {
                     "type": "number",
                     "description": "ID of the skill category to associate with this group."
+                  },
+                  "achievement_type": {
+                    "type": "string",
+                    "description": "The type of achievement, for example 'Award' or 'Certification'. The supported values are listed here https://www.imsglobal.org/spec/ob/v3p0#achievementtype-enumeration"
                   },
                   "collections": {
                     "description": "Full list of collections to associate to this group"
@@ -5666,6 +5674,9 @@
                         "organization_link_show": {
                           "type": "boolean"
                         },
+                        "achievement_type": {
+                          "type": "string"
+                        },
                         "skill_category": {
                           "type": "object",
                           "properties": {
@@ -5707,6 +5718,7 @@
                     "signup_url": "http://www.example.com",
                     "course_link_show": false,
                     "organization_link_show": false,
+                    "achievement_type": null,
                     "skill_category": {
                       "id": 1,
                       "name": "Example Category"
@@ -5853,6 +5865,9 @@
                             }
                           }
                         },
+                        "achievement_type": {
+                          "type": "string"
+                        },
                         "collections": {
                           "type": "array",
                           "items": {
@@ -5915,6 +5930,7 @@
                       "id": 1,
                       "name": "Skill Category"
                     },
+                    "achievement_type": "Badge",
                     "collections": [
                       {
                         "id": 1,
@@ -5967,7 +5983,8 @@
                   "signup_url": "http://www.example.com",
                   "course_link_show": false,
                   "organization_link_show": false,
-                  "skill_category_id": 1
+                  "skill_category_id": 1,
+                  "achievement_type": "Badge"
                 }
               },
               "schema": {
@@ -6052,6 +6069,10 @@
                   "skill_category_id": {
                     "type": "number",
                     "description": "ID of the skill category to associate with the cloned group."
+                  },
+                  "achievement_type": {
+                    "type": "string",
+                    "description": "The type of achievement, for example 'Award' or 'Certification'. The supported values are listed here https://www.imsglobal.org/spec/ob/v3p0#achievementtype-enumeration"
                   }
                 }
               }
@@ -6531,6 +6552,9 @@
                               }
                             }
                           },
+                          "achievement_type": {
+                            "type": "string"
+                          },
                           "collections": {
                             "type": "array",
                             "items": {
@@ -6640,6 +6664,7 @@
                         "id": 1,
                         "name": "Example Category"
                       },
+                      "achievement_type": null,
                       "collections": [
                         {
                           "id": 1,
@@ -6682,6 +6707,7 @@
                         "id": 1,
                         "name": "Example Category"
                       },
+                      "achievement_type": null,
                       "collections": [
                         {
                           "id": 1,
