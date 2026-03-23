@@ -6399,7 +6399,11 @@
                   },
                   "name": {
                     "type": "string",
-                    "description": "Limit the list of Groups to those named with the given string."
+                    "description": "Limit the list of Groups to those named with the given string. Supports partial matching."
+                  },
+                  "course_name": {
+                    "type": "string",
+                    "description": "Limit the list of Groups to those whose course name matches the given string. Supports partial matching."
                   },
                   "meta_data": {
                     "type": "object",
@@ -6431,6 +6435,7 @@
               },
               "example": {
                 "name": "Programming Course",
+                "course_name": "Intro to Programming",
                 "meta_data": {
                   "course_id": "CS101",
                   "department": "Computer Science"
