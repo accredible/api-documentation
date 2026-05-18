@@ -4818,6 +4818,55 @@
                               "description"
                             ]
                           }
+                        },
+                        "earning_criteria": {
+                          "type": "array",
+                          "description": "Criteria the recipient must satisfy to earn this credential, ordered by `position`.",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "id": {
+                                "type": "string",
+                                "format": "uuid"
+                              },
+                              "kind": {
+                                "type": "string",
+                                "enum": [
+                                  "achievement",
+                                  "certificate",
+                                  "competency",
+                                  "completion",
+                                  "course",
+                                  "degree",
+                                  "exam",
+                                  "experience",
+                                  "knowledge",
+                                  "license",
+                                  "participation",
+                                  "reading",
+                                  "skill",
+                                  "specialization",
+                                  "other"
+                                ]
+                              },
+                              "text": {
+                                "type": "string"
+                              },
+                              "required": {
+                                "type": "boolean"
+                              },
+                              "position": {
+                                "type": "number"
+                              }
+                            },
+                            "required": [
+                              "id",
+                              "kind",
+                              "text",
+                              "required",
+                              "position"
+                            ]
+                          }
                         }
                       }
                     }
@@ -4870,6 +4919,22 @@
                         "name": "two",
                         "description": "description example"
                       }
+                    ],
+                    "earning_criteria": [
+                      {
+                        "id": "8f3c0c8c-5e1b-4f2a-9c4a-1f2c5c3a0001",
+                        "kind": "course",
+                        "text": "Complete the Intro to Programming course",
+                        "required": true,
+                        "position": 1
+                      },
+                      {
+                        "id": "8f3c0c8c-5e1b-4f2a-9c4a-1f2c5c3a0002",
+                        "kind": "exam",
+                        "text": "Pass the final exam with 70% or higher",
+                        "required": true,
+                        "position": 2
+                      }
                     ]
                   }
                 }
@@ -4921,6 +4986,20 @@
                     },
                     {
                       "id": 2
+                    }
+                  ],
+                  "earning_criteria": [
+                    {
+                      "kind": "course",
+                      "text": "Complete the Intro to Programming course",
+                      "required": true,
+                      "position": 1
+                    },
+                    {
+                      "kind": "exam",
+                      "text": "Pass the final exam with 70% or higher",
+                      "required": true,
+                      "position": 2
                     }
                   ]
                 }
@@ -5022,6 +5101,52 @@
                   "achievement_type": {
                     "type": "string",
                     "description": "The type of achievement, for example 'Award' or 'Certification'. The supported values are listed here https://www.imsglobal.org/spec/ob/v3p0#achievementtype-enumeration"
+                  },
+                  "earning_criteria": {
+                    "type": "array",
+                    "description": "Optional list of criteria the recipient must satisfy to earn this credential. Each item creates a new criterion on the group.",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "kind": {
+                          "type": "string",
+                          "description": "Category of the criterion.",
+                          "enum": [
+                            "achievement",
+                            "certificate",
+                            "competency",
+                            "completion",
+                            "course",
+                            "degree",
+                            "exam",
+                            "experience",
+                            "knowledge",
+                            "license",
+                            "participation",
+                            "reading",
+                            "skill",
+                            "specialization",
+                            "other"
+                          ]
+                        },
+                        "text": {
+                          "type": "string",
+                          "description": "Human-readable description of the criterion. Supports a limited set of HTML tags: `<a>` (with `href`, `title`, `target`, `rel`), `<p>`, `<br>`, `<hr>`, `<ul>`, `<ol>`, `<li>`, `<strong>`/`<b>`, `<em>`/`<i>`, `<u>`, `<sub>`, `<sup>`. Other tags and attributes are stripped on save."
+                        },
+                        "required": {
+                          "type": "boolean",
+                          "description": "Whether the recipient must satisfy this criterion. Defaults to `true`."
+                        },
+                        "position": {
+                          "type": "number",
+                          "description": "Ordering within the group (1-based). Defaults to the next available position if omitted."
+                        }
+                      },
+                      "required": [
+                        "kind",
+                        "text"
+                      ]
+                    }
                   }
                 },
                 "required": [
@@ -5042,7 +5167,7 @@
           {
             "lang": "cURL",
             "label": "cURL",
-            "source": "curl -X POST \\\n  \"https://api.accredible.com/v1/issuer/groups\" \\\n  -H \"Authorization: Token token=YOUR_API_KEY\" \\\n  -H \"Content-Type: application/json\" \\\n  -d '{\n  \"group\": {\n    \"name\": \"new group\",\n    \"course_name\": \"Intro to Prgramming\",\n    \"course_description\": \"Description of course\",\n    \"course_link\": \"http://www.example.com\",\n    \"language\": \"en\",\n    \"attach_pdf\": true,\n    \"design_id\": null,\n    \"blockchain\": false,\n    \"certificate_design_id\": null,\n    \"badge_design_id\": null,\n    \"primary_design_id\": null,\n    \"department_id\": 123,\n    \"meta_data\": {\n      \"batch_id\": \"271\"\n    },\n    \"learning_outcomes\": [\n      \"Reading Books\",\n      \"Writing Essays\"\n    ],\n    \"generate_private_credential\": false,\n    \"auto_expiry\": 1,\n    \"signup_url_show\": false,\n    \"signup_url\": \"http://www.example.com\",\n    \"course_link_show\": false,\n    \"organization_link_show\": false,\n    \"skill_category_id\": 1,\n    \"collections\": [\n      {\n        \"id\": 1\n      },\n      {\n        \"id\": 2\n      }\n    ]\n  }\n}'"
+            "source": "curl -X POST \\\n  \"https://api.accredible.com/v1/issuer/groups\" \\\n  -H \"Authorization: Token token=YOUR_API_KEY\" \\\n  -H \"Content-Type: application/json\" \\\n  -d '{\n  \"group\": {\n    \"name\": \"new group\",\n    \"course_name\": \"Intro to Prgramming\",\n    \"course_description\": \"Description of course\",\n    \"course_link\": \"http://www.example.com\",\n    \"language\": \"en\",\n    \"attach_pdf\": true,\n    \"design_id\": null,\n    \"blockchain\": false,\n    \"certificate_design_id\": null,\n    \"badge_design_id\": null,\n    \"primary_design_id\": null,\n    \"department_id\": 123,\n    \"meta_data\": {\n      \"batch_id\": \"271\"\n    },\n    \"learning_outcomes\": [\n      \"Reading Books\",\n      \"Writing Essays\"\n    ],\n    \"generate_private_credential\": false,\n    \"auto_expiry\": 1,\n    \"signup_url_show\": false,\n    \"signup_url\": \"http://www.example.com\",\n    \"course_link_show\": false,\n    \"organization_link_show\": false,\n    \"skill_category_id\": 1,\n    \"collections\": [\n      {\n        \"id\": 1\n      },\n      {\n        \"id\": 2\n      }\n    ],\n    \"earning_criteria\": [\n      {\n        \"kind\": \"course\",\n        \"text\": \"Complete the Intro to Programming course\",\n        \"required\": true,\n        \"position\": 1\n      },\n      {\n        \"kind\": \"exam\",\n        \"text\": \"Pass the final exam with 70% or higher\",\n        \"required\": true,\n        \"position\": 2\n      }\n    ]\n  }\n}'"
           }
         ]
       }
@@ -5166,6 +5291,58 @@
                               "description"
                             ]
                           }
+                        },
+                        "earning_criteria": {
+                          "type": "array",
+                          "description": "Criteria the recipient must satisfy to earn this credential, ordered by `position`. Returns an empty array when the group has none.",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "id": {
+                                "type": "string",
+                                "format": "uuid"
+                              },
+                              "kind": {
+                                "type": "string",
+                                "description": "Category of the criterion.",
+                                "enum": [
+                                  "achievement",
+                                  "certificate",
+                                  "competency",
+                                  "completion",
+                                  "course",
+                                  "degree",
+                                  "exam",
+                                  "experience",
+                                  "knowledge",
+                                  "license",
+                                  "participation",
+                                  "reading",
+                                  "skill",
+                                  "specialization",
+                                  "other"
+                                ]
+                              },
+                              "text": {
+                                "type": "string",
+                                "description": "Human-readable description of the criterion. Supports a limited set of HTML tags: `<a>` (with `href`, `title`, `target`, `rel`), `<p>`, `<br>`, `<hr>`, `<ul>`, `<ol>`, `<li>`, `<strong>`/`<b>`, `<em>`/`<i>`, `<u>`, `<sub>`, `<sup>`. Other tags and attributes are stripped on save."
+                              },
+                              "required": {
+                                "type": "boolean"
+                              },
+                              "position": {
+                                "type": "number",
+                                "description": "Ordering within the group (1-based)."
+                              }
+                            },
+                            "required": [
+                              "id",
+                              "kind",
+                              "text",
+                              "required",
+                              "position"
+                            ]
+                          }
                         }
                       }
                     }
@@ -5212,6 +5389,22 @@
                         "id": 2,
                         "name": "two",
                         "description": "description example"
+                      }
+                    ],
+                    "earning_criteria": [
+                      {
+                        "id": "8f3c0c8c-5e1b-4f2a-9c4a-1f2c5c3a0001",
+                        "kind": "course",
+                        "text": "Complete the Intro to Programming course",
+                        "required": true,
+                        "position": 1
+                      },
+                      {
+                        "id": "8f3c0c8c-5e1b-4f2a-9c4a-1f2c5c3a0002",
+                        "kind": "exam",
+                        "text": "Pass the final exam with 70% or higher",
+                        "required": true,
+                        "position": 2
                       }
                     ]
                   }
@@ -5376,6 +5569,55 @@
                               "description"
                             ]
                           }
+                        },
+                        "earning_criteria": {
+                          "type": "array",
+                          "description": "Criteria the recipient must satisfy to earn this credential, ordered by `position`.",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "id": {
+                                "type": "string",
+                                "format": "uuid"
+                              },
+                              "kind": {
+                                "type": "string",
+                                "enum": [
+                                  "achievement",
+                                  "certificate",
+                                  "competency",
+                                  "completion",
+                                  "course",
+                                  "degree",
+                                  "exam",
+                                  "experience",
+                                  "knowledge",
+                                  "license",
+                                  "participation",
+                                  "reading",
+                                  "skill",
+                                  "specialization",
+                                  "other"
+                                ]
+                              },
+                              "text": {
+                                "type": "string"
+                              },
+                              "required": {
+                                "type": "boolean"
+                              },
+                              "position": {
+                                "type": "number"
+                              }
+                            },
+                            "required": [
+                              "id",
+                              "kind",
+                              "text",
+                              "required",
+                              "position"
+                            ]
+                          }
                         }
                       }
                     }
@@ -5425,6 +5667,22 @@
                         "name": "two",
                         "description": "description example"
                       }
+                    ],
+                    "earning_criteria": [
+                      {
+                        "id": "8f3c0c8c-5e1b-4f2a-9c4a-1f2c5c3a0001",
+                        "kind": "course",
+                        "text": "Complete the updated course",
+                        "required": true,
+                        "position": 1
+                      },
+                      {
+                        "id": "8f3c0c8c-5e1b-4f2a-9c4a-1f2c5c3a0003",
+                        "kind": "degree",
+                        "text": "Hold an associated degree",
+                        "required": false,
+                        "position": 2
+                      }
                     ]
                   }
                 }
@@ -5464,6 +5722,18 @@
                     },
                     {
                       "id": 2
+                    }
+                  ],
+                  "earning_criteria": [
+                    {
+                      "id": "8f3c0c8c-5e1b-4f2a-9c4a-1f2c5c3a0001",
+                      "text": "Complete the updated course"
+                    },
+                    {
+                      "kind": "degree",
+                      "text": "Hold an associated degree",
+                      "required": false,
+                      "position": 2
                     }
                   ]
                 }
@@ -5565,6 +5835,54 @@
                   },
                   "collections": {
                     "description": "Full list of collections to associate to this group"
+                  },
+                  "earning_criteria": {
+                    "type": "array",
+                    "description": "Full list of earning criteria to associate to this group. **Omit the key** to leave existing criteria untouched. **Send `[]` or `null`** to delete every criterion on the group. Otherwise the array is treated as the complete desired state:\n\n- Items **with** an `id` matching an existing criterion are updated in place.\n- Items **without** an `id` are created.\n- Existing criteria **absent** from the array are deleted.\n\nIf any supplied `id` does not belong to the target group, the entire request fails with HTTP 400 and no changes are persisted.",
+                    "nullable": true,
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "string",
+                          "format": "uuid",
+                          "description": "Include to update an existing criterion. Omit to create a new one."
+                        },
+                        "kind": {
+                          "type": "string",
+                          "description": "Category of the criterion. Required when creating a new criterion.",
+                          "enum": [
+                            "achievement",
+                            "certificate",
+                            "competency",
+                            "completion",
+                            "course",
+                            "degree",
+                            "exam",
+                            "experience",
+                            "knowledge",
+                            "license",
+                            "participation",
+                            "reading",
+                            "skill",
+                            "specialization",
+                            "other"
+                          ]
+                        },
+                        "text": {
+                          "type": "string",
+                          "description": "Human-readable description of the criterion. Required when creating a new criterion. Supports a limited set of HTML tags: `<a>` (with `href`, `title`, `target`, `rel`), `<p>`, `<br>`, `<hr>`, `<ul>`, `<ol>`, `<li>`, `<strong>`/`<b>`, `<em>`/`<i>`, `<u>`, `<sub>`, `<sup>`. Other tags and attributes are stripped on save."
+                        },
+                        "required": {
+                          "type": "boolean",
+                          "description": "Whether the recipient must satisfy this criterion. Defaults to `true` when creating."
+                        },
+                        "position": {
+                          "type": "number",
+                          "description": "Ordering within the group (1-based)."
+                        }
+                      }
+                    }
                   }
                 },
                 "required": [
@@ -5585,7 +5903,7 @@
           {
             "lang": "cURL",
             "label": "cURL",
-            "source": "curl -X PUT \\\n  \"https://api.accredible.com/v1/issuer/groups/12345\" \\\n  -H \"Authorization: Token token=YOUR_API_KEY\" \\\n  -H \"Content-Type: application/json\" \\\n  -d '{\n  \"group\": {\n    \"name\": \"updated new group\",\n    \"course_name\": \"updated course name\",\n    \"skill_category_id\": 1,\n    \"collections\": [\n      {\n        \"id\": 1\n      },\n      {\n        \"id\": 2\n      }\n    ]\n  }\n}'"
+            "source": "curl -X PUT \\\n  \"https://api.accredible.com/v1/issuer/groups/12345\" \\\n  -H \"Authorization: Token token=YOUR_API_KEY\" \\\n  -H \"Content-Type: application/json\" \\\n  -d '{\n  \"group\": {\n    \"name\": \"updated new group\",\n    \"course_name\": \"updated course name\",\n    \"skill_category_id\": 1,\n    \"collections\": [\n      {\n        \"id\": 1\n      },\n      {\n        \"id\": 2\n      }\n    ],\n    \"earning_criteria\": [\n      {\n        \"id\": \"8f3c0c8c-5e1b-4f2a-9c4a-1f2c5c3a0001\",\n        \"text\": \"Complete the updated course\"\n      },\n      {\n        \"kind\": \"degree\",\n        \"text\": \"Hold an associated degree\",\n        \"required\": false,\n        \"position\": 2\n      }\n    ]\n  }\n}'"
           }
         ]
       },
@@ -5890,6 +6208,55 @@
                               "description"
                             ]
                           }
+                        },
+                        "earning_criteria": {
+                          "type": "array",
+                          "description": "Criteria the recipient must satisfy to earn this credential, ordered by `position`. Inherited from the original group when `earning_criteria` is omitted from the request.",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "id": {
+                                "type": "string",
+                                "format": "uuid"
+                              },
+                              "kind": {
+                                "type": "string",
+                                "enum": [
+                                  "achievement",
+                                  "certificate",
+                                  "competency",
+                                  "completion",
+                                  "course",
+                                  "degree",
+                                  "exam",
+                                  "experience",
+                                  "knowledge",
+                                  "license",
+                                  "participation",
+                                  "reading",
+                                  "skill",
+                                  "specialization",
+                                  "other"
+                                ]
+                              },
+                              "text": {
+                                "type": "string"
+                              },
+                              "required": {
+                                "type": "boolean"
+                              },
+                              "position": {
+                                "type": "number"
+                              }
+                            },
+                            "required": [
+                              "id",
+                              "kind",
+                              "text",
+                              "required",
+                              "position"
+                            ]
+                          }
                         }
                       }
                     }
@@ -5942,6 +6309,22 @@
                         "name": "two",
                         "description": "description example"
                       }
+                    ],
+                    "earning_criteria": [
+                      {
+                        "id": "8f3c0c8c-5e1b-4f2a-9c4a-1f2c5c3a0201",
+                        "kind": "course",
+                        "text": "Complete the Intro to Programming course",
+                        "required": true,
+                        "position": 1
+                      },
+                      {
+                        "id": "8f3c0c8c-5e1b-4f2a-9c4a-1f2c5c3a0202",
+                        "kind": "exam",
+                        "text": "Pass the final exam with 70% or higher",
+                        "required": true,
+                        "position": 2
+                      }
                     ]
                   }
                 }
@@ -5984,7 +6367,15 @@
                   "course_link_show": false,
                   "organization_link_show": false,
                   "skill_category_id": 1,
-                  "achievement_type": "Badge"
+                  "achievement_type": "Badge",
+                  "earning_criteria": [
+                    {
+                      "kind": "course",
+                      "text": "Complete the Intro to Programming course",
+                      "required": true,
+                      "position": 1
+                    }
+                  ]
                 }
               },
               "schema": {
@@ -6073,6 +6464,49 @@
                   "achievement_type": {
                     "type": "string",
                     "description": "The type of achievement, for example 'Award' or 'Certification'. The supported values are listed here https://www.imsglobal.org/spec/ob/v3p0#achievementtype-enumeration"
+                  },
+                  "earning_criteria": {
+                    "type": "array",
+                    "description": "Earning criteria for the cloned group. **Omit the key** to copy the original group's criteria as-is. **Provide an array** to replace them: each item creates a new criterion on the clone (`id` is ignored, since clone never updates an existing criterion).",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "kind": {
+                          "type": "string",
+                          "enum": [
+                            "achievement",
+                            "certificate",
+                            "competency",
+                            "completion",
+                            "course",
+                            "degree",
+                            "exam",
+                            "experience",
+                            "knowledge",
+                            "license",
+                            "participation",
+                            "reading",
+                            "skill",
+                            "specialization",
+                            "other"
+                          ]
+                        },
+                        "text": {
+                          "type": "string",
+                          "description": "Human-readable description of the criterion. Supports a limited set of HTML tags: `<a>` (with `href`, `title`, `target`, `rel`), `<p>`, `<br>`, `<hr>`, `<ul>`, `<ol>`, `<li>`, `<strong>`/`<b>`, `<em>`/`<i>`, `<u>`, `<sub>`, `<sup>`. Other tags and attributes are stripped on save."
+                        },
+                        "required": {
+                          "type": "boolean"
+                        },
+                        "position": {
+                          "type": "number"
+                        }
+                      },
+                      "required": [
+                        "kind",
+                        "text"
+                      ]
+                    }
                   }
                 }
               }
@@ -6088,7 +6522,7 @@
           {
             "lang": "cURL",
             "label": "cURL",
-            "source": "curl -X POST \\\n  \"https://api.accredible.com/v1/issuer/groups/12345/clone\" \\\n  -H \"Authorization: Token token=YOUR_API_KEY\" \\\n  -H \"Content-Type: application/json\" \\\n  -d '{\n  \"group\": {\n    \"name\": \"new group copy\",\n    \"course_name\": \"Intro to Prgramming\",\n    \"course_description\": \"Description of course\",\n    \"course_link\": \"http://www.example.com\",\n    \"language\": \"en\",\n    \"attach_pdf\": true,\n    \"blockchain\": false,\n    \"certificate_design_id\": null,\n    \"badge_design_id\": null,\n    \"primary_design_id\": null,\n    \"meta_data\": {\n      \"batch_id\": \"271\"\n    },\n    \"learning_outcomes\": [\n      \"Reading Books\",\n      \"Writing Essays\"\n    ],\n    \"generate_private_credential\": false,\n    \"auto_expiry\": 1,\n    \"signup_url_show\": false,\n    \"signup_url\": \"http://www.example.com\",\n    \"course_link_show\": false,\n    \"organization_link_show\": false,\n    \"skill_category_id\": 1\n  }\n}'"
+            "source": "curl -X POST \\\n  \"https://api.accredible.com/v1/issuer/groups/12345/clone\" \\\n  -H \"Authorization: Token token=YOUR_API_KEY\" \\\n  -H \"Content-Type: application/json\" \\\n  -d '{\n  \"group\": {\n    \"name\": \"new group copy\",\n    \"course_name\": \"Intro to Prgramming\",\n    \"course_description\": \"Description of course\",\n    \"course_link\": \"http://www.example.com\",\n    \"language\": \"en\",\n    \"attach_pdf\": true,\n    \"blockchain\": false,\n    \"certificate_design_id\": null,\n    \"badge_design_id\": null,\n    \"primary_design_id\": null,\n    \"meta_data\": {\n      \"batch_id\": \"271\"\n    },\n    \"learning_outcomes\": [\n      \"Reading Books\",\n      \"Writing Essays\"\n    ],\n    \"generate_private_credential\": false,\n    \"auto_expiry\": 1,\n    \"signup_url_show\": false,\n    \"signup_url\": \"http://www.example.com\",\n    \"course_link_show\": false,\n    \"organization_link_show\": false,\n    \"skill_category_id\": 1,\n    \"earning_criteria\": [\n      {\n        \"kind\": \"course\",\n        \"text\": \"Complete the Intro to Programming course\",\n        \"required\": true,\n        \"position\": 1\n      }\n    ]\n  }\n}'"
           }
         ]
       }
@@ -6582,6 +7016,55 @@
                                 "description"
                               ]
                             }
+                          },
+                          "earning_criteria": {
+                            "type": "array",
+                            "description": "Criteria the recipient must satisfy to earn this credential, ordered by `position`.",
+                            "items": {
+                              "type": "object",
+                              "properties": {
+                                "id": {
+                                  "type": "string",
+                                  "format": "uuid"
+                                },
+                                "kind": {
+                                  "type": "string",
+                                  "enum": [
+                                    "achievement",
+                                    "certificate",
+                                    "competency",
+                                    "completion",
+                                    "course",
+                                    "degree",
+                                    "exam",
+                                    "experience",
+                                    "knowledge",
+                                    "license",
+                                    "participation",
+                                    "reading",
+                                    "skill",
+                                    "specialization",
+                                    "other"
+                                  ]
+                                },
+                                "text": {
+                                  "type": "string"
+                                },
+                                "required": {
+                                  "type": "boolean"
+                                },
+                                "position": {
+                                  "type": "number"
+                                }
+                              },
+                              "required": [
+                                "id",
+                                "kind",
+                                "text",
+                                "required",
+                                "position"
+                              ]
+                            }
                           }
                         },
                         "required": [
@@ -6610,7 +7093,8 @@
                           "course_link_show",
                           "organization_link_show",
                           "skill_category",
-                          "collections"
+                          "collections",
+                          "earning_criteria"
                         ]
                       }
                     },
@@ -6676,6 +7160,15 @@
                           "name": "one",
                           "description": null
                         }
+                      ],
+                      "earning_criteria": [
+                        {
+                          "id": "8f3c0c8c-5e1b-4f2a-9c4a-1f2c5c3a0001",
+                          "kind": "course",
+                          "text": "Complete the Intro to Programming course",
+                          "required": true,
+                          "position": 1
+                        }
                       ]
                     },
                     {
@@ -6723,6 +7216,22 @@
                           "id": 2,
                           "name": "two",
                           "description": "description example"
+                        }
+                      ],
+                      "earning_criteria": [
+                        {
+                          "id": "8f3c0c8c-5e1b-4f2a-9c4a-1f2c5c3a0201",
+                          "kind": "skill",
+                          "text": "Demonstrate proficiency in Python",
+                          "required": true,
+                          "position": 1
+                        },
+                        {
+                          "id": "8f3c0c8c-5e1b-4f2a-9c4a-1f2c5c3a0202",
+                          "kind": "exam",
+                          "text": "Pass the final exam with 70% or higher",
+                          "required": false,
+                          "position": 2
                         }
                       ]
                     }
