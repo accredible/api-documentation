@@ -6839,6 +6839,10 @@
                     "type": "string",
                     "description": "Limit the list of Groups to those whose course name matches the given string. Supports partial matching."
                   },
+                  "department_id": {
+                    "type": "number",
+                    "description": "Limit results to a particular Department. Must be a Department accessible to the API key being used; otherwise a `400 Bad Request` is returned. When omitted, results include all Departments the API key can access."
+                  },
                   "meta_data": {
                     "type": "object",
                     "description": "Key/values for client's own data on group",
@@ -6870,6 +6874,7 @@
               "example": {
                 "name": "Programming Course",
                 "course_name": "Intro to Programming",
+                "department_id": 123,
                 "meta_data": {
                   "course_id": "CS101",
                   "department": "Computer Science"
@@ -7263,7 +7268,7 @@
           {
             "lang": "cURL",
             "label": "cURL",
-            "source": "curl -X POST \\\n  \"https://api.accredible.com/v1/issuer/groups/search\" \\\n  -H \"Authorization: Token token=YOUR_API_KEY\" \\\n  -H \"Content-Type: application/json\" \\\n  -d '{\n    \"ids\": [1, 2, 3],\n    \"name\": \"Programming Course\",\n    \"meta_data\": {\n      \"course_id\": \"CS101\",\n      \"department\": \"Computer Science\"\n    },\n    \"start_updated_date\": \"2023-01-01\",\n    \"end_updated_date\": \"2023-12-31\",\n    \"page_size\": 25,\n    \"page\": 1\n  }'"
+            "source": "curl -X POST \\\n  \"https://api.accredible.com/v1/issuer/groups/search\" \\\n  -H \"Authorization: Token token=YOUR_API_KEY\" \\\n  -H \"Content-Type: application/json\" \\\n  -d '{\n    \"ids\": [1, 2, 3],\n    \"name\": \"Programming Course\",\n    \"department_id\": 123,\n    \"meta_data\": {\n      \"course_id\": \"CS101\",\n      \"department\": \"Computer Science\"\n    },\n    \"start_updated_date\": \"2023-01-01\",\n    \"end_updated_date\": \"2023-12-31\",\n    \"page_size\": 25,\n    \"page\": 1\n  }'"
           }
         ]
       }
