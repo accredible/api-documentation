@@ -3,7 +3,7 @@
   "info": {
     "title": "Accredible Credential API",
     "version": "25.08.0", 
-    "description": "The [Accredible](https://www.accredible.com/) Credential API allows you to create and interact with badges and certificates called [Accredible Credentials](https://www.credential.net/10000005).\n\nThere are 3 main objects in Accredible: Credentials, Groups and Designs.\n\n### Getting Started with the API - Video Walkthrough\n\n[![Getting Started with the API Video Walkthrough](https://cdn.accredible.com/api-overview.jpg)](https://us06web.zoom.us/clips/share/_p4jjy0LQ-WOaQPviLor1A)\n\n# Objects Overview\n## Credentials\n[Credentials](#tag/Credentials) are the core object in the API. They collect all of the data related to a course, training activity or achievement and the recipient/participant information.\n\nYou should create a credential for each achievement completion that a recipient has. For example if John Doe finishes the Programming 101 course we should create one credential to represent that. If John Doe achieves something else then he would need a new credential.\n\n## Groups\n\n[Groups](#tag/Groups) represent an achievement such as a course or qualification. They contain information about the achievement and have multiple Credentials attached to them.\n\nFor example you should create a group for the Introduction to Programming course. You'd provide the Course Name, Course Description and Course URL. In the future you can pass the name or ID of this group when creating a credential so that the credential is passed all the information relating to the achievement.\n\n## Designs\n\n[Designs](#tag/Designs) provide a visual specification for how a Credential should be rendered. Designs can be used across multiple Groups.\n\nFor example if we have three courses: Intro to Basic Programming, Intro to Advanced Programming and Intro to DevOps each of these may have the same design for their Credentials. When creating or updating their corresponding Groups you would attach the desired design accordingly.\n\n## Departments\n\n[Departments](#tag/Departments), if enabled for your account allow you to manage multiple, independent organization groups. Each Department is entirely separate with its own Designs, Groups, Branding, etc. You cannot share data between Departments except Billing and Administrators.\n\n## Attributes\n\n[Attributes](#tag/Attributes), are used to merge information with your badge or certificate designs and email templates. Attributes act as placeholders for information and can be added to certificate designs and email templates.\n\n# API Keys\n\nAPI keys are used as Authorization tokens in the header in all authenticated API endpoints. These Keys are managed in the [Accredible Dashboard](https://dashboard.accredible.com/). There are two types of API Keys, those that are account wide and work on all assets and those that are related to a specific department. API keys scoped to a specific department can only access the resources (Credentials, Groups, Designs etc.) belonging to that department.\n\n# Single sign-on options\n\n[Single sign-on](#tag/SSO) in addition to the student authentication provided by Accredible, you can also use single sign-on to authenticate your student into Accredible and they can directly sign-in.\n\nSSO is also available via our Integrations and via SAML 2.0.\n\n# Rate Limiting\n\nWe allow up to 2000 requests every 5 minutes from a single IP address, but some higher security endpoints have stricter rate limiting. Requests are counted in 30 second periods.\n\nIf you attempt to make requests more quickly than permitted by these rules, you may receive a `429 Too Many Requests` response from an endpoint.\n\n# Errors\n\nAccredible uses conventional HTTP response codes to indicate the success or failure of an API request. Most error response formats are consistent across API versions, with some differences in bulk operations.\n\n## HTTP Status Codes\n\n| Status Code | Description |\n| ----------- | ----------- |\n| **2xx** | Success |\n| 200 | OK - The request was successful |\n| 207 | Multi-Status - Partial success in batch operations (v2 only) |\n| **4xx** | Client Error |\n| 400 | Bad Request - Invalid request parameters |\n| 401 | Unauthorized - Invalid or missing API key |\n| 403 | Forbidden - Insufficient permissions |\n| 404 | Not Found - Resource not found |\n| 422 | Unprocessable Entity - Validation errors |\n| 429 | Too Many Requests - Rate limit exceeded |\n| **5xx** | Server Error |\n| 500 | Internal Server Error |\n\n## Common Error Formats\n\nMost API endpoints use these standard error formats:\n\n**Search Query Errors (400)**\n```json\n{\n  \"code\": 400,\n  \"message\": \"Sort order increasing is not supported\",\n  \"status\": \"invalid_search_query\",\n  \"errors\": {}\n}\n```\n\n**Unauthorized (401):**\n```\nHTTP Token: Access denied.\n```\n\n```json\n{\n  \"success\": false,\n  \"data\": \"Not enough or too many segments\"\n}\n```\n\n```json\n{\n  \"success\": false,\n  \"data\": \"Sorry, You are not authorized, visit accredible.com for this\"\n}\n```\n\n**Forbidden (403):**\n```json\n{\n  \"errors\": \"Private Certificate, use key\"\n}\n```\n\n**Not Found (404):**\n```json\n{\n  \"errors\": \"Doesn't exist\"\n}\n```\n\n```json\n{\n  \"error\": \"Not found\"\n}\n```\n\n```json\n{\n  \"success\": false,\n  \"data\": \"Group does not exist\"\n}\n```\n\n**Unprocessable Entity (422):**\n```json\n{\n  \"errors\": \"Invalid Group\"\n}\n```\n\n```json\n{\n  \"errors\": \"Can not create credential without recipient data\"\n}\n```\n\n```json\n{\n  \"errors\": {\n    \"course_name\": [\n      \"can't be blank\"\n    ],\n    \"course_description\": [\n      \"can't be blank\"\n    ]\n  }\n}\n```\n\n**Internal Server Error (500):**\n```json\n{\n  \"errors\": \"Internal server error\"\n}\n```\n\n## Bulk Operations Error Handling\n\n### V2 Bulk Create (Mixed Results Supported)\n\n**All Successful (200):**\n```json\n{\n  \"results\": [\n    {\n      \"credential\": { /* credential object */ }\n    },\n    {\n      \"credential\": { /* credential object */ }\n    }\n  ]\n}\n```\n\n**Mixed Success/Failure (207 Multi-Status):**\n```json\n{\n  \"results\": [\n    {\n      \"credential\": { /* successful credential */ }\n    },\n    {\n      \"error\": {\n        \"code\": \"credential_invalid\",\n        \"message\": \"The credential is not valid\",\n        \"details\": [\n          {\n            \"property\": \"recipient_name\",\n            \"reason\": \"blank\"\n          }\n        ]\n      }\n    },\n    {\n      \"credential\": { /* successful but unpublished */ },\n      \"error\": {\n        \"code\": \"insufficient_credits\",\n        \"message\": \"The credential was created but not published\"\n      }\n    }\n  ]\n}\n```\n\n**All Failed (422):**\n```json\n{\n  \"results\": [\n    {\n      \"error\": {\n        \"code\": \"credential_invalid\",\n        \"message\": \"The credential is not valid\",\n        \"details\": [\n          {\n            \"property\": \"course_name\",\n            \"reason\": \"blank\"\n          }\n        ]\n      }\n    }\n  ]\n}\n```\n"
+    "description": "The [Accredible](https://www.accredible.com/) Credential API allows you to create and interact with badges and certificates called [Accredible Credentials](https://www.credential.net/10000005).\n\nThere are 3 main objects in Accredible: Credentials, Groups and Designs.\n\n### Getting Started with the API - Video Walkthrough\n\n[![Getting Started with the API Video Walkthrough](https://cdn.accredible.com/api-overview.jpg)](https://us06web.zoom.us/clips/share/_p4jjy0LQ-WOaQPviLor1A)\n\n# Objects Overview\n## Credentials\n[Credentials](#tag/Credentials) are the core object in the API. They collect all of the data related to a course, training activity or achievement and the recipient/participant information.\n\nYou should create a credential for each achievement completion that a recipient has. For example if John Doe finishes the Programming 101 course we should create one credential to represent that. If John Doe achieves something else then he would need a new credential.\n\n## Groups\n\n[Groups](#tag/Groups) represent an achievement such as a course or qualification. They contain information about the achievement and have multiple Credentials attached to them.\n\nFor example you should create a group for the Introduction to Programming course. You'd provide the Course Name, Course Description and Course URL. In the future you can pass the name or ID of this group when creating a credential so that the credential is passed all the information relating to the achievement.\n\n## Designs\n\n[Designs](#tag/Designs) provide a visual specification for how a Credential should be rendered. Designs can be used across multiple Groups.\n\nFor example if we have three courses: Intro to Basic Programming, Intro to Advanced Programming and Intro to DevOps each of these may have the same design for their Credentials. When creating or updating their corresponding Groups you would attach the desired design accordingly.\n\n## Departments\n\n[Departments](#tag/Departments), if enabled for your account allow you to manage multiple, independent organization groups. Each Department is entirely separate with its own Designs, Groups, Branding, etc. You cannot share data between Departments except Billing and Administrators.\n\n## Attributes\n\n[Attributes](#tag/Attributes), are used to merge information with your badge or certificate designs and email templates. Attributes act as placeholders for information and can be added to certificate designs and email templates.\n\n## Skills Frameworks\n\n[Skills Frameworks](#tag/Skills-Frameworks) are structured taxonomies of skills — Accredible-maintained ones such as O*NET, ESCO and NACE, plus any your organization uploads itself. Tagging a Group against a framework version replaces the Group's free-text `learning_outcomes` with skills that carry a stable identifier and a known position in a recognized taxonomy.\n\nFor example, instead of listing `\"Reading Books\"` on your Introduction to Programming group, you can attach the O*NET skill `Reading Comprehension` together with the trail it sits on — Worker Requirements → Basic Skills → Content.\n\nFrameworks are read-only over the API: you discover the frameworks enabled for a department, search their skills, then select those skills when creating or updating a Group. Uploading and managing frameworks is done in the Accredible Dashboard.\n\n# API Keys\n\nAPI keys are used as Authorization tokens in the header in all authenticated API endpoints. These Keys are managed in the [Accredible Dashboard](https://dashboard.accredible.com/). There are two types of API Keys, those that are account wide and work on all assets and those that are related to a specific department. API keys scoped to a specific department can only access the resources (Credentials, Groups, Designs etc.) belonging to that department.\n\n# Single sign-on options\n\n[Single sign-on](#tag/SSO) in addition to the student authentication provided by Accredible, you can also use single sign-on to authenticate your student into Accredible and they can directly sign-in.\n\nSSO is also available via our Integrations and via SAML 2.0.\n\n# Rate Limiting\n\nWe allow up to 2000 requests every 5 minutes from a single IP address, but some higher security endpoints have stricter rate limiting. Requests are counted in 30 second periods.\n\nIf you attempt to make requests more quickly than permitted by these rules, you may receive a `429 Too Many Requests` response from an endpoint.\n\n# Errors\n\nAccredible uses conventional HTTP response codes to indicate the success or failure of an API request. Most error response formats are consistent across API versions, with some differences in bulk operations.\n\n## HTTP Status Codes\n\n| Status Code | Description |\n| ----------- | ----------- |\n| **2xx** | Success |\n| 200 | OK - The request was successful |\n| 207 | Multi-Status - Partial success. Returned by v2 bulk operations, and by Group create/update/clone when skills frameworks are involved |\n| **4xx** | Client Error |\n| 400 | Bad Request - Invalid request parameters |\n| 401 | Unauthorized - Invalid or missing API key |\n| 403 | Forbidden - Insufficient permissions |\n| 404 | Not Found - Resource not found |\n| 422 | Unprocessable Entity - Validation errors |\n| 429 | Too Many Requests - Rate limit exceeded |\n| **5xx** | Server Error |\n| 500 | Internal Server Error |\n\n## Common Error Formats\n\nMost API endpoints use these standard error formats:\n\n**Search Query Errors (400)**\n```json\n{\n  \"code\": 400,\n  \"message\": \"Sort order increasing is not supported\",\n  \"status\": \"invalid_search_query\",\n  \"errors\": {}\n}\n```\n\n**Unauthorized (401):**\n```\nHTTP Token: Access denied.\n```\n\n```json\n{\n  \"success\": false,\n  \"data\": \"Not enough or too many segments\"\n}\n```\n\n```json\n{\n  \"success\": false,\n  \"data\": \"Sorry, You are not authorized, visit accredible.com for this\"\n}\n```\n\n**Forbidden (403):**\n```json\n{\n  \"errors\": \"Private Certificate, use key\"\n}\n```\n\n**Not Found (404):**\n```json\n{\n  \"errors\": \"Doesn't exist\"\n}\n```\n\n```json\n{\n  \"error\": \"Not found\"\n}\n```\n\n```json\n{\n  \"success\": false,\n  \"data\": \"Group does not exist\"\n}\n```\n\n**Unprocessable Entity (422):**\n```json\n{\n  \"errors\": \"Invalid Group\"\n}\n```\n\n```json\n{\n  \"errors\": \"Can not create credential without recipient data\"\n}\n```\n\n```json\n{\n  \"errors\": {\n    \"course_name\": [\n      \"can't be blank\"\n    ],\n    \"course_description\": [\n      \"can't be blank\"\n    ]\n  }\n}\n```\n\n**Internal Server Error (500):**\n```json\n{\n  \"errors\": \"Internal server error\"\n}\n```\n\n## Bulk Operations Error Handling\n\n### V2 Bulk Create (Mixed Results Supported)\n\n**All Successful (200):**\n```json\n{\n  \"results\": [\n    {\n      \"credential\": { /* credential object */ }\n    },\n    {\n      \"credential\": { /* credential object */ }\n    }\n  ]\n}\n```\n\n**Mixed Success/Failure (207 Multi-Status):**\n```json\n{\n  \"results\": [\n    {\n      \"credential\": { /* successful credential */ }\n    },\n    {\n      \"error\": {\n        \"code\": \"credential_invalid\",\n        \"message\": \"The credential is not valid\",\n        \"details\": [\n          {\n            \"property\": \"recipient_name\",\n            \"reason\": \"blank\"\n          }\n        ]\n      }\n    },\n    {\n      \"credential\": { /* successful but unpublished */ },\n      \"error\": {\n        \"code\": \"insufficient_credits\",\n        \"message\": \"The credential was created but not published\"\n      }\n    }\n  ]\n}\n```\n\n**All Failed (422):**\n```json\n{\n  \"results\": [\n    {\n      \"error\": {\n        \"code\": \"credential_invalid\",\n        \"message\": \"The credential is not valid\",\n        \"details\": [\n          {\n            \"property\": \"course_name\",\n            \"reason\": \"blank\"\n          }\n        ]\n      }\n    }\n  ]\n}\n```\n\n## Skills Frameworks Error Handling\n\n### Framework Endpoints (401, 403, 400, 404)\n\n`GET /v1/skill_frameworks` and `GET /v1/skill_frameworks/{id}/versions/{version_id}/skills` use the standard error format, with a machine-readable `status`:\n\n```json\n{\n  \"code\": 403,\n  \"message\": \"Your plan does not include access to skills frameworks\",\n  \"status\": \"plan_not_entitled\",\n  \"errors\": {}\n}\n```\n\n| Code | `status` | `message` | Cause |\n| ---- | -------- | --------- | ----- |\n| 401 | — | — | Missing or invalid API key. The response body is empty. |\n| 403 | `plan_not_entitled` | Your plan does not include access to skills frameworks | Your plan does not include the skills frameworks feature. |\n| 400 | `missing_department_id` | department_id is required | `department_id` was not supplied to the framework list endpoint. |\n| 403 | `invalid_department` | Invalid Department ID | The `department_id` is not a Department your API key can access. |\n| 404 | `not_found` | Skills framework not found | The framework does not exist, or it is a custom framework belonging to another organization. |\n| 400 | `invalid_version` | This version does not belong to the specified framework | The version id belongs to a different framework, or the version is not published. |\n| 400 | `invalid_query` | Query must be at least 2 characters | The skills search `query` was missing or shorter than 2 characters. |\n\nChecks run in that order, so a request that is both unentitled and missing `department_id` returns the 403.\n\n### Group Writes — Partial Success (207 Multi-Status)\n\nSkills framework problems never fail a Group write. `POST /v1/issuer/groups`, `PUT /v1/issuer/groups/{group_id}` and `POST /v1/issuer/groups/{group_id}/clone` still create, update or clone the Group, attach every skill that was valid, and return `207` with the problems itemized:\n\n```json\n{\n  \"group\": { /* the group as it was saved */ },\n  \"errors\": [\n    {\n      \"code\": \"skills_not_attached\",\n      \"message\": \"One or more framework skills were not attached — they do not belong to framework version 44 or are not taggable: 999999991\"\n    }\n  ]\n}\n```\n\nAlways read `group.skill_framework_version_id` and `group.framework_skills` from a 207 response to see what was actually saved. More than one error can be returned: input-shape errors come first, then `skills_not_attached`, then `breadcrumb_ids_invalid`.\n\n| `code` | Meaning |\n| ------ | ------- |\n| `framework_params_incomplete` | Only one of `skill_framework_version_id` / `framework_skills` was sent, or `framework_skills` was empty alongside a version. Send both, with at least one skill. |\n| `plan_not_entitled` | Your plan does not include skills frameworks, so no skills were attached. |\n| `version_not_found` | There is no published framework version with that id. Draft versions are not visible to the API. |\n| `framework_not_available` | The version's framework is not enabled for this Group's Department. |\n| `version_retired` | The target version has been retired — use the framework's `active` version instead. On clone, it means the source Group's version is retired, so the clone was made without skills. |\n| `framework_skills_malformed` | An entry in `framework_skills` is not shaped like `{ id, breadcrumb_ids }`. The message names the offending index and field. |\n| `skills_not_attached` | The listed skill ids do not belong to the given framework version, or they are structural nodes that cannot be tagged. |\n| `breadcrumb_ids_invalid` | The listed skills' `breadcrumb_ids` are not a real trail in that version — unknown ids, a broken parent chain, a repeated node, or an empty trail for a skill that has a parent. |\n\n### Plan Downgrade (403)\n\nIf your plan no longer includes skills frameworks and you send framework parameters for a Group that is **already** framework-backed, `PUT /v1/issuer/groups/{group_id}` fails outright and nothing in the request is saved:\n\n```json\n{\n  \"success\": false,\n  \"data\": \"Your plan no longer supports this framework. Contact support to upgrade.\"\n}\n```\n\nReading such a Group still returns its framework and skills, and you can always move it back to free-text skills by sending `\"framework_skills\": null`."
   },
   "servers": [
     {
@@ -4867,6 +4867,36 @@
                               "position"
                             ]
                           }
+                        },
+                        "skill_framework_version_id": {
+                          "type": "number",
+                          "description": "The Skill Framework version this Group's skills come from, or `null` when the Group uses free-text `learning_outcomes` instead.",
+                          "nullable": true
+                        },
+                        "framework_skills": {
+                          "type": "array",
+                          "description": "Skills attached to this Group from a Skill Framework, one entry per placement.\n\n`null` means the Group is not using a framework at all and its skills come from `learning_outcomes`. An empty array means a framework version is selected but no skills are currently attached.\n\nA skill that sits in more than one branch of the framework contributes one entry per trail, so the same `id` can appear more than once with different `breadcrumb_ids` — the pair identifies the placement. Entries are ordered by `id`, then by `breadcrumb_ids`.",
+                          "nullable": true,
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "id": {
+                                "type": "number",
+                                "description": "Id of the skill within the framework version."
+                              },
+                              "breadcrumb_ids": {
+                                "type": "array",
+                                "description": "Ids of the skill's ancestors in the framework, from the root down to its immediate parent. Empty for a skill that sits at the root of the framework.",
+                                "items": {
+                                  "type": "number"
+                                }
+                              }
+                            },
+                            "required": [
+                              "id",
+                              "breadcrumb_ids"
+                            ]
+                          }
                         }
                       }
                     }
@@ -4935,8 +4965,98 @@
                         "required": true,
                         "position": 2
                       }
+                    ],
+                    "skill_framework_version_id": 44,
+                    "framework_skills": [
+                      {
+                        "id": 59301,
+                        "breadcrumb_ids": [
+                          59298,
+                          59299,
+                          59300
+                        ]
+                      },
+                      {
+                        "id": 59302,
+                        "breadcrumb_ids": [
+                          59298,
+                          59299,
+                          59300
+                        ]
+                      }
                     ]
                   }
+                }
+              }
+            }
+          },
+          "207": {
+            "description": "Multi-Status - the Group was created, but one or more framework skills could not be attached. The Group always exists; only skill attachment is partial.",
+            "headers": {},
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "group": {
+                      "type": "object",
+                      "description": "The Group as it was saved. Every field is the same as in the `200` response — read `skill_framework_version_id` and `framework_skills` to see which skills were actually attached."
+                    },
+                    "errors": {
+                      "type": "array",
+                      "description": "One entry per problem. More than one can be returned: input-shape problems come first, then `skills_not_attached`, then `breadcrumb_ids_invalid`. See [Skills Frameworks Error Handling](#section/Errors/Skills-Frameworks-Error-Handling) for what each code means.",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "code": {
+                            "type": "string",
+                            "enum": [
+                              "framework_params_incomplete",
+                              "plan_not_entitled",
+                              "version_not_found",
+                              "framework_not_available",
+                              "version_retired",
+                              "framework_skills_malformed",
+                              "skills_not_attached",
+                              "breadcrumb_ids_invalid"
+                            ]
+                          },
+                          "message": {
+                            "type": "string"
+                          }
+                        },
+                        "required": [
+                          "code",
+                          "message"
+                        ]
+                      }
+                    }
+                  }
+                },
+                "example": {
+                  "group": {
+                    "id": 12472,
+                    "name": "new group",
+                    "course_name": "Intro to Programming",
+                    "learning_outcomes": null,
+                    "skill_framework_version_id": 44,
+                    "framework_skills": [
+                      {
+                        "id": 59301,
+                        "breadcrumb_ids": [
+                          59298,
+                          59299,
+                          59300
+                        ]
+                      }
+                    ]
+                  },
+                  "errors": [
+                    {
+                      "code": "skills_not_attached",
+                      "message": "One or more framework skills were not attached — they do not belong to framework version 44 or are not taggable: 999999991"
+                    }
+                  ]
                 }
               }
             }
@@ -5001,6 +5121,25 @@
                       "required": true,
                       "position": 2
                     }
+                  ],
+                  "skill_framework_version_id": 44,
+                  "framework_skills": [
+                    {
+                      "id": 59301,
+                      "breadcrumb_ids": [
+                        59298,
+                        59299,
+                        59300
+                      ]
+                    },
+                    {
+                      "id": 59302,
+                      "breadcrumb_ids": [
+                        59298,
+                        59299,
+                        59300
+                      ]
+                    }
                   ]
                 }
               },
@@ -5061,7 +5200,7 @@
                     "description": "You can use this parameter to attach key-value strings to the object. Meta data is useful for storing additional, structured information on an object."
                   },
                   "learning_outcomes": {
-                    "description": "Searchable keywords identifying skills credential-holders need to demonstrate (or have learned) in the process of earning this credential."
+                    "description": "Searchable keywords identifying skills credential-holders need to demonstrate (or have learned) in the process of earning this credential.\n\nTo use skills from a recognized taxonomy instead of free text, see `framework_skills` and the [Skills Frameworks](#tag/Skills-Frameworks) endpoints. Both can be set on the same Group; where a credential displays a single skills list, framework skills take precedence."
                   },
                   "generate_private_credential": {
                     "type": "boolean",
@@ -5147,6 +5286,35 @@
                         "text"
                       ]
                     }
+                  },
+                  "skill_framework_version_id": {
+                    "type": "number",
+                    "description": "Id of the Skill Framework version to take skills from, as returned in a framework's `versions` array by [View all Skill Frameworks](#operation/View%20all%20Skill%20Frameworks). Must be sent together with `framework_skills`.\n\nOmit both this and `framework_skills` to create a Group that uses free-text `learning_outcomes` instead.",
+                    "nullable": true
+                  },
+                  "framework_skills": {
+                    "type": "array",
+                    "description": "Skills from `skill_framework_version_id` to attach to the Group. Must be sent together with `skill_framework_version_id` and contain at least one skill — sending only one of the two keys, or an empty array, attaches nothing and returns a `207` with a `framework_params_incomplete` error.\n\nAttaching is best-effort: valid skills are attached, anything invalid is skipped and itemized in the `errors` array of a `207` response. The Group itself is always created, so read `framework_skills` back from the response to see what was attached.\n\n`learning_outcomes` may be sent in the same request — free-text and framework skills can coexist on a Group.",
+                    "nullable": true,
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "number",
+                          "description": "Id of the skill, as returned by [Search Skills in a Framework Version](#operation/Search%20Skills%20in%20a%20Framework%20Version)."
+                        },
+                        "breadcrumb_ids": {
+                          "type": "array",
+                          "description": "Which position in the framework this skill is being attached at: the ids of its ancestors, from the root down to its immediate parent. Copy one of the trails from the skill's `breadcrumbs` in the search response, in the same order.\n\nOnly omit this, or send `[]`, for a skill that sits at the root of the framework. For a skill that has a parent an empty trail is rejected, and that skill is not attached.\n\nTo attach the same skill at two different positions in the framework, send it twice with different `breadcrumb_ids`.",
+                          "items": {
+                            "type": "number"
+                          }
+                        }
+                      },
+                      "required": [
+                        "id"
+                      ]
+                    }
                   }
                 },
                 "required": [
@@ -5167,7 +5335,7 @@
           {
             "lang": "cURL",
             "label": "cURL",
-            "source": "curl -X POST \\\n  \"https://api.accredible.com/v1/issuer/groups\" \\\n  -H \"Authorization: Token token=YOUR_API_KEY\" \\\n  -H \"Content-Type: application/json\" \\\n  -d '{\n  \"group\": {\n    \"name\": \"new group\",\n    \"course_name\": \"Intro to Prgramming\",\n    \"course_description\": \"Description of course\",\n    \"course_link\": \"http://www.example.com\",\n    \"language\": \"en\",\n    \"attach_pdf\": true,\n    \"design_id\": null,\n    \"blockchain\": false,\n    \"certificate_design_id\": null,\n    \"badge_design_id\": null,\n    \"primary_design_id\": null,\n    \"department_id\": 123,\n    \"meta_data\": {\n      \"batch_id\": \"271\"\n    },\n    \"learning_outcomes\": [\n      \"Reading Books\",\n      \"Writing Essays\"\n    ],\n    \"generate_private_credential\": false,\n    \"auto_expiry\": 1,\n    \"signup_url_show\": false,\n    \"signup_url\": \"http://www.example.com\",\n    \"course_link_show\": false,\n    \"organization_link_show\": false,\n    \"skill_category_id\": 1,\n    \"collections\": [\n      {\n        \"id\": 1\n      },\n      {\n        \"id\": 2\n      }\n    ],\n    \"earning_criteria\": [\n      {\n        \"kind\": \"course\",\n        \"text\": \"Complete the Intro to Programming course\",\n        \"required\": true,\n        \"position\": 1\n      },\n      {\n        \"kind\": \"exam\",\n        \"text\": \"Pass the final exam with 70% or higher\",\n        \"required\": true,\n        \"position\": 2\n      }\n    ]\n  }\n}'"
+            "source": "curl -X POST \\\n  \"https://api.accredible.com/v1/issuer/groups\" \\\n  -H \"Authorization: Token token=YOUR_API_KEY\" \\\n  -H \"Content-Type: application/json\" \\\n  -d '{\n  \"group\": {\n    \"name\": \"new group\",\n    \"course_name\": \"Intro to Prgramming\",\n    \"course_description\": \"Description of course\",\n    \"course_link\": \"http://www.example.com\",\n    \"language\": \"en\",\n    \"attach_pdf\": true,\n    \"design_id\": null,\n    \"blockchain\": false,\n    \"certificate_design_id\": null,\n    \"badge_design_id\": null,\n    \"primary_design_id\": null,\n    \"department_id\": 123,\n    \"meta_data\": {\n      \"batch_id\": \"271\"\n    },\n    \"learning_outcomes\": [\n      \"Reading Books\",\n      \"Writing Essays\"\n    ],\n    \"generate_private_credential\": false,\n    \"auto_expiry\": 1,\n    \"signup_url_show\": false,\n    \"signup_url\": \"http://www.example.com\",\n    \"course_link_show\": false,\n    \"organization_link_show\": false,\n    \"skill_category_id\": 1,\n    \"collections\": [\n      {\n        \"id\": 1\n      },\n      {\n        \"id\": 2\n      }\n    ],\n    \"earning_criteria\": [\n      {\n        \"kind\": \"course\",\n        \"text\": \"Complete the Intro to Programming course\",\n        \"required\": true,\n        \"position\": 1\n      },\n      {\n        \"kind\": \"exam\",\n        \"text\": \"Pass the final exam with 70% or higher\",\n        \"required\": true,\n        \"position\": 2\n      }\n    ],\n    \"skill_framework_version_id\": 44,\n    \"framework_skills\": [\n      {\n        \"id\": 59301,\n        \"breadcrumb_ids\": [\n          59298,\n          59299,\n          59300\n        ]\n      },\n      {\n        \"id\": 59302,\n        \"breadcrumb_ids\": [\n          59298,\n          59299,\n          59300\n        ]\n      }\n    ]\n  }\n}'"
           }
         ]
       }
@@ -5343,6 +5511,36 @@
                               "position"
                             ]
                           }
+                        },
+                        "skill_framework_version_id": {
+                          "type": "number",
+                          "description": "The Skill Framework version this Group's skills come from, or `null` when the Group uses free-text `learning_outcomes` instead.",
+                          "nullable": true
+                        },
+                        "framework_skills": {
+                          "type": "array",
+                          "description": "Skills attached to this Group from a Skill Framework, one entry per placement.\n\n`null` means the Group is not using a framework at all and its skills come from `learning_outcomes`. An empty array means a framework version is selected but no skills are currently attached.\n\nA skill that sits in more than one branch of the framework contributes one entry per trail, so the same `id` can appear more than once with different `breadcrumb_ids` — the pair identifies the placement. Entries are ordered by `id`, then by `breadcrumb_ids`.",
+                          "nullable": true,
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "id": {
+                                "type": "number",
+                                "description": "Id of the skill within the framework version."
+                              },
+                              "breadcrumb_ids": {
+                                "type": "array",
+                                "description": "Ids of the skill's ancestors in the framework, from the root down to its immediate parent. Empty for a skill that sits at the root of the framework.",
+                                "items": {
+                                  "type": "number"
+                                }
+                              }
+                            },
+                            "required": [
+                              "id",
+                              "breadcrumb_ids"
+                            ]
+                          }
                         }
                       }
                     }
@@ -5405,6 +5603,25 @@
                         "text": "Pass the final exam with 70% or higher",
                         "required": true,
                         "position": 2
+                      }
+                    ],
+                    "skill_framework_version_id": 44,
+                    "framework_skills": [
+                      {
+                        "id": 59301,
+                        "breadcrumb_ids": [
+                          59298,
+                          59299,
+                          59300
+                        ]
+                      },
+                      {
+                        "id": 59302,
+                        "breadcrumb_ids": [
+                          59298,
+                          59299,
+                          59300
+                        ]
                       }
                     ]
                   }
@@ -5618,6 +5835,36 @@
                               "position"
                             ]
                           }
+                        },
+                        "skill_framework_version_id": {
+                          "type": "number",
+                          "description": "The Skill Framework version this Group's skills come from, or `null` when the Group uses free-text `learning_outcomes` instead.",
+                          "nullable": true
+                        },
+                        "framework_skills": {
+                          "type": "array",
+                          "description": "Skills attached to this Group from a Skill Framework, one entry per placement.\n\n`null` means the Group is not using a framework at all and its skills come from `learning_outcomes`. An empty array means a framework version is selected but no skills are currently attached.\n\nA skill that sits in more than one branch of the framework contributes one entry per trail, so the same `id` can appear more than once with different `breadcrumb_ids` — the pair identifies the placement. Entries are ordered by `id`, then by `breadcrumb_ids`.",
+                          "nullable": true,
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "id": {
+                                "type": "number",
+                                "description": "Id of the skill within the framework version."
+                              },
+                              "breadcrumb_ids": {
+                                "type": "array",
+                                "description": "Ids of the skill's ancestors in the framework, from the root down to its immediate parent. Empty for a skill that sits at the root of the framework.",
+                                "items": {
+                                  "type": "number"
+                                }
+                              }
+                            },
+                            "required": [
+                              "id",
+                              "breadcrumb_ids"
+                            ]
+                          }
                         }
                       }
                     }
@@ -5683,8 +5930,121 @@
                         "required": false,
                         "position": 2
                       }
+                    ],
+                    "skill_framework_version_id": 44,
+                    "framework_skills": [
+                      {
+                        "id": 59301,
+                        "breadcrumb_ids": [
+                          59298,
+                          59299,
+                          59300
+                        ]
+                      },
+                      {
+                        "id": 59302,
+                        "breadcrumb_ids": [
+                          59298,
+                          59299,
+                          59300
+                        ]
+                      }
                     ]
                   }
+                }
+              }
+            }
+          },
+          "207": {
+            "description": "Multi-Status - the Group was updated, but one or more framework skills could not be attached. Non-framework changes in the request are still saved.",
+            "headers": {},
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "group": {
+                      "type": "object",
+                      "description": "The Group as it was saved. Every field is the same as in the `200` response — read `skill_framework_version_id` and `framework_skills` to see which skills were actually attached."
+                    },
+                    "errors": {
+                      "type": "array",
+                      "description": "One entry per problem. More than one can be returned: input-shape problems come first, then `skills_not_attached`, then `breadcrumb_ids_invalid`. See [Skills Frameworks Error Handling](#section/Errors/Skills-Frameworks-Error-Handling) for what each code means.",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "code": {
+                            "type": "string",
+                            "enum": [
+                              "framework_params_incomplete",
+                              "plan_not_entitled",
+                              "version_not_found",
+                              "framework_not_available",
+                              "version_retired",
+                              "framework_skills_malformed",
+                              "skills_not_attached",
+                              "breadcrumb_ids_invalid"
+                            ]
+                          },
+                          "message": {
+                            "type": "string"
+                          }
+                        },
+                        "required": [
+                          "code",
+                          "message"
+                        ]
+                      }
+                    }
+                  }
+                },
+                "example": {
+                  "group": {
+                    "id": 12472,
+                    "name": "updated new group",
+                    "course_name": "updated course name",
+                    "learning_outcomes": null,
+                    "skill_framework_version_id": 44,
+                    "framework_skills": [
+                      {
+                        "id": 59301,
+                        "breadcrumb_ids": [
+                          59298,
+                          59299,
+                          59300
+                        ]
+                      }
+                    ]
+                  },
+                  "errors": [
+                    {
+                      "code": "version_retired",
+                      "message": "Skills were not attached — framework version 43 has been retired. Use the active version to attach skills."
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden - your plan no longer includes skills frameworks, and the request tried to change the framework skills of a Group that is already framework-backed. Nothing in the request is saved, including changes to unrelated fields. Reading the Group still returns its framework and skills, and moving it to free-text skills by sending `\"framework_skills\": null` is still allowed.",
+            "headers": {},
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean"
+                    },
+                    "data": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "example": {
+                  "success": false,
+                  "data": "Your plan no longer supports this framework. Contact support to upgrade."
                 }
               }
             }
@@ -5734,6 +6094,17 @@
                       "text": "Hold an associated degree",
                       "required": false,
                       "position": 2
+                    }
+                  ],
+                  "skill_framework_version_id": 44,
+                  "framework_skills": [
+                    {
+                      "id": 59301,
+                      "breadcrumb_ids": [
+                        59298,
+                        59299,
+                        59300
+                      ]
                     }
                   ]
                 }
@@ -5795,7 +6166,7 @@
                     "description": "You can use this parameter to attach key-value strings to the object. Meta data is useful for storing additional, structured information on an object."
                   },
                   "learning_outcomes": {
-                    "description": "Searchable keywords identifying skills credential-holders need to demonstrate (or have learned) in the process of earning this credential."
+                    "description": "Searchable keywords identifying skills credential-holders need to demonstrate (or have learned) in the process of earning this credential.\n\nTo use skills from a recognized taxonomy instead of free text, see `framework_skills` and the [Skills Frameworks](#tag/Skills-Frameworks) endpoints. Both can be set on the same Group; where a credential displays a single skills list, framework skills take precedence."
                   },
                   "generate_private_credential": {
                     "type": "boolean",
@@ -5883,6 +6254,35 @@
                         }
                       }
                     }
+                  },
+                  "skill_framework_version_id": {
+                    "type": "number",
+                    "description": "Id of the Skill Framework version the Group's skills should come from, as returned in a framework's `versions` array by [View all Skill Frameworks](#operation/View%20all%20Skill%20Frameworks). Send it together with `framework_skills` to set or change the Group's framework.",
+                    "nullable": true
+                  },
+                  "framework_skills": {
+                    "type": "array",
+                    "description": "Full list of framework skills for the Group. The array **replaces** the Group's current skills rather than adding to them.\n\n- **Omit both this and `skill_framework_version_id`** to leave the Group's framework and skills exactly as they are.\n- **Send `null` or `[]`** without `skill_framework_version_id` to move the Group off frameworks: the framework is cleared, every attached skill is removed, and `learning_outcomes` can be set in the same request.\n- **Send both keys** to make the Group's skills exactly what you supply. Passing a different version also moves the Group to that version.\n\nAttaching is best-effort: valid skills are attached, anything invalid is skipped and itemized in the `errors` array of a `207` response. If none of the supplied skills are valid, the Group keeps the framework and skills it already had.",
+                    "nullable": true,
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "number",
+                          "description": "Id of the skill, as returned by [Search Skills in a Framework Version](#operation/Search%20Skills%20in%20a%20Framework%20Version)."
+                        },
+                        "breadcrumb_ids": {
+                          "type": "array",
+                          "description": "Which position in the framework this skill is being attached at: the ids of its ancestors, from the root down to its immediate parent. Copy one of the trails from the skill's `breadcrumbs` in the search response, in the same order.\n\nOnly omit this, or send `[]`, for a skill that sits at the root of the framework. For a skill that has a parent an empty trail is rejected, and that skill is not attached.\n\nTo attach the same skill at two different positions in the framework, send it twice with different `breadcrumb_ids`.",
+                          "items": {
+                            "type": "number"
+                          }
+                        }
+                      },
+                      "required": [
+                        "id"
+                      ]
+                    }
                   }
                 },
                 "required": [
@@ -5903,7 +6303,7 @@
           {
             "lang": "cURL",
             "label": "cURL",
-            "source": "curl -X PUT \\\n  \"https://api.accredible.com/v1/issuer/groups/12345\" \\\n  -H \"Authorization: Token token=YOUR_API_KEY\" \\\n  -H \"Content-Type: application/json\" \\\n  -d '{\n  \"group\": {\n    \"name\": \"updated new group\",\n    \"course_name\": \"updated course name\",\n    \"skill_category_id\": 1,\n    \"collections\": [\n      {\n        \"id\": 1\n      },\n      {\n        \"id\": 2\n      }\n    ],\n    \"earning_criteria\": [\n      {\n        \"id\": \"8f3c0c8c-5e1b-4f2a-9c4a-1f2c5c3a0001\",\n        \"text\": \"Complete the updated course\"\n      },\n      {\n        \"kind\": \"degree\",\n        \"text\": \"Hold an associated degree\",\n        \"required\": false,\n        \"position\": 2\n      }\n    ]\n  }\n}'"
+            "source": "curl -X PUT \\\n  \"https://api.accredible.com/v1/issuer/groups/12345\" \\\n  -H \"Authorization: Token token=YOUR_API_KEY\" \\\n  -H \"Content-Type: application/json\" \\\n  -d '{\n  \"group\": {\n    \"name\": \"updated new group\",\n    \"course_name\": \"updated course name\",\n    \"skill_category_id\": 1,\n    \"collections\": [\n      {\n        \"id\": 1\n      },\n      {\n        \"id\": 2\n      }\n    ],\n    \"earning_criteria\": [\n      {\n        \"id\": \"8f3c0c8c-5e1b-4f2a-9c4a-1f2c5c3a0001\",\n        \"text\": \"Complete the updated course\"\n      },\n      {\n        \"kind\": \"degree\",\n        \"text\": \"Hold an associated degree\",\n        \"required\": false,\n        \"position\": 2\n      }\n    ],\n    \"skill_framework_version_id\": 44,\n    \"framework_skills\": [\n      {\n        \"id\": 59301,\n        \"breadcrumb_ids\": [\n          59298,\n          59299,\n          59300\n        ]\n      }\n    ]\n  }\n}'"
           }
         ]
       },
@@ -6257,6 +6657,36 @@
                               "position"
                             ]
                           }
+                        },
+                        "skill_framework_version_id": {
+                          "type": "number",
+                          "description": "The Skill Framework version this Group's skills come from, or `null` when the Group uses free-text `learning_outcomes` instead.",
+                          "nullable": true
+                        },
+                        "framework_skills": {
+                          "type": "array",
+                          "description": "Skills attached to this Group from a Skill Framework, one entry per placement.\n\n`null` means the Group is not using a framework at all and its skills come from `learning_outcomes`. An empty array means a framework version is selected but no skills are currently attached.\n\nA skill that sits in more than one branch of the framework contributes one entry per trail, so the same `id` can appear more than once with different `breadcrumb_ids` — the pair identifies the placement. Entries are ordered by `id`, then by `breadcrumb_ids`.",
+                          "nullable": true,
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "id": {
+                                "type": "number",
+                                "description": "Id of the skill within the framework version."
+                              },
+                              "breadcrumb_ids": {
+                                "type": "array",
+                                "description": "Ids of the skill's ancestors in the framework, from the root down to its immediate parent. Empty for a skill that sits at the root of the framework.",
+                                "items": {
+                                  "type": "number"
+                                }
+                              }
+                            },
+                            "required": [
+                              "id",
+                              "breadcrumb_ids"
+                            ]
+                          }
                         }
                       }
                     }
@@ -6325,8 +6755,89 @@
                         "required": true,
                         "position": 2
                       }
+                    ],
+                    "skill_framework_version_id": 44,
+                    "framework_skills": [
+                      {
+                        "id": 59301,
+                        "breadcrumb_ids": [
+                          59298,
+                          59299,
+                          59300
+                        ]
+                      },
+                      {
+                        "id": 59302,
+                        "breadcrumb_ids": [
+                          59298,
+                          59299,
+                          59300
+                        ]
+                      }
                     ]
                   }
+                }
+              }
+            }
+          },
+          "207": {
+            "description": "Multi-Status - the Group was cloned, but the original Group's framework skills could not be copied because its framework version has been retired. The clone is created without a framework.",
+            "headers": {},
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "group": {
+                      "type": "object",
+                      "description": "The Group as it was saved. Every field is the same as in the `200` response — read `skill_framework_version_id` and `framework_skills` to see which skills were actually attached."
+                    },
+                    "errors": {
+                      "type": "array",
+                      "description": "One entry per problem. More than one can be returned: input-shape problems come first, then `skills_not_attached`, then `breadcrumb_ids_invalid`. See [Skills Frameworks Error Handling](#section/Errors/Skills-Frameworks-Error-Handling) for what each code means.",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "code": {
+                            "type": "string",
+                            "enum": [
+                              "framework_params_incomplete",
+                              "plan_not_entitled",
+                              "version_not_found",
+                              "framework_not_available",
+                              "version_retired",
+                              "framework_skills_malformed",
+                              "skills_not_attached",
+                              "breadcrumb_ids_invalid"
+                            ]
+                          },
+                          "message": {
+                            "type": "string"
+                          }
+                        },
+                        "required": [
+                          "code",
+                          "message"
+                        ]
+                      }
+                    }
+                  }
+                },
+                "example": {
+                  "group": {
+                    "id": 12345,
+                    "name": "new group copy",
+                    "course_name": "Intro to Programming",
+                    "learning_outcomes": null,
+                    "skill_framework_version_id": null,
+                    "framework_skills": null
+                  },
+                  "errors": [
+                    {
+                      "code": "version_retired",
+                      "message": "Skills were not copied — framework version 43 has been retired. The group was cloned without framework skills; re-version the framework to copy them."
+                    }
+                  ]
                 }
               }
             }
@@ -6334,7 +6845,7 @@
         },
         "summary": "Clone a Group",
         "operationId": "Clone a Group",
-        "description": "You can clone a group using this action. Add attributes to override cloned values. Cloning a group only works when certificate or badge designs are within the same department as the original group.",
+        "description": "You can clone a group using this action. Add attributes to override cloned values. Cloning a group only works when certificate or badge designs are within the same department as the original group.\n\nA clone always mirrors the original Group's skills framework. Every framework skill on the original is copied to the clone at the same position in the framework, and `skill_framework_version_id` and `framework_skills` sent in the request body are **ignored** — you cannot clone a Group onto a different framework. To change the clone's skills, clone it first and then update it.\n\nIf the original Group's framework version has been retired, the clone is created without a framework and a `207` is returned. Re-version the framework first if you need the skills copied.",
         "tags": [
           "Groups"
         ],
@@ -6427,7 +6938,7 @@
                     "description": "You can use this parameter to attach key-value strings to the object. Meta data is useful for storing additional, structured information on an object."
                   },
                   "learning_outcomes": {
-                    "description": "Searchable keywords identifying skills credential-holders need to demonstrate (or have learned) in the process of earning this credential."
+                    "description": "Searchable keywords identifying skills credential-holders need to demonstrate (or have learned) in the process of earning this credential.\n\nTo use skills from a recognized taxonomy instead of free text, see `framework_skills` and the [Skills Frameworks](#tag/Skills-Frameworks) endpoints. Both can be set on the same Group; where a credential displays a single skills list, framework skills take precedence."
                   },
                   "generate_private_credential": {
                     "type": "boolean",
@@ -7070,6 +7581,36 @@
                                 "position"
                               ]
                             }
+                          },
+                          "skill_framework_version_id": {
+                            "type": "number",
+                            "description": "The Skill Framework version this Group's skills come from, or `null` when the Group uses free-text `learning_outcomes` instead.",
+                            "nullable": true
+                          },
+                          "framework_skills": {
+                            "type": "array",
+                            "description": "Skills attached to this Group from a Skill Framework, one entry per placement.\n\n`null` means the Group is not using a framework at all and its skills come from `learning_outcomes`. An empty array means a framework version is selected but no skills are currently attached.\n\nA skill that sits in more than one branch of the framework contributes one entry per trail, so the same `id` can appear more than once with different `breadcrumb_ids` — the pair identifies the placement. Entries are ordered by `id`, then by `breadcrumb_ids`.",
+                            "nullable": true,
+                            "items": {
+                              "type": "object",
+                              "properties": {
+                                "id": {
+                                  "type": "number",
+                                  "description": "Id of the skill within the framework version."
+                                },
+                                "breadcrumb_ids": {
+                                  "type": "array",
+                                  "description": "Ids of the skill's ancestors in the framework, from the root down to its immediate parent. Empty for a skill that sits at the root of the framework.",
+                                  "items": {
+                                    "type": "number"
+                                  }
+                                }
+                              },
+                              "required": [
+                                "id",
+                                "breadcrumb_ids"
+                              ]
+                            }
                           }
                         },
                         "required": [
@@ -7099,7 +7640,9 @@
                           "organization_link_show",
                           "skill_category",
                           "collections",
-                          "earning_criteria"
+                          "earning_criteria",
+                          "skill_framework_version_id",
+                          "framework_skills"
                         ]
                       }
                     },
@@ -7174,6 +7717,25 @@
                           "required": true,
                           "position": 1
                         }
+                      ],
+                      "skill_framework_version_id": 44,
+                      "framework_skills": [
+                        {
+                          "id": 59301,
+                          "breadcrumb_ids": [
+                            59298,
+                            59299,
+                            59300
+                          ]
+                        },
+                        {
+                          "id": 59302,
+                          "breadcrumb_ids": [
+                            59298,
+                            59299,
+                            59300
+                          ]
+                        }
                       ]
                     },
                     {
@@ -7238,7 +7800,9 @@
                           "required": false,
                           "position": 2
                         }
-                      ]
+                      ],
+                      "skill_framework_version_id": null,
+                      "framework_skills": null
                     }
                   ],
                   "meta": {
@@ -7298,6 +7862,678 @@
             "lang": "cURL",
             "label": "cURL",
             "source": "curl -X GET \\\n  \"https://api.accredible.com/v1/skill_categories\" \\\n  -H \"Authorization: Token token=YOUR_API_KEY\""
+          }
+        ]
+      }
+    },
+    "/v1/skill_frameworks": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "OK",
+            "headers": {},
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "skill_frameworks": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "number",
+                            "description": "Unique identifier of the Skill Framework."
+                          },
+                          "name": {
+                            "type": "string",
+                            "description": "Display name of the framework, for example `O*NET Skills`."
+                          },
+                          "source_type": {
+                            "type": "string",
+                            "description": "`external` for a framework maintained by Accredible, `custom` for one uploaded by your organization.",
+                            "enum": [
+                              "external",
+                              "custom"
+                            ]
+                          },
+                          "taxonomy": {
+                            "type": "string",
+                            "description": "The published taxonomy an external framework comes from: `ONET`, `ESCO` or `NACE`. Always `null` for custom frameworks.",
+                            "nullable": true
+                          },
+                          "status": {
+                            "type": "string",
+                            "description": "Always `enabled` — only frameworks enabled for the requested Department are returned. Version retirement is reported per version inside `versions`, not here.",
+                            "enum": [
+                              "enabled"
+                            ]
+                          },
+                          "provider": {
+                            "type": "string",
+                            "description": "The organization that publishes the framework, for example `U.S. Department of Labor`.",
+                            "nullable": true
+                          },
+                          "description": {
+                            "type": "string",
+                            "nullable": true
+                          },
+                          "skill_count": {
+                            "type": "number",
+                            "description": "Number of skills in the framework's latest active version.",
+                            "nullable": true
+                          },
+                          "updated_at": {
+                            "type": "string"
+                          },
+                          "attribution": {
+                            "type": "object",
+                            "description": "Attribution that the framework's licence requires you to display wherever you show its skills.",
+                            "properties": {
+                              "text": {
+                                "type": "string",
+                                "nullable": true
+                              },
+                              "url": {
+                                "type": "string",
+                                "nullable": true
+                              }
+                            }
+                          },
+                          "versions": {
+                            "type": "array",
+                            "description": "Published versions of the framework, oldest first. Only `active` and `retired` versions are returned — versions still being prepared are never exposed. Use a version's `id` as the `skill_framework_version_id` when creating or updating a Group.",
+                            "items": {
+                              "type": "object",
+                              "properties": {
+                                "id": {
+                                  "type": "number",
+                                  "description": "Pass this value as `skill_framework_version_id` on a Group."
+                                },
+                                "version": {
+                                  "type": "string",
+                                  "description": "The publisher's version label, for example `30.0`."
+                                },
+                                "skill_count": {
+                                  "type": "number"
+                                },
+                                "status": {
+                                  "type": "string",
+                                  "description": "Skills can only be attached to a Group from an `active` version. Attempting to use a `retired` version returns a `207` with a `version_retired` error.",
+                                  "enum": [
+                                    "active",
+                                    "retired"
+                                  ]
+                                },
+                                "valid_from": {
+                                  "type": "string",
+                                  "format": "date",
+                                  "nullable": true
+                                },
+                                "valid_to": {
+                                  "type": "string",
+                                  "format": "date",
+                                  "description": "The date this version stops being usable. `null` for a version with no end date.",
+                                  "nullable": true
+                                }
+                              },
+                              "required": [
+                                "id",
+                                "version",
+                                "skill_count",
+                                "status",
+                                "valid_from",
+                                "valid_to"
+                              ]
+                            }
+                          }
+                        },
+                        "required": [
+                          "id",
+                          "name",
+                          "source_type",
+                          "taxonomy",
+                          "status",
+                          "provider",
+                          "description",
+                          "skill_count",
+                          "updated_at",
+                          "attribution",
+                          "versions"
+                        ]
+                      }
+                    },
+                    "meta": {
+                      "type": "object",
+                      "properties": {
+                        "current_page": {
+                          "type": "number"
+                        },
+                        "next_page": {
+                          "type": "number",
+                          "nullable": true
+                        },
+                        "prev_page": {
+                          "type": "number",
+                          "nullable": true
+                        },
+                        "total_pages": {
+                          "type": "number"
+                        },
+                        "total_count": {
+                          "type": "number"
+                        },
+                        "page_size": {
+                          "type": "number"
+                        }
+                      }
+                    }
+                  }
+                },
+                "example": {
+                  "skill_frameworks": [
+                    {
+                      "id": 44,
+                      "name": "O*NET Skills",
+                      "source_type": "external",
+                      "taxonomy": "ONET",
+                      "status": "enabled",
+                      "provider": "U.S. Department of Labor",
+                      "description": null,
+                      "skill_count": 350,
+                      "updated_at": "2026-06-10T03:12:26.427Z",
+                      "attribution": {
+                        "text": "O*NET is sponsored by the U.S. Department of Labor",
+                        "url": "https://www.onetonline.org/"
+                      },
+                      "versions": [
+                        {
+                          "id": 43,
+                          "version": "29.0",
+                          "skill_count": 347,
+                          "status": "retired",
+                          "valid_from": "2026-01-01",
+                          "valid_to": "2026-04-08"
+                        },
+                        {
+                          "id": 44,
+                          "version": "30.0",
+                          "skill_count": 350,
+                          "status": "active",
+                          "valid_from": "2026-04-08",
+                          "valid_to": null
+                        }
+                      ]
+                    },
+                    {
+                      "id": 177,
+                      "name": "Internal Competency Model",
+                      "source_type": "custom",
+                      "taxonomy": null,
+                      "status": "enabled",
+                      "provider": null,
+                      "description": "Skills maintained by our Learning and Development team",
+                      "skill_count": 9,
+                      "updated_at": "2026-06-22T09:15:04.881Z",
+                      "attribution": {
+                        "text": null,
+                        "url": null
+                      },
+                      "versions": [
+                        {
+                          "id": 239,
+                          "version": "1.0",
+                          "skill_count": 9,
+                          "status": "active",
+                          "valid_from": "2026-06-22",
+                          "valid_to": null
+                        }
+                      ]
+                    }
+                  ],
+                  "meta": {
+                    "current_page": 1,
+                    "next_page": null,
+                    "prev_page": null,
+                    "total_pages": 1,
+                    "total_count": 2,
+                    "page_size": 5
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request - `missing_department_id` when the required `department_id` parameter is not supplied.",
+            "headers": {},
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "number"
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "status": {
+                      "type": "string"
+                    },
+                    "errors": {
+                      "type": "object"
+                    }
+                  }
+                },
+                "example": {
+                  "code": 400,
+                  "message": "department_id is required",
+                  "status": "missing_department_id",
+                  "errors": {}
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden - `plan_not_entitled` when your plan does not include skills frameworks, or `invalid_department` when the given `department_id` is not a Department your API key can access.",
+            "headers": {},
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "number"
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "status": {
+                      "type": "string"
+                    },
+                    "errors": {
+                      "type": "object"
+                    }
+                  }
+                },
+                "example": {
+                  "code": 403,
+                  "message": "Your plan does not include access to skills frameworks",
+                  "status": "plan_not_entitled",
+                  "errors": {}
+                }
+              }
+            }
+          }
+        },
+        "summary": "View all Skill Frameworks",
+        "operationId": "View all Skill Frameworks",
+        "description": "Lists the Skill Frameworks enabled for a Department, each with its published versions.\n\nThis is the starting point for tagging a Group with framework skills. Pick a framework, take the `id` of the version you want from its `versions` array, then use that value as `skill_framework_version_id` when you create or update a Group.\n\nOnly frameworks enabled for the requested Department are returned, so the response is exactly the set you are allowed to attach to Groups in that Department. Frameworks that an administrator has added but not yet enabled are not listed.\n\nWhen Accredible retires an external framework for your Department, it stays listed throughout the notice period so your integration is not broken by an abrupt removal. Its version is reported with `status` `retired` and a `valid_to` date telling you when it stops working.",
+        "tags": [
+          "Skills Frameworks"
+        ],
+        "parameters": [
+          {
+            "name": "department_id",
+            "in": "query",
+            "description": "The Department to list frameworks for. Required, including for API keys scoped to a single Department. Must be a Department your API key can access, otherwise a `403 Forbidden` is returned.",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "description": "The pagination page. Defaults to 1.",
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "page_size",
+            "in": "query",
+            "description": "The pagination response size. Defaults to 5, maximum 10. Values above the maximum are capped, and values that are not a positive number fall back to the default. The size actually applied is returned as `meta.page_size`.",
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ],
+        "x-code-samples": [
+          {
+            "lang": "cURL",
+            "label": "cURL",
+            "source": "curl -X GET \\\n  \"https://api.accredible.com/v1/skill_frameworks?department_id=12345\" \\\n  -H \"Authorization: Token token=YOUR_API_KEY\""
+          }
+        ]
+      }
+    },
+    "/v1/skill_frameworks/{skill_framework_id}/versions/{version_id}/skills": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "OK",
+            "headers": {},
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "skills": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "number",
+                            "description": "Unique identifier of the skill. Pass this as `framework_skills[].id` when attaching the skill to a Group."
+                          },
+                          "name": {
+                            "type": "string",
+                            "description": "Display name of the skill."
+                          },
+                          "identifier": {
+                            "type": "string",
+                            "description": "The publisher's own identifier for the skill, for example an O*NET element id or an ESCO URI. `null` when the framework does not provide one.",
+                            "nullable": true
+                          },
+                          "description": {
+                            "type": "string",
+                            "nullable": true
+                          },
+                          "breadcrumbs": {
+                            "type": "array",
+                            "description": "Every place this skill sits in the framework's hierarchy. Each entry is one trail, listing the skill's ancestors from the root down to its immediate parent — the skill itself is not repeated in its own trail.\n\nMost skills have a single trail. Some taxonomies legitimately place one skill in more than one branch, in which case there is one trail per placement. A skill that sits at the root of the framework has no ancestors and returns `[]`.\n\nThe `id` values of a trail are exactly what `framework_skills[].breadcrumb_ids` expects when you attach the skill to a Group, in the same order.",
+                            "items": {
+                              "type": "array",
+                              "items": {
+                                "type": "object",
+                                "properties": {
+                                  "id": {
+                                    "type": "number"
+                                  },
+                                  "name": {
+                                    "type": "string"
+                                  }
+                                },
+                                "required": [
+                                  "id",
+                                  "name"
+                                ]
+                              }
+                            }
+                          }
+                        },
+                        "required": [
+                          "id",
+                          "name",
+                          "identifier",
+                          "description",
+                          "breadcrumbs"
+                        ]
+                      }
+                    },
+                    "meta": {
+                      "type": "object",
+                      "properties": {
+                        "current_page": {
+                          "type": "number"
+                        },
+                        "next_page": {
+                          "type": "number",
+                          "nullable": true
+                        },
+                        "prev_page": {
+                          "type": "number",
+                          "nullable": true
+                        },
+                        "total_pages": {
+                          "type": "number"
+                        },
+                        "total_count": {
+                          "type": "number"
+                        },
+                        "page_size": {
+                          "type": "number"
+                        }
+                      }
+                    }
+                  }
+                },
+                "example": {
+                  "skills": [
+                    {
+                      "id": 44923,
+                      "name": "Absorb (Learning Management Systems)",
+                      "identifier": "http://data.europa.eu/esco/skill/0189f448-4f52-4fcb-a05f-a4b0e6b0ba1d",
+                      "description": null,
+                      "breadcrumbs": [
+                        [
+                          {
+                            "id": 44696,
+                            "name": "Knowledge"
+                          },
+                          {
+                            "id": 44697,
+                            "name": "Information And Communication Technologies (Icts)"
+                          },
+                          {
+                            "id": 44862,
+                            "name": "Database And Network Design And Administration"
+                          }
+                        ],
+                        [
+                          {
+                            "id": 44696,
+                            "name": "Knowledge"
+                          },
+                          {
+                            "id": 44764,
+                            "name": "Business, Administration And Law"
+                          },
+                          {
+                            "id": 44766,
+                            "name": "Management And Administration"
+                          },
+                          {
+                            "id": 44924,
+                            "name": "Learning Management Systems"
+                          }
+                        ]
+                      ]
+                    },
+                    {
+                      "id": 44931,
+                      "name": "Manage Learning Content",
+                      "identifier": "http://data.europa.eu/esco/skill/6a1ec1f2-6b0d-4f1e-9c2f-8d5b1c7a4e30",
+                      "description": "Create, curate and maintain the material used in a training programme.",
+                      "breadcrumbs": [
+                        [
+                          {
+                            "id": 44700,
+                            "name": "Skills"
+                          },
+                          {
+                            "id": 44812,
+                            "name": "Management Skills"
+                          }
+                        ]
+                      ]
+                    }
+                  ],
+                  "meta": {
+                    "current_page": 1,
+                    "next_page": 2,
+                    "prev_page": null,
+                    "total_pages": 347,
+                    "total_count": 694,
+                    "page_size": 2
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request - `invalid_query` when `query` is missing or shorter than 2 characters, or `invalid_version` when the version does not belong to the framework or is not published.",
+            "headers": {},
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "number"
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "status": {
+                      "type": "string"
+                    },
+                    "errors": {
+                      "type": "object"
+                    }
+                  }
+                },
+                "example": {
+                  "code": 400,
+                  "message": "Query must be at least 2 characters",
+                  "status": "invalid_query",
+                  "errors": {}
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden - `plan_not_entitled` when your plan does not include skills frameworks.",
+            "headers": {},
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "number"
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "status": {
+                      "type": "string"
+                    },
+                    "errors": {
+                      "type": "object"
+                    }
+                  }
+                },
+                "example": {
+                  "code": 403,
+                  "message": "Your plan does not include access to skills frameworks",
+                  "status": "plan_not_entitled",
+                  "errors": {}
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found - the framework does not exist, or it is a custom framework belonging to another organization.",
+            "headers": {},
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "number"
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "status": {
+                      "type": "string"
+                    },
+                    "errors": {
+                      "type": "object"
+                    }
+                  }
+                },
+                "example": {
+                  "code": 404,
+                  "message": "Skills framework not found",
+                  "status": "not_found",
+                  "errors": {}
+                }
+              }
+            }
+          }
+        },
+        "summary": "Search Skills in a Framework Version",
+        "operationId": "Search Skills in a Framework Version",
+        "description": "Searches the skills inside a specific version of a Skill Framework.\n\nThe `query` is matched against both the skill name and the publisher's `identifier`, so you can look a skill up either way. Use this endpoint to resolve the skill `id` values and `breadcrumb_ids` trails you then send as `framework_skills` when creating or updating a Group.\n\nThe version is always explicit. Take the version `id` from the `versions` array returned by [View all Skill Frameworks](#operation/View%20all%20Skill%20Frameworks) — there is no \"latest version\" shortcut, which means a skill id you look up here is guaranteed to still be valid for the version you attach it to.\n\nEach skill appears **once**, with all of its positions in the hierarchy collected under `breadcrumbs`. A skill placed in two branches of the taxonomy is one row with two trails, not two rows.\n\nSearch is intentionally broader than what you can attach: any framework your API key can see is searchable, including one that is not enabled for a particular Department. Whether a skill can actually be attached is checked when you write to a Group.",
+        "tags": [
+          "Skills Frameworks"
+        ],
+        "parameters": [
+          {
+            "name": "skill_framework_id",
+            "in": "path",
+            "description": "ID of the Skill Framework to search within, as returned by the framework list endpoint.",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "version_id",
+            "in": "path",
+            "description": "ID of the framework version to search within, taken from the framework's `versions` array. Must belong to the given framework and be a published (`active` or `retired`) version.",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "query",
+            "in": "query",
+            "description": "Text to search for, matched as a partial, case-insensitive match against the skill name and the publisher's `identifier`. Required, and must be at least 2 characters.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "description": "The pagination page. Defaults to 1.",
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "page_size",
+            "in": "query",
+            "description": "The pagination response size. Defaults to 50, which is also the maximum. Values above the maximum are capped, and values that are not a positive number fall back to the default.",
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ],
+        "x-code-samples": [
+          {
+            "lang": "cURL",
+            "label": "cURL",
+            "source": "curl -X GET \\\n  \"https://api.accredible.com/v1/skill_frameworks/12345/versions/12345/skills?query=reading\" \\\n  -H \"Authorization: Token token=YOUR_API_KEY\""
           }
         ]
       }
@@ -10561,6 +11797,10 @@
     {
       "name": "Groups",
       "description": "Groups are similar to a course or a folder of Credentials. They contain information about the achievement and have multiple Credentials attached to them.\n\nFor example you should create a group for the Introduction to Programming course. You'd provide the Course Name, Course Descripion and Course URL. In the future you can pass the name or ID of this group when creating a credential so that the credential is passed all the information relating to the achievement."
+    },
+    {
+      "name": "Skills Frameworks",
+      "description": "A Skills Framework is a structured taxonomy of skills. Accredible maintains external frameworks such as O*NET, ESCO and NACE, and your organization can upload its own custom frameworks. Tagging a Group against a framework replaces the free-text `learning_outcomes` list with skills that carry a stable identifier and a known position in a recognized taxonomy.\n\nThese endpoints are **read-only**. Uploading frameworks, editing their skills, publishing and retiring versions are all managed in the [Accredible Dashboard](https://dashboard.accredible.com/) — the API lets you discover the frameworks available to you, search their skills, and select those skills on a Group.\n\n## Frameworks are versioned\n\nYou always tag against a **version**, never a framework. Each framework in the list response carries a `versions` array; take the `id` of the version you want and send it as `skill_framework_version_id` when you create or update a Group. Only published versions (`active` and `retired`) are ever returned. Pinning the version explicitly means an upstream framework update can never silently change which skills your integration attaches.\n\n## Availability is governed per department\n\nFramework availability resolves as a cascade: your plan must include skills frameworks, then a framework must be added at the organization level, then enabled for the department. `GET /v1/skill_frameworks` requires a `department_id` and returns only the frameworks enabled for that department — those are the frameworks you can attach to a Group in it.\n\nSkill *search* is deliberately wider than attach eligibility: a framework your API key can see is searchable even if it is not enabled for a particular department. Enablement is enforced when you attach, not when you browse.\n\n## Skills know where they live\n\nA skill sits at a position in its framework's hierarchy, and in some taxonomies it legitimately sits in more than one. The skills search response returns one row per skill with a `breadcrumbs` array — one trail per placement, each trail listing the skill's ancestors from the root down to its immediate parent.\n\nWhen you attach a skill to a Group you send both the skill `id` and the `breadcrumb_ids` of the trail you mean, so the placement is unambiguous. The ids in a `breadcrumbs` trail are exactly what `breadcrumb_ids` expects — you can copy them straight from a search result into a Group request. Because the pair `(id, breadcrumb_ids)` identifies a placement, the same skill id may appear more than once with different trails.\n\n## Relationship to existing Group fields\n\nFramework skills and free-text `learning_outcomes` can both be set on a Group; neither is rejected or cleared by the other. Where a credential displays a single skills list, framework skills take precedence. `skill_category_id` is a separate, unrelated classification and is unaffected.\n\n## Attaching skills is best-effort\n\nA problem with a framework or an individual skill never fails a Group write. The Group is still created or updated, valid skills are still attached, and every problem is itemized in an `errors` array alongside an HTTP `207 Multi-Status`. See [Skills Frameworks Error Handling](#section/Errors/Skills-Frameworks-Error-Handling) for the full list of codes."
     },
     {
       "name": "Collections",
