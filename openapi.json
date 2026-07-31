@@ -251,6 +251,126 @@
                               "type": "string"
                             }
                           }
+                        },
+                        "skill_framework": {
+                          "type": "object",
+                          "description": "The Skill Framework that the credential's Group is tagged against.\n\n`null` when the Group uses free-text `learning_outcomes`, when it has a framework selected but no skills that can be tagged, and when the credential has no Group. Whenever this is an object, `skills` is non-empty.\n\nThe framework and version reported here are the ones pinned on the Group, so they describe what the credential was actually issued against. Retiring a version does not change them. Migrating the Group to a newer version does, and that applies retroactively to every credential already issued from it. See the [Skills Frameworks](#tag/Skills-Frameworks) endpoints.",
+                          "nullable": true,
+                          "properties": {
+                            "id": {
+                              "type": "number"
+                            },
+                            "name": {
+                              "type": "string"
+                            },
+                            "source_type": {
+                              "type": "string",
+                              "description": "`external` for a framework maintained by Accredible, `custom` for one uploaded by your organization.",
+                              "enum": [
+                                "external",
+                                "custom"
+                              ]
+                            },
+                            "taxonomy": {
+                              "type": "string",
+                              "description": "The published taxonomy an external framework comes from: `ONET`, `ESCO` or `NACE`. Always `null` for custom frameworks.",
+                              "nullable": true
+                            },
+                            "provider": {
+                              "type": "string",
+                              "description": "The organization that publishes the framework.",
+                              "nullable": true
+                            },
+                            "description": {
+                              "type": "string",
+                              "nullable": true
+                            },
+                            "attribution": {
+                              "type": "object",
+                              "description": "Attribution that the framework's licence requires you to display wherever you show its skills.",
+                              "properties": {
+                                "text": {
+                                  "type": "string",
+                                  "nullable": true
+                                },
+                                "url": {
+                                  "type": "string",
+                                  "nullable": true
+                                }
+                              }
+                            },
+                            "version": {
+                              "type": "object",
+                              "description": "The framework version pinned on the Group. This reports the version's own status — unlike the framework list endpoint, a version that is mid-retirement for your Department is not re-presented as `retired` here, because a credential records what it was issued against.",
+                              "properties": {
+                                "id": {
+                                  "type": "number"
+                                },
+                                "version": {
+                                  "type": "string"
+                                },
+                                "status": {
+                                  "type": "string"
+                                }
+                              }
+                            }
+                          }
+                        },
+                        "skills": {
+                          "type": "array",
+                          "description": "Framework skills attached to the credential's Group, ordered by name. Empty for a Group using free-text `learning_outcomes` and for a credential with no Group.\n\nThere is one entry per placement in the framework, so a skill sitting at two positions in the taxonomy appears as two entries, each with its own `breadcrumbs` trail. Note this differs from [Search Skills in a Framework Version](#operation/Search%20Skills%20in%20a%20Framework%20Version), where a skill is a single row carrying an array of trails.",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "id": {
+                                "type": "number"
+                              },
+                              "name": {
+                                "type": "string"
+                              },
+                              "identifier": {
+                                "type": "string",
+                                "description": "The framework's own external identifier for the skill — an O*NET element id, an ESCO URI, or whatever a custom framework was uploaded with. This is the field to match against your own systems. `null` when the framework does not provide one.",
+                                "nullable": true
+                              },
+                              "description": {
+                                "type": "string",
+                                "nullable": true
+                              },
+                              "url": {
+                                "type": "string",
+                                "description": "Link to the skill in the publisher's own taxonomy, when the framework provides one.",
+                                "nullable": true
+                              },
+                              "breadcrumbs": {
+                                "type": "array",
+                                "description": "Where this skill sits in the framework: its ancestors from the root down to its immediate parent, with the skill itself excluded. Empty for a skill that sits at the root of the framework.",
+                                "items": {
+                                  "type": "object",
+                                  "properties": {
+                                    "id": {
+                                      "type": "number"
+                                    },
+                                    "name": {
+                                      "type": "string"
+                                    }
+                                  },
+                                  "required": [
+                                    "id",
+                                    "name"
+                                  ]
+                                }
+                              }
+                            },
+                            "required": [
+                              "id",
+                              "name",
+                              "identifier",
+                              "description",
+                              "url",
+                              "breadcrumbs"
+                            ]
+                          }
                         }
                       }
                     }
@@ -341,7 +461,68 @@
                     },
                     "meta_data": {
                       "foo": "bar"
-                    }
+                    },
+                    "skill_framework": {
+                      "id": 44,
+                      "name": "O*NET Skills",
+                      "source_type": "external",
+                      "taxonomy": "ONET",
+                      "provider": "U.S. Department of Labor",
+                      "description": null,
+                      "attribution": {
+                        "text": "O*NET is sponsored by the U.S. Department of Labor",
+                        "url": "https://www.onetonline.org/"
+                      },
+                      "version": {
+                        "id": 44,
+                        "version": "30.0",
+                        "status": "active"
+                      }
+                    },
+                    "skills": [
+                      {
+                        "id": 59301,
+                        "name": "Reading Comprehension",
+                        "identifier": "2.A.1.a",
+                        "description": "Understanding written sentences and paragraphs in work related documents.",
+                        "url": "https://www.onetonline.org/find/descriptor/result/2.A.1.a",
+                        "breadcrumbs": [
+                          {
+                            "id": 59298,
+                            "name": "Worker Requirements"
+                          },
+                          {
+                            "id": 59299,
+                            "name": "Basic Skills"
+                          },
+                          {
+                            "id": 59300,
+                            "name": "Content"
+                          }
+                        ]
+                      },
+                      {
+                        "id": 59302,
+                        "name": "Active Listening",
+                        "identifier": "2.A.1.b",
+                        "description": "Giving full attention to what other people are saying, taking time to understand the points being made.",
+                        "url": "https://www.onetonline.org/find/descriptor/result/2.A.1.b",
+                        "breadcrumbs": [
+                          {
+                            "id": 59298,
+                            "name": "Worker Requirements"
+                          },
+                          {
+                            "id": 59299,
+                            "name": "Basic Skills"
+                          },
+                          {
+                            "id": 59300,
+                            "name": "Content"
+                          }
+                        ]
+                      }
+                    ]
                   }
                 }
               }
@@ -685,6 +866,126 @@
                               "references": {
                                 "type": "array",
                                 "items": {}
+                              },
+                              "skill_framework": {
+                                "type": "object",
+                                "description": "The Skill Framework that the credential's Group is tagged against.\n\n`null` when the Group uses free-text `learning_outcomes`, when it has a framework selected but no skills that can be tagged, and when the credential has no Group. Whenever this is an object, `skills` is non-empty.\n\nThe framework and version reported here are the ones pinned on the Group, so they describe what the credential was actually issued against. Retiring a version does not change them. Migrating the Group to a newer version does, and that applies retroactively to every credential already issued from it. See the [Skills Frameworks](#tag/Skills-Frameworks) endpoints.",
+                                "nullable": true,
+                                "properties": {
+                                  "id": {
+                                    "type": "number"
+                                  },
+                                  "name": {
+                                    "type": "string"
+                                  },
+                                  "source_type": {
+                                    "type": "string",
+                                    "description": "`external` for a framework maintained by Accredible, `custom` for one uploaded by your organization.",
+                                    "enum": [
+                                      "external",
+                                      "custom"
+                                    ]
+                                  },
+                                  "taxonomy": {
+                                    "type": "string",
+                                    "description": "The published taxonomy an external framework comes from: `ONET`, `ESCO` or `NACE`. Always `null` for custom frameworks.",
+                                    "nullable": true
+                                  },
+                                  "provider": {
+                                    "type": "string",
+                                    "description": "The organization that publishes the framework.",
+                                    "nullable": true
+                                  },
+                                  "description": {
+                                    "type": "string",
+                                    "nullable": true
+                                  },
+                                  "attribution": {
+                                    "type": "object",
+                                    "description": "Attribution that the framework's licence requires you to display wherever you show its skills.",
+                                    "properties": {
+                                      "text": {
+                                        "type": "string",
+                                        "nullable": true
+                                      },
+                                      "url": {
+                                        "type": "string",
+                                        "nullable": true
+                                      }
+                                    }
+                                  },
+                                  "version": {
+                                    "type": "object",
+                                    "description": "The framework version pinned on the Group. This reports the version's own status — unlike the framework list endpoint, a version that is mid-retirement for your Department is not re-presented as `retired` here, because a credential records what it was issued against.",
+                                    "properties": {
+                                      "id": {
+                                        "type": "number"
+                                      },
+                                      "version": {
+                                        "type": "string"
+                                      },
+                                      "status": {
+                                        "type": "string"
+                                      }
+                                    }
+                                  }
+                                }
+                              },
+                              "skills": {
+                                "type": "array",
+                                "description": "Framework skills attached to the credential's Group, ordered by name. Empty for a Group using free-text `learning_outcomes` and for a credential with no Group.\n\nThere is one entry per placement in the framework, so a skill sitting at two positions in the taxonomy appears as two entries, each with its own `breadcrumbs` trail. Note this differs from [Search Skills in a Framework Version](#operation/Search%20Skills%20in%20a%20Framework%20Version), where a skill is a single row carrying an array of trails.",
+                                "items": {
+                                  "type": "object",
+                                  "properties": {
+                                    "id": {
+                                      "type": "number"
+                                    },
+                                    "name": {
+                                      "type": "string"
+                                    },
+                                    "identifier": {
+                                      "type": "string",
+                                      "description": "The framework's own external identifier for the skill — an O*NET element id, an ESCO URI, or whatever a custom framework was uploaded with. This is the field to match against your own systems. `null` when the framework does not provide one.",
+                                      "nullable": true
+                                    },
+                                    "description": {
+                                      "type": "string",
+                                      "nullable": true
+                                    },
+                                    "url": {
+                                      "type": "string",
+                                      "description": "Link to the skill in the publisher's own taxonomy, when the framework provides one.",
+                                      "nullable": true
+                                    },
+                                    "breadcrumbs": {
+                                      "type": "array",
+                                      "description": "Where this skill sits in the framework: its ancestors from the root down to its immediate parent, with the skill itself excluded. Empty for a skill that sits at the root of the framework.",
+                                      "items": {
+                                        "type": "object",
+                                        "properties": {
+                                          "id": {
+                                            "type": "number"
+                                          },
+                                          "name": {
+                                            "type": "string"
+                                          }
+                                        },
+                                        "required": [
+                                          "id",
+                                          "name"
+                                        ]
+                                      }
+                                    }
+                                  },
+                                  "required": [
+                                    "id",
+                                    "name",
+                                    "identifier",
+                                    "description",
+                                    "url",
+                                    "breadcrumbs"
+                                  ]
+                                }
                               }
                             }
                           },
@@ -734,7 +1035,68 @@
                         "course_link": null,
                         "meta_data": null,
                         "evidence_items": [],
-                        "references": []
+                        "references": [],
+                        "skill_framework": {
+                          "id": 44,
+                          "name": "O*NET Skills",
+                          "source_type": "external",
+                          "taxonomy": "ONET",
+                          "provider": "U.S. Department of Labor",
+                          "description": null,
+                          "attribution": {
+                            "text": "O*NET is sponsored by the U.S. Department of Labor",
+                            "url": "https://www.onetonline.org/"
+                          },
+                          "version": {
+                            "id": 44,
+                            "version": "30.0",
+                            "status": "active"
+                          }
+                        },
+                        "skills": [
+                          {
+                            "id": 59301,
+                            "name": "Reading Comprehension",
+                            "identifier": "2.A.1.a",
+                            "description": "Understanding written sentences and paragraphs in work related documents.",
+                            "url": "https://www.onetonline.org/find/descriptor/result/2.A.1.a",
+                            "breadcrumbs": [
+                              {
+                                "id": 59298,
+                                "name": "Worker Requirements"
+                              },
+                              {
+                                "id": 59299,
+                                "name": "Basic Skills"
+                              },
+                              {
+                                "id": 59300,
+                                "name": "Content"
+                              }
+                            ]
+                          },
+                          {
+                            "id": 59302,
+                            "name": "Active Listening",
+                            "identifier": "2.A.1.b",
+                            "description": "Giving full attention to what other people are saying, taking time to understand the points being made.",
+                            "url": "https://www.onetonline.org/find/descriptor/result/2.A.1.b",
+                            "breadcrumbs": [
+                              {
+                                "id": 59298,
+                                "name": "Worker Requirements"
+                              },
+                              {
+                                "id": 59299,
+                                "name": "Basic Skills"
+                              },
+                              {
+                                "id": 59300,
+                                "name": "Content"
+                              }
+                            ]
+                          }
+                        ]
                       },
                       "errors": {
                         "code": "insufficient_credits",
@@ -1086,6 +1448,126 @@
                         },
                         "meta_data": {
                           "nullable": true
+                        },
+                        "skill_framework": {
+                          "type": "object",
+                          "description": "The Skill Framework that the credential's Group is tagged against.\n\n`null` when the Group uses free-text `learning_outcomes`, when it has a framework selected but no skills that can be tagged, and when the credential has no Group. Whenever this is an object, `skills` is non-empty.\n\nThe framework and version reported here are the ones pinned on the Group, so they describe what the credential was actually issued against. Retiring a version does not change them. Migrating the Group to a newer version does, and that applies retroactively to every credential already issued from it. See the [Skills Frameworks](#tag/Skills-Frameworks) endpoints.",
+                          "nullable": true,
+                          "properties": {
+                            "id": {
+                              "type": "number"
+                            },
+                            "name": {
+                              "type": "string"
+                            },
+                            "source_type": {
+                              "type": "string",
+                              "description": "`external` for a framework maintained by Accredible, `custom` for one uploaded by your organization.",
+                              "enum": [
+                                "external",
+                                "custom"
+                              ]
+                            },
+                            "taxonomy": {
+                              "type": "string",
+                              "description": "The published taxonomy an external framework comes from: `ONET`, `ESCO` or `NACE`. Always `null` for custom frameworks.",
+                              "nullable": true
+                            },
+                            "provider": {
+                              "type": "string",
+                              "description": "The organization that publishes the framework.",
+                              "nullable": true
+                            },
+                            "description": {
+                              "type": "string",
+                              "nullable": true
+                            },
+                            "attribution": {
+                              "type": "object",
+                              "description": "Attribution that the framework's licence requires you to display wherever you show its skills.",
+                              "properties": {
+                                "text": {
+                                  "type": "string",
+                                  "nullable": true
+                                },
+                                "url": {
+                                  "type": "string",
+                                  "nullable": true
+                                }
+                              }
+                            },
+                            "version": {
+                              "type": "object",
+                              "description": "The framework version pinned on the Group. This reports the version's own status — unlike the framework list endpoint, a version that is mid-retirement for your Department is not re-presented as `retired` here, because a credential records what it was issued against.",
+                              "properties": {
+                                "id": {
+                                  "type": "number"
+                                },
+                                "version": {
+                                  "type": "string"
+                                },
+                                "status": {
+                                  "type": "string"
+                                }
+                              }
+                            }
+                          }
+                        },
+                        "skills": {
+                          "type": "array",
+                          "description": "Framework skills attached to the credential's Group, ordered by name. Empty for a Group using free-text `learning_outcomes` and for a credential with no Group.\n\nThere is one entry per placement in the framework, so a skill sitting at two positions in the taxonomy appears as two entries, each with its own `breadcrumbs` trail. Note this differs from [Search Skills in a Framework Version](#operation/Search%20Skills%20in%20a%20Framework%20Version), where a skill is a single row carrying an array of trails.",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "id": {
+                                "type": "number"
+                              },
+                              "name": {
+                                "type": "string"
+                              },
+                              "identifier": {
+                                "type": "string",
+                                "description": "The framework's own external identifier for the skill — an O*NET element id, an ESCO URI, or whatever a custom framework was uploaded with. This is the field to match against your own systems. `null` when the framework does not provide one.",
+                                "nullable": true
+                              },
+                              "description": {
+                                "type": "string",
+                                "nullable": true
+                              },
+                              "url": {
+                                "type": "string",
+                                "description": "Link to the skill in the publisher's own taxonomy, when the framework provides one.",
+                                "nullable": true
+                              },
+                              "breadcrumbs": {
+                                "type": "array",
+                                "description": "Where this skill sits in the framework: its ancestors from the root down to its immediate parent, with the skill itself excluded. Empty for a skill that sits at the root of the framework.",
+                                "items": {
+                                  "type": "object",
+                                  "properties": {
+                                    "id": {
+                                      "type": "number"
+                                    },
+                                    "name": {
+                                      "type": "string"
+                                    }
+                                  },
+                                  "required": [
+                                    "id",
+                                    "name"
+                                  ]
+                                }
+                              }
+                            },
+                            "required": [
+                              "id",
+                              "name",
+                              "identifier",
+                              "description",
+                              "url",
+                              "breadcrumbs"
+                            ]
+                          }
                         }
                       }
                     }
@@ -1172,7 +1654,68 @@
                       "url": "http://www.accredible.com",
                       "id": 4897
                     },
-                    "meta_data": null
+                    "meta_data": null,
+                    "skill_framework": {
+                      "id": 44,
+                      "name": "O*NET Skills",
+                      "source_type": "external",
+                      "taxonomy": "ONET",
+                      "provider": "U.S. Department of Labor",
+                      "description": null,
+                      "attribution": {
+                        "text": "O*NET is sponsored by the U.S. Department of Labor",
+                        "url": "https://www.onetonline.org/"
+                      },
+                      "version": {
+                        "id": 44,
+                        "version": "30.0",
+                        "status": "active"
+                      }
+                    },
+                    "skills": [
+                      {
+                        "id": 59301,
+                        "name": "Reading Comprehension",
+                        "identifier": "2.A.1.a",
+                        "description": "Understanding written sentences and paragraphs in work related documents.",
+                        "url": "https://www.onetonline.org/find/descriptor/result/2.A.1.a",
+                        "breadcrumbs": [
+                          {
+                            "id": 59298,
+                            "name": "Worker Requirements"
+                          },
+                          {
+                            "id": 59299,
+                            "name": "Basic Skills"
+                          },
+                          {
+                            "id": 59300,
+                            "name": "Content"
+                          }
+                        ]
+                      },
+                      {
+                        "id": 59302,
+                        "name": "Active Listening",
+                        "identifier": "2.A.1.b",
+                        "description": "Giving full attention to what other people are saying, taking time to understand the points being made.",
+                        "url": "https://www.onetonline.org/find/descriptor/result/2.A.1.b",
+                        "breadcrumbs": [
+                          {
+                            "id": 59298,
+                            "name": "Worker Requirements"
+                          },
+                          {
+                            "id": 59299,
+                            "name": "Basic Skills"
+                          },
+                          {
+                            "id": 59300,
+                            "name": "Content"
+                          }
+                        ]
+                      }
+                    ]
                   }
                 }
               }
@@ -2115,6 +2658,126 @@
                               }
                             },
                             "nullable": true
+                          },
+                          "skill_framework": {
+                            "type": "object",
+                            "description": "The Skill Framework that the credential's Group is tagged against.\n\n`null` when the Group uses free-text `learning_outcomes`, when it has a framework selected but no skills that can be tagged, and when the credential has no Group. Whenever this is an object, `skills` is non-empty.\n\nThe framework and version reported here are the ones pinned on the Group, so they describe what the credential was actually issued against. Retiring a version does not change them. Migrating the Group to a newer version does, and that applies retroactively to every credential already issued from it. See the [Skills Frameworks](#tag/Skills-Frameworks) endpoints.",
+                            "nullable": true,
+                            "properties": {
+                              "id": {
+                                "type": "number"
+                              },
+                              "name": {
+                                "type": "string"
+                              },
+                              "source_type": {
+                                "type": "string",
+                                "description": "`external` for a framework maintained by Accredible, `custom` for one uploaded by your organization.",
+                                "enum": [
+                                  "external",
+                                  "custom"
+                                ]
+                              },
+                              "taxonomy": {
+                                "type": "string",
+                                "description": "The published taxonomy an external framework comes from: `ONET`, `ESCO` or `NACE`. Always `null` for custom frameworks.",
+                                "nullable": true
+                              },
+                              "provider": {
+                                "type": "string",
+                                "description": "The organization that publishes the framework.",
+                                "nullable": true
+                              },
+                              "description": {
+                                "type": "string",
+                                "nullable": true
+                              },
+                              "attribution": {
+                                "type": "object",
+                                "description": "Attribution that the framework's licence requires you to display wherever you show its skills.",
+                                "properties": {
+                                  "text": {
+                                    "type": "string",
+                                    "nullable": true
+                                  },
+                                  "url": {
+                                    "type": "string",
+                                    "nullable": true
+                                  }
+                                }
+                              },
+                              "version": {
+                                "type": "object",
+                                "description": "The framework version pinned on the Group. This reports the version's own status — unlike the framework list endpoint, a version that is mid-retirement for your Department is not re-presented as `retired` here, because a credential records what it was issued against.",
+                                "properties": {
+                                  "id": {
+                                    "type": "number"
+                                  },
+                                  "version": {
+                                    "type": "string"
+                                  },
+                                  "status": {
+                                    "type": "string"
+                                  }
+                                }
+                              }
+                            }
+                          },
+                          "skills": {
+                            "type": "array",
+                            "description": "Framework skills attached to the credential's Group, ordered by name. Empty for a Group using free-text `learning_outcomes` and for a credential with no Group.\n\nThere is one entry per placement in the framework, so a skill sitting at two positions in the taxonomy appears as two entries, each with its own `breadcrumbs` trail. Note this differs from [Search Skills in a Framework Version](#operation/Search%20Skills%20in%20a%20Framework%20Version), where a skill is a single row carrying an array of trails.",
+                            "items": {
+                              "type": "object",
+                              "properties": {
+                                "id": {
+                                  "type": "number"
+                                },
+                                "name": {
+                                  "type": "string"
+                                },
+                                "identifier": {
+                                  "type": "string",
+                                  "description": "The framework's own external identifier for the skill — an O*NET element id, an ESCO URI, or whatever a custom framework was uploaded with. This is the field to match against your own systems. `null` when the framework does not provide one.",
+                                  "nullable": true
+                                },
+                                "description": {
+                                  "type": "string",
+                                  "nullable": true
+                                },
+                                "url": {
+                                  "type": "string",
+                                  "description": "Link to the skill in the publisher's own taxonomy, when the framework provides one.",
+                                  "nullable": true
+                                },
+                                "breadcrumbs": {
+                                  "type": "array",
+                                  "description": "Where this skill sits in the framework: its ancestors from the root down to its immediate parent, with the skill itself excluded. Empty for a skill that sits at the root of the framework.",
+                                  "items": {
+                                    "type": "object",
+                                    "properties": {
+                                      "id": {
+                                        "type": "number"
+                                      },
+                                      "name": {
+                                        "type": "string"
+                                      }
+                                    },
+                                    "required": [
+                                      "id",
+                                      "name"
+                                    ]
+                                  }
+                                }
+                              },
+                              "required": [
+                                "id",
+                                "name",
+                                "identifier",
+                                "description",
+                                "url",
+                                "breadcrumbs"
+                              ]
+                            }
                           }
                         },
                         "required": [
@@ -2133,7 +2796,9 @@
                           "private",
                           "recipient",
                           "issuer",
-                          "meta_data"
+                          "meta_data",
+                          "skill_framework",
+                          "skills"
                         ]
                       }
                     },
@@ -2192,7 +2857,68 @@
                       },
                       "meta_data": {
                         "foo": "bar"
-                      }
+                      },
+                      "skill_framework": {
+                        "id": 44,
+                        "name": "O*NET Skills",
+                        "source_type": "external",
+                        "taxonomy": "ONET",
+                        "provider": "U.S. Department of Labor",
+                        "description": null,
+                        "attribution": {
+                          "text": "O*NET is sponsored by the U.S. Department of Labor",
+                          "url": "https://www.onetonline.org/"
+                        },
+                        "version": {
+                          "id": 44,
+                          "version": "30.0",
+                          "status": "active"
+                        }
+                      },
+                      "skills": [
+                        {
+                          "id": 59301,
+                          "name": "Reading Comprehension",
+                          "identifier": "2.A.1.a",
+                          "description": "Understanding written sentences and paragraphs in work related documents.",
+                          "url": "https://www.onetonline.org/find/descriptor/result/2.A.1.a",
+                          "breadcrumbs": [
+                            {
+                              "id": 59298,
+                              "name": "Worker Requirements"
+                            },
+                            {
+                              "id": 59299,
+                              "name": "Basic Skills"
+                            },
+                            {
+                              "id": 59300,
+                              "name": "Content"
+                            }
+                          ]
+                        },
+                        {
+                          "id": 59302,
+                          "name": "Active Listening",
+                          "identifier": "2.A.1.b",
+                          "description": "Giving full attention to what other people are saying, taking time to understand the points being made.",
+                          "url": "https://www.onetonline.org/find/descriptor/result/2.A.1.b",
+                          "breadcrumbs": [
+                            {
+                              "id": 59298,
+                              "name": "Worker Requirements"
+                            },
+                            {
+                              "id": 59299,
+                              "name": "Basic Skills"
+                            },
+                            {
+                              "id": 59300,
+                              "name": "Content"
+                            }
+                          ]
+                        }
+                      ]
                     },
                     {
                       "id": 10250010,
@@ -2221,7 +2947,9 @@
                         "description": " Best place to manage online learning",
                         "url": "http://www.accredible.com"
                       },
-                      "meta_data": null
+                      "meta_data": null,
+                      "skill_framework": null,
+                      "skills": []
                     }
                   ],
                   "meta": {
@@ -2537,7 +3265,7 @@
         },
         "summary": "Search for Credentials (v2)",
         "operationId": "Search for Credentials (v2)",
-        "description": "This is a faster alternative to the v1 Search API. It also supports operations on the query fields which can allow you to form more complex queries.\n\nFollowing operations are **supported based on the field**. You can also combine operations on multiple fields:\n\n| Operation | Description | Example |\n|-----------|-------------|----------|\n| `eq` | Exact match (default, if nothing specified). | `{\"group.id[eq]\": 1}` or `{\"group.id\": 1}` - Both yield the same result. |\n| `in` | Allows an array of values. | `{\"group.id[in]\": [1, 2]}` |\n| `lt` | Less than. | `{\"issued_on[lt]\": \"2023-12-31\"}` |\n| `gt` | Greater than. | `{\"issued_on[gt]\": \"2023-01-01\"}` |\n| `lte` | Less than equal to. | `{\"expired_on[lte]\": \"2023-12-31\"}` |\n| `gte` | Greater than equal to. | `{\"expired_on[gte]\": \"2023-01-01\"}` |\n\n**Note:** Offset-based pagination using `page.from` + `page.size` supports a maximum of 10,000 results. To retrieve results beyond this limit, use cursor-based pagination with `page.cursor` and `page.size`.",
+        "description": "This is a faster alternative to the v1 Search API. It also supports operations on the query fields which can allow you to form more complex queries.\n\nFollowing operations are **supported based on the field**. You can also combine operations on multiple fields:\n\n| Operation | Description | Example |\n|-----------|-------------|----------|\n| `eq` | Exact match (default, if nothing specified). | `{\"group.id[eq]\": 1}` or `{\"group.id\": 1}` - Both yield the same result. |\n| `in` | Allows an array of values. | `{\"group.id[in]\": [1, 2]}` |\n| `lt` | Less than. | `{\"issued_on[lt]\": \"2023-12-31\"}` |\n| `gt` | Greater than. | `{\"issued_on[gt]\": \"2023-01-01\"}` |\n| `lte` | Less than equal to. | `{\"expired_on[lte]\": \"2023-12-31\"}` |\n| `gte` | Greater than equal to. | `{\"expired_on[gte]\": \"2023-01-01\"}` |\n\n**Note:** Offset-based pagination using `page.from` + `page.size` supports a maximum of 10,000 results. To retrieve results beyond this limit, use cursor-based pagination with `page.cursor` and `page.size`.\n\n**Note:** Results from this endpoint do **not** carry the `skill_framework` and `skills` fields that the other credential endpoints return. To read a credential's framework skills, fetch it with [View a Credential](#operation/View%20a%20Credential).",
         "tags": [
           "Credentials"
         ],
@@ -11800,7 +12528,7 @@
     },
     {
       "name": "Skills Frameworks",
-      "description": "A Skills Framework is a structured taxonomy of skills. Accredible maintains external frameworks such as O*NET, ESCO and NACE, and your organization can upload its own custom frameworks. Tagging a Group against a framework replaces the free-text `learning_outcomes` list with skills that carry a stable identifier and a known position in a recognized taxonomy.\n\nThese endpoints are **read-only**. Uploading frameworks, editing their skills, publishing and retiring versions are all managed in the [Accredible Dashboard](https://dashboard.accredible.com/) — the API lets you discover the frameworks available to you, search their skills, and select those skills on a Group.\n\n## Frameworks are versioned\n\nYou always tag against a **version**, never a framework. Each framework in the list response carries a `versions` array; take the `id` of the version you want and send it as `skill_framework_version_id` when you create or update a Group. Only published versions (`active` and `retired`) are ever returned. Pinning the version explicitly means an upstream framework update can never silently change which skills your integration attaches.\n\n## Availability is governed per department\n\nFramework availability resolves as a cascade: your plan must include skills frameworks, then a framework must be added at the organization level, then enabled for the department. `GET /v1/skill_frameworks` requires a `department_id` and returns only the frameworks enabled for that department — those are the frameworks you can attach to a Group in it.\n\nSkill *search* is deliberately wider than attach eligibility: a framework your API key can see is searchable even if it is not enabled for a particular department. Enablement is enforced when you attach, not when you browse.\n\n## Skills know where they live\n\nA skill sits at a position in its framework's hierarchy, and in some taxonomies it legitimately sits in more than one. The skills search response returns one row per skill with a `breadcrumbs` array — one trail per placement, each trail listing the skill's ancestors from the root down to its immediate parent.\n\nWhen you attach a skill to a Group you send both the skill `id` and the `breadcrumb_ids` of the trail you mean, so the placement is unambiguous. The ids in a `breadcrumbs` trail are exactly what `breadcrumb_ids` expects — you can copy them straight from a search result into a Group request. Because the pair `(id, breadcrumb_ids)` identifies a placement, the same skill id may appear more than once with different trails.\n\n## Relationship to existing Group fields\n\nFramework skills and free-text `learning_outcomes` can both be set on a Group; neither is rejected or cleared by the other. Where a credential displays a single skills list, framework skills take precedence. `skill_category_id` is a separate, unrelated classification and is unaffected.\n\n## Attaching skills is best-effort\n\nA problem with a framework or an individual skill never fails a Group write. The Group is still created or updated, valid skills are still attached, and every problem is itemized in an `errors` array alongside an HTTP `207 Multi-Status`. See [Skills Frameworks Error Handling](#section/Errors/Skills-Frameworks-Error-Handling) for the full list of codes."
+      "description": "A Skills Framework is a structured taxonomy of skills. Accredible maintains external frameworks such as O*NET, ESCO and NACE, and your organization can upload its own custom frameworks. Tagging a Group against a framework replaces the free-text `learning_outcomes` list with skills that carry a stable identifier and a known position in a recognized taxonomy.\n\nThese endpoints are **read-only**. Uploading frameworks, editing their skills, publishing and retiring versions are all managed in the [Accredible Dashboard](https://dashboard.accredible.com/) — the API lets you discover the frameworks available to you, search their skills, and select those skills on a Group.\n\n## Frameworks are versioned\n\nYou always tag against a **version**, never a framework. Each framework in the list response carries a `versions` array; take the `id` of the version you want and send it as `skill_framework_version_id` when you create or update a Group. Only published versions (`active` and `retired`) are ever returned. Pinning the version explicitly means an upstream framework update can never silently change which skills your integration attaches.\n\n## Availability is governed per department\n\nFramework availability resolves as a cascade: your plan must include skills frameworks, then a framework must be added at the organization level, then enabled for the department. `GET /v1/skill_frameworks` requires a `department_id` and returns only the frameworks enabled for that department — those are the frameworks you can attach to a Group in it.\n\nSkill *search* is deliberately wider than attach eligibility: a framework your API key can see is searchable even if it is not enabled for a particular department. Enablement is enforced when you attach, not when you browse.\n\n## Skills know where they live\n\nA skill sits at a position in its framework's hierarchy, and in some taxonomies it legitimately sits in more than one. The skills search response returns one row per skill with a `breadcrumbs` array — one trail per placement, each trail listing the skill's ancestors from the root down to its immediate parent.\n\nWhen you attach a skill to a Group you send both the skill `id` and the `breadcrumb_ids` of the trail you mean, so the placement is unambiguous. The ids in a `breadcrumbs` trail are exactly what `breadcrumb_ids` expects — you can copy them straight from a search result into a Group request. Because the pair `(id, breadcrumb_ids)` identifies a placement, the same skill id may appear more than once with different trails.\n\n## Reading skills back off a credential\n\nYou do not need to call these endpoints to display a credential's skills. [Credential](#tag/Credentials) responses carry `skill_framework` and `skills` for the Group the credential was issued from, with each skill's external `identifier` and its `breadcrumbs` trail, so a consumer pulling credentials can render skills without a second request.\n\n## Relationship to existing Group fields\n\nFramework skills and free-text `learning_outcomes` can both be set on a Group; neither is rejected or cleared by the other. Where a credential displays a single skills list, framework skills take precedence. `skill_category_id` is a separate, unrelated classification and is unaffected.\n\n## Attaching skills is best-effort\n\nA problem with a framework or an individual skill never fails a Group write. The Group is still created or updated, valid skills are still attached, and every problem is itemized in an `errors` array alongside an HTTP `207 Multi-Status`. See [Skills Frameworks Error Handling](#section/Errors/Skills-Frameworks-Error-Handling) for the full list of codes."
     },
     {
       "name": "Collections",
