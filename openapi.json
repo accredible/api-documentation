@@ -5900,7 +5900,7 @@
                   },
                   "framework_skills": {
                     "type": "array",
-                    "description": "Skills from `skill_framework_version_id` to attach to the Group. Must be sent together with `skill_framework_version_id` and contain at least one skill — sending only one of the two keys, or an empty array, attaches nothing and returns a `207` with a `framework_params_incomplete` error.\n\nAttaching is best-effort: valid skills are attached, anything invalid is skipped and itemized in the `errors` array of a `207` response. The Group itself is always created, so read `skills` back from the response to see what was attached.\n\n`learning_outcomes` may be sent in the same request — free-text and framework skills can coexist on a Group.",
+                    "description": "Skills from `skill_framework_version_id` to attach to the Group, each entry a `{ id, breadcrumb_ids }` pair. Must be sent together with `skill_framework_version_id` and contain at least one skill — sending only one of the two keys, or an empty array, attaches nothing and returns a `207` with a `framework_params_incomplete` error.\n\nAttaching is best-effort: valid skills are attached, anything invalid is skipped and itemized in the `errors` array of a `207` response. The Group itself is always created, so read `skills` back from the response to see what was attached.",
                     "nullable": true,
                     "items": {
                       "type": "object",
@@ -7188,7 +7188,7 @@
                   },
                   "framework_skills": {
                     "type": "array",
-                    "description": "Full list of framework skills for the Group. The array **replaces** the Group's current skills rather than adding to them.\n\n- **Omit both this and `skill_framework_version_id`** to leave the Group's framework and skills exactly as they are.\n- **Send `null` or `[]`** without `skill_framework_version_id` to move the Group off frameworks: the framework is cleared, every attached skill is removed, and `learning_outcomes` can be set in the same request.\n- **Send both keys** to make the Group's skills exactly what you supply. Passing a different version also moves the Group to that version.\n\nAttaching is best-effort: valid skills are attached, anything invalid is skipped and itemized in the `errors` array of a `207` response. If none of the supplied skills are valid, the Group keeps the framework and skills it already had.",
+                    "description": "Full list of framework skills for the Group, each entry a `{ id, breadcrumb_ids }` pair. The array **replaces** the Group's current skills rather than adding to them.\n\n- **Omit both this and `skill_framework_version_id`** to leave the Group's framework and skills exactly as they are.\n- **Send `null` or `[]`** without `skill_framework_version_id` to move the Group off frameworks: the framework is cleared, every attached skill is removed, and `learning_outcomes` can be set in the same request.\n- **Send both keys** to make the Group's skills exactly what you supply. Passing a different version also moves the Group to that version.\n\nAttaching is best-effort: valid skills are attached, anything invalid is skipped and itemized in the `errors` array of a `207` response. If none of the supplied skills are valid, the Group keeps the framework and skills it already had.",
                     "nullable": true,
                     "items": {
                       "type": "object",
