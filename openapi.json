@@ -3,7 +3,7 @@
   "info": {
     "title": "Accredible Credential API",
     "version": "25.08.0", 
-    "description": "The [Accredible](https://www.accredible.com/) Credential API allows you to create and interact with badges and certificates called [Accredible Credentials](https://www.credential.net/10000005).\n\nThere are 3 main objects in Accredible: Credentials, Groups and Designs.\n\n### Getting Started with the API - Video Walkthrough\n\n[![Getting Started with the API Video Walkthrough](https://cdn.accredible.com/api-overview.jpg)](https://us06web.zoom.us/clips/share/_p4jjy0LQ-WOaQPviLor1A)\n\n# Objects Overview\n## Credentials\n[Credentials](#tag/Credentials) are the core object in the API. They collect all of the data related to a course, training activity or achievement and the recipient/participant information.\n\nYou should create a credential for each achievement completion that a recipient has. For example if John Doe finishes the Programming 101 course we should create one credential to represent that. If John Doe achieves something else then he would need a new credential.\n\n## Groups\n\n[Groups](#tag/Groups) represent an achievement such as a course or qualification. They contain information about the achievement and have multiple Credentials attached to them.\n\nFor example you should create a group for the Introduction to Programming course. You'd provide the Course Name, Course Description and Course URL. In the future you can pass the name or ID of this group when creating a credential so that the credential is passed all the information relating to the achievement.\n\n## Designs\n\n[Designs](#tag/Designs) provide a visual specification for how a Credential should be rendered. Designs can be used across multiple Groups.\n\nFor example if we have three courses: Intro to Basic Programming, Intro to Advanced Programming and Intro to DevOps each of these may have the same design for their Credentials. When creating or updating their corresponding Groups you would attach the desired design accordingly.\n\n## Departments\n\n[Departments](#tag/Departments), if enabled for your account allow you to manage multiple, independent organization groups. Each Department is entirely separate with its own Designs, Groups, Branding, etc. You cannot share data between Departments except Billing and Administrators.\n\n## Attributes\n\n[Attributes](#tag/Attributes), are used to merge information with your badge or certificate designs and email templates. Attributes act as placeholders for information and can be added to certificate designs and email templates.\n\n## Skills Frameworks\n\n[Skills Frameworks](#tag/Skills-Frameworks) are structured taxonomies of skills — Accredible-maintained ones such as O*NET, ESCO and NACE, plus any your organization uploads itself. Tagging a Group against a framework version replaces the Group's free-text `learning_outcomes` with skills that carry a stable identifier and a known position in a recognized taxonomy.\n\nFor example, instead of listing `\"Reading Books\"` on your Introduction to Programming group, you can attach the O*NET skill `Reading Comprehension` together with the trail it sits on — Worker Requirements → Basic Skills → Content.\n\nFrameworks are read-only over the API: you discover the frameworks enabled for a department, search their skills, then select those skills when creating or updating a Group. Uploading and managing frameworks is done in the Accredible Dashboard.\n\n# API Keys\n\nAPI keys are used as Authorization tokens in the header in all authenticated API endpoints. These Keys are managed in the [Accredible Dashboard](https://dashboard.accredible.com/). There are two types of API Keys, those that are account wide and work on all assets and those that are related to a specific department. API keys scoped to a specific department can only access the resources (Credentials, Groups, Designs etc.) belonging to that department.\n\n# Single sign-on options\n\n[Single sign-on](#tag/SSO) in addition to the student authentication provided by Accredible, you can also use single sign-on to authenticate your student into Accredible and they can directly sign-in.\n\nSSO is also available via our Integrations and via SAML 2.0.\n\n# Rate Limiting\n\nWe allow up to 2000 requests every 5 minutes from a single IP address, but some higher security endpoints have stricter rate limiting. Requests are counted in 30 second periods.\n\nIf you attempt to make requests more quickly than permitted by these rules, you may receive a `429 Too Many Requests` response from an endpoint.\n\n# Errors\n\nAccredible uses conventional HTTP response codes to indicate the success or failure of an API request. Most error response formats are consistent across API versions, with some differences in bulk operations.\n\n## HTTP Status Codes\n\n| Status Code | Description |\n| ----------- | ----------- |\n| **2xx** | Success |\n| 200 | OK - The request was successful |\n| 207 | Multi-Status - Partial success. Returned by v2 bulk operations, and by Group create/update/clone when skills frameworks are involved |\n| **4xx** | Client Error |\n| 400 | Bad Request - Invalid request parameters |\n| 401 | Unauthorized - Invalid or missing API key |\n| 403 | Forbidden - Insufficient permissions |\n| 404 | Not Found - Resource not found |\n| 422 | Unprocessable Entity - Validation errors |\n| 429 | Too Many Requests - Rate limit exceeded |\n| **5xx** | Server Error |\n| 500 | Internal Server Error |\n\n## Common Error Formats\n\nMost API endpoints use these standard error formats:\n\n**Search Query Errors (400)**\n```json\n{\n  \"code\": 400,\n  \"message\": \"Sort order increasing is not supported\",\n  \"status\": \"invalid_search_query\",\n  \"errors\": {}\n}\n```\n\n**Unauthorized (401):**\n```\nHTTP Token: Access denied.\n```\n\n```json\n{\n  \"success\": false,\n  \"data\": \"Not enough or too many segments\"\n}\n```\n\n```json\n{\n  \"success\": false,\n  \"data\": \"Sorry, You are not authorized, visit accredible.com for this\"\n}\n```\n\n**Forbidden (403):**\n```json\n{\n  \"errors\": \"Private Certificate, use key\"\n}\n```\n\n**Not Found (404):**\n```json\n{\n  \"errors\": \"Doesn't exist\"\n}\n```\n\n```json\n{\n  \"error\": \"Not found\"\n}\n```\n\n```json\n{\n  \"success\": false,\n  \"data\": \"Group does not exist\"\n}\n```\n\n**Unprocessable Entity (422):**\n```json\n{\n  \"errors\": \"Invalid Group\"\n}\n```\n\n```json\n{\n  \"errors\": \"Can not create credential without recipient data\"\n}\n```\n\n```json\n{\n  \"errors\": {\n    \"course_name\": [\n      \"can't be blank\"\n    ],\n    \"course_description\": [\n      \"can't be blank\"\n    ]\n  }\n}\n```\n\n**Internal Server Error (500):**\n```json\n{\n  \"errors\": \"Internal server error\"\n}\n```\n\n## Bulk Operations Error Handling\n\n### V2 Bulk Create (Mixed Results Supported)\n\n**All Successful (200):**\n```json\n{\n  \"results\": [\n    {\n      \"credential\": { /* credential object */ }\n    },\n    {\n      \"credential\": { /* credential object */ }\n    }\n  ]\n}\n```\n\n**Mixed Success/Failure (207 Multi-Status):**\n```json\n{\n  \"results\": [\n    {\n      \"credential\": { /* successful credential */ }\n    },\n    {\n      \"error\": {\n        \"code\": \"credential_invalid\",\n        \"message\": \"The credential is not valid\",\n        \"details\": [\n          {\n            \"property\": \"recipient_name\",\n            \"reason\": \"blank\"\n          }\n        ]\n      }\n    },\n    {\n      \"credential\": { /* successful but unpublished */ },\n      \"error\": {\n        \"code\": \"insufficient_credits\",\n        \"message\": \"The credential was created but not published\"\n      }\n    }\n  ]\n}\n```\n\n**All Failed (422):**\n```json\n{\n  \"results\": [\n    {\n      \"error\": {\n        \"code\": \"credential_invalid\",\n        \"message\": \"The credential is not valid\",\n        \"details\": [\n          {\n            \"property\": \"course_name\",\n            \"reason\": \"blank\"\n          }\n        ]\n      }\n    }\n  ]\n}\n```\n\n## Skills Frameworks Error Handling\n\n### Framework Endpoints (401, 403, 400, 404)\n\n`GET /v1/skill_frameworks` and `GET /v1/skill_frameworks/{id}/versions/{version_id}/skills` use the standard error format, with a machine-readable `status`:\n\n```json\n{\n  \"code\": 403,\n  \"message\": \"Your plan does not include access to skills frameworks\",\n  \"status\": \"plan_not_entitled\",\n  \"errors\": {}\n}\n```\n\n| Code | `status` | `message` | Cause |\n| ---- | -------- | --------- | ----- |\n| 401 | — | — | Missing or invalid API key. The response body is empty. |\n| 403 | `plan_not_entitled` | Your plan does not include access to skills frameworks | Your plan does not include the skills frameworks feature. |\n| 400 | `missing_department_id` | department_id is required | `department_id` was not supplied to the framework list endpoint. |\n| 403 | `invalid_department` | Invalid Department ID | The `department_id` is not a Department your API key can access. |\n| 404 | `not_found` | Skills framework not found | The framework does not exist, or it is a custom framework belonging to another organization. |\n| 400 | `invalid_version` | This version does not belong to the specified framework | The version id belongs to a different framework, or the version is not published. |\n| 400 | `invalid_query` | Query must be at least 2 characters | The skills search `query` was missing or shorter than 2 characters. |\n\nChecks run in that order, so a request that is both unentitled and missing `department_id` returns the 403.\n\n### Group Writes — Partial Success (207 Multi-Status)\n\nSkills framework problems never fail a Group write. `POST /v1/issuer/groups`, `PUT /v1/issuer/groups/{group_id}` and `POST /v1/issuer/groups/{group_id}/clone` still create, update or clone the Group, attach every skill that was valid, and return `207` with the problems itemized:\n\n```json\n{\n  \"group\": { /* the group as it was saved */ },\n  \"errors\": [\n    {\n      \"code\": \"skills_not_attached\",\n      \"message\": \"One or more framework skills were not attached — they do not belong to framework version 44 or are not taggable: 999999991\"\n    }\n  ]\n}\n```\n\nAlways read `group.skill_framework` and `group.skills` from a 207 response to see what was actually saved. More than one error can be returned: input-shape errors come first, then `skills_not_attached`, then `breadcrumb_ids_invalid`.\n\n| `code` | Meaning |\n| ------ | ------- |\n| `framework_params_incomplete` | Only one of `skill_framework_version_id` / `framework_skills` was sent, or `framework_skills` was empty alongside a version. Send both, with at least one skill. |\n| `plan_not_entitled` | Your plan does not include skills frameworks, so no skills were attached. |\n| `version_not_found` | There is no published framework version with that id. Draft versions are not visible to the API. |\n| `framework_not_available` | The version's framework is not enabled for this Group's Department. |\n| `version_retired` | The target version has been retired — use the framework's `active` version instead. On clone, it means the source Group's version is retired, so the clone was made without skills. |\n| `framework_skills_malformed` | An entry in `framework_skills` is not shaped like `{ id, breadcrumb_ids }`. The message names the offending index and field. |\n| `skills_not_attached` | The listed skill ids do not belong to the given framework version, or they are structural nodes that cannot be tagged. |\n| `breadcrumb_ids_invalid` | The listed skills' `breadcrumb_ids` are not a real trail in that version — unknown ids, a broken parent chain, a repeated node, or an empty trail for a skill that has a parent. |\n\n### Plan Downgrade (403)\n\nIf your plan no longer includes skills frameworks and you send framework parameters for a Group that is **already** framework-backed, `PUT /v1/issuer/groups/{group_id}` fails outright and nothing in the request is saved:\n\n```json\n{\n  \"success\": false,\n  \"data\": \"Your plan no longer supports this framework. Contact support to upgrade.\"\n}\n```\n\nReading such a Group still returns its framework and skills, and you can always move it back to free-text skills by sending `\"framework_skills\": null`."
+    "description": "The [Accredible](https://www.accredible.com/) Credential API allows you to create and interact with badges and certificates called [Accredible Credentials](https://www.credential.net/10000005).\n\nThere are 3 main objects in Accredible: Credentials, Groups and Designs.\n\n### Getting Started with the API - Video Walkthrough\n\n[![Getting Started with the API Video Walkthrough](https://cdn.accredible.com/api-overview.jpg)](https://us06web.zoom.us/clips/share/_p4jjy0LQ-WOaQPviLor1A)\n\n# Objects Overview\n## Credentials\n[Credentials](#tag/Credentials) are the core object in the API. They collect all of the data related to a course, training activity or achievement and the recipient/participant information.\n\nYou should create a credential for each achievement completion that a recipient has. For example if John Doe finishes the Programming 101 course we should create one credential to represent that. If John Doe achieves something else then he would need a new credential.\n\n## Groups\n\n[Groups](#tag/Groups) represent an achievement such as a course or qualification. They contain information about the achievement and have multiple Credentials attached to them.\n\nFor example you should create a group for the Introduction to Programming course. You'd provide the Course Name, Course Description and Course URL. In the future you can pass the name or ID of this group when creating a credential so that the credential is passed all the information relating to the achievement.\n\n## Designs\n\n[Designs](#tag/Designs) provide a visual specification for how a Credential should be rendered. Designs can be used across multiple Groups.\n\nFor example if we have three courses: Intro to Basic Programming, Intro to Advanced Programming and Intro to DevOps each of these may have the same design for their Credentials. When creating or updating their corresponding Groups you would attach the desired design accordingly.\n\n## Departments\n\n[Departments](#tag/Departments), if enabled for your account allow you to manage multiple, independent organization groups. Each Department is entirely separate with its own Designs, Groups, Branding, etc. You cannot share data between Departments except Billing and Administrators.\n\n## Attributes\n\n[Attributes](#tag/Attributes), are used to merge information with your badge or certificate designs and email templates. Attributes act as placeholders for information and can be added to certificate designs and email templates.\n\n## Skills Frameworks\n\n[Skills Frameworks](#tag/Skills-Frameworks) are structured taxonomies of skills — Accredible-maintained ones such as O*NET, ESCO and NACE, plus any your organization uploads itself. Tagging a Group against a framework version replaces the Group's free-text `learning_outcomes` with skills that carry a stable identifier and a known position in a recognized taxonomy.\n\nFor example, instead of listing `\"Reading Books\"` on your Introduction to Programming group, you can attach the O*NET skill `Reading Comprehension` together with the trail it sits on — Worker Requirements → Basic Skills → Content.\n\nFrameworks are read-only over the API: you discover the frameworks enabled for a department, search their skills, then select those skills when creating or updating a Group. Uploading and managing frameworks is done in the Accredible Dashboard.\n\n# API Keys\n\nAPI keys are used as Authorization tokens in the header in all authenticated API endpoints. These Keys are managed in the [Accredible Dashboard](https://dashboard.accredible.com/). There are two types of API Keys, those that are account wide and work on all assets and those that are related to a specific department. API keys scoped to a specific department can only access the resources (Credentials, Groups, Designs etc.) belonging to that department.\n\n# Single sign-on options\n\n[Single sign-on](#tag/SSO) in addition to the student authentication provided by Accredible, you can also use single sign-on to authenticate your student into Accredible and they can directly sign-in.\n\nSSO is also available via our Integrations and via SAML 2.0.\n\n# Rate Limiting\n\nWe allow up to 2000 requests every 5 minutes from a single IP address, but some higher security endpoints have stricter rate limiting. Requests are counted in 30 second periods.\n\nIf you attempt to make requests more quickly than permitted by these rules, you may receive a `429 Too Many Requests` response from an endpoint.\n\n# Errors\n\nAccredible uses conventional HTTP response codes to indicate the success or failure of an API request. Most error response formats are consistent across API versions, with some differences in bulk operations.\n\n## HTTP Status Codes\n\n| Status Code | Description |\n| ----------- | ----------- |\n| **2xx** | Success |\n| 200 | OK - The request was successful |\n| 207 | Multi-Status - Partial success. Returned by v2 bulk operations, and by Group create/update/clone when skills frameworks are involved |\n| **4xx** | Client Error |\n| 400 | Bad Request - Invalid request parameters |\n| 401 | Unauthorized - Invalid or missing API key |\n| 403 | Forbidden - Insufficient permissions |\n| 404 | Not Found - Resource not found |\n| 422 | Unprocessable Entity - Validation errors |\n| 429 | Too Many Requests - Rate limit exceeded |\n| **5xx** | Server Error |\n| 500 | Internal Server Error |\n\n## Common Error Formats\n\nMost API endpoints use these standard error formats:\n\n**Search Query Errors (400)**\n```json\n{\n  \"code\": 400,\n  \"message\": \"Sort order increasing is not supported\",\n  \"status\": \"invalid_search_query\",\n  \"errors\": {}\n}\n```\n\n**Unauthorized (401):**\n```\nHTTP Token: Access denied.\n```\n\n```json\n{\n  \"success\": false,\n  \"data\": \"Not enough or too many segments\"\n}\n```\n\n```json\n{\n  \"success\": false,\n  \"data\": \"Sorry, You are not authorized, visit accredible.com for this\"\n}\n```\n\n**Forbidden (403):**\n```json\n{\n  \"errors\": \"Private Certificate, use key\"\n}\n```\n\n**Not Found (404):**\n```json\n{\n  \"errors\": \"Doesn't exist\"\n}\n```\n\n```json\n{\n  \"error\": \"Not found\"\n}\n```\n\n```json\n{\n  \"success\": false,\n  \"data\": \"Group does not exist\"\n}\n```\n\n**Unprocessable Entity (422):**\n```json\n{\n  \"errors\": \"Invalid Group\"\n}\n```\n\n```json\n{\n  \"errors\": \"Can not create credential without recipient data\"\n}\n```\n\n```json\n{\n  \"errors\": {\n    \"course_name\": [\n      \"can't be blank\"\n    ],\n    \"course_description\": [\n      \"can't be blank\"\n    ]\n  }\n}\n```\n\n**Internal Server Error (500):**\n```json\n{\n  \"errors\": \"Internal server error\"\n}\n```\n\n## Bulk Operations Error Handling\n\n### V2 Bulk Create (Mixed Results Supported)\n\n**All Successful (200):**\n```json\n{\n  \"results\": [\n    {\n      \"credential\": { /* credential object */ }\n    },\n    {\n      \"credential\": { /* credential object */ }\n    }\n  ]\n}\n```\n\n**Mixed Success/Failure (207 Multi-Status):**\n```json\n{\n  \"results\": [\n    {\n      \"credential\": { /* successful credential */ }\n    },\n    {\n      \"error\": {\n        \"code\": \"credential_invalid\",\n        \"message\": \"The credential is not valid\",\n        \"details\": [\n          {\n            \"property\": \"recipient_name\",\n            \"reason\": \"blank\"\n          }\n        ]\n      }\n    },\n    {\n      \"credential\": { /* successful but unpublished */ },\n      \"error\": {\n        \"code\": \"insufficient_credits\",\n        \"message\": \"The credential was created but not published\"\n      }\n    }\n  ]\n}\n```\n\n**All Failed (422):**\n```json\n{\n  \"results\": [\n    {\n      \"error\": {\n        \"code\": \"credential_invalid\",\n        \"message\": \"The credential is not valid\",\n        \"details\": [\n          {\n            \"property\": \"course_name\",\n            \"reason\": \"blank\"\n          }\n        ]\n      }\n    }\n  ]\n}\n```\n\n## Skills Frameworks Error Handling\n\n### Framework Endpoints (401, 403, 400, 404)\n\n`GET /v1/skill_frameworks` and `GET /v1/skill_frameworks/{id}/versions/{version_id}/skills` use the standard error format, with a machine-readable `status`:\n\n```json\n{\n  \"code\": 403,\n  \"message\": \"Your plan does not include access to skills frameworks\",\n  \"status\": \"plan_not_entitled\",\n  \"errors\": {}\n}\n```\n\n| Code | `status` | `message` | Cause |\n| ---- | -------- | --------- | ----- |\n| 401 | — | — | Missing or invalid API key. Authentication runs before the framework checks, so the body is the API's standard plain-text `HTTP Token: Access denied.` rather than the JSON shape above. |\n| 403 | `plan_not_entitled` | Your plan does not include access to skills frameworks | Your plan does not include the skills frameworks feature. |\n| 400 | `missing_department_id` | department_id is required | `department_id` was not supplied to the framework list endpoint. |\n| 403 | `invalid_department` | Invalid Department ID | The `department_id` is not a Department your API key can access. |\n| 404 | `not_found` | Skills framework not found | The framework does not exist, or it is a custom framework belonging to another organization. |\n| 400 | `invalid_version` | This version does not belong to the specified framework | The version id belongs to a different framework, or the version is not published. |\n| 400 | `invalid_query` | Query must be at least 2 characters | The skills search `query` was missing or shorter than 2 characters. |\n\nChecks run in that order, so a request that is both unentitled and missing `department_id` returns the 403.\n\n### Group Writes — Partial Success (207 Multi-Status)\n\nSkills framework problems do not fail a Group write, with one exception — a plan downgrade on an already framework-backed Group, covered under **Plan Downgrade (403)** below. Otherwise `POST /v1/issuer/groups`, `PUT /v1/issuer/groups/{group_id}` and `POST /v1/issuer/groups/{group_id}/clone` still create, update or clone the Group, attach every skill that was valid, and return `207` with the problems itemized:\n\n```json\n{\n  \"group\": { /* the group as it was saved */ },\n  \"errors\": [\n    {\n      \"code\": \"skills_not_attached\",\n      \"message\": \"One or more framework skills were not attached — they do not belong to framework version 512 or are not taggable: 999999991\"\n    }\n  ]\n}\n```\n\nAlways read `group.skill_framework` and `group.skills` from a 207 response to see what was actually saved. More than one error can be returned: input-shape errors come first, then `skills_not_attached`, then `breadcrumb_ids_invalid`.\n\n| `code` | Meaning |\n| ------ | ------- |\n| `framework_params_incomplete` | Only one of `skill_framework_version_id` / `framework_skills` was sent, or `framework_skills` was empty alongside a version. Send both, with at least one skill. |\n| `plan_not_entitled` | Your plan does not include skills frameworks, so no skills were attached. |\n| `version_not_found` | There is no published framework version with that id. Draft versions are not visible to the API. |\n| `framework_not_available` | The version's framework is not enabled for this Group's Department. |\n| `version_retired` | The target version has been retired — use the framework's `active` version instead. On clone, it means the source Group's skills could not be copied: either its version is retired, or its framework is mid-retirement for that Department, in which case the version itself still reads as `active`. |\n| `framework_skills_malformed` | An entry in `framework_skills` is not shaped like `{ id, breadcrumb_ids }`. The message names the offending index and field. |\n| `skills_not_attached` | The listed skill ids do not belong to the given framework version, or they are structural nodes that cannot be tagged. |\n| `breadcrumb_ids_invalid` | The listed skills' `breadcrumb_ids` are not a real trail in that version — unknown ids, a broken parent chain, a repeated node, or an empty trail for a skill that has a parent. |\n\n### Plan Downgrade (403)\n\nIf your plan no longer includes skills frameworks and you send framework parameters for a Group that is **already** framework-backed, `PUT /v1/issuer/groups/{group_id}` fails outright and nothing in the request is saved:\n\n```json\n{\n  \"success\": false,\n  \"data\": \"Your plan no longer supports this framework. Contact support to upgrade.\"\n}\n```\n\nReading such a Group still returns its framework and skills, and you can always move it back to free-text skills by sending `\"framework_skills\": null`."
   },
   "servers": [
     {
@@ -406,11 +406,11 @@
                     },
                     "skills": [
                       {
-                        "id": 59301,
-                        "name": "Reading Comprehension",
-                        "identifier": "2.A.1.a",
-                        "description": "Understanding written sentences and paragraphs in work related documents.",
-                        "url": "https://www.onetonline.org/find/descriptor/result/2.A.1.a",
+                        "id": 59302,
+                        "name": "Active Listening",
+                        "identifier": "2.A.1.b",
+                        "description": "Giving full attention to what other people are saying, taking time to understand the points being made.",
+                        "url": "https://www.onetonline.org/find/descriptor/result/2.A.1.b",
                         "breadcrumbs": [
                           {
                             "id": 59298,
@@ -430,11 +430,11 @@
                         ]
                       },
                       {
-                        "id": 59302,
-                        "name": "Active Listening",
-                        "identifier": "2.A.1.b",
-                        "description": "Giving full attention to what other people are saying, taking time to understand the points being made.",
-                        "url": "https://www.onetonline.org/find/descriptor/result/2.A.1.b",
+                        "id": 59301,
+                        "name": "Reading Comprehension",
+                        "identifier": "2.A.1.a",
+                        "description": "Understanding written sentences and paragraphs in work related documents.",
+                        "url": "https://www.onetonline.org/find/descriptor/result/2.A.1.a",
                         "breadcrumbs": [
                           {
                             "id": 59298,
@@ -911,11 +911,11 @@
                         "references": [],
                         "skills": [
                           {
-                            "id": 59301,
-                            "name": "Reading Comprehension",
-                            "identifier": "2.A.1.a",
-                            "description": "Understanding written sentences and paragraphs in work related documents.",
-                            "url": "https://www.onetonline.org/find/descriptor/result/2.A.1.a",
+                            "id": 59302,
+                            "name": "Active Listening",
+                            "identifier": "2.A.1.b",
+                            "description": "Giving full attention to what other people are saying, taking time to understand the points being made.",
+                            "url": "https://www.onetonline.org/find/descriptor/result/2.A.1.b",
                             "breadcrumbs": [
                               {
                                 "id": 59298,
@@ -935,11 +935,11 @@
                             ]
                           },
                           {
-                            "id": 59302,
-                            "name": "Active Listening",
-                            "identifier": "2.A.1.b",
-                            "description": "Giving full attention to what other people are saying, taking time to understand the points being made.",
-                            "url": "https://www.onetonline.org/find/descriptor/result/2.A.1.b",
+                            "id": 59301,
+                            "name": "Reading Comprehension",
+                            "identifier": "2.A.1.a",
+                            "description": "Understanding written sentences and paragraphs in work related documents.",
+                            "url": "https://www.onetonline.org/find/descriptor/result/2.A.1.a",
                             "breadcrumbs": [
                               {
                                 "id": 59298,
@@ -1461,11 +1461,11 @@
                     "meta_data": null,
                     "skills": [
                       {
-                        "id": 59301,
-                        "name": "Reading Comprehension",
-                        "identifier": "2.A.1.a",
-                        "description": "Understanding written sentences and paragraphs in work related documents.",
-                        "url": "https://www.onetonline.org/find/descriptor/result/2.A.1.a",
+                        "id": 59302,
+                        "name": "Active Listening",
+                        "identifier": "2.A.1.b",
+                        "description": "Giving full attention to what other people are saying, taking time to understand the points being made.",
+                        "url": "https://www.onetonline.org/find/descriptor/result/2.A.1.b",
                         "breadcrumbs": [
                           {
                             "id": 59298,
@@ -1485,11 +1485,11 @@
                         ]
                       },
                       {
-                        "id": 59302,
-                        "name": "Active Listening",
-                        "identifier": "2.A.1.b",
-                        "description": "Giving full attention to what other people are saying, taking time to understand the points being made.",
-                        "url": "https://www.onetonline.org/find/descriptor/result/2.A.1.b",
+                        "id": 59301,
+                        "name": "Reading Comprehension",
+                        "identifier": "2.A.1.a",
+                        "description": "Understanding written sentences and paragraphs in work related documents.",
+                        "url": "https://www.onetonline.org/find/descriptor/result/2.A.1.a",
                         "breadcrumbs": [
                           {
                             "id": 59298,
@@ -2594,11 +2594,11 @@
                       },
                       "skills": [
                         {
-                          "id": 59301,
-                          "name": "Reading Comprehension",
-                          "identifier": "2.A.1.a",
-                          "description": "Understanding written sentences and paragraphs in work related documents.",
-                          "url": "https://www.onetonline.org/find/descriptor/result/2.A.1.a",
+                          "id": 59302,
+                          "name": "Active Listening",
+                          "identifier": "2.A.1.b",
+                          "description": "Giving full attention to what other people are saying, taking time to understand the points being made.",
+                          "url": "https://www.onetonline.org/find/descriptor/result/2.A.1.b",
                           "breadcrumbs": [
                             {
                               "id": 59298,
@@ -2618,11 +2618,11 @@
                           ]
                         },
                         {
-                          "id": 59302,
-                          "name": "Active Listening",
-                          "identifier": "2.A.1.b",
-                          "description": "Giving full attention to what other people are saying, taking time to understand the points being made.",
-                          "url": "https://www.onetonline.org/find/descriptor/result/2.A.1.b",
+                          "id": 59301,
+                          "name": "Reading Comprehension",
+                          "identifier": "2.A.1.a",
+                          "description": "Understanding written sentences and paragraphs in work related documents.",
+                          "url": "https://www.onetonline.org/find/descriptor/result/2.A.1.a",
                           "breadcrumbs": [
                             {
                               "id": 59298,
@@ -5524,18 +5524,18 @@
                         "url": "https://www.onetonline.org/"
                       },
                       "version": {
-                        "id": 44,
+                        "id": 512,
                         "version": "30.0",
                         "status": "active"
                       }
                     },
                     "skills": [
                       {
-                        "id": 59301,
-                        "name": "Reading Comprehension",
-                        "identifier": "2.A.1.a",
-                        "description": "Understanding written sentences and paragraphs in work related documents.",
-                        "url": "https://www.onetonline.org/find/descriptor/result/2.A.1.a",
+                        "id": 59302,
+                        "name": "Active Listening",
+                        "identifier": "2.A.1.b",
+                        "description": "Giving full attention to what other people are saying, taking time to understand the points being made.",
+                        "url": "https://www.onetonline.org/find/descriptor/result/2.A.1.b",
                         "breadcrumbs": [
                           {
                             "id": 59298,
@@ -5555,11 +5555,11 @@
                         ]
                       },
                       {
-                        "id": 59302,
-                        "name": "Active Listening",
-                        "identifier": "2.A.1.b",
-                        "description": "Giving full attention to what other people are saying, taking time to understand the points being made.",
-                        "url": "https://www.onetonline.org/find/descriptor/result/2.A.1.b",
+                        "id": 59301,
+                        "name": "Reading Comprehension",
+                        "identifier": "2.A.1.a",
+                        "description": "Understanding written sentences and paragraphs in work related documents.",
+                        "url": "https://www.onetonline.org/find/descriptor/result/2.A.1.a",
                         "breadcrumbs": [
                           {
                             "id": 59298,
@@ -5645,7 +5645,7 @@
                         "url": "https://www.onetonline.org/"
                       },
                       "version": {
-                        "id": 44,
+                        "id": 512,
                         "version": "30.0",
                         "status": "active"
                       }
@@ -5680,7 +5680,7 @@
                   "errors": [
                     {
                       "code": "skills_not_attached",
-                      "message": "One or more framework skills were not attached — they do not belong to framework version 44 or are not taggable: 999999991"
+                      "message": "One or more framework skills were not attached — they do not belong to framework version 512 or are not taggable: 999999991"
                     }
                   ]
                 }
@@ -5748,7 +5748,7 @@
                       "position": 2
                     }
                   ],
-                  "skill_framework_version_id": 44,
+                  "skill_framework_version_id": 512,
                   "framework_skills": [
                     {
                       "id": 59301,
@@ -5961,7 +5961,7 @@
           {
             "lang": "cURL",
             "label": "cURL",
-            "source": "curl -X POST \\\n  \"https://api.accredible.com/v1/issuer/groups\" \\\n  -H \"Authorization: Token token=YOUR_API_KEY\" \\\n  -H \"Content-Type: application/json\" \\\n  -d '{\n  \"group\": {\n    \"name\": \"new group\",\n    \"course_name\": \"Intro to Prgramming\",\n    \"course_description\": \"Description of course\",\n    \"course_link\": \"http://www.example.com\",\n    \"language\": \"en\",\n    \"attach_pdf\": true,\n    \"design_id\": null,\n    \"blockchain\": false,\n    \"certificate_design_id\": null,\n    \"badge_design_id\": null,\n    \"primary_design_id\": null,\n    \"department_id\": 123,\n    \"meta_data\": {\n      \"batch_id\": \"271\"\n    },\n    \"learning_outcomes\": [\n      \"Reading Books\",\n      \"Writing Essays\"\n    ],\n    \"generate_private_credential\": false,\n    \"auto_expiry\": 1,\n    \"signup_url_show\": false,\n    \"signup_url\": \"http://www.example.com\",\n    \"course_link_show\": false,\n    \"organization_link_show\": false,\n    \"skill_category_id\": 1,\n    \"collections\": [\n      {\n        \"id\": 1\n      },\n      {\n        \"id\": 2\n      }\n    ],\n    \"earning_criteria\": [\n      {\n        \"kind\": \"course\",\n        \"text\": \"Complete the Intro to Programming course\",\n        \"required\": true,\n        \"position\": 1\n      },\n      {\n        \"kind\": \"exam\",\n        \"text\": \"Pass the final exam with 70% or higher\",\n        \"required\": true,\n        \"position\": 2\n      }\n    ],\n    \"skill_framework_version_id\": 44,\n    \"framework_skills\": [\n      {\n        \"id\": 59301,\n        \"breadcrumb_ids\": [\n          59298,\n          59299,\n          59300\n        ]\n      },\n      {\n        \"id\": 59302,\n        \"breadcrumb_ids\": [\n          59298,\n          59299,\n          59300\n        ]\n      }\n    ]\n  }\n}'"
+            "source": "curl -X POST \\\n  \"https://api.accredible.com/v1/issuer/groups\" \\\n  -H \"Authorization: Token token=YOUR_API_KEY\" \\\n  -H \"Content-Type: application/json\" \\\n  -d '{\n  \"group\": {\n    \"name\": \"new group\",\n    \"course_name\": \"Intro to Prgramming\",\n    \"course_description\": \"Description of course\",\n    \"course_link\": \"http://www.example.com\",\n    \"language\": \"en\",\n    \"attach_pdf\": true,\n    \"design_id\": null,\n    \"blockchain\": false,\n    \"certificate_design_id\": null,\n    \"badge_design_id\": null,\n    \"primary_design_id\": null,\n    \"department_id\": 123,\n    \"meta_data\": {\n      \"batch_id\": \"271\"\n    },\n    \"learning_outcomes\": [\n      \"Reading Books\",\n      \"Writing Essays\"\n    ],\n    \"generate_private_credential\": false,\n    \"auto_expiry\": 1,\n    \"signup_url_show\": false,\n    \"signup_url\": \"http://www.example.com\",\n    \"course_link_show\": false,\n    \"organization_link_show\": false,\n    \"skill_category_id\": 1,\n    \"collections\": [\n      {\n        \"id\": 1\n      },\n      {\n        \"id\": 2\n      }\n    ],\n    \"earning_criteria\": [\n      {\n        \"kind\": \"course\",\n        \"text\": \"Complete the Intro to Programming course\",\n        \"required\": true,\n        \"position\": 1\n      },\n      {\n        \"kind\": \"exam\",\n        \"text\": \"Pass the final exam with 70% or higher\",\n        \"required\": true,\n        \"position\": 2\n      }\n    ],\n    \"skill_framework_version_id\": 512,\n    \"framework_skills\": [\n      {\n        \"id\": 59301,\n        \"breadcrumb_ids\": [\n          59298,\n          59299,\n          59300\n        ]\n      },\n      {\n        \"id\": 59302,\n        \"breadcrumb_ids\": [\n          59298,\n          59299,\n          59300\n        ]\n      }\n    ]\n  }\n}'"
           }
         ]
       }
@@ -6339,18 +6339,18 @@
                         "url": "https://www.onetonline.org/"
                       },
                       "version": {
-                        "id": 44,
+                        "id": 512,
                         "version": "30.0",
                         "status": "active"
                       }
                     },
                     "skills": [
                       {
-                        "id": 59301,
-                        "name": "Reading Comprehension",
-                        "identifier": "2.A.1.a",
-                        "description": "Understanding written sentences and paragraphs in work related documents.",
-                        "url": "https://www.onetonline.org/find/descriptor/result/2.A.1.a",
+                        "id": 59302,
+                        "name": "Active Listening",
+                        "identifier": "2.A.1.b",
+                        "description": "Giving full attention to what other people are saying, taking time to understand the points being made.",
+                        "url": "https://www.onetonline.org/find/descriptor/result/2.A.1.b",
                         "breadcrumbs": [
                           {
                             "id": 59298,
@@ -6370,11 +6370,11 @@
                         ]
                       },
                       {
-                        "id": 59302,
-                        "name": "Active Listening",
-                        "identifier": "2.A.1.b",
-                        "description": "Giving full attention to what other people are saying, taking time to understand the points being made.",
-                        "url": "https://www.onetonline.org/find/descriptor/result/2.A.1.b",
+                        "id": 59301,
+                        "name": "Reading Comprehension",
+                        "identifier": "2.A.1.a",
+                        "description": "Understanding written sentences and paragraphs in work related documents.",
+                        "url": "https://www.onetonline.org/find/descriptor/result/2.A.1.a",
                         "breadcrumbs": [
                           {
                             "id": 59298,
@@ -6809,18 +6809,18 @@
                         "url": "https://www.onetonline.org/"
                       },
                       "version": {
-                        "id": 44,
+                        "id": 512,
                         "version": "30.0",
                         "status": "active"
                       }
                     },
                     "skills": [
                       {
-                        "id": 59301,
-                        "name": "Reading Comprehension",
-                        "identifier": "2.A.1.a",
-                        "description": "Understanding written sentences and paragraphs in work related documents.",
-                        "url": "https://www.onetonline.org/find/descriptor/result/2.A.1.a",
+                        "id": 59302,
+                        "name": "Active Listening",
+                        "identifier": "2.A.1.b",
+                        "description": "Giving full attention to what other people are saying, taking time to understand the points being made.",
+                        "url": "https://www.onetonline.org/find/descriptor/result/2.A.1.b",
                         "breadcrumbs": [
                           {
                             "id": 59298,
@@ -6840,11 +6840,11 @@
                         ]
                       },
                       {
-                        "id": 59302,
-                        "name": "Active Listening",
-                        "identifier": "2.A.1.b",
-                        "description": "Giving full attention to what other people are saying, taking time to understand the points being made.",
-                        "url": "https://www.onetonline.org/find/descriptor/result/2.A.1.b",
+                        "id": 59301,
+                        "name": "Reading Comprehension",
+                        "identifier": "2.A.1.a",
+                        "description": "Understanding written sentences and paragraphs in work related documents.",
+                        "url": "https://www.onetonline.org/find/descriptor/result/2.A.1.a",
                         "breadcrumbs": [
                           {
                             "id": 59298,
@@ -6930,7 +6930,7 @@
                         "url": "https://www.onetonline.org/"
                       },
                       "version": {
-                        "id": 44,
+                        "id": 512,
                         "version": "30.0",
                         "status": "active"
                       }
@@ -6965,7 +6965,7 @@
                   "errors": [
                     {
                       "code": "version_retired",
-                      "message": "Skills were not attached — framework version 43 has been retired. Use the active version to attach skills."
+                      "message": "Skills were not attached — framework version 511 has been retired. Use the active version to attach skills."
                     }
                   ]
                 }
@@ -7042,7 +7042,7 @@
                       "position": 2
                     }
                   ],
-                  "skill_framework_version_id": 44,
+                  "skill_framework_version_id": 512,
                   "framework_skills": [
                     {
                       "id": 59301,
@@ -7249,7 +7249,7 @@
           {
             "lang": "cURL",
             "label": "cURL",
-            "source": "curl -X PUT \\\n  \"https://api.accredible.com/v1/issuer/groups/12345\" \\\n  -H \"Authorization: Token token=YOUR_API_KEY\" \\\n  -H \"Content-Type: application/json\" \\\n  -d '{\n  \"group\": {\n    \"name\": \"updated new group\",\n    \"course_name\": \"updated course name\",\n    \"skill_category_id\": 1,\n    \"collections\": [\n      {\n        \"id\": 1\n      },\n      {\n        \"id\": 2\n      }\n    ],\n    \"earning_criteria\": [\n      {\n        \"id\": \"8f3c0c8c-5e1b-4f2a-9c4a-1f2c5c3a0001\",\n        \"text\": \"Complete the updated course\"\n      },\n      {\n        \"kind\": \"degree\",\n        \"text\": \"Hold an associated degree\",\n        \"required\": false,\n        \"position\": 2\n      }\n    ],\n    \"skill_framework_version_id\": 44,\n    \"framework_skills\": [\n      {\n        \"id\": 59301,\n        \"breadcrumb_ids\": [\n          59298,\n          59299,\n          59300\n        ]\n      }\n    ]\n  }\n}'"
+            "source": "curl -X PUT \\\n  \"https://api.accredible.com/v1/issuer/groups/12345\" \\\n  -H \"Authorization: Token token=YOUR_API_KEY\" \\\n  -H \"Content-Type: application/json\" \\\n  -d '{\n  \"group\": {\n    \"name\": \"updated new group\",\n    \"course_name\": \"updated course name\",\n    \"skill_category_id\": 1,\n    \"collections\": [\n      {\n        \"id\": 1\n      },\n      {\n        \"id\": 2\n      }\n    ],\n    \"earning_criteria\": [\n      {\n        \"id\": \"8f3c0c8c-5e1b-4f2a-9c4a-1f2c5c3a0001\",\n        \"text\": \"Complete the updated course\"\n      },\n      {\n        \"kind\": \"degree\",\n        \"text\": \"Hold an associated degree\",\n        \"required\": false,\n        \"position\": 2\n      }\n    ],\n    \"skill_framework_version_id\": 512,\n    \"framework_skills\": [\n      {\n        \"id\": 59301,\n        \"breadcrumb_ids\": [\n          59298,\n          59299,\n          59300\n        ]\n      }\n    ]\n  }\n}'"
           }
         ]
       },
@@ -7810,18 +7810,18 @@
                         "url": "https://www.onetonline.org/"
                       },
                       "version": {
-                        "id": 44,
+                        "id": 512,
                         "version": "30.0",
                         "status": "active"
                       }
                     },
                     "skills": [
                       {
-                        "id": 59301,
-                        "name": "Reading Comprehension",
-                        "identifier": "2.A.1.a",
-                        "description": "Understanding written sentences and paragraphs in work related documents.",
-                        "url": "https://www.onetonline.org/find/descriptor/result/2.A.1.a",
+                        "id": 59302,
+                        "name": "Active Listening",
+                        "identifier": "2.A.1.b",
+                        "description": "Giving full attention to what other people are saying, taking time to understand the points being made.",
+                        "url": "https://www.onetonline.org/find/descriptor/result/2.A.1.b",
                         "breadcrumbs": [
                           {
                             "id": 59298,
@@ -7841,11 +7841,11 @@
                         ]
                       },
                       {
-                        "id": 59302,
-                        "name": "Active Listening",
-                        "identifier": "2.A.1.b",
-                        "description": "Giving full attention to what other people are saying, taking time to understand the points being made.",
-                        "url": "https://www.onetonline.org/find/descriptor/result/2.A.1.b",
+                        "id": 59301,
+                        "name": "Reading Comprehension",
+                        "identifier": "2.A.1.a",
+                        "description": "Understanding written sentences and paragraphs in work related documents.",
+                        "url": "https://www.onetonline.org/find/descriptor/result/2.A.1.a",
                         "breadcrumbs": [
                           {
                             "id": 59298,
@@ -7871,7 +7871,7 @@
             }
           },
           "207": {
-            "description": "Multi-Status - the Group was cloned, but the original Group's framework skills could not be copied because its framework version has been retired. The clone is created without a framework.",
+            "description": "Multi-Status - the Group was cloned, but the original Group's framework skills could not be copied because its framework version has been retired, or its framework is mid-retirement for that Department. The clone is created without a framework.",
             "headers": {},
             "content": {
               "application/json": {
@@ -7925,7 +7925,7 @@
                   "errors": [
                     {
                       "code": "version_retired",
-                      "message": "Skills were not copied — framework version 43 has been retired. The group was cloned without framework skills; re-version the framework to copy them."
+                      "message": "Skills were not copied — framework version 511 has been retired. The group was cloned without framework skills; re-version the framework to copy them."
                     }
                   ]
                 }
@@ -7935,7 +7935,7 @@
         },
         "summary": "Clone a Group",
         "operationId": "Clone a Group",
-        "description": "You can clone a group using this action. Add attributes to override cloned values. Cloning a group only works when certificate or badge designs are within the same department as the original group.\n\nA clone always mirrors the original Group's skills framework. Every framework skill on the original is copied to the clone at the same position in the framework, and `skill_framework_version_id` and `framework_skills` sent in the request body are **ignored** — you cannot clone a Group onto a different framework. To change the clone's skills, clone it first and then update it.\n\nIf the original Group's framework version has been retired, the clone is created without a framework and a `207` is returned. Re-version the framework first if you need the skills copied.",
+        "description": "You can clone a group using this action. Add attributes to override cloned values. Cloning a group only works when certificate or badge designs are within the same department as the original group.\n\nA clone always mirrors the original Group's skills framework. Every framework skill on the original is copied to the clone at the same position in the framework, and `skill_framework_version_id` and `framework_skills` sent in the request body are **ignored** — you cannot clone a Group onto a different framework. To change the clone's skills, clone it first and then update it.\n\nIf the original Group's framework version has been retired — or its framework is mid-retirement for the original Group's Department, in which case the version itself still reads as `active` — the clone is created without a framework and a `207` is returned. Re-version the framework first if you need the skills copied.",
         "tags": [
           "Groups"
         ],
@@ -8028,7 +8028,7 @@
                     "description": "You can use this parameter to attach key-value strings to the object. Meta data is useful for storing additional, structured information on an object."
                   },
                   "learning_outcomes": {
-                    "description": "Searchable keywords identifying skills credential-holders need to demonstrate (or have learned) in the process of earning this credential.\n\nTo use skills from a recognized taxonomy instead of free text, see `framework_skills` and the [Skills Frameworks](#tag/Skills-Frameworks) endpoints. Both can be set on the same Group; where a credential displays a single skills list, framework skills take precedence."
+                    "description": "Searchable keywords identifying skills credential-holders need to demonstrate (or have learned) in the process of earning this credential.\n\nA clone always takes its skills source from the original Group, so framework skills cannot be set here — see the cloning behaviour described above and the [Skills Frameworks](#tag/Skills-Frameworks) endpoints."
                   },
                   "generate_private_credential": {
                     "type": "boolean",
@@ -8916,18 +8916,18 @@
                           "url": "https://www.onetonline.org/"
                         },
                         "version": {
-                          "id": 44,
+                          "id": 512,
                           "version": "30.0",
                           "status": "active"
                         }
                       },
                       "skills": [
                         {
-                          "id": 59301,
-                          "name": "Reading Comprehension",
-                          "identifier": "2.A.1.a",
-                          "description": "Understanding written sentences and paragraphs in work related documents.",
-                          "url": "https://www.onetonline.org/find/descriptor/result/2.A.1.a",
+                          "id": 59302,
+                          "name": "Active Listening",
+                          "identifier": "2.A.1.b",
+                          "description": "Giving full attention to what other people are saying, taking time to understand the points being made.",
+                          "url": "https://www.onetonline.org/find/descriptor/result/2.A.1.b",
                           "breadcrumbs": [
                             {
                               "id": 59298,
@@ -8947,11 +8947,11 @@
                           ]
                         },
                         {
-                          "id": 59302,
-                          "name": "Active Listening",
-                          "identifier": "2.A.1.b",
-                          "description": "Giving full attention to what other people are saying, taking time to understand the points being made.",
-                          "url": "https://www.onetonline.org/find/descriptor/result/2.A.1.b",
+                          "id": 59301,
+                          "name": "Reading Comprehension",
+                          "identifier": "2.A.1.a",
+                          "description": "Understanding written sentences and paragraphs in work related documents.",
+                          "url": "https://www.onetonline.org/find/descriptor/result/2.A.1.a",
                           "breadcrumbs": [
                             {
                               "id": 59298,
@@ -9283,7 +9283,7 @@
                       },
                       "versions": [
                         {
-                          "id": 43,
+                          "id": 511,
                           "version": "29.0",
                           "skill_count": 347,
                           "status": "retired",
@@ -9291,7 +9291,7 @@
                           "valid_to": "2026-04-08"
                         },
                         {
-                          "id": 44,
+                          "id": 512,
                           "version": "30.0",
                           "skill_count": 350,
                           "status": "active",
@@ -9767,7 +9767,7 @@
           {
             "lang": "cURL",
             "label": "cURL",
-            "source": "curl -X GET \\\n  \"https://api.accredible.com/v1/skill_frameworks/12345/versions/12345/skills?query=reading\" \\\n  -H \"Authorization: Token token=YOUR_API_KEY\""
+            "source": "curl -X GET \\\n  \"https://api.accredible.com/v1/skill_frameworks/44/versions/512/skills?query=reading\" \\\n  -H \"Authorization: Token token=YOUR_API_KEY\""
           }
         ]
       }
@@ -13034,7 +13034,7 @@
     },
     {
       "name": "Skills Frameworks",
-      "description": "A Skills Framework is a structured taxonomy of skills. Accredible maintains external frameworks such as O*NET, ESCO and NACE, and your organization can upload its own custom frameworks. Tagging a Group against a framework replaces the free-text `learning_outcomes` list with skills that carry a stable identifier and a known position in a recognized taxonomy.\n\nThese endpoints are **read-only**. Uploading frameworks, editing their skills, publishing and retiring versions are all managed in the [Accredible Dashboard](https://dashboard.accredible.com/) — the API lets you discover the frameworks available to you, search their skills, and select those skills on a Group.\n\n## Frameworks are versioned\n\nYou always tag against a **version**, never a framework. Each framework in the list response carries a `versions` array; take the `id` of the version you want and send it as `skill_framework_version_id` when you create or update a Group. Only published versions (`active` and `retired`) are ever returned. Pinning the version explicitly means an upstream framework update can never silently change which skills your integration attaches.\n\n## Availability is governed per department\n\nFramework availability resolves as a cascade: your plan must include skills frameworks, then a framework must be added at the organization level, then enabled for the department. `GET /v1/skill_frameworks` requires a `department_id` and returns only the frameworks enabled for that department — those are the frameworks you can attach to a Group in it.\n\nSkill *search* is deliberately wider than attach eligibility: a framework your API key can see is searchable even if it is not enabled for a particular department. Enablement is enforced when you attach, not when you browse.\n\n## Skills know where they live\n\nA skill sits at a position in its framework's hierarchy, and in some taxonomies it legitimately sits in more than one. The skills search response returns one row per skill with a `breadcrumbs` array — one trail per placement, each trail listing the skill's ancestors from the root down to its immediate parent.\n\nWhen you attach a skill to a Group you send both the skill `id` and the `breadcrumb_ids` of the trail you mean, so the placement is unambiguous. The ids in a `breadcrumbs` trail are exactly what `breadcrumb_ids` expects — you can copy them straight from a search result into a Group request. Because the pair `(id, breadcrumb_ids)` identifies a placement, the same skill id may appear more than once with different trails.\n\n## Reading skills back off a credential\n\nYou do not need to call these endpoints to display a credential's skills. [Credential](#tag/Credentials) responses carry a `skills` array for the Group the credential was issued from, with each skill's external `identifier` and its `breadcrumbs` trail, so a consumer pulling credentials can render skills without a second request.\n\nThe framework those skills belong to is a property of the Group, not of the credential, so it is not repeated on every credential. Follow the credential's `group_id` to [View a Group](#operation/View%20a%20Group) and read `skill_framework` — the Group response carries the same `skills` array alongside it.\n\n## Reading a Group's skills is not the same shape as writing them\n\nA Group response reports `skill_framework` — the framework with its pinned version nested inside — and `skills`, one fully-detailed entry per placement. You write with `skill_framework_version_id` and `framework_skills`, which carry ids only. A Group response is therefore not pasteable straight back into a `PUT`.\n\nIn practice you rarely need to convert between them. [Update a Group](#operation/Update%20a%20Group) gates on **key presence**, so a read-modify-write that changes unrelated fields should send neither framework key and leave the framework untouched, and copying a Group wholesale is what [Clone a Group](#operation/Clone%20a%20Group) is for. When you do need to replace a Group's skills, send `skill_framework.version.id` as `skill_framework_version_id`, and map each `skills` entry to `{ \"id\": <the entry's id>, \"breadcrumb_ids\": <its breadcrumbs, mapped to their ids> }`.\n\nBecause a polyhierarchic skill contributes one entry per placement, the same `id` can appear more than once in `skills` with different `breadcrumbs`. Do not key the array by `id`.\n\n## Relationship to existing Group fields\n\nFramework skills and free-text `learning_outcomes` can both be set on a Group; neither is rejected or cleared by the other. Where a credential displays a single skills list, framework skills take precedence. `skill_category_id` is a separate, unrelated classification and is unaffected.\n\n## Attaching skills is best-effort\n\nA problem with a framework or an individual skill never fails a Group write. The Group is still created or updated, valid skills are still attached, and every problem is itemized in an `errors` array alongside an HTTP `207 Multi-Status`. See [Skills Frameworks Error Handling](#section/Errors/Skills-Frameworks-Error-Handling) for the full list of codes."
+      "description": "A Skills Framework is a structured taxonomy of skills. Accredible maintains external frameworks such as O*NET, ESCO and NACE, and your organization can upload its own custom frameworks. Tagging a Group against a framework replaces the free-text `learning_outcomes` list with skills that carry a stable identifier and a known position in a recognized taxonomy.\n\nThese endpoints are **read-only**. Uploading frameworks, editing their skills, publishing and retiring versions are all managed in the [Accredible Dashboard](https://dashboard.accredible.com/) — the API lets you discover the frameworks available to you, search their skills, and select those skills on a Group.\n\n## Frameworks are versioned\n\nYou always tag against a **version**, never a framework. Each framework in the list response carries a `versions` array; take the `id` of the version you want and send it as `skill_framework_version_id` when you create or update a Group. Only published versions (`active` and `retired`) are ever returned. Pinning the version explicitly means an upstream framework update can never silently change which skills your integration attaches.\n\n## Availability is governed per department\n\nFramework availability resolves as a cascade: your plan must include skills frameworks, then a framework must be added at the organization level, then enabled for the department. `GET /v1/skill_frameworks` requires a `department_id` and returns only the frameworks enabled for that department — those are the frameworks you can attach to a Group in it.\n\nSkill *search* is deliberately wider than attach eligibility: a framework your API key can see is searchable even if it is not enabled for a particular department. Enablement is enforced when you attach, not when you browse.\n\n## Skills know where they live\n\nA skill sits at a position in its framework's hierarchy, and in some taxonomies it legitimately sits in more than one. The skills search response returns one row per skill with a `breadcrumbs` array — one trail per placement, each trail listing the skill's ancestors from the root down to its immediate parent.\n\nWhen you attach a skill to a Group you send both the skill `id` and the `breadcrumb_ids` of the trail you mean, so the placement is unambiguous. The ids in a `breadcrumbs` trail are exactly what `breadcrumb_ids` expects — you can copy them straight from a search result into a Group request. Because the pair `(id, breadcrumb_ids)` identifies a placement, the same skill id may appear more than once with different trails.\n\n## Reading skills back off a credential\n\nYou do not need to call these endpoints to display a credential's skills. [Credential](#tag/Credentials) responses carry a `skills` array for the Group the credential was issued from, with each skill's external `identifier` and its `breadcrumbs` trail, so a consumer pulling credentials can render skills without a second request.\n\nThe framework those skills belong to is a property of the Group, not of the credential, so it is not repeated on every credential. Follow the credential's `group_id` to [View a Group](#operation/View%20a%20Group) and read `skill_framework` — the Group response carries the same `skills` array alongside it.\n\n## Reading a Group's skills is not the same shape as writing them\n\nA Group response reports `skill_framework` — the framework with its pinned version nested inside — and `skills`, one fully-detailed entry per placement. You write with `skill_framework_version_id` and `framework_skills`, which carry ids only. A Group response is therefore not pasteable straight back into a `PUT`.\n\nIn practice you rarely need to convert between them. [Update a Group](#operation/Update%20a%20Group) gates on **key presence**, so a read-modify-write that changes unrelated fields should send neither framework key and leave the framework untouched, and copying a Group wholesale is what [Clone a Group](#operation/Clone%20a%20Group) is for. When you do need to replace a Group's skills, send `skill_framework.version.id` as `skill_framework_version_id`, and map each `skills` entry to `{ \"id\": <the entry's id>, \"breadcrumb_ids\": <its breadcrumbs, mapped to their ids> }`.\n\nBecause a polyhierarchic skill contributes one entry per placement, the same `id` can appear more than once in `skills` with different `breadcrumbs`. Do not key the array by `id`.\n\n## Relationship to existing Group fields\n\nFramework skills and free-text `learning_outcomes` can both be set on a Group; neither is rejected or cleared by the other. Where a credential displays a single skills list, framework skills take precedence. `skill_category_id` is a separate, unrelated classification and is unaffected.\n\n## Attaching skills is best-effort\n\nA problem with a framework or an individual skill does not fail a Group write. The Group is still created or updated, valid skills are still attached, and every problem is itemized in an `errors` array alongside an HTTP `207 Multi-Status`.\n\nThere is one exception. If your plan has lost access to skills frameworks and you send framework parameters for a Group that is **already** framework-backed, [Update a Group](#operation/Update%20a%20Group) returns a hard `403` and nothing in the request is saved, including changes to unrelated fields. Reading that Group still returns its framework and skills, and moving it to free-text skills with `\"framework_skills\": null` is still allowed.\n\nSee [Skills Frameworks Error Handling](#section/Errors/Skills-Frameworks-Error-Handling) for the full list of codes."
     },
     {
       "name": "Collections",
