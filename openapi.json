@@ -265,7 +265,6 @@
                               },
                               "identifier": {
                                 "type": "string",
-                                "description": "The framework's own external identifier for the skill — an O*NET element id, an ESCO URI, or whatever a custom framework was uploaded with. This is the field to match against your own systems. `null` when the framework does not provide one.",
                                 "nullable": true
                               },
                               "description": {
@@ -274,12 +273,10 @@
                               },
                               "url": {
                                 "type": "string",
-                                "description": "Link to the skill in the publisher's own taxonomy, when the framework provides one.",
                                 "nullable": true
                               },
                               "breadcrumbs": {
                                 "type": "array",
-                                "description": "Where this skill sits in the framework: its ancestors from the root down to its immediate parent, with the skill itself excluded. Empty for a skill that sits at the root of the framework.\n\nEach node carries its own external `identifier` alongside its `id` and `name`.",
                                 "items": {
                                   "type": "object",
                                   "properties": {
@@ -291,7 +288,6 @@
                                     },
                                     "identifier": {
                                       "type": "string",
-                                      "description": "The ancestor's own external identifier in the framework, when it has one.",
                                       "nullable": true
                                     }
                                   },
@@ -810,7 +806,6 @@
                                     },
                                     "identifier": {
                                       "type": "string",
-                                      "description": "The framework's own external identifier for the skill — an O*NET element id, an ESCO URI, or whatever a custom framework was uploaded with. This is the field to match against your own systems. `null` when the framework does not provide one.",
                                       "nullable": true
                                     },
                                     "description": {
@@ -819,12 +814,10 @@
                                     },
                                     "url": {
                                       "type": "string",
-                                      "description": "Link to the skill in the publisher's own taxonomy, when the framework provides one.",
                                       "nullable": true
                                     },
                                     "breadcrumbs": {
                                       "type": "array",
-                                      "description": "Where this skill sits in the framework: its ancestors from the root down to its immediate parent, with the skill itself excluded. Empty for a skill that sits at the root of the framework.\n\nEach node carries its own external `identifier` alongside its `id` and `name`.",
                                       "items": {
                                         "type": "object",
                                         "properties": {
@@ -836,7 +829,6 @@
                                           },
                                           "identifier": {
                                             "type": "string",
-                                            "description": "The ancestor's own external identifier in the framework, when it has one.",
                                             "nullable": true
                                           }
                                         },
@@ -1322,7 +1314,6 @@
                               },
                               "identifier": {
                                 "type": "string",
-                                "description": "The framework's own external identifier for the skill — an O*NET element id, an ESCO URI, or whatever a custom framework was uploaded with. This is the field to match against your own systems. `null` when the framework does not provide one.",
                                 "nullable": true
                               },
                               "description": {
@@ -1331,12 +1322,10 @@
                               },
                               "url": {
                                 "type": "string",
-                                "description": "Link to the skill in the publisher's own taxonomy, when the framework provides one.",
                                 "nullable": true
                               },
                               "breadcrumbs": {
                                 "type": "array",
-                                "description": "Where this skill sits in the framework: its ancestors from the root down to its immediate parent, with the skill itself excluded. Empty for a skill that sits at the root of the framework.\n\nEach node carries its own external `identifier` alongside its `id` and `name`.",
                                 "items": {
                                   "type": "object",
                                   "properties": {
@@ -1348,7 +1337,6 @@
                                     },
                                     "identifier": {
                                       "type": "string",
-                                      "description": "The ancestor's own external identifier in the framework, when it has one.",
                                       "nullable": true
                                     }
                                   },
@@ -2462,7 +2450,6 @@
                                 },
                                 "identifier": {
                                   "type": "string",
-                                  "description": "The framework's own external identifier for the skill — an O*NET element id, an ESCO URI, or whatever a custom framework was uploaded with. This is the field to match against your own systems. `null` when the framework does not provide one.",
                                   "nullable": true
                                 },
                                 "description": {
@@ -2471,12 +2458,10 @@
                                 },
                                 "url": {
                                   "type": "string",
-                                  "description": "Link to the skill in the publisher's own taxonomy, when the framework provides one.",
                                   "nullable": true
                                 },
                                 "breadcrumbs": {
                                   "type": "array",
-                                  "description": "Where this skill sits in the framework: its ancestors from the root down to its immediate parent, with the skill itself excluded. Empty for a skill that sits at the root of the framework.\n\nEach node carries its own external `identifier` alongside its `id` and `name`.",
                                   "items": {
                                     "type": "object",
                                     "properties": {
@@ -2488,7 +2473,6 @@
                                       },
                                       "identifier": {
                                         "type": "string",
-                                        "description": "The ancestor's own external identifier in the framework, when it has one.",
                                         "nullable": true
                                       }
                                     },
