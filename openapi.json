@@ -8414,7 +8414,7 @@
         },
         "summary": "Create a New Department",
         "operationId": "Create a New Department",
-        "description": "You may create a Department using this action. It takes a JSON object containing a Department.\n\n**Creating a Department requires an account-wide API key.** A department-specific key receives `403` with `No Permission to manage Departments.`",
+        "description": "You may create a Department using this action. It takes a JSON object containing a Department.\n\nAuthorization depends on the type of API key you use:\n\n| Account-wide key | Department-specific key |\n| --- | --- |\n| Allowed | Not permitted |",
         "tags": [
           "Departments"
         ],
@@ -8580,7 +8580,7 @@
         },
         "summary": "View a Department",
         "operationId": "View a Department",
-        "description": "View a single Department.\n\nAn account-wide API key can view any Department in the account. A department-specific key can only view the Department it is scoped to - any other Department returns `404` with `No department found`.",
+        "description": "View a single Department.\n\nAuthorization depends on the type of API key you use:\n\n| Account-wide key | Department-specific key |\n| --- | --- |\n| Any Department in the account | Its own Department only |",
         "tags": [
           "Departments"
         ],
@@ -8675,7 +8675,7 @@
         },
         "summary": "Update a Department",
         "operationId": "Update a Department",
-        "description": "Update a Department using this action. It takes a JSON object containing a Department.\n\nAn account-wide API key can update any Department in the account. A department-specific key can only update the Department it is scoped to - any other Department returns `404` with `No department found`.",
+        "description": "Update a Department using this action. It takes a JSON object containing a Department.\n\nAuthorization depends on the type of API key you use:\n\n| Account-wide key | Department-specific key |\n| --- | --- |\n| Any Department in the account | Its own Department only |",
         "tags": [
           "Departments"
         ],
@@ -8834,7 +8834,7 @@
         },
         "summary": "Delete a Department",
         "operationId": "Delete a Department",
-        "description": "Delete a Department using this action.\n\n**Deleting a Department requires an account-wide API key.** A department-specific key receives `403` with `No Permission to manage Departments.`",
+        "description": "Delete a Department using this action.\n\nAuthorization depends on the type of API key you use:\n\n| Account-wide key | Department-specific key |\n| --- | --- |\n| Allowed | Not permitted |",
         "tags": [
           "Departments"
         ],
@@ -8942,7 +8942,7 @@
         },
         "summary": "Search for Departments",
         "operationId": "Search for Departments",
-        "description": "You can search for departments by various search criteria.\n\nAn account-wide API key searches every Department in the account. A department-specific key only returns the Department it is scoped to.",
+        "description": "You can search for departments by various search criteria.\n\nAuthorization depends on the type of API key you use:\n\n| Account-wide key | Department-specific key |\n| --- | --- |\n| All Departments in the account | Its own Department only |",
         "tags": [
           "Departments"
         ],
@@ -9712,7 +9712,7 @@
         },
         "summary": "Create a Team Member",
         "operationId": "Create a Team Member",
-        "description": "Create a TeamMember using this action. It requires a JSON object containing a TeamMember.\n\nThe `access_level` of each `department_permissions` entry determines what is created, and authorization is based on the type of API key you use:\n\n| `access_level` | Account-wide key | Department-specific key |\n| --- | --- | --- |\n| `team_member` (default) | Any Department in the account | Its own Department only |\n| `department_admin` | Any Department in the account | Not permitted |\n| `developer` | Any Department in the account | Not permitted |\n| `organization_admin` | Not permitted | Not permitted |\n\n**Note:** `department_admin` and `developer` also require a plan that supports those roles. `organization_admin` can never be created through the API - use the Issuer Dashboard. Omitting `access_level` creates a regular Team Member, so existing integrations are unaffected.\n\n**Permitted permission values by `access_level`.** Each `access_level` locks certain permissions to fixed values, and a request that sets a locked permission to any other value is rejected:\n\n| Field | `team_member` | `department_admin` | `developer` |\n|-------|---------------|--------------------|-------------|\n| `access_level` | `\"team_member\"` | `\"department_admin\"` | `\"developer\"` |\n| `role` | `editor`, `credential_issuer` or `viewer` | `editor` | `viewer` |\n| `designs` | `true` or `false` | `true` or `false` | `false` |\n| `emails` | `true` or `false` | `true` or `false` | `false` |\n| `credential_attributes` | `true` or `false` | `true` or `false` | `false` |\n| `analytics` | `true` or `false` | `true` or `false` | `false` |\n| `settings` | `true` or `false` | `true` or `false` | `false` |\n| `pathways` | `true` or `false` | `true` or `false` | `false` |\n| `api` | `false` | `true` or `false` | `true` |\n| `team` | `false` | `true` or `false` | `false` |\n| `analytics_email` | `false` | `true` or `false` | `false` |\n| `manage_dept_admins_and_devs` | `false` | `true` or `false` | `false` |\n| `groups` | Array of Group IDs to limit access to | Ignored - access is not Group-limited | Ignored - access is not Group-limited |\n\n**Note:** omitting a boolean permission is equivalent to sending `false`, so a `developer` needs only `api: true` and `role: \"viewer\"`. Sending a value the table does not permit returns `400` with a message of the form `<permission> must be <value> for <access_level>`.\n\n**Note:** `api` acts as a master switch for a `department_admin`. Setting `api: true` makes the Department Admin a full-access administrator of that Department, so every other permission - `team`, `designs`, `emails`, `credential_attributes`, `analytics`, `settings`, `pathways`, `manage_dept_admins_and_devs` and `analytics_email` - must also be `true`.",
+        "description": "Create a TeamMember using this action. It requires a JSON object containing a TeamMember.\n\n**Important**\n\n- Organization Admin cannot be created through the API.\n- To create a Department Admin or Developer your account must be on a custom plan.\n\nThe `access_level` of each `department_permissions` entry determines what is created, and authorization is based on the type of API key you use:\n\n| Access Level | Account-wide key | Department-specific key |\n| --- | --- | --- |\n| Team Member (default) | Any Department in the account | Its own Department only |\n| Department Admin | Any Department in the account | Not permitted |\n| Developer | Any Department in the account | Not permitted |\n| Organization Admin | Not permitted | Not permitted |\n\n**Permitted values by `access_level`.**\n\n<table>\n  <thead>\n    <tr><th>Field</th><th>Team Member</th><th colspan=\"2\">Department Admin<sup>&ast;</sup></th><th>Developer<sup>&ast;</sup></th></tr>\n  </thead>\n  <tbody>\n    <tr><td><code>access_level</code></td><td><code>team_member</code></td><td colspan=\"2\"><code>department_admin</code></td><td><code>developer</code></td></tr>\n    <tr><td><code>role</code></td><td><code>editor</code><br><code>credential_issuer</code><br><code>viewer</code></td><td colspan=\"2\"><code>editor</code></td><td><code>viewer</code></td></tr>\n    <tr><td><code>api</code></td><td>NA</td><td><code>false</code></td><td><code>true</code></td><td><code>true</code></td></tr>\n    <tr><td><code>designs</code></td><td><code>true</code><br><code>false</code></td><td><code>true</code><br><code>false</code></td><td><code>true</code></td><td>NA</td></tr>\n    <tr><td><code>emails</code></td><td><code>true</code><br><code>false</code></td><td><code>true</code><br><code>false</code></td><td><code>true</code></td><td>NA</td></tr>\n    <tr><td><code>credential_attributes</code></td><td><code>true</code><br><code>false</code></td><td><code>true</code><br><code>false</code></td><td><code>true</code></td><td>NA</td></tr>\n    <tr><td><code>analytics</code></td><td><code>true</code><br><code>false</code></td><td><code>true</code><br><code>false</code></td><td><code>true</code></td><td>NA</td></tr>\n    <tr><td><code>settings</code></td><td><code>true</code><br><code>false</code></td><td><code>true</code><br><code>false</code></td><td><code>true</code></td><td>NA</td></tr>\n    <tr><td><code>pathways</code></td><td><code>true</code><br><code>false</code></td><td><code>true</code><br><code>false</code></td><td><code>true</code></td><td>NA</td></tr>\n    <tr><td><code>team</code></td><td>NA</td><td><code>true</code><br><code>false</code></td><td><code>true</code></td><td>NA</td></tr>\n    <tr><td><code>analytics_email</code></td><td>NA</td><td><code>true</code><br><code>false</code></td><td><code>true</code></td><td>NA</td></tr>\n    <tr><td><code>manage_dept_admins_and_devs</code></td><td>NA</td><td><code>true</code><br><code>false</code></td><td><code>true</code></td><td>NA</td></tr>\n    <tr><td><code>groups</code></td><td>Array of Group IDs to limit access to</td><td colspan=\"2\">NA (All groups allowed)</td><td>NA (All groups allowed)</td></tr>\n  </tbody>\n</table>\n\n*NA - Not Applicable, can be omitted.*<br><sup>&ast;</sup> *Only available on Custom Plan.*",
         "tags": [
           "Team Members"
         ],
@@ -9809,7 +9809,7 @@
                             },
                             "role": {
                               "type": "string",
-                              "description": "\"editor\" or \"viewer\" access to Credential data in the Department."
+                              "description": "\"editor\", \"credential_issuer\" or \"viewer\" access to Credential data in the Department."
                             },
                             "pathways": {
                               "type": "boolean",
@@ -9834,7 +9834,7 @@
                                 "developer"
                               ],
                               "default": "team_member",
-                              "description": "The TeamMember's access level in the given Department. \"department_admin\" and \"developer\" require an account-wide API key and a plan that supports them; \"team_member\" can be created with either an account-wide or a department-specific key. \"organization_admin\" cannot be assigned through the API - use the Issuer Dashboard."
+                              "description": "The TeamMember's access level in the given Department."
                             },
                             "analytics_email": {
                               "type": "boolean",
@@ -10050,7 +10050,7 @@
         },
         "summary": "View a Team Member",
         "operationId": "View a Team Member",
-        "description": "View a TeamMember and their permissions in each Department.\n\nAn account-wide API key returns the TeamMember's permissions across every Department in the account. A department-specific key only resolves Team Members within its own Department.",
+        "description": "View a TeamMember and their permissions in each Department.\n\nWhich TeamMembers you can view depends on the type of API key you use:\n\n| Access Level | Account-wide key | Department-specific key |\n| --- | --- | --- |\n| Team Member | Any Department in the account | Its own Department only |\n| Department Admin | Any Department in the account | Its own Department only |\n| Developer | Any Department in the account | Its own Department only |\n| Organization Admin | Visible | Not visible |",
         "tags": [
           "Team Members"
         ],
@@ -10222,7 +10222,7 @@
         },
         "summary": "Update a Team Member",
         "operationId": "Update a Team Member",
-        "description": "Update a TeamMember using this action. It requires a JSON object containing a TeamMember.\n\n**The `department_permissions` array replaces the TeamMember's entire permission set.** A Department present in the array is created or updated; a Department omitted from the array has its permission removed.\n\nAuthorization is based on the type of API key you use. An account-wide key can update a TeamMember in any Department in the account, and is required in order to update a TeamMember who is currently a Department Admin or a Developer, to set `access_level` to `department_admin` or `developer`, or to remove a permission by omitting its Department. A department-specific key can only update a Team Member in its own Department.\n\n**Note:** an Organization Admin cannot be updated through the API, and `organization_admin` cannot be assigned through the API - use the Issuer Dashboard. Only `name` can be changed on the TeamMember record itself.\n\n**Permitted permission values by `access_level`.** Each `access_level` locks certain permissions to fixed values, and a request that sets a locked permission to any other value is rejected:\n\n| Field | `team_member` | `department_admin` | `developer` |\n|-------|---------------|--------------------|-------------|\n| `access_level` | `\"team_member\"` | `\"department_admin\"` | `\"developer\"` |\n| `role` | `editor`, `credential_issuer` or `viewer` | `editor` | `viewer` |\n| `designs` | `true` or `false` | `true` or `false` | `false` |\n| `emails` | `true` or `false` | `true` or `false` | `false` |\n| `credential_attributes` | `true` or `false` | `true` or `false` | `false` |\n| `analytics` | `true` or `false` | `true` or `false` | `false` |\n| `settings` | `true` or `false` | `true` or `false` | `false` |\n| `pathways` | `true` or `false` | `true` or `false` | `false` |\n| `api` | `false` | `true` or `false` | `true` |\n| `team` | `false` | `true` or `false` | `false` |\n| `analytics_email` | `false` | `true` or `false` | `false` |\n| `manage_dept_admins_and_devs` | `false` | `true` or `false` | `false` |\n| `groups` | Array of Group IDs to limit access to | Ignored - access is not Group-limited | Ignored - access is not Group-limited |\n\n**Note:** omitting a boolean permission is equivalent to sending `false`, so a `developer` needs only `api: true` and `role: \"viewer\"`. Sending a value the table does not permit returns `400` with a message of the form `<permission> must be <value> for <access_level>`.\n\n**Note:** `api` acts as a master switch for a `department_admin`. Setting `api: true` makes the Department Admin a full-access administrator of that Department, so every other permission - `team`, `designs`, `emails`, `credential_attributes`, `analytics`, `settings`, `pathways`, `manage_dept_admins_and_devs` and `analytics_email` - must also be `true`.",
+        "description": "Update a TeamMember using this action. It requires a JSON object containing a TeamMember.\n\n**Important**\n\n- Organization Admin cannot be created or updated through the API.\n- To assign a Department Admin or Developer your account must be on a custom plan.\n\n**The `department_permissions` array replaces the TeamMember's entire permission set.** A Department present in the array is created or updated; a Department omitted from the array has its permission removed, if your API key is authorized to remove it.\n\nWhich TeamMembers you can update depends on the type of API key you use:\n\n| Access Level | Account-wide key | Department-specific key |\n| --- | --- | --- |\n| Team Member | Any Department in the account | Its own Department only |\n| Department Admin | Any Department in the account | Not permitted |\n| Developer | Any Department in the account | Not permitted |\n| Organization Admin | Not permitted | Not permitted |\n\n**Permitted values by `access_level`.**\n\n<table>\n  <thead>\n    <tr><th>Field</th><th>Team Member</th><th colspan=\"2\">Department Admin<sup>&ast;</sup></th><th>Developer<sup>&ast;</sup></th></tr>\n  </thead>\n  <tbody>\n    <tr><td><code>access_level</code></td><td><code>team_member</code></td><td colspan=\"2\"><code>department_admin</code></td><td><code>developer</code></td></tr>\n    <tr><td><code>role</code></td><td><code>editor</code><br><code>credential_issuer</code><br><code>viewer</code></td><td colspan=\"2\"><code>editor</code></td><td><code>viewer</code></td></tr>\n    <tr><td><code>api</code></td><td>NA</td><td><code>false</code></td><td><code>true</code></td><td><code>true</code></td></tr>\n    <tr><td><code>designs</code></td><td><code>true</code><br><code>false</code></td><td><code>true</code><br><code>false</code></td><td><code>true</code></td><td>NA</td></tr>\n    <tr><td><code>emails</code></td><td><code>true</code><br><code>false</code></td><td><code>true</code><br><code>false</code></td><td><code>true</code></td><td>NA</td></tr>\n    <tr><td><code>credential_attributes</code></td><td><code>true</code><br><code>false</code></td><td><code>true</code><br><code>false</code></td><td><code>true</code></td><td>NA</td></tr>\n    <tr><td><code>analytics</code></td><td><code>true</code><br><code>false</code></td><td><code>true</code><br><code>false</code></td><td><code>true</code></td><td>NA</td></tr>\n    <tr><td><code>settings</code></td><td><code>true</code><br><code>false</code></td><td><code>true</code><br><code>false</code></td><td><code>true</code></td><td>NA</td></tr>\n    <tr><td><code>pathways</code></td><td><code>true</code><br><code>false</code></td><td><code>true</code><br><code>false</code></td><td><code>true</code></td><td>NA</td></tr>\n    <tr><td><code>team</code></td><td>NA</td><td><code>true</code><br><code>false</code></td><td><code>true</code></td><td>NA</td></tr>\n    <tr><td><code>analytics_email</code></td><td>NA</td><td><code>true</code><br><code>false</code></td><td><code>true</code></td><td>NA</td></tr>\n    <tr><td><code>manage_dept_admins_and_devs</code></td><td>NA</td><td><code>true</code><br><code>false</code></td><td><code>true</code></td><td>NA</td></tr>\n    <tr><td><code>groups</code></td><td>Array of Group IDs to limit access to</td><td colspan=\"2\">NA (All groups allowed)</td><td>NA (All groups allowed)</td></tr>\n  </tbody>\n</table>\n\n*NA - Not Applicable, can be omitted.*<br><sup>&ast;</sup> *Only available on Custom Plan.*",
         "tags": [
           "Team Members"
         ],
@@ -10320,7 +10320,7 @@
                             },
                             "role": {
                               "type": "string",
-                              "description": "\"editor\" or \"viewer\" access to Credential data in the Department."
+                              "description": "\"editor\", \"credential_issuer\" or \"viewer\" access to Credential data in the Department."
                             },
                             "pathways": {
                               "type": "boolean",
@@ -10345,7 +10345,7 @@
                                 "developer"
                               ],
                               "default": "team_member",
-                              "description": "The TeamMember's access level in the given Department. Updating a TeamMember who is currently a Department Admin or a Developer requires an account-wide API key, as does setting \"department_admin\" or \"developer\". \"organization_admin\" cannot be assigned through the API, and an existing Organization Admin cannot be updated through the API - use the Issuer Dashboard."
+                              "description": "The TeamMember's access level in the given Department."
                             },
                             "analytics_email": {
                               "type": "boolean",
@@ -10376,7 +10376,7 @@
                         "permissions"
                       ]
                     },
-                    "description": "This parameter replaces the TeamMember's entire set of permissions, it does not append to them. A Department present in the array is created or updated; a Department omitted from the array has its permission removed. Removal by omission requires an account-wide API key - a department-specific key cannot remove permissions this way, use DELETE instead."
+                    "description": "This parameter replaces the TeamMember's entire set of permissions, it does not append to them."
                   }
                 },
                 "required": [
@@ -10554,7 +10554,7 @@
         },
         "summary": "Delete a Team Member",
         "operationId": "Delete a Team Member",
-        "description": "Remove a TeamMember from the Departments your API key can reach.\n\nAn account-wide API key removes the TeamMember from every Department in the account, including where they are a Department Admin or a Developer. A department-specific key only removes a Team Member in its own Department. Permissions in Departments outside the key's reach are left in place.\n\n**Note:** an Organization Admin cannot be removed through the API - use the Issuer Dashboard.",
+        "description": "Remove a TeamMember from the Departments your API key can reach.\n\nWhat the request removes depends on the type of API key you use:\n\n| Access Level | Account-wide key | Department-specific key |\n| --- | --- | --- |\n| Team Member | Any Department in the account | Its own Department only |\n| Department Admin | Any Department in the account | Not removed |\n| Developer | Any Department in the account | Not removed |\n| Organization Admin | Not removed | Not removed |",
         "tags": [
           "Team Members"
         ],
