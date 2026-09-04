@@ -5244,6 +5244,10 @@
                         "auto_expiry": {
                           "type": "number"
                         },
+                        "auto_expiry_unit": {
+                          "type": "string",
+                          "enum": ["years", "months"]
+                        },
                         "signup_url_show": {
                           "type": "boolean"
                         },
@@ -5499,6 +5503,7 @@
                     },
                     "generate_private_credential": false,
                     "auto_expiry": 1,
+                    "auto_expiry_unit": "years",
                     "signup_url_show": false,
                     "signup_url": "http://www.example.com",
                     "course_link_show": false,
@@ -5744,6 +5749,7 @@
                   ],
                   "generate_private_credential": false,
                   "auto_expiry": 1,
+                  "auto_expiry_unit": "years",
                   "signup_url_show": false,
                   "signup_url": "http://www.example.com",
                   "course_link_show": false,
@@ -5858,7 +5864,12 @@
                   },
                   "auto_expiry": {
                     "type": "number",
-                    "description": "Specifies the number of years from the issue date after which the credential will automatically expire. If the specified value is less than or equal to 0, it will be ignored."
+                    "description": "Specifies the number of years or months (see `auto_expiry_unit`) from the issue date after which the credential will automatically expire. If the specified value is less than or equal to 0, it will be ignored."
+                  },
+                  "auto_expiry_unit": {
+                    "type": "string",
+                    "enum": ["years", "months"],
+                    "description": "The unit of time for `auto_expiry`. Defaults to `years` if not supplied and `auto_expiry` exists."
                   },
                   "signup_url": {
                     "type": "string",
@@ -5985,7 +5996,7 @@
           {
             "lang": "cURL",
             "label": "cURL",
-            "source": "curl -X POST \\\n  \"https://api.accredible.com/v1/issuer/groups\" \\\n  -H \"Authorization: Token token=YOUR_API_KEY\" \\\n  -H \"Content-Type: application/json\" \\\n  -d '{\n  \"group\": {\n    \"name\": \"new group\",\n    \"course_name\": \"Intro to Prgramming\",\n    \"course_description\": \"Description of course\",\n    \"course_link\": \"http://www.example.com\",\n    \"language\": \"en\",\n    \"attach_pdf\": true,\n    \"design_id\": null,\n    \"blockchain\": false,\n    \"certificate_design_id\": null,\n    \"badge_design_id\": null,\n    \"primary_design_id\": null,\n    \"department_id\": 123,\n    \"meta_data\": {\n      \"batch_id\": \"271\"\n    },\n    \"learning_outcomes\": [\n      \"Reading Books\",\n      \"Writing Essays\"\n    ],\n    \"generate_private_credential\": false,\n    \"auto_expiry\": 1,\n    \"signup_url_show\": false,\n    \"signup_url\": \"http://www.example.com\",\n    \"course_link_show\": false,\n    \"organization_link_show\": false,\n    \"skill_category_id\": 1,\n    \"collections\": [\n      {\n        \"id\": 1\n      },\n      {\n        \"id\": 2\n      }\n    ],\n    \"earning_criteria\": [\n      {\n        \"kind\": \"course\",\n        \"text\": \"Complete the Intro to Programming course\",\n        \"required\": true,\n        \"position\": 1\n      },\n      {\n        \"kind\": \"exam\",\n        \"text\": \"Pass the final exam with 70% or higher\",\n        \"required\": true,\n        \"position\": 2\n      }\n    ],\n    \"skill_framework_version_id\": 512,\n    \"framework_skills\": [\n      {\n        \"id\": 59301,\n        \"breadcrumb_ids\": [\n          59298,\n          59299,\n          59300\n        ]\n      },\n      {\n        \"id\": 59302,\n        \"breadcrumb_ids\": [\n          59298,\n          59299,\n          59300\n        ]\n      }\n    ]\n  }\n}'"
+            "source": "curl -X POST \\\n  \"https://api.accredible.com/v1/issuer/groups\" \\\n  -H \"Authorization: Token token=YOUR_API_KEY\" \\\n  -H \"Content-Type: application/json\" \\\n  -d '{\n  \"group\": {\n    \"name\": \"new group\",\n    \"course_name\": \"Intro to Prgramming\",\n    \"course_description\": \"Description of course\",\n    \"course_link\": \"http://www.example.com\",\n    \"language\": \"en\",\n    \"attach_pdf\": true,\n    \"design_id\": null,\n    \"blockchain\": false,\n    \"certificate_design_id\": null,\n    \"badge_design_id\": null,\n    \"primary_design_id\": null,\n    \"department_id\": 123,\n    \"meta_data\": {\n      \"batch_id\": \"271\"\n    },\n    \"learning_outcomes\": [\n      \"Reading Books\",\n      \"Writing Essays\"\n    ],\n    \"generate_private_credential\": false,\n    \"auto_expiry\": 1,\n    \"auto_expiry_unit\": \"years\",\n    \"signup_url_show\": false,\n    \"signup_url\": \"http://www.example.com\",\n    \"course_link_show\": false,\n    \"organization_link_show\": false,\n    \"skill_category_id\": 1,\n    \"collections\": [\n      {\n        \"id\": 1\n      },\n      {\n        \"id\": 2\n      }\n    ],\n    \"earning_criteria\": [\n      {\n        \"kind\": \"course\",\n        \"text\": \"Complete the Intro to Programming course\",\n        \"required\": true,\n        \"position\": 1\n      },\n      {\n        \"kind\": \"exam\",\n        \"text\": \"Pass the final exam with 70% or higher\",\n        \"required\": true,\n        \"position\": 2\n      }\n    ],\n    \"skill_framework_version_id\": 512,\n    \"framework_skills\": [\n      {\n        \"id\": 59301,\n        \"breadcrumb_ids\": [\n          59298,\n          59299,\n          59300\n        ]\n      },\n      {\n        \"id\": 59302,\n        \"breadcrumb_ids\": [\n          59298,\n          59299,\n          59300\n        ]\n      }\n    ]\n  }\n}'"
           }
         ]
       }
@@ -6063,6 +6074,10 @@
                         },
                         "auto_expiry": {
                           "type": "number"
+                        },
+                        "auto_expiry_unit": {
+                          "type": "string",
+                          "enum": ["years", "months"]
                         },
                         "signup_url_show": {
                           "type": "boolean"
@@ -6314,6 +6329,7 @@
                     "meta_data": null,
                     "generate_private_credential": false,
                     "auto_expiry": 1,
+                    "auto_expiry_unit": "years",
                     "signup_url_show": false,
                     "signup_url": "http://www.example.com",
                     "course_link_show": false,
@@ -6531,6 +6547,10 @@
                         },
                         "auto_expiry": {
                           "type": "number"
+                        },
+                        "auto_expiry_unit": {
+                          "type": "string",
+                          "enum": ["years", "months"]
                         },
                         "signup_url_show": {
                           "type": "boolean"
@@ -6784,6 +6804,7 @@
                     },
                     "generate_private_credential": false,
                     "auto_expiry": 1,
+                    "auto_expiry_unit": "years",
                     "signup_url_show": false,
                     "signup_url": "http://www.example.com",
                     "course_link_show": false,
@@ -7144,7 +7165,12 @@
                   },
                   "auto_expiry": {
                     "type": "number",
-                    "description": "Specifies the number of years from the issue date after which the credential will automatically expire. If the specified value is less than or equal to 0, it will be ignored."
+                    "description": "Specifies the number of years or months (see `auto_expiry_unit`) from the issue date after which the credential will automatically expire. If the specified value is less than or equal to 0, it will be ignored."
+                  },
+                  "auto_expiry_unit": {
+                    "type": "string",
+                    "enum": ["years", "months"],
+                    "description": "The unit of time for `auto_expiry`. Defaults to `years` if not supplied and `auto_expiry` exists."
                   },
                   "signup_url": {
                     "type": "string",
@@ -7350,6 +7376,10 @@
                         "auto_expiry": {
                           "type": "number"
                         },
+                        "auto_expiry_unit": {
+                          "type": "string",
+                          "enum": ["years", "months"]
+                        },
                         "signup_url_show": {
                           "type": "boolean"
                         },
@@ -7402,6 +7432,7 @@
                     "meta_data": null,
                     "generate_private_credential": false,
                     "auto_expiry": 1,
+                    "auto_expiry_unit": "years",
                     "signup_url_show": false,
                     "signup_url": "http://www.example.com",
                     "course_link_show": false,
@@ -7529,6 +7560,10 @@
                         },
                         "auto_expiry": {
                           "type": "number"
+                        },
+                        "auto_expiry_unit": {
+                          "type": "string",
+                          "enum": ["years", "months"]
                         },
                         "signup_url_show": {
                           "type": "boolean"
@@ -7785,6 +7820,7 @@
                     },
                     "generate_private_credential": false,
                     "auto_expiry": 1,
+                    "auto_expiry_unit": "years",
                     "signup_url_show": false,
                     "signup_url": "http://www.example.com",
                     "course_link_show": false,
@@ -7987,6 +8023,7 @@
                   ],
                   "generate_private_credential": false,
                   "auto_expiry": 1,
+                  "auto_expiry_unit": "years",
                   "signup_url_show": false,
                   "signup_url": "http://www.example.com",
                   "course_link_show": false,
@@ -8060,7 +8097,12 @@
                   },
                   "auto_expiry": {
                     "type": "number",
-                    "description": "Specifies the number of years from the issue date after which the credential will automatically expire. If the specified value is less than or equal to 0, it will be ignored."
+                    "description": "Specifies the number of years or months (see `auto_expiry_unit`) from the issue date after which the credential will automatically expire. If the specified value is less than or equal to 0, it will be ignored."
+                  },
+                  "auto_expiry_unit": {
+                    "type": "string",
+                    "enum": ["years", "months"],
+                    "description": "The unit of time for `auto_expiry`. Defaults to `years` if not supplied and `auto_expiry` exists."
                   },
                   "signup_url": {
                     "type": "string",
@@ -8147,7 +8189,7 @@
           {
             "lang": "cURL",
             "label": "cURL",
-            "source": "curl -X POST \\\n  \"https://api.accredible.com/v1/issuer/groups/12345/clone\" \\\n  -H \"Authorization: Token token=YOUR_API_KEY\" \\\n  -H \"Content-Type: application/json\" \\\n  -d '{\n  \"group\": {\n    \"name\": \"new group copy\",\n    \"course_name\": \"Intro to Prgramming\",\n    \"course_description\": \"Description of course\",\n    \"course_link\": \"http://www.example.com\",\n    \"language\": \"en\",\n    \"attach_pdf\": true,\n    \"blockchain\": false,\n    \"certificate_design_id\": null,\n    \"badge_design_id\": null,\n    \"primary_design_id\": null,\n    \"meta_data\": {\n      \"batch_id\": \"271\"\n    },\n    \"learning_outcomes\": [\n      \"Reading Books\",\n      \"Writing Essays\"\n    ],\n    \"generate_private_credential\": false,\n    \"auto_expiry\": 1,\n    \"signup_url_show\": false,\n    \"signup_url\": \"http://www.example.com\",\n    \"course_link_show\": false,\n    \"organization_link_show\": false,\n    \"skill_category_id\": 1,\n    \"earning_criteria\": [\n      {\n        \"kind\": \"course\",\n        \"text\": \"Complete the Intro to Programming course\",\n        \"required\": true,\n        \"position\": 1\n      }\n    ]\n  }\n}'"
+            "source": "curl -X POST \\\n  \"https://api.accredible.com/v1/issuer/groups/12345/clone\" \\\n  -H \"Authorization: Token token=YOUR_API_KEY\" \\\n  -H \"Content-Type: application/json\" \\\n  -d '{\n  \"group\": {\n    \"name\": \"new group copy\",\n    \"course_name\": \"Intro to Prgramming\",\n    \"course_description\": \"Description of course\",\n    \"course_link\": \"http://www.example.com\",\n    \"language\": \"en\",\n    \"attach_pdf\": true,\n    \"blockchain\": false,\n    \"certificate_design_id\": null,\n    \"badge_design_id\": null,\n    \"primary_design_id\": null,\n    \"meta_data\": {\n      \"batch_id\": \"271\"\n    },\n    \"learning_outcomes\": [\n      \"Reading Books\",\n      \"Writing Essays\"\n    ],\n    \"generate_private_credential\": false,\n    \"auto_expiry\": 1,\n    \"auto_expiry_unit\": \"years\",\n    \"signup_url_show\": false,\n    \"signup_url\": \"http://www.example.com\",\n    \"course_link_show\": false,\n    \"organization_link_show\": false,\n    \"skill_category_id\": 1,\n    \"earning_criteria\": [\n      {\n        \"kind\": \"course\",\n        \"text\": \"Complete the Intro to Programming course\",\n        \"required\": true,\n        \"position\": 1\n      }\n    ]\n  }\n}'"
           }
         ]
       }
@@ -8237,6 +8279,10 @@
                           "auto_expiry": {
                             "type": "number"
                           },
+                          "auto_expiry_unit": {
+                            "type": "string",
+                            "enum": ["years", "months"]
+                          },
                           "signup_url_show": {
                             "type": "boolean"
                           },
@@ -8282,6 +8328,7 @@
                           "meta_data",
                           "generate_private_credential",
                           "auto_expiry",
+                          "auto_expiry_unit",
                           "signup_url_show",
                           "signup_url",
                           "course_link_show",
@@ -8337,6 +8384,7 @@
                       },
                       "generate_private_credential": false,
                       "auto_expiry": 1,
+                      "auto_expiry_unit": "years",
                       "signup_url_show": false,
                       "signup_url": "http://www.example.com",
                       "course_link_show": false,
@@ -8369,6 +8417,7 @@
                       },
                       "generate_private_credential": false,
                       "auto_expiry": 1,
+                      "auto_expiry_unit": "years",
                       "signup_url_show": false,
                       "signup_url": "http://www.example.com",
                       "course_link_show": false,
@@ -8597,6 +8646,10 @@
                           },
                           "auto_expiry": {
                             "type": "number"
+                          },
+                          "auto_expiry_unit": {
+                            "type": "string",
+                            "enum": ["years", "months"]
                           },
                           "signup_url_show": {
                             "type": "boolean"
@@ -8844,6 +8897,7 @@
                           "meta_data",
                           "generate_private_credential",
                           "auto_expiry",
+                          "auto_expiry_unit",
                           "signup_url_show",
                           "signup_url",
                           "course_link_show",
@@ -8903,6 +8957,7 @@
                       },
                       "generate_private_credential": false,
                       "auto_expiry": 1,
+                      "auto_expiry_unit": "years",
                       "signup_url_show": false,
                       "signup_url": "http://www.example.com",
                       "course_link_show": false,
@@ -9022,6 +9077,7 @@
                       },
                       "generate_private_credential": false,
                       "auto_expiry": 1,
+                      "auto_expiry_unit": "years",
                       "signup_url_show": false,
                       "signup_url": "http://www.example.com",
                       "course_link_show": false,
