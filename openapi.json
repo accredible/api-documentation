@@ -8517,6 +8517,14 @@
                     "type": "number",
                     "description": "Limit results to a particular Department. Must be a Department accessible to the API key being used; otherwise a `400 Bad Request` is returned. When omitted, results include all Departments the API key can access."
                   },
+                  "collection_ids": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "format": "uuid"
+                    },
+                    "description": "Limit results to Groups linked to any of the given Collections (OR). Combined with other filters using AND. Must be Collection UUIDs accessible to the API key being used; otherwise a `400 Bad Request` is returned with `One or more Invalid collection IDs`. When omitted, no collection filter is applied. An empty array returns no Groups."
+                  },
                   "meta_data": {
                     "type": "object",
                     "description": "Key/values for client's own data on group",
@@ -8549,6 +8557,7 @@
                 "name": "Programming Course",
                 "course_name": "Intro to Programming",
                 "department_id": 123,
+                "collection_ids": ["550e8400-e29b-41d4-a716-446655440000"],
                 "meta_data": {
                   "course_id": "CS101",
                   "department": "Computer Science"
@@ -9146,7 +9155,7 @@
           {
             "lang": "cURL",
             "label": "cURL",
-            "source": "curl -X POST \\\n  \"https://api.accredible.com/v1/issuer/groups/search\" \\\n  -H \"Authorization: Token token=YOUR_API_KEY\" \\\n  -H \"Content-Type: application/json\" \\\n  -d '{\n    \"ids\": [1, 2, 3],\n    \"name\": \"Programming Course\",\n    \"department_id\": 123,\n    \"meta_data\": {\n      \"course_id\": \"CS101\",\n      \"department\": \"Computer Science\"\n    },\n    \"start_updated_date\": \"2023-01-01\",\n    \"end_updated_date\": \"2023-12-31\",\n    \"page_size\": 25,\n    \"page\": 1\n  }'"
+            "source": "curl -X POST \\\n  \"https://api.accredible.com/v1/issuer/groups/search\" \\\n  -H \"Authorization: Token token=YOUR_API_KEY\" \\\n  -H \"Content-Type: application/json\" \\\n  -d '{\n    \"ids\": [1, 2, 3],\n    \"name\": \"Programming Course\",\n    \"department_id\": 123,\n    \"collection_ids\": [\"550e8400-e29b-41d4-a716-446655440000\"],\n    \"meta_data\": {\n      \"course_id\": \"CS101\",\n      \"department\": \"Computer Science\"\n    },\n    \"start_updated_date\": \"2023-01-01\",\n    \"end_updated_date\": \"2023-12-31\",\n    \"page_size\": 25,\n    \"page\": 1\n  }'"
           }
         ]
       }
