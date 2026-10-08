@@ -10973,7 +10973,7 @@
         },
         "summary": "Create a New Department",
         "operationId": "Create a New Department",
-        "description": "You may create a Department using this action. It takes a JSON object containing a Department.",
+        "description": "You may create a Department using this action. It takes a JSON object containing a Department.\n\nAuthorization depends on the type of API key you use:\n\n| Account-wide key | Department-specific key |\n| --- | --- |\n| Allowed | Not permitted |",
         "tags": [
           "Departments"
         ],
@@ -11139,7 +11139,7 @@
         },
         "summary": "View a Department",
         "operationId": "View a Department",
-        "description": "",
+        "description": "View a single Department.\n\nAuthorization depends on the type of API key you use:\n\n| Account-wide key | Department-specific key |\n| --- | --- |\n| Any Department in the account | Its own Department only |",
         "tags": [
           "Departments"
         ],
@@ -11234,7 +11234,7 @@
         },
         "summary": "Update a Department",
         "operationId": "Update a Department",
-        "description": "",
+        "description": "Update a Department using this action. It takes a JSON object containing a Department.\n\nAuthorization depends on the type of API key you use:\n\n| Account-wide key | Department-specific key |\n| --- | --- |\n| Any Department in the account | Its own Department only |",
         "tags": [
           "Departments"
         ],
@@ -11393,7 +11393,7 @@
         },
         "summary": "Delete a Department",
         "operationId": "Delete a Department",
-        "description": "",
+        "description": "Delete a Department using this action.\n\nAuthorization depends on the type of API key you use:\n\n| Account-wide key | Department-specific key |\n| --- | --- |\n| Allowed | Not permitted |",
         "tags": [
           "Departments"
         ],
@@ -11501,7 +11501,7 @@
         },
         "summary": "Search for Departments",
         "operationId": "Search for Departments",
-        "description": "You can search for departments by various search criteria.",
+        "description": "You can search for departments by various search criteria.\n\nAuthorization depends on the type of API key you use:\n\n| Account-wide key | Department-specific key |\n| --- | --- |\n| All Departments in the account | Its own Department only |",
         "tags": [
           "Departments"
         ],
@@ -12140,7 +12140,7 @@
                           "items": {
                             "type": "object",
                             "properties": {
-                              "department_id": {
+                              "department": {
                                 "type": "number"
                               },
                               "permissions": {
@@ -12172,6 +12172,30 @@
                                     "items": {
                                       "type": "number"
                                     }
+                                  },
+                                  "api": {
+                                    "type": "boolean"
+                                  },
+                                  "team": {
+                                    "type": "boolean"
+                                  },
+                                  "spotlight_directory": {
+                                    "type": "boolean"
+                                  },
+                                  "access_level": {
+                                    "type": "string",
+                                    "enum": [
+                                      "organization_admin",
+                                      "department_admin",
+                                      "team_member",
+                                      "developer"
+                                    ]
+                                  },
+                                  "analytics_email": {
+                                    "type": "boolean"
+                                  },
+                                  "manage_dept_admins_and_devs": {
+                                    "type": "boolean"
                                   }
                                 },
                                 "required": [
@@ -12185,7 +12209,7 @@
                               }
                             },
                             "required": [
-                              "department_id",
+                              "department",
                               "permissions"
                             ]
                           }
@@ -12201,7 +12225,7 @@
                     "email": "person@example.com",
                     "department_permissions": [
                       {
-                        "department_id": 34,
+                        "department": 34,
                         "permissions": {
                           "designs": true,
                           "emails": true,
@@ -12210,11 +12234,17 @@
                           "settings": true,
                           "role": "editor",
                           "pathways": true,
-                          "groups": [1, 2, 3]
+                          "groups": [1, 2, 3],
+                          "api": false,
+                          "team": true,
+                          "spotlight_directory": false,
+                          "access_level": "department_admin",
+                          "analytics_email": true,
+                          "manage_dept_admins_and_devs": true
                         }
                       },
                       {
-                        "department_id": 35,
+                        "department": 35,
                         "permissions": {
                           "designs": false,
                           "emails": false,
@@ -12223,7 +12253,13 @@
                           "settings": false,
                           "role": "viewer",
                           "pathways": false,
-                          "groups": null
+                          "groups": null,
+                          "api": false,
+                          "team": false,
+                          "spotlight_directory": false,
+                          "access_level": "team_member",
+                          "analytics_email": false,
+                          "manage_dept_admins_and_devs": false
                         }
                       }
                     ]
@@ -12235,7 +12271,7 @@
         },
         "summary": "Create a Team Member",
         "operationId": "Create a Team Member",
-        "description": "Create a TeamMember using this action. It requires a JSON object containing an TeamMember.",
+        "description": "Create a TeamMember using this action. It requires a JSON object containing a TeamMember.\n\n**Important**\n\n- Organization Admin cannot be created through the API.\n- To create a Department Admin or Developer your account must be on the Connect/Growth Plan.\n\nThe `access_level` of each `department_permissions` entry determines what is created, and authorization is based on the type of API key you use:\n\n| Access Level | Account-wide key | Department-specific key |\n| --- | --- | --- |\n| Team Member (default) | Any Department in the account | Its own Department only |\n| Department Admin | Any Department in the account | Not permitted |\n| Developer | Any Department in the account | Not permitted |\n| Organization Admin | Not permitted | Not permitted |\n\n**Permitted values by `access_level`.**\n\n<table>\n  <thead>\n    <tr><th>Field</th><th>Team Member</th><th colspan=\"2\">Department Admin<sup>&ast;</sup></th><th>Developer<sup>&ast;</sup></th></tr>\n  </thead>\n  <tbody>\n    <tr><td><code>access_level</code></td><td><code>team_member</code></td><td colspan=\"2\"><code>department_admin</code></td><td><code>developer</code></td></tr>\n    <tr><td><code>role</code></td><td><code>editor</code><br><code>credential_issuer</code><br><code>viewer</code></td><td colspan=\"2\"><code>editor</code></td><td><code>viewer</code></td></tr>\n    <tr><td><code>api</code></td><td>NA</td><td><code>false</code></td><td><code>true</code></td><td><code>true</code></td></tr>\n    <tr><td><code>designs</code></td><td><code>true</code><br><code>false</code></td><td><code>true</code><br><code>false</code></td><td><code>true</code></td><td>NA</td></tr>\n    <tr><td><code>emails</code></td><td><code>true</code><br><code>false</code></td><td><code>true</code><br><code>false</code></td><td><code>true</code></td><td>NA</td></tr>\n    <tr><td><code>credential_attributes</code></td><td><code>true</code><br><code>false</code></td><td><code>true</code><br><code>false</code></td><td><code>true</code></td><td>NA</td></tr>\n    <tr><td><code>analytics</code></td><td><code>true</code><br><code>false</code></td><td><code>true</code><br><code>false</code></td><td><code>true</code></td><td>NA</td></tr>\n    <tr><td><code>settings</code></td><td><code>true</code><br><code>false</code></td><td><code>true</code><br><code>false</code></td><td><code>true</code></td><td>NA</td></tr>\n    <tr><td><code>pathways</code></td><td><code>true</code><br><code>false</code></td><td><code>true</code><br><code>false</code></td><td><code>true</code></td><td>NA</td></tr>\n    <tr><td><code>team</code></td><td>NA</td><td><code>true</code><br><code>false</code></td><td><code>true</code></td><td>NA</td></tr>\n    <tr><td><code>analytics_email</code></td><td>NA</td><td><code>true</code><br><code>false</code></td><td><code>true</code></td><td>NA</td></tr>\n    <tr><td><code>manage_dept_admins_and_devs</code></td><td>NA</td><td><code>true</code><br><code>false</code></td><td><code>true</code></td><td>NA</td></tr>\n    <tr><td><code>groups</code></td><td>Array of Group IDs to limit access to</td><td colspan=\"2\">NA (All groups allowed)</td><td>NA (All groups allowed)</td></tr>\n  </tbody>\n</table>\n\n*NA - Not Applicable, can be omitted.*<br><sup>&ast;</sup> *Only available on Connect/Growth Plan.*",
         "tags": [
           "Team Members"
         ],
@@ -12257,7 +12293,12 @@
                         "settings": true,
                         "role": "editor",
                         "pathways": true,
-                        "groups": [1, 2, 3]
+                        "groups": [1, 2, 3],
+                        "api": false,
+                        "team": true,
+                        "access_level": "department_admin",
+                        "analytics_email": true,
+                        "manage_dept_admins_and_devs": true
                       }
                     },
                     {
@@ -12270,7 +12311,12 @@
                         "settings": false,
                         "role": "viewer",
                         "pathways": false,
-                        "groups": null
+                        "groups": null,
+                        "api": false,
+                        "team": false,
+                        "access_level": "team_member",
+                        "analytics_email": false,
+                        "manage_dept_admins_and_devs": false
                       }
                     }
                   ]
@@ -12322,12 +12368,42 @@
                             },
                             "role": {
                               "type": "string",
-                              "description": "\"editor\" or \"viewer\" access to Credential data in the Department."
+                              "description": "\"editor\", \"credential_issuer\" or \"viewer\" access to Credential data in the Department."
                             },
                             "pathways": {
                               "type": "boolean",
                               "default": false,
                               "description": "Should the TeamMember have access to Pathways for the given Department?"
+                            },
+                            "api": {
+                              "type": "boolean",
+                              "default": false,
+                              "description": "Should the TeamMember have access to API keys for the given Department?"
+                            },
+                            "team": {
+                              "type": "boolean",
+                              "default": false,
+                              "description": "Should the TeamMember be able to manage other Team Members in the given Department?"
+                            },
+                            "access_level": {
+                              "type": "string",
+                              "enum": [
+                                "team_member",
+                                "department_admin",
+                                "developer"
+                              ],
+                              "default": "team_member",
+                              "description": "The TeamMember's access level in the given Department."
+                            },
+                            "analytics_email": {
+                              "type": "boolean",
+                              "default": false,
+                              "description": "Should the TeamMember receive scheduled Analytics emails for the given Department?"
+                            },
+                            "manage_dept_admins_and_devs": {
+                              "type": "boolean",
+                              "default": false,
+                              "description": "Should the TeamMember be able to manage Department Admins and Developers in the given Department?"
                             },
                             "groups": {
                               "type": "array",
@@ -12372,7 +12448,7 @@
           {
             "lang": "cURL",
             "label": "cURL",
-            "source": "curl -X POST \\\n  \"https://api.accredible.com/v1/team_members\" \\\n  -H \"Authorization: Token token=YOUR_API_KEY\" \\\n  -H \"Content-Type: application/json\" \\\n  -d '{\n  \"team_member\": {\n    \"name\": \"John Doe\",\n    \"email\": \"person@example.com\",\n    \"department_permissions\": [\n      {\n        \"department_id\": 34,\n        \"permissions\": {\n          \"designs\": true,\n          \"emails\": true,\n          \"credential_attributes\": true,\n          \"analytics\": true,\n          \"settings\": true,\n          \"role\": \"editor\",\n          \"pathways\": true,\n          \"groups\": [1, 2, 3]\n        }\n      },\n      {\n        \"department_id\": 35,\n        \"permissions\": {\n          \"designs\": false,\n          \"emails\": false,\n          \"credential_attributes\": false,\n          \"analytics\": false,\n          \"settings\": false,\n          \"role\": \"viewer\",\n          \"pathways\": false,\n          \"groups\": null\n        }\n      }\n    ]\n  }\n}'"
+            "source": "curl -X POST \\\n  \"https://api.accredible.com/v1/team_members\" \\\n  -H \"Authorization: Token token=YOUR_API_KEY\" \\\n  -H \"Content-Type: application/json\" \\\n  -d '{\n  \"team_member\": {\n    \"name\": \"John Doe\",\n    \"email\": \"person@example.com\",\n    \"department_permissions\": [\n      {\n        \"department_id\": 34,\n        \"permissions\": {\n          \"designs\": true,\n          \"emails\": true,\n          \"credential_attributes\": true,\n          \"analytics\": true,\n          \"settings\": true,\n          \"role\": \"editor\",\n          \"pathways\": true,\n          \"groups\": [1, 2, 3],\n          \"api\": false,\n          \"team\": true,\n          \"access_level\": \"department_admin\",\n          \"analytics_email\": true,\n          \"manage_dept_admins_and_devs\": true\n        }\n      },\n      {\n        \"department_id\": 35,\n        \"permissions\": {\n          \"designs\": false,\n          \"emails\": false,\n          \"credential_attributes\": false,\n          \"analytics\": false,\n          \"settings\": false,\n          \"role\": \"viewer\",\n          \"pathways\": false,\n          \"groups\": null,\n          \"api\": false,\n          \"team\": false,\n          \"access_level\": \"team_member\",\n          \"analytics_email\": false,\n          \"manage_dept_admins_and_devs\": false\n        }\n      }\n    ]\n  }\n}'"
           }
         ]
       }
@@ -12405,7 +12481,7 @@
                           "items": {
                             "type": "object",
                             "properties": {
-                              "department_id": {
+                              "department": {
                                 "type": "number"
                               },
                               "permissions": {
@@ -12438,12 +12514,36 @@
                                       "type": "number"
                                     },
                                     "nullable": true
+                                  },
+                                  "api": {
+                                    "type": "boolean"
+                                  },
+                                  "team": {
+                                    "type": "boolean"
+                                  },
+                                  "spotlight_directory": {
+                                    "type": "boolean"
+                                  },
+                                  "access_level": {
+                                    "type": "string",
+                                    "enum": [
+                                      "organization_admin",
+                                      "department_admin",
+                                      "team_member",
+                                      "developer"
+                                    ]
+                                  },
+                                  "analytics_email": {
+                                    "type": "boolean"
+                                  },
+                                  "manage_dept_admins_and_devs": {
+                                    "type": "boolean"
                                   }
                                 }
                               }
                             },
                             "required": [
-                              "department_id",
+                              "department",
                               "permissions"
                             ]
                           }
@@ -12459,7 +12559,7 @@
                     "email": "person@example.com",
                     "department_permissions": [
                       {
-                        "department_id": 34,
+                        "department": 34,
                         "permissions": {
                           "designs": true,
                           "emails": true,
@@ -12472,11 +12572,17 @@
                             1,
                             2,
                             3
-                          ]
+                          ],
+                          "api": false,
+                          "team": true,
+                          "spotlight_directory": false,
+                          "access_level": "department_admin",
+                          "analytics_email": true,
+                          "manage_dept_admins_and_devs": true
                         }
                       },
                       {
-                        "department_id": 35,
+                        "department": 35,
                         "permissions": {
                           "designs": false,
                           "emails": false,
@@ -12485,7 +12591,13 @@
                           "settings": false,
                           "role": "viewer",
                           "pathways": false,
-                          "groups": null
+                          "groups": null,
+                          "api": false,
+                          "team": false,
+                          "spotlight_directory": false,
+                          "access_level": "team_member",
+                          "analytics_email": false,
+                          "manage_dept_admins_and_devs": false
                         }
                       }
                     ]
@@ -12497,7 +12609,7 @@
         },
         "summary": "View a Team Member",
         "operationId": "View a Team Member",
-        "description": "",
+        "description": "View a TeamMember and their permissions in each Department.\n\nWhich TeamMembers you can view depends on the type of API key you use:\n\n| Access Level | Account-wide key | Department-specific key |\n| --- | --- | --- |\n| Team Member | Any Department in the account | Its own Department only |\n| Department Admin | Any Department in the account | Its own Department only |\n| Developer | Any Department in the account | Its own Department only |\n| Organization Admin | Visible | Not visible |",
         "tags": [
           "Team Members"
         ],
@@ -12541,7 +12653,7 @@
                           "items": {
                             "type": "object",
                             "properties": {
-                              "department_id": {
+                              "department": {
                                 "type": "number"
                               },
                               "permissions": {
@@ -12574,12 +12686,36 @@
                                       "type": "number"
                                     },
                                     "nullable": true
+                                  },
+                                  "api": {
+                                    "type": "boolean"
+                                  },
+                                  "team": {
+                                    "type": "boolean"
+                                  },
+                                  "spotlight_directory": {
+                                    "type": "boolean"
+                                  },
+                                  "access_level": {
+                                    "type": "string",
+                                    "enum": [
+                                      "organization_admin",
+                                      "department_admin",
+                                      "team_member",
+                                      "developer"
+                                    ]
+                                  },
+                                  "analytics_email": {
+                                    "type": "boolean"
+                                  },
+                                  "manage_dept_admins_and_devs": {
+                                    "type": "boolean"
                                   }
                                 }
                               }
                             },
                             "required": [
-                              "department_id",
+                              "department",
                               "permissions"
                             ]
                           }
@@ -12595,7 +12731,7 @@
                     "email": "person@example.com",
                     "department_permissions": [
                       {
-                        "department_id": 34,
+                        "department": 34,
                         "permissions": {
                           "designs": false,
                           "emails": false,
@@ -12608,11 +12744,17 @@
                             1,
                             2,
                             3
-                          ]
+                          ],
+                          "api": false,
+                          "team": true,
+                          "spotlight_directory": false,
+                          "access_level": "department_admin",
+                          "analytics_email": true,
+                          "manage_dept_admins_and_devs": true
                         }
                       },
                       {
-                        "department_id": 35,
+                        "department": 35,
                         "permissions": {
                           "designs": false,
                           "emails": false,
@@ -12621,7 +12763,13 @@
                           "settings": false,
                           "role": "viewer",
                           "pathways": false,
-                          "groups": null
+                          "groups": null,
+                          "api": false,
+                          "team": false,
+                          "spotlight_directory": false,
+                          "access_level": "team_member",
+                          "analytics_email": false,
+                          "manage_dept_admins_and_devs": false
                         }
                       }
                     ]
@@ -12633,7 +12781,7 @@
         },
         "summary": "Update a Team Member",
         "operationId": "Update a Team Member",
-        "description": "Update a TeamMember using this action. It requires a JSON object containing an TeamMember.",
+        "description": "Update a TeamMember using this action. It requires a JSON object containing a TeamMember.\n\n**Important**\n\n- Organization Admin cannot be created or updated through the API.\n- To assign a Department Admin or Developer your account must be on the Connect/Growth Plan.\n\n**The `department_permissions` array replaces the TeamMember's entire permission set.** A Department present in the array is created or updated; a Department omitted from the array has its permission removed, if your API key is authorized to remove it.\n\nWhich TeamMembers you can update depends on the type of API key you use:\n\n| Access Level | Account-wide key | Department-specific key |\n| --- | --- | --- |\n| Team Member | Any Department in the account | Its own Department only |\n| Department Admin | Any Department in the account | Not permitted |\n| Developer | Any Department in the account | Not permitted |\n| Organization Admin | Not permitted | Not permitted |\n\n**Permitted values by `access_level`.**\n\n<table>\n  <thead>\n    <tr><th>Field</th><th>Team Member</th><th colspan=\"2\">Department Admin<sup>&ast;</sup></th><th>Developer<sup>&ast;</sup></th></tr>\n  </thead>\n  <tbody>\n    <tr><td><code>access_level</code></td><td><code>team_member</code></td><td colspan=\"2\"><code>department_admin</code></td><td><code>developer</code></td></tr>\n    <tr><td><code>role</code></td><td><code>editor</code><br><code>credential_issuer</code><br><code>viewer</code></td><td colspan=\"2\"><code>editor</code></td><td><code>viewer</code></td></tr>\n    <tr><td><code>api</code></td><td>NA</td><td><code>false</code></td><td><code>true</code></td><td><code>true</code></td></tr>\n    <tr><td><code>designs</code></td><td><code>true</code><br><code>false</code></td><td><code>true</code><br><code>false</code></td><td><code>true</code></td><td>NA</td></tr>\n    <tr><td><code>emails</code></td><td><code>true</code><br><code>false</code></td><td><code>true</code><br><code>false</code></td><td><code>true</code></td><td>NA</td></tr>\n    <tr><td><code>credential_attributes</code></td><td><code>true</code><br><code>false</code></td><td><code>true</code><br><code>false</code></td><td><code>true</code></td><td>NA</td></tr>\n    <tr><td><code>analytics</code></td><td><code>true</code><br><code>false</code></td><td><code>true</code><br><code>false</code></td><td><code>true</code></td><td>NA</td></tr>\n    <tr><td><code>settings</code></td><td><code>true</code><br><code>false</code></td><td><code>true</code><br><code>false</code></td><td><code>true</code></td><td>NA</td></tr>\n    <tr><td><code>pathways</code></td><td><code>true</code><br><code>false</code></td><td><code>true</code><br><code>false</code></td><td><code>true</code></td><td>NA</td></tr>\n    <tr><td><code>team</code></td><td>NA</td><td><code>true</code><br><code>false</code></td><td><code>true</code></td><td>NA</td></tr>\n    <tr><td><code>analytics_email</code></td><td>NA</td><td><code>true</code><br><code>false</code></td><td><code>true</code></td><td>NA</td></tr>\n    <tr><td><code>manage_dept_admins_and_devs</code></td><td>NA</td><td><code>true</code><br><code>false</code></td><td><code>true</code></td><td>NA</td></tr>\n    <tr><td><code>groups</code></td><td>Array of Group IDs to limit access to</td><td colspan=\"2\">NA (All groups allowed)</td><td>NA (All groups allowed)</td></tr>\n  </tbody>\n</table>\n\n*NA - Not Applicable, can be omitted.*<br><sup>&ast;</sup> *Only available on Connect/Growth Plan.*",
         "tags": [
           "Team Members"
         ],
@@ -12657,7 +12805,12 @@
                           1,
                           2,
                           3
-                        ]
+                        ],
+                        "api": false,
+                        "team": true,
+                        "access_level": "department_admin",
+                        "analytics_email": true,
+                        "manage_dept_admins_and_devs": true
                       }
                     },
                     {
@@ -12670,7 +12823,12 @@
                         "settings": false,
                         "role": "viewer",
                         "pathways": false,
-                        "groups": null
+                        "groups": null,
+                        "api": false,
+                        "team": false,
+                        "access_level": "team_member",
+                        "analytics_email": false,
+                        "manage_dept_admins_and_devs": false
                       }
                     }
                   ]
@@ -12685,11 +12843,7 @@
                   },
                   "name": {
                     "type": "string",
-                    "description": "The name of the TeamMember user."
-                  },
-                  "email": {
-                    "type": "string",
-                    "description": "The email address of the TeamMember user."
+                    "description": "The name of the TeamMember user. A blank value leaves the existing name unchanged."
                   },
                   "department_permissions": {
                     "type": "array",
@@ -12725,12 +12879,42 @@
                             },
                             "role": {
                               "type": "string",
-                              "description": "\"editor\" or \"viewer\" access to Credential data in the Department."
+                              "description": "\"editor\", \"credential_issuer\" or \"viewer\" access to Credential data in the Department."
                             },
                             "pathways": {
                               "type": "boolean",
                               "default": false,
                               "description": "Should the TeamMember have access to Pathways for the given Department?"
+                            },
+                            "api": {
+                              "type": "boolean",
+                              "default": false,
+                              "description": "Should the TeamMember have access to API keys for the given Department?"
+                            },
+                            "team": {
+                              "type": "boolean",
+                              "default": false,
+                              "description": "Should the TeamMember be able to manage other Team Members in the given Department?"
+                            },
+                            "access_level": {
+                              "type": "string",
+                              "enum": [
+                                "team_member",
+                                "department_admin",
+                                "developer"
+                              ],
+                              "default": "team_member",
+                              "description": "The TeamMember's access level in the given Department."
+                            },
+                            "analytics_email": {
+                              "type": "boolean",
+                              "default": false,
+                              "description": "Should the TeamMember receive scheduled Analytics emails for the given Department?"
+                            },
+                            "manage_dept_admins_and_devs": {
+                              "type": "boolean",
+                              "default": false,
+                              "description": "Should the TeamMember be able to manage Department Admins and Developers in the given Department?"
                             },
                             "groups": {
                               "description": "Limit the TeamMember access to specific Groups in the Department."
@@ -12751,7 +12935,7 @@
                         "permissions"
                       ]
                     },
-                    "description": "This parameter will override any existing permissions, not append to them."
+                    "description": "This parameter replaces the TeamMember's entire set of permissions, it does not append to them."
                   }
                 },
                 "required": [
@@ -12770,7 +12954,7 @@
           {
             "lang": "cURL",
             "label": "cURL",
-            "source": "curl -X PUT \\\n  \"https://api.accredible.com/v1/team_members/12345\" \\\n  -H \"Authorization: Token token=YOUR_API_KEY\" \\\n  -H \"Content-Type: application/json\" \\\n  -d '{\n  \"team_member\": {\n    \"department_permissions\": [\n      {\n        \"department_id\": 34,\n        \"permissions\": {\n          \"designs\": false,\n          \"emails\": false,\n          \"credential_attributes\": true,\n          \"analytics\": true,\n          \"settings\": true,\n          \"role\": \"editor\",\n          \"pathways\": true,\n          \"groups\": [\n            1,\n            2,\n            3\n          ]\n        }\n      },\n      {\n        \"department_id\": 35,\n        \"permissions\": {\n          \"designs\": false,\n          \"emails\": false,\n          \"credential_attributes\": false,\n          \"analytics\": false,\n          \"settings\": false,\n          \"role\": \"viewer\",\n          \"pathways\": false,\n          \"groups\": null\n        }\n      }\n    ]\n  }\n}'"
+            "source": "curl -X PUT \\\n  \"https://api.accredible.com/v1/team_members/12345\" \\\n  -H \"Authorization: Token token=YOUR_API_KEY\" \\\n  -H \"Content-Type: application/json\" \\\n  -d '{\n  \"team_member\": {\n    \"department_permissions\": [\n      {\n        \"department_id\": 34,\n        \"permissions\": {\n          \"designs\": false,\n          \"emails\": false,\n          \"credential_attributes\": true,\n          \"analytics\": true,\n          \"settings\": true,\n          \"role\": \"editor\",\n          \"pathways\": true,\n          \"groups\": [\n            1,\n            2,\n            3\n          ],\n          \"api\": false,\n          \"team\": true,\n          \"access_level\": \"department_admin\",\n          \"analytics_email\": true,\n          \"manage_dept_admins_and_devs\": true\n        }\n      },\n      {\n        \"department_id\": 35,\n        \"permissions\": {\n          \"designs\": false,\n          \"emails\": false,\n          \"credential_attributes\": false,\n          \"analytics\": false,\n          \"settings\": false,\n          \"role\": \"viewer\",\n          \"pathways\": false,\n          \"groups\": null,\n          \"api\": false,\n          \"team\": false,\n          \"access_level\": \"team_member\",\n          \"analytics_email\": false,\n          \"manage_dept_admins_and_devs\": false\n        }\n      }\n    ]\n  }\n}'"
           }
         ]
       },
@@ -12801,7 +12985,7 @@
                           "items": {
                             "type": "object",
                             "properties": {
-                              "department_id": {
+                              "department": {
                                 "type": "number"
                               },
                               "permissions": {
@@ -12834,12 +13018,36 @@
                                       "type": "number"
                                     },
                                     "nullable": true
+                                  },
+                                  "api": {
+                                    "type": "boolean"
+                                  },
+                                  "team": {
+                                    "type": "boolean"
+                                  },
+                                  "spotlight_directory": {
+                                    "type": "boolean"
+                                  },
+                                  "access_level": {
+                                    "type": "string",
+                                    "enum": [
+                                      "organization_admin",
+                                      "department_admin",
+                                      "team_member",
+                                      "developer"
+                                    ]
+                                  },
+                                  "analytics_email": {
+                                    "type": "boolean"
+                                  },
+                                  "manage_dept_admins_and_devs": {
+                                    "type": "boolean"
                                   }
                                 }
                               }
                             },
                             "required": [
-                              "department_id",
+                              "department",
                               "permissions"
                             ]
                           }
@@ -12855,7 +13063,7 @@
                     "email": "person@example.com",
                     "department_permissions": [
                       {
-                        "department_id": 34,
+                        "department": 34,
                         "permissions": {
                           "designs": true,
                           "emails": true,
@@ -12868,11 +13076,17 @@
                             1,
                             2,
                             3
-                          ]
+                          ],
+                          "api": false,
+                          "team": true,
+                          "spotlight_directory": false,
+                          "access_level": "department_admin",
+                          "analytics_email": true,
+                          "manage_dept_admins_and_devs": true
                         }
                       },
                       {
-                        "department_id": 35,
+                        "department": 35,
                         "permissions": {
                           "designs": false,
                           "emails": false,
@@ -12881,7 +13095,13 @@
                           "settings": false,
                           "role": "viewer",
                           "pathways": false,
-                          "groups": null
+                          "groups": null,
+                          "api": false,
+                          "team": false,
+                          "spotlight_directory": false,
+                          "access_level": "team_member",
+                          "analytics_email": false,
+                          "manage_dept_admins_and_devs": false
                         }
                       }
                     ]
@@ -12893,7 +13113,7 @@
         },
         "summary": "Delete a Team Member",
         "operationId": "Delete a Team Member",
-        "description": "",
+        "description": "Remove a TeamMember from the Departments your API key can reach.\n\nWhat the request removes depends on the type of API key you use:\n\n| Access Level | Account-wide key | Department-specific key |\n| --- | --- | --- |\n| Team Member | Any Department in the account | Its own Department only |\n| Department Admin | Any Department in the account | Not removed |\n| Developer | Any Department in the account | Not removed |\n| Organization Admin | Not removed | Not removed |",
         "tags": [
           "Team Members"
         ],
