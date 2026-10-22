@@ -1173,6 +1173,16 @@
                         "expired_on": {
                           "nullable": true
                         },
+                        "revoked_at": {
+                          "type": "string",
+                          "nullable": true,
+                          "description": "ISO 8601 date-time at which the credential was revoked, or `null` if it is not revoked. Cleared when the credential is reinstated."
+                        },
+                        "revoked_reason": {
+                          "type": "string",
+                          "nullable": true,
+                          "description": "The reason supplied when the credential was revoked, or `null`. Cleared when the credential is reinstated."
+                        },
                         "group_name": {
                           "type": "string"
                         },
@@ -1420,6 +1430,8 @@
                       "Location": "London"
                     },
                     "expired_on": null,
+                    "revoked_at": null,
+                    "revoked_reason": null,
                     "group_name": "Example Certificate Design",
                     "group_id": 9549,
                     "url": "https://www.credential.net/10000005",
@@ -1685,6 +1697,18 @@
                     "type": "object",
                     "properties": {},
                     "description": "You can use this parameter to attach key-value strings to the object. Meta data is useful for storing additional, structured information on an object."
+                  },
+                  "revoke": {
+                    "type": "boolean",
+                    "description": "Set to `true` to revoke a published Credential."
+                  },
+                  "revoked_reason": {
+                    "type": "string",
+                    "description": "Optional reason for revoking the Credential. Used together with `revoke`."
+                  },
+                  "reinstate": {
+                    "type": "boolean",
+                    "description": "Set to `true` to reinstate a revoked Credential."
                   }
                 }
               }
@@ -2042,6 +2066,143 @@
             "lang": "cURL",
             "label": "cURL",
             "source": "curl -X DELETE \\\n  \"https://api.accredible.com/v1/credentials/12345\" \\\n  -H \"Authorization: Token token=YOUR_API_KEY\""
+          }
+        ]
+      }
+    },
+    "/v1/credentials/{credential_id}/history": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "OK",
+            "headers": {},
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "history": {
+                      "type": "array",
+                      "description": "The Credential's status events, newest first.",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "event": {
+                            "type": "string",
+                            "enum": [
+                              "created",
+                              "published",
+                              "expired",
+                              "renewed",
+                              "revoked",
+                              "reinstated"
+                            ],
+                            "description": "The status change that occurred."
+                          },
+                          "event_timestamp": {
+                            "type": "string",
+                            "description": "ISO 8601 date-time at which the event was recorded. Events are ordered by this value."
+                          },
+                          "record_timestamp": {
+                            "type": "string",
+                            "description": "The date the change took effect on the Credential, for example the expiry date of an `expired` event or the revocation date of a `revoked` event. Format: YYYY-MM-DD"
+                          },
+                          "event_details": {
+                            "type": "object",
+                            "nullable": true,
+                            "description": "Additional details about the event. Only present on `revoked` events that were given a reason; `null` otherwise.",
+                            "properties": {
+                              "reason": {
+                                "type": "string",
+                                "description": "The reason supplied when the Credential was revoked."
+                              }
+                            }
+                          }
+                        },
+                        "required": [
+                          "event",
+                          "event_timestamp",
+                          "record_timestamp",
+                          "event_details"
+                        ]
+                      }
+                    }
+                  }
+                },
+                "example": {
+                  "history": [
+                    {
+                      "event": "revoked",
+                      "event_timestamp": "2026-08-16T10:02:11.000Z",
+                      "record_timestamp": "2026-08-16",
+                      "event_details": {
+                        "reason": "Membership lapsed"
+                      }
+                    },
+                    {
+                      "event": "published",
+                      "event_timestamp": "2024-03-04T09:15:30.000Z",
+                      "record_timestamp": "2024-03-04",
+                      "event_details": null
+                    },
+                    {
+                      "event": "created",
+                      "event_timestamp": "2024-03-01T11:42:07.000Z",
+                      "record_timestamp": "2024-03-01",
+                      "event_details": null
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found - the Credential does not exist, or it does not belong to your account or to the Department of your API key.",
+            "headers": {},
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "errors": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "example": {
+                  "errors": "Credential not found"
+                }
+              }
+            }
+          }
+        },
+        "summary": "View Credential History",
+        "operationId": "View Credential History",
+        "description": "Returns the status timeline of a Credential, newest event first. Every status change is stored as its own event, so you can see when a Credential was created, published, expired, renewed, revoked and reinstated without searching the audit log.\n\n| Event | Recorded when |\n|-------|---------------|\n| `created` | The Credential is created. |\n| `published` | The Credential is published with `\"approve\": true`. |\n| `expired` | The Credential's expiry date passes, or is set to today or a past date. |\n| `renewed` | The Credential's expiry date is extended. |\n| `revoked` | The Credential is revoked. `event_details.reason` carries the revocation reason, if one was given. |\n| `reinstated` | A revoked Credential is reinstated. |\n\nHistory is recorded from 12 November 2026 onwards; status changes made before then are not available.\n\nAll events are returned in a single response; this endpoint is not paginated.",
+        "tags": [
+          "Credentials"
+        ],
+        "parameters": [
+          {
+            "name": "credential_id",
+            "in": "path",
+            "description": "ID of the Credential in the form of an integer or string for the particular Credential requested.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ],
+        "x-code-samples": [
+          {
+            "lang": "cURL",
+            "label": "cURL",
+            "source": "curl -X GET \\\n  \"https://api.accredible.com/v1/credentials/12345/history\" \\\n  -H \"Authorization: Token token=YOUR_API_KEY\""
           }
         ]
       }
@@ -2937,6 +3098,11 @@
                             "type": "string",
                             "nullable": true
                           },
+                          "revoked_at": {
+                            "type": "string",
+                            "nullable": true,
+                            "description": "ISO 8601 date-time at which the credential was revoked, or `null` if it is not revoked."
+                          },
                           "recipient_id": {
                             "type": "string",
                             "nullable": true
@@ -2995,6 +3161,7 @@
                         "id": 12345
                       },
                       "expired_on": null,
+                      "revoked_at": null,
                       "recipient_id": null
                     }
                   ],
@@ -3096,6 +3263,10 @@
                       "approve": {
                         "type": "boolean",
                         "description": "Return only published or unpublished credentials by specifying the desired value (true/false). If not specified, all credentials will be returned.\n\nSupported operations - `eq`"
+                      },
+                      "revoked": {
+                        "type": "boolean",
+                        "description": "Set to `true` to return only revoked credentials.\n\nSupported operations - `eq`"
                       },
                       "recipient_email": {
                         "type": "string",
