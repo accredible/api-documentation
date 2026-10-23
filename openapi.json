@@ -217,6 +217,12 @@
                             "id": {
                               "type": "string"
                             },
+                            "linked_identity_id": {
+                              "type": "string",
+                              "format": "uuid",
+                              "nullable": true,
+                              "description": "Identifies the person who holds this credential within your organization. All of your credentials held by the same person share this value, including credentials issued to different email addresses that the person has linked to their Accredible account. It is a randomly generated UUID, different for each organization. `null` for unpublished credentials. The value can change when the person links another email address, so store it per credential `id` and always overwrite it with the latest value."
+                            },
                             "meta_data": {
                               "type": "object",
                               "properties": {
@@ -386,6 +392,7 @@
                       "email": "jor@dan.org",
                       "phone_number": "+14155552671",
                       "id": "ct992",
+                      "linked_identity_id": "3f2b8c1e-9a4d-4e7b-b1c2-5d6e7f8a9b0c",
                       "meta_data": {
                         "bar": "foo"
                       }
@@ -777,6 +784,12 @@
                                   "id": {
                                     "type": "number"
                                   },
+                                  "linked_identity_id": {
+                                    "type": "string",
+                                    "format": "uuid",
+                                    "nullable": true,
+                                    "description": "Identifies the person who holds this credential within your organization. All of your credentials held by the same person share this value, including credentials issued to different email addresses that the person has linked to their Accredible account. It is a randomly generated UUID, different for each organization. `null` for unpublished credentials. The value can change when the person links another email address, so store it per credential `id` and always overwrite it with the latest value."
+                                  },
                                   "meta_data": {
                                     "nullable": true
                                   }
@@ -923,6 +936,7 @@
                           "email": "person2@example.com",
                           "phone_number": "+14155552671",
                           "id": 232,
+                          "linked_identity_id": "7c1d2e4f-3b5a-4c6d-8e9f-0a1b2c3d4e5f",
                           "meta_data": null
                         },
                         "issuer": {
@@ -1320,6 +1334,12 @@
                             "id": {
                               "type": "string"
                             },
+                            "linked_identity_id": {
+                              "type": "string",
+                              "format": "uuid",
+                              "nullable": true,
+                              "description": "Identifies the person who holds this credential within your organization. All of your credentials held by the same person share this value, including credentials issued to different email addresses that the person has linked to their Accredible account. It is a randomly generated UUID, different for each organization. `null` for unpublished credentials. The value can change when the person links another email address, so store it per credential `id` and always overwrite it with the latest value."
+                            },
                             "meta_data": {
                               "nullable": true
                             }
@@ -1479,6 +1499,7 @@
                       "email": "jor@dan.org",
                       "phone_number": "+14155552671",
                       "id": "dw373",
+                      "linked_identity_id": "3f2b8c1e-9a4d-4e7b-b1c2-5d6e7f8a9b0c",
                       "meta_data": null
                     },
                     "issuer": {
@@ -2117,6 +2138,12 @@
                               "id": {
                                 "type": "number"
                               },
+                              "linked_identity_id": {
+                                "type": "string",
+                                "format": "uuid",
+                                "nullable": true,
+                                "description": "Identifies the person who holds this credential within your organization. All of your credentials held by the same person share this value, including credentials issued to different email addresses that the person has linked to their Accredible account. It is a randomly generated UUID, different for each organization. `null` for unpublished credentials. The value can change when the person links another email address, so store it per credential `id` and always overwrite it with the latest value."
+                              },
                               "meta_data": {
                                 "type": "object",
                                 "properties": {
@@ -2214,6 +2241,7 @@
                         "name": "John Doe",
                         "email": "person2@example.com",
                         "id": 772,
+                        "linked_identity_id": "3f2b8c1e-9a4d-4e7b-b1c2-5d6e7f8a9b0c",
                         "meta_data": {
                           "zip_code": "10459"
                         }
@@ -2245,6 +2273,7 @@
                         "name": "John Doe",
                         "email": "person2@example.com",
                         "id": 883,
+                        "linked_identity_id": "9a41b7d2-6c3e-4f15-a8b9-2d7e1f0c4b63",
                         "meta_data": null
                       },
                       "issuer": {
@@ -2447,6 +2476,12 @@
                               "id": {
                                 "type": "number"
                               },
+                              "linked_identity_id": {
+                                "type": "string",
+                                "format": "uuid",
+                                "nullable": true,
+                                "description": "Identifies the person who holds this credential within your organization. All of your credentials held by the same person share this value, including credentials issued to different email addresses that the person has linked to their Accredible account. It is a randomly generated UUID, different for each organization. `null` for unpublished credentials. The value can change when the person links another email address, so store it per credential `id` and always overwrite it with the latest value."
+                              },
                               "meta_data": {
                                 "type": "object",
                                 "properties": {
@@ -2604,6 +2639,7 @@
                         "name": "John Doe",
                         "email": "person2@example.com",
                         "id": 772,
+                        "linked_identity_id": "3f2b8c1e-9a4d-4e7b-b1c2-5d6e7f8a9b0c",
                         "meta_data": {
                           "zip_code": "10459"
                         }
@@ -2687,6 +2723,7 @@
                         "name": "John Doe",
                         "email": "person2@example.com",
                         "id": 883,
+                        "linked_identity_id": "9a41b7d2-6c3e-4f15-a8b9-2d7e1f0c4b63",
                         "meta_data": null
                       },
                       "issuer": {
