@@ -2110,7 +2110,7 @@
                           "event_details": {
                             "type": "object",
                             "nullable": true,
-                            "description": "Additional details about the event. Only present on `revoked` events that were given a reason; `null` otherwise.",
+                            "description": "Additional details about the event. Populated only on `revoked` events that were given a reason; `null` otherwise.",
                             "properties": {
                               "reason": {
                                 "type": "string",
@@ -2133,22 +2133,22 @@
                   "history": [
                     {
                       "event": "revoked",
-                      "event_timestamp": "2026-08-16T10:02:11.000Z",
-                      "record_timestamp": "2026-08-16",
+                      "event_timestamp": "2026-11-20T10:02:11.000Z",
+                      "record_timestamp": "2026-11-20",
                       "event_details": {
                         "reason": "Membership lapsed"
                       }
                     },
                     {
                       "event": "published",
-                      "event_timestamp": "2024-03-04T09:15:30.000Z",
-                      "record_timestamp": "2024-03-04",
+                      "event_timestamp": "2026-11-13T09:15:30.000Z",
+                      "record_timestamp": "2026-11-13",
                       "event_details": null
                     },
                     {
                       "event": "created",
-                      "event_timestamp": "2024-03-01T11:42:07.000Z",
-                      "record_timestamp": "2024-03-01",
+                      "event_timestamp": "2026-11-12T11:42:07.000Z",
+                      "record_timestamp": "2026-11-12",
                       "event_details": null
                     }
                   ]
