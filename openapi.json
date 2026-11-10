@@ -9898,6 +9898,959 @@
         ]
       }
     },
+    "/v1/imported_credentials": {
+      "post": {
+        "summary": "Imports a credential into a recipient's Accredible wallet",
+        "operationId": "Import a Credential",
+        "description": "The recipient is identified by `user_email`. If no Accredible account exists for that email, one is created.\n\n### Choosing a mode\n\n`imported_credential` is read in one of three modes, chosen by the keys it contains (checked in this order):\n\n| Mode | Selected when | Use it for |\n|------|---------------|------------|\n| **OB3 / W3C VC credential** | `credential` is present | You hold the signed credential JSON. |\n| **Manual** | `name` is present | You have an image of the credential and its details. |\n| **URL import** | only `url` is present | The signed credential is hosted elsewhere, as JSON or a baked PNG. |\n\nIn **Manual** mode, `url` is the credential's image; in **URL import** mode it points to the credential itself. Sending `name` together with a JSON `url` therefore selects Manual mode and fails, because the URL is not an image.\n\n### Files fetched from `url`\n- Must be served over HTTPS; redirects are not followed.\n- At most 5 MB, downloaded within 15 seconds.\n- The file content must match its `Content-Type`.\n\n### Availability\nImporting credentials must be enabled for the department by Accredible. Otherwise the request returns `403` with status `feature_disabled`.",
+        "tags": [
+          "Imported Credentials"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "department_id",
+                  "user_email",
+                  "imported_credential"
+                ],
+                "properties": {
+                  "department_id": {
+                    "type": "integer",
+                    "description": "ID of the department importing the credential. Must belong to your API key."
+                  },
+                  "user_email": {
+                    "type": "string",
+                    "format": "email",
+                    "description": "Email of the recipient whose wallet receives the credential."
+                  },
+                  "imported_credential": {
+                    "oneOf": [
+                      {
+                        "title": "OB3 / W3C VC credential",
+                        "type": "object",
+                        "description": "Import an Open Badges 3.0 or W3C Verifiable Credential you already hold. Selected when `credential` is present. Name, issuer, dates and image are read from the credential, and its proof is verified.",
+                        "required": [
+                          "credential"
+                        ],
+                        "properties": {
+                          "credential": {
+                            "type": "object",
+                            "description": "The signed credential as a JSON object."
+                          },
+                          "recipient": {
+                            "type": "object",
+                            "properties": {
+                              "id": {
+                                "type": "string",
+                                "description": "Your identifier for the recipient. Can be used to filter search results by `recipient_id`."
+                              }
+                            }
+                          },
+                          "whitelist_id": {
+                            "type": "string",
+                            "maxLength": 255,
+                            "description": "Your identifier for the type of credential (for example a course code). Only credentials imported with a `whitelist_id` are returned by **Search for Imported Credentials**."
+                          }
+                        }
+                      },
+                      {
+                        "title": "Manual",
+                        "type": "object",
+                        "description": "Build the credential from an image and its details. Selected when `name` is present.",
+                        "required": [
+                          "name",
+                          "url",
+                          "issuer_name",
+                          "issue_date",
+                          "recipient"
+                        ],
+                        "properties": {
+                          "name": {
+                            "type": "string",
+                            "maxLength": 100,
+                            "description": "Credential name."
+                          },
+                          "url": {
+                            "type": "string",
+                            "format": "uri",
+                            "description": "HTTPS URL of the credential image (PNG, JPEG or GIF, at most 5 MB). Accredible downloads and hosts a copy."
+                          },
+                          "issuer_name": {
+                            "type": "string",
+                            "maxLength": 100
+                          },
+                          "issue_date": {
+                            "type": "string",
+                            "format": "date"
+                          },
+                          "expiry_date": {
+                            "type": "string",
+                            "format": "date"
+                          },
+                          "credential_type": {
+                            "type": "string",
+                            "enum": [
+                              "certificate",
+                              "badge"
+                            ],
+                            "default": "certificate"
+                          },
+                          "course_name": {
+                            "type": "string",
+                            "maxLength": 100
+                          },
+                          "course_url": {
+                            "type": "string",
+                            "format": "uri"
+                          },
+                          "description": {
+                            "type": "string"
+                          },
+                          "skills": {
+                            "type": "array",
+                            "items": {
+                              "type": "string"
+                            },
+                            "description": "Skill names. Duplicates (case-insensitive) and blank values are dropped."
+                          },
+                          "meta_data": {
+                            "type": "object",
+                            "description": "Your own key/value data, returned as-is. The keys `format`, `verification_level` and `original_credential` are reserved and dropped."
+                          },
+                          "sync_id": {
+                            "type": "string",
+                            "maxLength": 255,
+                            "description": "The ID the issuer gave this credential, such as a certificate or licence number. This is the same field as **Credential ID** in the form recipients use to add a credential to their wallet."
+                          },
+                          "recipient": {
+                            "type": "object",
+                            "properties": {
+                              "id": {
+                                "type": "string",
+                                "description": "Your identifier for the recipient. Can be used to filter search results by `recipient_id`."
+                              },
+                              "name": {
+                                "type": "string",
+                                "maxLength": 100,
+                                "description": "Recipient name shown on the credential."
+                              }
+                            },
+                            "required": [
+                              "name"
+                            ]
+                          },
+                          "whitelist_id": {
+                            "type": "string",
+                            "maxLength": 255,
+                            "description": "Your identifier for the type of credential (for example a course code). Only credentials imported with a `whitelist_id` are returned by **Search for Imported Credentials**."
+                          }
+                        }
+                      },
+                      {
+                        "title": "URL import",
+                        "type": "object",
+                        "description": "Import an OB3 credential hosted elsewhere. Selected when only `url` is present (no `name`, no `credential`).",
+                        "required": [
+                          "url"
+                        ],
+                        "properties": {
+                          "url": {
+                            "type": "string",
+                            "format": "uri",
+                            "description": "HTTPS URL of an OB3 / W3C VC JSON document (`application/json` or `application/ld+json`) or a baked OB3 PNG. At most 5 MB; redirects are not followed."
+                          },
+                          "recipient": {
+                            "type": "object",
+                            "properties": {
+                              "id": {
+                                "type": "string",
+                                "description": "Your identifier for the recipient. Can be used to filter search results by `recipient_id`."
+                              }
+                            }
+                          },
+                          "whitelist_id": {
+                            "type": "string",
+                            "maxLength": 255,
+                            "description": "Your identifier for the type of credential (for example a course code). Only credentials imported with a `whitelist_id` are returned by **Search for Imported Credentials**."
+                          }
+                        }
+                      }
+                    ]
+                  }
+                }
+              },
+              "examples": {
+                "ob3": {
+                  "summary": "OB3 / W3C VC credential",
+                  "value": {
+                    "department_id": 1234,
+                    "user_email": "jane.doe@example.com",
+                    "imported_credential": {
+                      "credential": {
+                        "@context": [
+                          "https://www.w3.org/ns/credentials/v2",
+                          "https://purl.imsglobal.org/spec/ob/v3p0/context-3.0.3.json"
+                        ],
+                        "type": [
+                          "VerifiableCredential",
+                          "OpenBadgeCredential"
+                        ],
+                        "id": "https://issuer.example.com/credentials/3732",
+                        "issuer": {
+                          "id": "did:web:issuer.example.com",
+                          "type": [
+                            "Profile"
+                          ],
+                          "name": "Example Certification Body"
+                        },
+                        "validFrom": "2026-02-01T00:00:00Z",
+                        "validUntil": "2029-02-01T00:00:00Z",
+                        "credentialSubject": {
+                          "type": [
+                            "AchievementSubject"
+                          ],
+                          "achievement": {
+                            "id": "https://issuer.example.com/achievements/cloud-practitioner",
+                            "type": [
+                              "Achievement"
+                            ],
+                            "name": "Cloud Practitioner",
+                            "description": "Earners of this badge understand cloud fundamentals.",
+                            "image": {
+                              "id": "https://images.example.com/badges/cloud-practitioner.png",
+                              "type": "Image"
+                            }
+                          }
+                        },
+                        "proof": [
+                          {
+                            "type": "DataIntegrityProof",
+                            "cryptosuite": "eddsa-rdfc-2022",
+                            "verificationMethod": "did:web:issuer.example.com#key-1",
+                            "proofPurpose": "assertionMethod",
+                            "proofValue": "z3FXQ..."
+                          }
+                        ]
+                      },
+                      "whitelist_id": "cloud-practitioner",
+                      "recipient": {
+                        "id": "emp-10042"
+                      }
+                    }
+                  }
+                },
+                "manual": {
+                  "summary": "Manual",
+                  "value": {
+                    "department_id": 1234,
+                    "user_email": "jane.doe@example.com",
+                    "imported_credential": {
+                      "name": "Advanced Data Analytics",
+                      "url": "https://example.com/certificates/jane-doe.png",
+                      "issuer_name": "Example Learning Co.",
+                      "issue_date": "2026-01-15",
+                      "credential_type": "certificate",
+                      "course_name": "Data Analytics 201",
+                      "course_url": "https://example.com/courses/data-analytics-201",
+                      "description": "Completed the advanced analytics programme.",
+                      "skills": [
+                        "SQL",
+                        "Data Visualization"
+                      ],
+                      "meta_data": {
+                        "cohort": "2026-Q1"
+                      },
+                      "sync_id": "cert-88213",
+                      "whitelist_id": "data-analytics-201",
+                      "recipient": {
+                        "id": "emp-10042",
+                        "name": "Jane Doe"
+                      }
+                    }
+                  }
+                },
+                "url": {
+                  "summary": "URL import",
+                  "value": {
+                    "department_id": 1234,
+                    "user_email": "jane.doe@example.com",
+                    "imported_credential": {
+                      "url": "https://issuer.example.com/credentials/3732.json",
+                      "whitelist_id": "cloud-practitioner",
+                      "recipient": {
+                        "id": "emp-10042"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "imported_credential": {
+                      "$ref": "#/components/schemas/ImportedCredential"
+                    }
+                  }
+                },
+                "examples": {
+                  "ob3": {
+                    "summary": "OB3 / W3C VC credential or URL import",
+                    "value": {
+                      "imported_credential": {
+                        "uuid": "0a9b8c7d-6e5f-4a3b-2c1d-0e9f8a7b6c5d",
+                        "name": "Cloud Practitioner",
+                        "description": "Earners of this badge understand cloud fundamentals.",
+                        "course_name": null,
+                        "course_url": null,
+                        "issuer_name": "Example Certification Body",
+                        "credential_type": "badge",
+                        "issue_date": "2026-02-01",
+                        "expiry_date": "2029-02-01",
+                        "url": "https://images.example.com/badges/cloud-practitioner.png",
+                        "whitelist_id": "cloud-practitioner",
+                        "recipient": {
+                          "id": "emp-10042",
+                          "name": null
+                        },
+                        "created_at": "2026-02-01T09:00:00.000Z",
+                        "updated_at": "2026-02-01T09:00:00.000Z",
+                        "meta_data": {
+                          "format": "ob3",
+                          "verification_level": "verified",
+                          "original_credential": "{\"@context\": [...]}"
+                        },
+                        "skills": []
+                      }
+                    }
+                  },
+                  "manual": {
+                    "summary": "Manual",
+                    "value": {
+                      "imported_credential": {
+                        "uuid": "6f1c2a3e-8b4d-4e5f-9a6b-7c8d9e0f1a2b",
+                        "name": "Advanced Data Analytics",
+                        "description": "Completed the advanced analytics programme.",
+                        "course_name": "Data Analytics 201",
+                        "course_url": "https://example.com/courses/data-analytics-201",
+                        "issuer_name": "Example Learning Co.",
+                        "credential_type": "certificate",
+                        "issue_date": "2026-01-15",
+                        "expiry_date": null,
+                        "url": "https://s3.us-east-1.amazonaws.com/credential-builder/imported/2b7e1c9a-1f0e-4c1d-9b8a-3d2e1f0a9b8c-1768473600.png",
+                        "whitelist_id": "data-analytics-201",
+                        "recipient": {
+                          "id": "emp-10042",
+                          "name": "Jane Doe"
+                        },
+                        "created_at": "2026-01-15T10:24:31.000Z",
+                        "updated_at": "2026-01-15T10:24:31.000Z",
+                        "meta_data": {
+                          "cohort": "2026-Q1"
+                        },
+                        "skills": [
+                          "SQL",
+                          "Data Visualization"
+                        ]
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "The request is missing a required field or has the wrong shape.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "number",
+                      "description": "HTTP status code."
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "status": {
+                      "type": "string",
+                      "description": "Machine-readable error code."
+                    },
+                    "errors": {
+                      "oneOf": [
+                        {
+                          "type": "array",
+                          "items": {
+                            "type": "string"
+                          }
+                        },
+                        {
+                          "type": "object"
+                        }
+                      ]
+                    }
+                  }
+                },
+                "examples": {
+                  "missing_department_id": {
+                    "summary": "Missing department_id",
+                    "value": {
+                      "code": 400,
+                      "message": "department_id is required",
+                      "status": "missing_department_id",
+                      "errors": {}
+                    }
+                  },
+                  "missing_user_email": {
+                    "summary": "Missing user_email",
+                    "value": {
+                      "code": 400,
+                      "message": "user_email is required",
+                      "status": "bad_request",
+                      "errors": [
+                        "user_email is required"
+                      ]
+                    }
+                  },
+                  "no_mode": {
+                    "summary": "No mode could be selected",
+                    "value": {
+                      "code": 400,
+                      "message": "Provide credential, url, or the non-OB3 attribute set",
+                      "status": "bad_request",
+                      "errors": [
+                        "Provide credential, url, or the non-OB3 attribute set"
+                      ]
+                    }
+                  },
+                  "missing_url": {
+                    "summary": "Manual mode without url",
+                    "value": {
+                      "code": 400,
+                      "message": "url is required",
+                      "status": "bad_request",
+                      "errors": [
+                        "url is required"
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "The department is not available to your API key, or importing is not enabled for it.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "number",
+                      "description": "HTTP status code."
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "status": {
+                      "type": "string",
+                      "description": "Machine-readable error code."
+                    },
+                    "errors": {
+                      "type": "object"
+                    }
+                  }
+                },
+                "examples": {
+                  "invalid_department": {
+                    "summary": "Department not available to the API key",
+                    "value": {
+                      "code": 403,
+                      "message": "Invalid Department ID",
+                      "status": "invalid_department",
+                      "errors": {}
+                    }
+                  },
+                  "feature_disabled": {
+                    "summary": "Importing not enabled",
+                    "value": {
+                      "code": 403,
+                      "message": "This feature is not enabled for this department",
+                      "status": "feature_disabled",
+                      "errors": {}
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "The credential could not be imported: invalid fields, a file that could not be fetched, or a credential that failed validation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "object",
+                      "properties": {
+                        "code": {
+                          "type": "string",
+                          "enum": [
+                            "credential_invalid"
+                          ]
+                        },
+                        "message": {
+                          "type": "string"
+                        },
+                        "details": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "property": {
+                                "type": "string",
+                                "description": "The field that failed, such as `url`, `credential`, `user_email` or `issue_date`."
+                              },
+                              "message": {
+                                "type": "string"
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                },
+                "examples": {
+                  "validation": {
+                    "summary": "Missing fields (Manual mode)",
+                    "value": {
+                      "error": {
+                        "code": "credential_invalid",
+                        "message": "The credential is not valid",
+                        "details": [
+                          {
+                            "property": "issue_date",
+                            "message": "Issue date can't be blank"
+                          },
+                          {
+                            "property": "issuer_name",
+                            "message": "Issuer name can't be blank"
+                          }
+                        ]
+                      }
+                    }
+                  },
+                  "fetch": {
+                    "summary": "Image could not be fetched",
+                    "value": {
+                      "error": {
+                        "code": "credential_invalid",
+                        "message": "The credential is not valid",
+                        "details": [
+                          {
+                            "property": "url",
+                            "message": "Credential image could not be fetched: unsupported content type application/json"
+                          }
+                        ]
+                      }
+                    }
+                  },
+                  "baked_png": {
+                    "summary": "PNG without a baked credential",
+                    "value": {
+                      "error": {
+                        "code": "credential_invalid",
+                        "message": "The credential is not valid",
+                        "details": [
+                          {
+                            "property": "url",
+                            "message": "No OB3 credential found in the image"
+                          }
+                        ]
+                      }
+                    }
+                  },
+                  "email": {
+                    "summary": "Invalid user_email",
+                    "value": {
+                      "error": {
+                        "code": "credential_invalid",
+                        "message": "The credential is not valid",
+                        "details": [
+                          {
+                            "property": "user_email",
+                            "message": "user_email is invalid"
+                          }
+                        ]
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ],
+        "x-code-samples": [
+          {
+            "lang": "cURL",
+            "label": "OB3",
+            "source": "curl -X POST \\\n  \"https://api.accredible.com/v1/imported_credentials\" \\\n  -H \"Authorization: Token token=YOUR_API_KEY\" \\\n  -H \"Content-Type: application/json\" \\\n  -d '{\n  \"department_id\": 1234,\n  \"user_email\": \"jane.doe@example.com\",\n  \"imported_credential\": {\n    \"credential\": {\n      \"@context\": [\n        \"https://www.w3.org/ns/credentials/v2\",\n        \"https://purl.imsglobal.org/spec/ob/v3p0/context-3.0.3.json\"\n      ],\n      \"type\": [\n        \"VerifiableCredential\",\n        \"OpenBadgeCredential\"\n      ],\n      \"id\": \"https://issuer.example.com/credentials/3732\",\n      \"issuer\": {\n        \"id\": \"did:web:issuer.example.com\",\n        \"type\": [\n          \"Profile\"\n        ],\n        \"name\": \"Example Certification Body\"\n      },\n      \"validFrom\": \"2026-02-01T00:00:00Z\",\n      \"validUntil\": \"2029-02-01T00:00:00Z\",\n      \"credentialSubject\": {\n        \"type\": [\n          \"AchievementSubject\"\n        ],\n        \"achievement\": {\n          \"id\": \"https://issuer.example.com/achievements/cloud-practitioner\",\n          \"type\": [\n            \"Achievement\"\n          ],\n          \"name\": \"Cloud Practitioner\",\n          \"description\": \"Earners of this badge understand cloud fundamentals.\",\n          \"image\": {\n            \"id\": \"https://images.example.com/badges/cloud-practitioner.png\",\n            \"type\": \"Image\"\n          }\n        }\n      },\n      \"proof\": [\n        {\n          \"type\": \"DataIntegrityProof\",\n          \"cryptosuite\": \"eddsa-rdfc-2022\",\n          \"verificationMethod\": \"did:web:issuer.example.com#key-1\",\n          \"proofPurpose\": \"assertionMethod\",\n          \"proofValue\": \"z3FXQ...\"\n        }\n      ]\n    },\n    \"whitelist_id\": \"cloud-practitioner\",\n    \"recipient\": {\n      \"id\": \"emp-10042\"\n    }\n  }\n}'"
+          },
+          {
+            "lang": "cURL",
+            "label": "Manual",
+            "source": "curl -X POST \\\n  \"https://api.accredible.com/v1/imported_credentials\" \\\n  -H \"Authorization: Token token=YOUR_API_KEY\" \\\n  -H \"Content-Type: application/json\" \\\n  -d '{\n  \"department_id\": 1234,\n  \"user_email\": \"jane.doe@example.com\",\n  \"imported_credential\": {\n    \"name\": \"Advanced Data Analytics\",\n    \"url\": \"https://example.com/certificates/jane-doe.png\",\n    \"issuer_name\": \"Example Learning Co.\",\n    \"issue_date\": \"2026-01-15\",\n    \"credential_type\": \"certificate\",\n    \"course_name\": \"Data Analytics 201\",\n    \"course_url\": \"https://example.com/courses/data-analytics-201\",\n    \"description\": \"Completed the advanced analytics programme.\",\n    \"skills\": [\n      \"SQL\",\n      \"Data Visualization\"\n    ],\n    \"meta_data\": {\n      \"cohort\": \"2026-Q1\"\n    },\n    \"sync_id\": \"cert-88213\",\n    \"whitelist_id\": \"data-analytics-201\",\n    \"recipient\": {\n      \"id\": \"emp-10042\",\n      \"name\": \"Jane Doe\"\n    }\n  }\n}'"
+          },
+          {
+            "lang": "cURL",
+            "label": "URL import",
+            "source": "curl -X POST \\\n  \"https://api.accredible.com/v1/imported_credentials\" \\\n  -H \"Authorization: Token token=YOUR_API_KEY\" \\\n  -H \"Content-Type: application/json\" \\\n  -d '{\n  \"department_id\": 1234,\n  \"user_email\": \"jane.doe@example.com\",\n  \"imported_credential\": {\n    \"url\": \"https://issuer.example.com/credentials/3732.json\",\n    \"whitelist_id\": \"cloud-practitioner\",\n    \"recipient\": {\n      \"id\": \"emp-10042\"\n    }\n  }\n}'"
+          }
+        ]
+      }
+    },
+    "/v1/imported_credentials/search": {
+      "post": {
+        "summary": "Search for Imported Credentials",
+        "operationId": "Search for Imported Credentials",
+        "description": "Lists credentials imported into a department.\n\nOnly credentials imported with a `whitelist_id` are returned. Results are sorted by `updated_at`, oldest first, 20 per page.\n\n### Query fields\n\nFilters go in `query`. Add an operator to a field name in brackets, for example `updated_at[gte]`. A field without an operator means `eq`. All filters must match.\n\n| Field | Operators | Value |\n|-------|-----------|-------|\n| `department_id` | `eq` | **Required.** Integer department ID available to your API key. |\n| `whitelist_id` | `eq`, `in` | String, or an array of strings for `in`. |\n| `recipient_id` | `eq` | String; the `recipient.id` sent on import. |\n| `updated_at` | `eq`, `lt`, `lte`, `gt`, `gte` | Date as `YYYY-MM-DD`. |\n\n`in` accepts at most 100 values.\n\n### Dates\n`updated_at` filters compare whole days in UTC: `eq` and `lte` include all of the given day, `lt` stops before it, and `gt` starts the day after. Combine `gte` and `lte` for a date range.\n\n### Availability\nImporting credentials must be enabled for the department by Accredible. Otherwise the request returns `403` with status `feature_disabled`.",
+        "tags": [
+          "Imported Credentials"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "query"
+                ],
+                "properties": {
+                  "query": {
+                    "type": "object",
+                    "required": [
+                      "department_id"
+                    ],
+                    "description": "Filters. See the table above for fields and operators.",
+                    "properties": {
+                      "department_id": {
+                        "type": "integer"
+                      },
+                      "whitelist_id": {
+                        "type": "string"
+                      },
+                      "whitelist_id[in]": {
+                        "type": "array",
+                        "items": {
+                          "type": "string"
+                        },
+                        "maxItems": 100
+                      },
+                      "recipient_id": {
+                        "type": "string"
+                      },
+                      "updated_at": {
+                        "type": "string",
+                        "format": "date"
+                      },
+                      "updated_at[lt]": {
+                        "type": "string",
+                        "format": "date"
+                      },
+                      "updated_at[lte]": {
+                        "type": "string",
+                        "format": "date"
+                      },
+                      "updated_at[gt]": {
+                        "type": "string",
+                        "format": "date"
+                      },
+                      "updated_at[gte]": {
+                        "type": "string",
+                        "format": "date"
+                      }
+                    }
+                  },
+                  "page": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "default": 1,
+                    "description": "Page number. Each page holds 20 results."
+                  }
+                }
+              },
+              "examples": {
+                "date_range": {
+                  "summary": "Whitelist IDs updated in a date range",
+                  "value": {
+                    "query": {
+                      "department_id": 1234,
+                      "whitelist_id[in]": [
+                        "data-analytics-201",
+                        "cloud-practitioner"
+                      ],
+                      "updated_at[gte]": "2026-01-01",
+                      "updated_at[lte]": "2026-03-31"
+                    },
+                    "page": 1
+                  }
+                },
+                "recipient": {
+                  "summary": "One recipient",
+                  "value": {
+                    "query": {
+                      "department_id": 1234,
+                      "recipient_id": "emp-10042"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "imported_credentials": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/ImportedCredential"
+                      }
+                    },
+                    "meta": {
+                      "type": "object",
+                      "properties": {
+                        "current_page": {
+                          "type": "number"
+                        },
+                        "next_page": {
+                          "type": "number",
+                          "nullable": true
+                        },
+                        "prev_page": {
+                          "type": "number",
+                          "nullable": true
+                        },
+                        "total_pages": {
+                          "type": "number"
+                        },
+                        "total_count": {
+                          "type": "number"
+                        },
+                        "page_size": {
+                          "type": "number"
+                        }
+                      }
+                    }
+                  }
+                },
+                "example": {
+                  "imported_credentials": [
+                    {
+                      "uuid": "6f1c2a3e-8b4d-4e5f-9a6b-7c8d9e0f1a2b",
+                      "name": "Advanced Data Analytics",
+                      "description": "Completed the advanced analytics programme.",
+                      "course_name": "Data Analytics 201",
+                      "course_url": "https://example.com/courses/data-analytics-201",
+                      "issuer_name": "Example Learning Co.",
+                      "credential_type": "certificate",
+                      "issue_date": "2026-01-15",
+                      "expiry_date": null,
+                      "url": "https://s3.us-east-1.amazonaws.com/credential-builder/imported/2b7e1c9a-1f0e-4c1d-9b8a-3d2e1f0a9b8c-1768473600.png",
+                      "whitelist_id": "data-analytics-201",
+                      "recipient": {
+                        "id": "emp-10042",
+                        "name": "Jane Doe"
+                      },
+                      "created_at": "2026-01-15T10:24:31.000Z",
+                      "updated_at": "2026-01-15T10:24:31.000Z",
+                      "meta_data": {
+                        "cohort": "2026-Q1"
+                      },
+                      "skills": [
+                        "SQL",
+                        "Data Visualization"
+                      ]
+                    },
+                    {
+                      "uuid": "0a9b8c7d-6e5f-4a3b-2c1d-0e9f8a7b6c5d",
+                      "name": "Cloud Practitioner",
+                      "description": "Earners of this badge understand cloud fundamentals.",
+                      "course_name": null,
+                      "course_url": null,
+                      "issuer_name": "Example Certification Body",
+                      "credential_type": "badge",
+                      "issue_date": "2026-02-01",
+                      "expiry_date": "2029-02-01",
+                      "url": "https://images.example.com/badges/cloud-practitioner.png",
+                      "whitelist_id": "cloud-practitioner",
+                      "recipient": {
+                        "id": "emp-10042",
+                        "name": null
+                      },
+                      "created_at": "2026-02-01T09:00:00.000Z",
+                      "updated_at": "2026-02-01T09:00:00.000Z",
+                      "meta_data": {
+                        "format": "ob3",
+                        "verification_level": "verified",
+                        "original_credential": "{\"@context\": [...]}"
+                      },
+                      "skills": []
+                    }
+                  ],
+                  "meta": {
+                    "current_page": 1,
+                    "next_page": null,
+                    "prev_page": null,
+                    "total_pages": 1,
+                    "total_count": 2,
+                    "page_size": 20
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "The query is missing, malformed or uses an unsupported field or operator.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "number",
+                      "description": "HTTP status code."
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "status": {
+                      "type": "string",
+                      "description": "Machine-readable error code."
+                    },
+                    "errors": {
+                      "type": "object"
+                    }
+                  }
+                },
+                "examples": {
+                  "missing_department": {
+                    "summary": "Missing department_id",
+                    "value": {
+                      "code": 400,
+                      "message": "query.department_id is required",
+                      "status": "invalid_search_query",
+                      "errors": {}
+                    }
+                  },
+                  "operator": {
+                    "summary": "Unsupported operator",
+                    "value": {
+                      "code": 400,
+                      "message": "Operator 'gt' is not supported for field 'whitelist_id'",
+                      "status": "invalid_search_query",
+                      "errors": {}
+                    }
+                  },
+                  "date": {
+                    "summary": "Invalid date",
+                    "value": {
+                      "code": 400,
+                      "message": "updated_at[gte] must be a valid date in YYYY-MM-DD format",
+                      "status": "invalid_search_query",
+                      "errors": {}
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "The department is not available to your API key, or importing is not enabled for it.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "number",
+                      "description": "HTTP status code."
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "status": {
+                      "type": "string",
+                      "description": "Machine-readable error code."
+                    },
+                    "errors": {
+                      "type": "object"
+                    }
+                  }
+                },
+                "examples": {
+                  "invalid_department": {
+                    "summary": "Department not available to the API key",
+                    "value": {
+                      "code": 403,
+                      "message": "Invalid Department ID",
+                      "status": "invalid_department",
+                      "errors": {}
+                    }
+                  },
+                  "feature_disabled": {
+                    "summary": "Importing not enabled",
+                    "value": {
+                      "code": 403,
+                      "message": "This feature is not enabled for this department",
+                      "status": "feature_disabled",
+                      "errors": {}
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ],
+        "x-code-samples": [
+          {
+            "lang": "cURL",
+            "label": "cURL",
+            "source": "curl -X POST \\\n  \"https://api.accredible.com/v1/imported_credentials/search\" \\\n  -H \"Authorization: Token token=YOUR_API_KEY\" \\\n  -H \"Content-Type: application/json\" \\\n  -d '{\n  \"query\": {\n    \"department_id\": 1234,\n    \"whitelist_id[in]\": [\n      \"data-analytics-201\",\n      \"cloud-practitioner\"\n    ],\n    \"updated_at[gte]\": \"2026-01-01\",\n    \"updated_at[lte]\": \"2026-03-31\"\n  },\n  \"page\": 1\n}'"
+          }
+        ]
+      }
+    },
     "/v1/collections": {
       "post": {
         "responses": {
@@ -13359,7 +14312,96 @@
     }
   },
   "components": {
-    "schemas": {},
+    "schemas": {
+      "ImportedCredential": {
+        "type": "object",
+        "description": "A credential issued outside Accredible and imported into a recipient's wallet.",
+        "properties": {
+          "uuid": {
+            "type": "string",
+            "description": "Accredible identifier of the imported credential."
+          },
+          "name": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string",
+            "nullable": true
+          },
+          "course_name": {
+            "type": "string",
+            "nullable": true
+          },
+          "course_url": {
+            "type": "string",
+            "nullable": true
+          },
+          "issuer_name": {
+            "type": "string",
+            "nullable": true
+          },
+          "credential_type": {
+            "type": "string",
+            "enum": [
+              "certificate",
+              "badge"
+            ]
+          },
+          "issue_date": {
+            "type": "string",
+            "format": "date",
+            "nullable": true
+          },
+          "expiry_date": {
+            "type": "string",
+            "format": "date",
+            "nullable": true
+          },
+          "url": {
+            "type": "string",
+            "nullable": true,
+            "description": "Image of the credential. For manually created credentials this is a copy hosted by Accredible, not the URL you sent."
+          },
+          "whitelist_id": {
+            "type": "string",
+            "nullable": true,
+            "description": "The `whitelist_id` sent on import."
+          },
+          "recipient": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string",
+                "nullable": true,
+                "description": "Your identifier for the recipient (`recipient.id` on import)."
+              },
+              "name": {
+                "type": "string",
+                "nullable": true
+              }
+            }
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "updated_at": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "meta_data": {
+            "type": "object",
+            "description": "Your `meta_data` for manually created credentials. For OB3 / W3C VC imports, holds `format` (`ob3` or `w3cvc`), `verification_level` (`verified`, `unverified` or `unsupported`) and `original_credential`."
+          },
+          "skills": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
     "securitySchemes": {
       "ApiKeyAuth": {
         "type": "apiKey",
@@ -13373,6 +14415,10 @@
     {
       "name": "Credentials",
       "description": "Credentials are the core object in Accredible. They collect all of the data related to a course/training/achievment and a recipient.\n\nYou should create a credential for each achievement completion that a recipient has. For example if John Doe finishes the Programming 101 course we should create one credential to represent that. If John Doe achieves something else then he would need a new credential.\n\nBy default a Group doesn't allow duplicate credentials to be issued to the same recipient. You can update this setting if you would like to do so: https://help.accredible.com/can-i-allow-duplicate-credentials-in-a-group"
+    },
+    {
+      "name": "Imported Credentials",
+      "description": "Imported credentials are credentials issued outside Accredible, such as Open Badges 3.0 credentials from another platform or certificates from an internal training system. Importing one places it in the recipient's Accredible wallet next to the credentials you issue through Accredible.\n\nUse `whitelist_id` to label each credential with your own identifier for its type, such as a course code. It lets you find imported credentials again with **Search for Imported Credentials**.\n\nImporting is enabled per department by Accredible. Contact your Accredible account manager to turn it on."
     },
     {
       "name": "Groups",
