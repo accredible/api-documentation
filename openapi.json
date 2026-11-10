@@ -10179,7 +10179,7 @@
                     "department_id": 1234,
                     "user_email": "jane.doe@example.com",
                     "imported_credential": {
-                      "url": "https://issuer.example.com/credentials/3732.json",
+                      "url": "https://issuer.example.com/credentials/3732.png",
                       "whitelist_id": "cloud-practitioner",
                       "recipient": {
                         "id": "emp-10042"
@@ -10523,7 +10523,7 @@
           {
             "lang": "cURL",
             "label": "URL import",
-            "source": "curl -X POST \\\n  \"https://api.accredible.com/v1/imported_credentials\" \\\n  -H \"Authorization: Token token=YOUR_API_KEY\" \\\n  -H \"Content-Type: application/json\" \\\n  -d '{\n  \"department_id\": 1234,\n  \"user_email\": \"jane.doe@example.com\",\n  \"imported_credential\": {\n    \"url\": \"https://issuer.example.com/credentials/3732.json\",\n    \"whitelist_id\": \"cloud-practitioner\",\n    \"recipient\": {\n      \"id\": \"emp-10042\"\n    }\n  }\n}'"
+            "source": "curl -X POST \\\n  \"https://api.accredible.com/v1/imported_credentials\" \\\n  -H \"Authorization: Token token=YOUR_API_KEY\" \\\n  -H \"Content-Type: application/json\" \\\n  -d '{\n  \"department_id\": 1234,\n  \"user_email\": \"jane.doe@example.com\",\n  \"imported_credential\": {\n    \"url\": \"https://issuer.example.com/credentials/3732.png\",\n    \"whitelist_id\": \"cloud-practitioner\",\n    \"recipient\": {\n      \"id\": \"emp-10042\"\n    }\n  }\n}'"
           }
         ]
       }
